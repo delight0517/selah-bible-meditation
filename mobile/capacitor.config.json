@@ -1,0 +1,8 @@
+{
+  "appId": "com.delight0517.selah",
+  "appName": "Selah",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never"
+  }
+}
