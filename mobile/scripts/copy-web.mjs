@@ -7,7 +7,7 @@ const mobileDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const repoDir = resolve(mobileDir, '..');
 const webDir = resolve(mobileDir, 'www');
 await mkdir(webDir, { recursive: true });
-for (const file of ['index.html', 'matthew-krv.json']) {
+for (const file of ['index.html', 'matthew-krv.json', 'matthew-web.json', 'matthew-jpn1965.json']) {
   const content = execFileSync('git', ['show', `origin/main:${file}`], { cwd: repoDir, encoding: 'utf8' });
   await writeFile(resolve(webDir, file), content);
 }
