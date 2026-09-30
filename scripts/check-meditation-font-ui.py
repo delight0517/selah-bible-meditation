@@ -34,6 +34,8 @@ for filename in ("index.html", "mobile/www/index.html"):
         assert f'id="{control}"' in fragment, f"missing {control} in {filename}"
     assert '.font-preview-card[aria-pressed=\"true\"]' in source and '.font-choice-row' in source
     assert 'id="addFocusFont"' in source and 'function syncMeditationFontChoices()' in source
+    assert '.meditation .focus-font-controls .font-preview-sample{color:var(--ink)}' in source
+    assert '.meditation .meditation-chapter-nav{position:fixed;' in source
     assert 'saveReaderPref("font","custom")' in source
     for language in ("ko", "en", "ja", "zh-CN", "zh-TW"):
         match = re.search(rf'(?<![\w-]){re.escape(language)}:\{{sample:.*?fonts:\[(.*?)\]\}}', source, re.S)
