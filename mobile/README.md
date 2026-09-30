@@ -1,6 +1,6 @@
 # Selah Mobile
 
-Capacitor hosts the published Selah app on iOS and Android. The app bundles `index.html` and one Matthew translation for each supported interface language (Korean, English, and Japanese), so the language default is available offline. Additional translations are downloaded only when selected and stored in the app's private WebView IndexedDB; each download includes Matthew only. Reflection data stays in private WebView storage and can sync through BlueCloud after sign-in. The source website and its working-tree changes are left separate.
+Capacitor hosts the published Selah app on iOS and Android. The app bundles `index.html` and one Matthew translation for each supported interface language (Korean, English, and Japanese) plus a compact catalog of translations available for download, so the language default is available offline. Additional translations are downloaded only when selected and stored in the app's private WebView IndexedDB; each download includes Matthew only. Reflection data stays in private WebView storage and can sync through BlueCloud after sign-in. The source website and its working-tree changes are left separate.
 
 ## Build or refresh iOS
 
