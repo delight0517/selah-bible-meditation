@@ -1,5 +1,8 @@
 # Selah — 말씀 묵상
 
+서비스: https://delight0517.github.io/selah-bible-meditation/
+저장소: https://github.com/delight0517/selah-bible-meditation
+
 마태복음에서 시작하는 한국어 성경 묵상 웹앱입니다.
 
 ## 운영 방식
