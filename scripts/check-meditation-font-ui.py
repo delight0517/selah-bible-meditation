@@ -28,8 +28,13 @@ for filename in ("index.html", "mobile/www/index.html"):
     parser = StrictFragment()
     parser.feed(fragment)
     assert not parser.stack, f"unclosed tags in {filename}: {parser.stack}"
-    assert fragment.index('class="focus-font-controls"') < fragment.index('class="focus-font-upload-details"')
-    for control in ("focusReaderFont", "focusFontDecrease", "focusFontIncrease", "focusFontFile"):
+    assert fragment.index('class="font-choice-row"') < fragment.index('class="focus-font-size-controls"')
+    for control in ("focusReaderFont", "focusFontDecrease", "focusFontIncrease", "focusFontFile", "addFocusFont", "customFontChoice"):
         assert f'id="{control}"' in fragment, f"missing {control} in {filename}"
-    assert '.meditation-font-bar{' in source and '.focus-font-upload-details .focus-font-upload{' in source
+    assert '.font-preview-card[aria-pressed=\"true\"]' in source and '.font-choice-row' in source
+    for font in ('system', 'serif', 'sans', 'custom'):
+        assert f'data-focus-font=\"{font}\"' in fragment, f'missing {font} preview in {filename}'
+    assert 'function syncMeditationFontChoices()' in source and 'saveReaderPref(\"font\",\"custom\")' in source
+    handler = source.split('$(\"focusReaderFont\").onchange=', 1)[1].split('$(\"readerSize\").onchange=', 1)[0]
+    assert 'db.customFontData={deleted:true' not in handler, f"choosing another font must preserve the uploaded font in {filename}"
     print(f"{filename}: meditation font UI OK")
