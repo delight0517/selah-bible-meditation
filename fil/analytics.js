@@ -23,10 +23,22 @@
       }
       return { visitorId: daily.id, monthlyVisitorId: monthly.id };
     } catch {
-      return {
-        visitorId: sessionStorage.getItem(dailyKey + "." + day) || crypto.randomUUID(),
-        monthlyVisitorId: sessionStorage.getItem(monthlyKey + "." + month) || crypto.randomUUID()
-      };
+      try {
+        const getSessionId = key => {
+          let id = sessionStorage.getItem(key);
+          if (!id) {
+            id = crypto.randomUUID();
+            sessionStorage.setItem(key, id);
+          }
+          return id;
+        };
+        return {
+          visitorId: getSessionId(dailyKey + "." + day),
+          monthlyVisitorId: getSessionId(monthlyKey + "." + month)
+        };
+      } catch {
+        return { visitorId: crypto.randomUUID(), monthlyVisitorId: crypto.randomUUID() };
+      }
     }
   }
 
