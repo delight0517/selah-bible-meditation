@@ -89,9 +89,17 @@
   window.selahAnalytics = {
     reader() {
       track("engagement:reader_opened", "selah.analytics." + locale + ".reader." + path + "." + day);
+      this.feature("scripture_read");
+    },
+    feature(name) {
+      if (!["scripture_read", "reflection_saved", "highlight_added", "bookmark_added", "verse_shared", "offline_bible_saved"].includes(name)) return;
+      track("feature:" + name, "selah.analytics." + locale + ".feature." + name + "." + path + "." + day);
     },
     reflection(note) {
-      if (eligible && note.trim().length >= 20) track("activation:first_reflection_saved", activationKey);
+      if (eligible && note.trim().length >= 20) {
+        track("activation:first_reflection_saved", activationKey);
+        this.feature("reflection_saved");
+      }
     }
   };
 })();
