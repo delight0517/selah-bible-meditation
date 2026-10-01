@@ -26,6 +26,10 @@ Leia um capítulo, observe o contexto e registre uma pergunta ou reflexão. O le
 - BlueCloud 서버(`brainwire-f2gf.onrender.com`)는 로그인, 기기 간 동기화, 친구 기능을 제공합니다.
 - 로그인 전 기록은 브라우저에 저장됩니다. 기기 간 이동 전 앱의 백업 기능을 사용하세요.
 
+## Mac·Windows 간 백업 이동
+
+Safari 웹 앱과 Edge PWA는 각자 별도의 브라우저 저장 공간을 사용합니다. 같은 BlueCloud 계정으로 로그인하면 지원 데이터가 동기화되고, 계정 동기화를 쓰지 않을 때는 원본 기기에서 **내 기록 백업**을 내보내 대상 기기에서 가져오세요. 새 백업 형식은 묵상 기록과 현재 초안 등 사용자 상태를 유지하면서 원본 계정 식별자와 서버 revision을 제거합니다. 로그인 토큰은 별도 저장되어 백업에 포함되지 않습니다. 기존의 평면 JSON 백업도 계속 가져올 수 있습니다. 형식은 [`contracts/selah-portable-backup.schema.json`](contracts/selah-portable-backup.schema.json)에 정의돼 있습니다.
+
 ## Mac에서 앱처럼 열기
 
 1. macOS Sonoma 14 이상에서 Safari로 `https://delight0517.github.io/selah-bible-meditation/`을 엽니다.

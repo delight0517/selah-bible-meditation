@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://delight0517.github.io/selah-bible-meditation/contracts/selah-portable-backup.schema.json",
+  "title": "Selah portable backup",
+  "description": "Versioned file format for moving Selah data between browser profiles and devices. It excludes the source account owner binding, BlueCloud revision, and credentials.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["appId", "backupVersion", "exportedAt", "state"],
+  "properties": {
+    "appId": {"const": "selah"},
+    "backupVersion": {"const": 1},
+    "exportedAt": {"type": "string", "format": "date-time"},
+    "state": {
+      "type": "object",
+      "required": ["reflections", "cards"],
+      "properties": {
+        "reflections": {"type": "array"},
+        "cards": {"type": "array"},
+        "draft": {"type": ["object", "null"], "additionalProperties": true},
+        "owner": false,
+        "_rev": false,
+        "token": false,
+        "authToken": false,
+        "authorization": false
+      },
+      "additionalProperties": true
+    }
+  }
+}
