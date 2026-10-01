@@ -28,6 +28,8 @@ The exact Edge menu wording may vary by version. Microsoft documents the current
 
 ## Shared data behavior
 
+See [the macOS and Windows parity matrix](PLATFORM-PARITY.md) for the canonical source, feature/data contract, and verified platform differences.
+
 - Sign in to the same BlueCloud account on Mac and Windows to sync supported account data.
 - Anonymous/local records remain in that specific browser app's storage. Safari web apps and Edge apps have separate local storage; export a backup on the source device and import it on the destination device when not using account sync.
 - New backup files use a versioned portable envelope: user state and draft are retained while the source account owner and BlueCloud `_rev` are removed, so import on another device/account does not inherit the old account binding. Existing flat JSON backups remain importable. See [`../contracts/selah-portable-backup.schema.json`](../contracts/selah-portable-backup.schema.json).
