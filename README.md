@@ -32,6 +32,15 @@ Quando o dia está corrido, leia um capítulo, observe o contexto e guarde uma p
 
 이 Mac 앱은 별도 저장소를 쓰는 네이티브 재구현이 아니라 Selah 웹을 Safari 웹 앱 창으로 실행합니다. BlueCloud에 로그인하면 기존 계정 동기화를 쓰고, 로그인 전 메모는 이 웹 앱의 로컬 저장 공간에 남습니다. 로컬 메모를 Safari 탭의 데이터와 공유한다고 가정하지 마세요. 저장 기록은 백업 기능으로 내보낼 수 있습니다.
 
+## Windows에서 앱처럼 열기
+
+1. Windows에서 [Microsoft Edge 설치 안내](windows/README.md)를 따르세요. Edge의 **Install this site as an app** 기능으로 Selah를 별도 앱 창에 설치하고 시작 메뉴·작업 표시줄·바탕 화면 바로가기를 만들 수 있습니다.
+2. 빠르게 앱 창을 열려면 [Windows 런처](windows/Launch-Selah.cmd)를 실행하세요. 바탕 화면과 시작 메뉴 바로가기는 [바로가기 만들기](windows/Create-Selah-Desktop-Shortcut.vbs)를 실행하면 생성됩니다.
+
+Windows도 이 저장소의 같은 Selah 웹 앱을 사용합니다. 두 기기에서 BlueCloud 계정으로 연결하면 기존 동기화 계약을 사용합니다. 로그인하지 않은 기기의 메모는 각 웹 앱 저장 공간에 남으므로 기기 이동 전에 백업하세요.
+
+두 데스크톱 환경이 공유하는 현재 BlueCloud payload와 확인된 묵상·퀴즈·QT·경험·성경 대화 기록 필드는 [`contracts/selah-cloud-state.schema.json`](contracts/selah-cloud-state.schema.json)에 있습니다. Mac 측 추가 자료를 받으면 기존 데이터 호환성을 해치지 않는 범위에서 나머지 필드를 보완합니다.
+
 ## 中文阅读
 
 - 简体中文入口：`https://delight0517.github.io/selah-bible-meditation/zh-cn/`
