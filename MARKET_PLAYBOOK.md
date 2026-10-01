@@ -80,8 +80,8 @@
 
 ### 첫 두 시장의 현지 메시지 초안
 
-- **한국:** “로그인 없이 마태복음 한 장을 읽고, 마음에 남은 한 가지를 기록해 보세요.” [측정 링크](https://delight0517.github.io/selah-bible-meditation/?utm_source=naver&utm_medium=organic&utm_campaign=kr_matthew_reflection)
-- **브라질:** “Leia os 66 livros da Bíblia Livre 2018 offline e guarde sua reflexão neste dispositivo.” [Link medido](https://delight0517.github.io/selah-bible-meditation/pt-br/?utm_source=community&utm_medium=organic&utm_campaign=br_offline_bible)
+- **한국:** “로그인 없이 마태복음 한 장을 읽고, 마음에 남은 한 가지를 기록해 보세요.” [검색 랜딩](https://delight0517.github.io/selah-bible-meditation/guide/) — 검색 클릭은 Search Console에서 확인한다. 게시 채널이 정해지면 그 채널에 맞는 별도 UTM을 만든다.
+- **브라질:** “Leia os 66 livros da Bíblia Livre 2018 offline e guarde sua reflexão neste dispositivo.” [현지 독자 검토용 페이지](https://delight0517.github.io/selah-bible-meditation/pt-br/) — 홍보는 보류 중이며, 특정 커뮤니티에서 사용할 때 `utm_medium=community` 등 실제 유입 방식에 맞는 링크를 만든다.
 
 이 문구는 배포용 초안이며, 실제 독자 반응을 보기 전에는 ‘시간이 부족하다’ 같은 문제를 사실로 주장하지 않는다.
 
