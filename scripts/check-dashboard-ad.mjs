@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { AD_CONFIG, createDailyAdGate, mountDashboardAd } from '../assets/dashboard-ad.mjs';
 
-assert.deepEqual(AD_CONFIG, { enabled: false, publisherId: '', slotId: '' });
+assert.deepEqual(AD_CONFIG, { enabled: false, publisherId: 'ca-pub-7874410414327857', slotId: '9881198711' });
 assert.equal(mountDashboardAd(null), null); // Disabled path does not even inspect DOM.
 const source = await readFile(new URL('../assets/dashboard-ad.mjs', import.meta.url), 'utf8');
 assert.doesNotMatch(source, /https?:|adsbygoogle|fetch\(|XMLHttpRequest|createElement\(['"]script/);
@@ -70,4 +70,4 @@ assert.equal(JSON.parse(raw).day, '2026-10-03');
 assert.equal(JSON.parse(raw).count, 1);
 const separateBrowser = make({ storage: { getItem: () => null, setItem() {} } });
 assert.equal(await separateBrowser.show(filled), true);
-console.log('dashboard ad draft checks passed (no network, IDs, or ad SDK)');
+console.log('dashboard ad draft checks passed (no network or ad SDK)');

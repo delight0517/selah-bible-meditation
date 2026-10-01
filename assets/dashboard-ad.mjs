@@ -1,8 +1,8 @@
 // Deliberately disconnected from every live page. No AdSense loader or request code.
 export const AD_CONFIG = Object.freeze({
   enabled: false,
-  publisherId: '',
-  slotId: '',
+  publisherId: 'ca-pub-7874410414327857',
+  slotId: '9881198711',
 });
 
 const KEY = 'selah.ads.displayed.v1';
