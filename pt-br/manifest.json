@@ -1,0 +1,412 @@
+{
+  "edition": "Bíblia Livre 2018",
+  "language": "pt",
+  "locale": "pt-BR",
+  "license": "Creative Commons Attribution 4.0 Brazil (CC BY 4.0)",
+  "licenseUrl": "https://ebible.org/porbr2018/copyright.htm",
+  "sourceUrl": "https://ebible.org/find/details.php?id=porbr2018",
+  "sourceCommit": "e1b254cef86d0e65b1a5d1a94b8b112d0f296a2c",
+  "sourceSha256": "1230e57fdfdf54aec21e3cdc37c05c412cb861a9f322022eba837e67a8894beb",
+  "officialUsfmSha256": "f8b806c312e07c283baadb2394fe9fdc2d9a2fbe48410fd5298358511af8ae57",
+  "missingVerseTextCount": 1,
+  "totalChapters": 1189,
+  "totalVerses": 31104,
+  "books": [
+    {
+      "id": "GEN",
+      "name": "Gênesis",
+      "chapters": 50,
+      "verses": 1533
+    },
+    {
+      "id": "EXO",
+      "name": "Êxodo",
+      "chapters": 40,
+      "verses": 1213
+    },
+    {
+      "id": "LEV",
+      "name": "Levítico",
+      "chapters": 27,
+      "verses": 859
+    },
+    {
+      "id": "NUM",
+      "name": "Números",
+      "chapters": 36,
+      "verses": 1288
+    },
+    {
+      "id": "DEU",
+      "name": "Deuteronômio",
+      "chapters": 34,
+      "verses": 959
+    },
+    {
+      "id": "JOS",
+      "name": "Josué",
+      "chapters": 24,
+      "verses": 658
+    },
+    {
+      "id": "JDG",
+      "name": "Juízes",
+      "chapters": 21,
+      "verses": 618
+    },
+    {
+      "id": "RUT",
+      "name": "Rute",
+      "chapters": 4,
+      "verses": 85
+    },
+    {
+      "id": "1SA",
+      "name": "1 Samuel",
+      "chapters": 31,
+      "verses": 810
+    },
+    {
+      "id": "2SA",
+      "name": "2 Samuel",
+      "chapters": 24,
+      "verses": 695
+    },
+    {
+      "id": "1KI",
+      "name": "1 Reis",
+      "chapters": 22,
+      "verses": 816
+    },
+    {
+      "id": "2KI",
+      "name": "2 Reis",
+      "chapters": 25,
+      "verses": 719
+    },
+    {
+      "id": "1CH",
+      "name": "1 Crônicas",
+      "chapters": 29,
+      "verses": 942
+    },
+    {
+      "id": "2CH",
+      "name": "2 Crônicas",
+      "chapters": 36,
+      "verses": 822
+    },
+    {
+      "id": "EZR",
+      "name": "Esdras",
+      "chapters": 10,
+      "verses": 280
+    },
+    {
+      "id": "NEH",
+      "name": "Neemias",
+      "chapters": 13,
+      "verses": 406
+    },
+    {
+      "id": "EST",
+      "name": "Ester",
+      "chapters": 10,
+      "verses": 167
+    },
+    {
+      "id": "JOB",
+      "name": "Jó",
+      "chapters": 42,
+      "verses": 1070
+    },
+    {
+      "id": "PSA",
+      "name": "Salmos",
+      "chapters": 150,
+      "verses": 2461
+    },
+    {
+      "id": "PRO",
+      "name": "Provérbios",
+      "chapters": 31,
+      "verses": 915
+    },
+    {
+      "id": "ECC",
+      "name": "Eclesiastes",
+      "chapters": 12,
+      "verses": 222
+    },
+    {
+      "id": "SNG",
+      "name": "Cantares",
+      "chapters": 8,
+      "verses": 117
+    },
+    {
+      "id": "ISA",
+      "name": "Isaías",
+      "chapters": 66,
+      "verses": 1292
+    },
+    {
+      "id": "JER",
+      "name": "Jeremias",
+      "chapters": 52,
+      "verses": 1364
+    },
+    {
+      "id": "LAM",
+      "name": "Lamentações",
+      "chapters": 5,
+      "verses": 154
+    },
+    {
+      "id": "EZK",
+      "name": "Ezequiel",
+      "chapters": 48,
+      "verses": 1273
+    },
+    {
+      "id": "DAN",
+      "name": "Daniel",
+      "chapters": 12,
+      "verses": 357
+    },
+    {
+      "id": "HOS",
+      "name": "Oseias",
+      "chapters": 14,
+      "verses": 197
+    },
+    {
+      "id": "JOL",
+      "name": "Joel",
+      "chapters": 3,
+      "verses": 73
+    },
+    {
+      "id": "AMO",
+      "name": "Amós",
+      "chapters": 9,
+      "verses": 146
+    },
+    {
+      "id": "OBA",
+      "name": "Obadias",
+      "chapters": 1,
+      "verses": 21
+    },
+    {
+      "id": "JON",
+      "name": "Jonas",
+      "chapters": 4,
+      "verses": 48
+    },
+    {
+      "id": "MIC",
+      "name": "Miqueias",
+      "chapters": 7,
+      "verses": 105
+    },
+    {
+      "id": "NAM",
+      "name": "Naum",
+      "chapters": 3,
+      "verses": 47
+    },
+    {
+      "id": "HAB",
+      "name": "Habacuque",
+      "chapters": 3,
+      "verses": 56
+    },
+    {
+      "id": "ZEP",
+      "name": "Sofonias",
+      "chapters": 3,
+      "verses": 53
+    },
+    {
+      "id": "HAG",
+      "name": "Ageu",
+      "chapters": 2,
+      "verses": 38
+    },
+    {
+      "id": "ZEC",
+      "name": "Zacarias",
+      "chapters": 14,
+      "verses": 211
+    },
+    {
+      "id": "MAL",
+      "name": "Malaquias",
+      "chapters": 4,
+      "verses": 55
+    },
+    {
+      "id": "MAT",
+      "name": "Mateus",
+      "chapters": 28,
+      "verses": 1071
+    },
+    {
+      "id": "MRK",
+      "name": "Marcos",
+      "chapters": 16,
+      "verses": 678
+    },
+    {
+      "id": "LUK",
+      "name": "Lucas",
+      "chapters": 24,
+      "verses": 1151
+    },
+    {
+      "id": "JHN",
+      "name": "João",
+      "chapters": 21,
+      "verses": 879
+    },
+    {
+      "id": "ACT",
+      "name": "Atos",
+      "chapters": 28,
+      "verses": 1007
+    },
+    {
+      "id": "ROM",
+      "name": "Romanos",
+      "chapters": 16,
+      "verses": 433
+    },
+    {
+      "id": "1CO",
+      "name": "1 Coríntios",
+      "chapters": 16,
+      "verses": 437
+    },
+    {
+      "id": "2CO",
+      "name": "2 Coríntios",
+      "chapters": 13,
+      "verses": 257
+    },
+    {
+      "id": "GAL",
+      "name": "Gálatas",
+      "chapters": 6,
+      "verses": 149
+    },
+    {
+      "id": "EPH",
+      "name": "Efésios",
+      "chapters": 6,
+      "verses": 155
+    },
+    {
+      "id": "PHP",
+      "name": "Filipenses",
+      "chapters": 4,
+      "verses": 104
+    },
+    {
+      "id": "COL",
+      "name": "Colossenses",
+      "chapters": 4,
+      "verses": 95
+    },
+    {
+      "id": "1TH",
+      "name": "1 Tessalonicenses",
+      "chapters": 5,
+      "verses": 89
+    },
+    {
+      "id": "2TH",
+      "name": "2 Tessalonicenses",
+      "chapters": 3,
+      "verses": 47
+    },
+    {
+      "id": "1TI",
+      "name": "1 Timóteo",
+      "chapters": 6,
+      "verses": 113
+    },
+    {
+      "id": "2TI",
+      "name": "2 Timóteo",
+      "chapters": 4,
+      "verses": 83
+    },
+    {
+      "id": "TIT",
+      "name": "Tito",
+      "chapters": 3,
+      "verses": 46
+    },
+    {
+      "id": "PHM",
+      "name": "Filemom",
+      "chapters": 1,
+      "verses": 25
+    },
+    {
+      "id": "HEB",
+      "name": "Hebreus",
+      "chapters": 13,
+      "verses": 303
+    },
+    {
+      "id": "JAS",
+      "name": "Tiago",
+      "chapters": 5,
+      "verses": 108
+    },
+    {
+      "id": "1PE",
+      "name": "1 Pedro",
+      "chapters": 5,
+      "verses": 105
+    },
+    {
+      "id": "2PE",
+      "name": "2 Pedro",
+      "chapters": 3,
+      "verses": 61
+    },
+    {
+      "id": "1JN",
+      "name": "1 João",
+      "chapters": 5,
+      "verses": 105
+    },
+    {
+      "id": "2JN",
+      "name": "2 João",
+      "chapters": 1,
+      "verses": 13
+    },
+    {
+      "id": "3JN",
+      "name": "3 João",
+      "chapters": 1,
+      "verses": 15
+    },
+    {
+      "id": "JUD",
+      "name": "Judas",
+      "chapters": 1,
+      "verses": 25
+    },
+    {
+      "id": "REV",
+      "name": "Apocalipse",
+      "chapters": 22,
+      "verses": 405
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f2eb">
+  <meta name="description" content="Lee la Biblia completa y dedica un momento a reflexionar. Guarda tus notas en este dispositivo.">
+  <link rel="canonical" href="https://delight0517.github.io/selah-bible-meditation/es/">
+  <title>Reina-Valera 1909 · Biblia para leer y reflexionar | Selah</title>
+  <style>
+    :root{color-scheme:light dark;--paper:#f4f2eb;--card:#fffefa;--ink:#20251f;--muted:#657066;--line:#dedfd6;--green:#344c3a;--soft:#e8eee7;--mark:#f0dda0;font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink)}@media(prefers-color-scheme:dark){:root{--paper:#171b18;--card:#222824;--ink:#f1f1e9;--muted:#b3b9b1;--line:#3a423d;--green:#bdd1bf;--soft:#303a33;--mark:#68591e}}button,select,textarea{font:inherit;color:inherit}button,a,select{touch-action:manipulation}button{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px 14px;cursor:pointer}button:disabled{opacity:.45;cursor:default}a{color:var(--green)}.page{width:min(820px,100% - 32px);margin:auto;padding:20px 0 60px}.top,.reader-head,.chapter-top,.actions,.nav,.tools{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-weight:750;text-decoration:none}.hero,.reader-card,.note-card,.bottom{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,4vw,32px);margin-top:20px}.eyebrow,.status,.privacy,.bottom,.fine{color:var(--muted);font-size:.9rem}.eyebrow{text-transform:uppercase;letter-spacing:.08em}.hero h1{font-size:clamp(2rem,7vw,3.35rem);line-height:1.12;max-width:17ch;margin:.35em 0}.lead{font-size:1.1rem;color:var(--muted)}.edition{display:inline-block;border-radius:999px;background:var(--soft);padding:6px 12px;color:var(--green)}.primary{background:var(--green);color:var(--paper);border:0;font-weight:700}.notice{border-left:3px solid var(--green);padding:10px 14px;background:var(--soft);border-radius:6px}.controls{display:grid;grid-template-columns:2fr 1fr;gap:12px;margin-top:14px}.controls label{display:grid;gap:5px;color:var(--muted)}select{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--card);padding:10px}.reader-card{padding:clamp(14px,4vw,26px)}.chapter-top h3{margin:0}.verses{display:grid;gap:2px;margin:14px 0}.verse{display:block;text-align:left;border:0;border-radius:8px;background:transparent;line-height:1.9;padding:8px 6px}.verse:hover,.verse.selected{background:var(--soft)}.verse.highlighted{background:var(--mark)}.verse sup{display:inline-block;min-width:1.8em;color:var(--muted);font-size:.72em}.actions,.nav{justify-content:flex-start;flex-wrap:wrap}.note-card textarea{display:block;width:100%;min-height:130px;resize:vertical;border:1px solid var(--line);border-radius:12px;background:var(--paper);padding:12px}.tools{margin-top:12px;flex-wrap:wrap}.tools div{display:flex;gap:8px;flex-wrap:wrap}.status{min-height:1.5em}.bookmark-list{padding-left:20px}.bookmark-list button{padding:3px;border:0;background:transparent;color:var(--green);text-decoration:underline}.bottom{font-size:.88rem}.langs{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}@media(max-width:560px){.page{width:min(100% - 22px,820px);padding-top:12px}.top{font-size:.93rem}.controls{grid-template-columns:1fr}.tools{align-items:flex-start}.tools>div{width:100%}.tools button{flex:1}.nav button{flex:1}.reader-head{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="top"><a class="brand" href="../">✳ Selah</a><a href="../">Volver a Selah</a></header>
+  <section class="hero">
+    <div class="eyebrow">Un espacio tranquilo para leer</div>
+    <h1>Lee la Biblia con calma, un capítulo a la vez.</h1>
+    <p class="lead">Lee la Reina-Valera 1909 completa. Elige un libro, detente en un pasaje y anota lo que quieras recordar.</p>
+    <p><span class="edition">Reina-Valera 1909 · español histórico</span></p>
+    <p><button id="start" class="primary" type="button">Abrir la Biblia</button></p>
+    <p class="notice">Esta edición histórica tiene <b>18 posiciones de versículo sin texto</b>. Se muestran claramente; no se han completado con otra traducción.</p>
+    <p class="privacy">Tus notas, marcadores y resaltados se guardan solo en este navegador. No se comparten ni sincronizan.</p>
+    <p><button id="offline" type="button">Descargar Biblia para leer sin conexión</button></p><p id="offline-status" class="status" role="status" aria-live="polite"></p>
+  </section>
+  <section id="reader" hidden>
+    <header class="reader-head"><div><div class="eyebrow">Reina-Valera 1909 · 66 libros</div><h2 id="reader-title">Elige un libro y capítulo</h2></div><p id="load-status" class="status" role="status" aria-live="polite"></p></header>
+    <div class="controls"><label>Libro<select id="book" disabled></select></label><label>Capítulo<select id="chapter" disabled></select></label></div>
+    <article class="reader-card"><div class="chapter-top"><h3 id="chapter-title">Mateo 1</h3><small id="verse-count"></small></div><div id="verses" class="verses"></div><div class="actions"><button id="highlight" type="button" disabled>Resaltar versículo</button><button id="bookmark" type="button" disabled>Guardar marcador</button><button id="share" type="button">Compartir lectura</button></div><p id="selection-status" class="status" role="status" aria-live="polite"></p></article>
+    <nav class="nav" aria-label="Cambiar capítulo"><button id="previous" type="button">← Capítulo anterior</button><button id="next" type="button">Capítulo siguiente →</button></nav>
+    <section class="note-card"><h3>Escribe tu reflexión</h3><p>¿Qué palabra o idea se quedó contigo?</p><label class="sr-only" for="reflection">Tu reflexión sobre este capítulo</label><textarea id="reflection" placeholder="Escribe aquí tu reflexión…"></textarea><div class="tools"><span id="note-status" class="status" role="status" aria-live="polite">Guardado en este dispositivo.</span><div><button id="backup" type="button">Descargar copia</button><button id="restore" type="button">Restaurar copia</button><input id="restore-file" type="file" accept="application/json,.json" hidden></div></div></section>
+    <details class="note-card"><summary>Versículos guardados</summary><ul id="bookmark-list" class="bookmark-list"></ul></details>
+  </section>
+  <footer class="bottom"><p>Texto: Reina-Valera 1909 (Castellano 1909). CrossWire la identifica como de dominio público. <a href="https://ebible.org/bible/details.php?id=spaRV1909" rel="noopener">Fuente oficial y detalles de la edición</a> · <a href="https://www.crosswire.org/sword/modules/ModInfo.jsp?modName=SpaRV" rel="noopener">Estado de distribución</a>.</p><p>Edición histórica; la disponibilidad legal puede variar según el país.</p><nav class="langs" aria-label="Otros idiomas"><a href="../fil/">Tagalog</a><a href="../pt-br/">Português (Brasil)</a><a href="../">한국어 Selah</a></nav></footer>
+</main>
+<script src="./reader.js"></script>
+</body>
+</html>
