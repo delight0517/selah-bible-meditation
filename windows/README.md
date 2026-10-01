@@ -5,6 +5,7 @@
 - [빠른 실행](Launch-Selah.cmd): Edge 앱 창으로 Selah를 엽니다. Edge가 표준 설치 위치에 없으면 기본 브라우저로 엽니다.
 - [바탕 화면·시작 메뉴 바로가기 만들기](Create-Selah-Desktop-Shortcut.vbs): 실행하면 두 위치에 `Selah.lnk`를 만듭니다. Edge 앱 모드로 앱 창을 여는 바로가기이며, Edge의 설치 앱 목록에 등록하는 정식 PWA 설치와는 다릅니다.
 - 정식 PWA 설치: Edge에서 Selah 사이트를 연 다음 `설정 및 기타 (…) > 기타 도구 > 앱 > 이 사이트를 앱으로 설치`를 선택하세요. 정식 설치를 마치면 Edge 앱 목록에서 시작 메뉴·작업 표시줄에 고정할 수 있습니다.
+- Edge가 설치 프롬프트를 지원하고 Selah를 아직 설치하지 않은 경우, 사이트 상단에 앱 설치 버튼이 나타납니다. 버튼이 안 보이면 위 Edge 메뉴에서 수동 설치를 진행하세요.
 - The published PWA manifest supplies dedicated 192×192 and 512×512 PNG icons, which Edge requires for promoted PWA installability.
 - After Edge installation, the Selah app's context menu provides direct **말씀 읽기** and **시간 묵상** shortcuts.
 - Mac과 Windows에서 같은 BlueCloud 계정으로 로그인하면 지원되는 기록이 동기화됩니다. 로그인 전 기록은 각 기기의 브라우저 앱 저장 공간에 남으므로 기기 간 이동 전 백업을 내보내고 가져오세요.
