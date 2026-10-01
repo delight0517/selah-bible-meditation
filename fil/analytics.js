@@ -4,8 +4,10 @@
   const month = day.slice(0, 7);
   const path = location.pathname;
   const pending = new Set();
-  const eligibilityKey = "selah.analytics.fil.activationEligible";
-  const activationKey = "selah.analytics.fil.firstReflectionSaved";
+  const locale = document.documentElement.lang.startsWith("fil") ? "fil" : document.documentElement.lang;
+  const campaign = attribution();
+  const eligibilityKey = "selah.analytics." + locale + ".activationEligible";
+  const activationKey = "selah.analytics." + locale + ".firstReflectionSaved";
 
   function visitorIds() {
     const dailyKey = "selah.analytics.dailyVisitor";
@@ -59,7 +61,7 @@
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          appId: "selah", event, path, ...visitorIds(), ...attribution()
+          appId: "selah", event, path, ...visitorIds(), ...campaign
         })
       });
       if (response.ok) localStorage.setItem(key, "1");
@@ -73,7 +75,7 @@
   try {
     let saved = localStorage.getItem(eligibilityKey);
     if (saved === null) {
-      const prior = JSON.parse(localStorage.getItem("selah.fil.reader.v1") || "{}");
+      const prior = JSON.parse(localStorage.getItem(locale === "fil" ? "selah.fil.reader.v1" : "selah.reader." + locale + ".v1") || "{}");
       const hadNotes = Object.values(prior.notes || {}).some(note => typeof note === "string" && note.trim());
       saved = hadNotes ? "0" : "1";
       localStorage.setItem(eligibilityKey, saved);
@@ -82,11 +84,11 @@
   } catch {
   }
 
-  track("page:view", "selah.analytics.fil.page." + path + "." + day + "." + Object.values(attribution()).join("."));
+  track("page:view", "selah.analytics." + locale + ".page." + path + "." + day + "." + Object.values(campaign).join("."));
 
   window.selahAnalytics = {
     reader() {
-      track("engagement:reader_opened", "selah.analytics.fil.reader." + path + "." + day);
+      track("engagement:reader_opened", "selah.analytics." + locale + ".reader." + path + "." + day);
     },
     reflection(note) {
       if (eligible && note.trim().length >= 20) track("activation:first_reflection_saved", activationKey);
