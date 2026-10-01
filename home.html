@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f2eb">
+<meta name="description" content="Selah 홈에서 말씀 읽기와 시간 묵상을 시작하고 이 기기의 묵상 기록을 확인하세요.">
+<title>Selah · 홈</title>
+<style>
+:root{color-scheme:light;--paper:#f5f2eb;--card:#fffefa;--ink:#20251f;--green:#344c3a;--muted:#687267;--line:#e5e2d9}
+:root[data-theme="dark"]{color-scheme:dark;--paper:#111612;--card:#1b231d;--ink:#eef2ed;--green:#a9c5a7;--muted:#b2c0b1;--line:#3b473d}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.shell{max-width:880px;margin:auto;padding:24px max(20px,env(safe-area-inset-left)) max(32px,env(safe-area-inset-bottom))}header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:32px}.brand{font-size:22px;color:var(--green);text-decoration:none}.brand span{padding-right:8px}select{max-width:150px;min-height:44px;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--muted)}h1{font-size:clamp(30px,6vw,46px);line-height:1.3;font-weight:500;word-break:keep-all;overflow-wrap:break-word;margin:12px 0 16px}p{color:var(--muted);margin:0 0 24px}.actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 38px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 22px;border:1px solid var(--green);border-radius:12px;color:var(--paper);background:var(--green);text-decoration:none}.secondary{color:var(--green);background:var(--card)}h2{font-size:20px;font-weight:500;margin:0 0 16px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px}.stats div{padding:20px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card)}dt{font-size:14px;color:var(--muted)}dd{margin:8px 0 0;font-size:30px;color:var(--green);font-variant-numeric:tabular-nums}.note,footer{font-size:13px;color:var(--muted)}footer{margin-top:40px}footer a{display:inline-block;color:var(--green);min-height:44px;padding:10px 0}a:focus-visible,select:focus-visible{outline:3px solid var(--green);outline-offset:4px}.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}@media(max-width:420px){.stats{gap:8px}.stats div{padding:16px 10px}dt{font-size:12px}.actions .button{flex:1;padding:10px 12px}}
+</style>
+</head>
+<body><main class="shell">
+<header><a class="brand" href="./home.html" aria-current="page"><span aria-hidden="true">✳</span>Selah</a><div><label class="visually-hidden" for="homeLanguage">언어 / Language</label><select id="homeLanguage"><option value="ko">한국어</option><option value="en">English</option><option value="ja">日本語</option><option value="zh-CN">简体中文</option><option value="zh-TW">繁體中文</option></select></div></header>
+<div class="eyebrow">SELAH · HOME</div>
+<h1 data-home-text="title">오늘도, 말씀 안에 잠시 머물러요.</h1>
+<p data-home-text="intro">읽던 말씀을 이어가거나, 시간을 정해 조용히 묵상해 보세요.</p>
+<nav class="actions" aria-label="말씀과 묵상" id="homeActions"><a class="button" id="readFromHome" href="./index.html?homeAction=read" data-home-text="read">말씀 읽기</a><a class="button secondary" id="meditateFromHome" href="./index.html?homeAction=meditate" data-home-text="meditate">시간 묵상</a></nav>
+<section aria-labelledby="summaryTitle"><h2 id="summaryTitle" data-home-text="summary">이 기기에 남긴 기록</h2><dl class="stats"><div><dt data-home-text="attendance">묵상한 날</dt><dd id="homeAttendance">—</dd></div><div><dt data-home-text="reflections">묵상 기록</dt><dd id="homeReflections">—</dd></div><div><dt data-home-text="cards">복습 카드</dt><dd id="homeCards">—</dd></div></dl><p class="note" id="homeStorageStatus" data-home-text="local">현재 브라우저에 저장된 기록이에요.</p></section>
+<!-- Reserved home-only host; no ad module/SDK, request, or preview is loaded. -->
+<div id="dashboardAdHost"></div>
+<footer><a href="./guide/" data-home-text="guide">처음 이용하는 분을 위한 안내</a></footer>
+</main>
+<script>
+const homeText={
+ko:{title:"오늘도, 말씀 안에 잠시 머물러요.",intro:"읽던 말씀을 이어가거나, 시간을 정해 조용히 묵상해 보세요.",read:"말씀 읽기",meditate:"시간 묵상",summary:"이 기기에 남긴 기록",attendance:"묵상한 날",reflections:"묵상 기록",cards:"복습 카드",local:"현재 브라우저에 저장된 기록이에요.",unavailable:"저장된 기록을 읽을 수 없어요. 말씀 읽기는 계속 이용할 수 있어요.",guide:"처음 이용하는 분을 위한 안내",home:"홈"},
+en:{title:"Take a quiet moment in the Word.",intro:"Continue reading or set aside time for meditation.",read:"Read Scripture",meditate:"Timed meditation",summary:"Records on this device",attendance:"Days of meditation",reflections:"Reflections",cards:"Review cards",local:"These records are saved in this browser.",unavailable:"Saved records are unavailable. You can still open the reader.",guide:"Getting started",home:"Home"},
+ja:{title:"今日も、みことばに静かにとどまる。",intro:"続きから読むか、時間を決めて黙想しましょう。",read:"聖書を読む",meditate:"時間を決めて黙想",summary:"この端末の記録",attendance:"黙想した日",reflections:"黙想の記録",cards:"復習カード",local:"このブラウザーに保存された記録です。",unavailable:"記録を読み込めません。聖書は引き続き開けます。",guide:"はじめての方へ",home:"ホーム"},
+"zh-CN":{title:"今天，也在话语中安静片刻。",intro:"继续阅读，或留出一段时间默想。",read:"阅读圣经",meditate:"定时默想",summary:"此设备上的记录",attendance:"默想天数",reflections:"默想记录",cards:"复习卡片",local:"这些记录保存在当前浏览器中。",unavailable:"无法读取记录，仍可打开圣经阅读。",guide:"使用指南",home:"首页"},
+"zh-TW":{title:"今天，也在話語中安靜片刻。",intro:"繼續閱讀，或留出一段時間默想。",read:"閱讀聖經",meditate:"定時默想",summary:"此裝置上的記錄",attendance:"默想天數",reflections:"默想記錄",cards:"複習卡片",local:"這些記錄保存在目前瀏覽器中。",unavailable:"無法讀取記錄，仍可開啟聖經閱讀。",guide:"使用指南",home:"首頁"}
+};
+function readHomeState(storage){
+  try{
+    const data=JSON.parse(storage.getItem("selah.v1")||"{}");
+    if(!data||typeof data!=="object"||Array.isArray(data))throw Error();
+    const count=key=>Array.isArray(data[key])?data[key].length:0;
+    return {attendance:new Set(Array.isArray(data.attendanceDays)?data.attendanceDays.filter(day=>typeof day==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(day)):[]).size,reflections:count("reflections"),cards:count("cards"),language:data.language,available:true};
+  }catch{return {available:false};}
+}
+let homeStorage;try{homeStorage=localStorage;}catch{}
+const state=readHomeState(homeStorage),languageControl=document.getElementById("homeLanguage");
+const requested=new URLSearchParams(location.search).get("lang");
+let savedLocale;try{savedLocale=homeStorage?.getItem("selah.locale");}catch{}
+const device=navigator.language||"ko",deviceLocale=device.startsWith("zh")?(/TW|HK|Hant/i.test(device)?"zh-TW":"zh-CN"):device.split("-")[0];
+function renderHome(locale){
+  const lang=Object.hasOwn(homeText,locale)?locale:"en",copy=homeText[lang];
+  document.documentElement.lang=lang;document.title="Selah · "+copy.home;languageControl.value=lang;
+  document.querySelectorAll("[data-home-text]").forEach(el=>el.textContent=copy[el.dataset.homeText]);
+  document.getElementById("homeActions").setAttribute("aria-label",copy.read+" / "+copy.meditate);
+  for(const [id,key] of [["homeAttendance","attendance"],["homeReflections","reflections"],["homeCards","cards"]])document.getElementById(id).textContent=state.available?state[key].toLocaleString(lang):"—";
+  if(!state.available)document.getElementById("homeStorageStatus").textContent=copy.unavailable;
+  for(const [id,action] of [["readFromHome","read"],["meditateFromHome","meditate"]])document.getElementById(id).href="./index.html?homeAction="+action+"&lang="+encodeURIComponent(lang);
+}
+renderHome(requested|| (state.language&&state.language!=="auto"?state.language:savedLocale&&savedLocale!=="auto"?savedLocale:deviceLocale));
+languageControl.onchange=()=>renderHome(languageControl.value);
+try{const mode=homeStorage?.getItem("selah.theme")||"system";document.documentElement.dataset.theme=mode==="dark"||(mode==="system"&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}catch{}
+</script><footer style="text-align:center;padding:24px"><a href="./privacy.html">개인정보 안내 · Privacy</a></footer>
+</body></html>
