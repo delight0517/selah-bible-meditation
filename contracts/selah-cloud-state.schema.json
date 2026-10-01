@@ -28,169 +28,614 @@
     "_rev"
   ],
   "properties": {
-    "firstUsedAt": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds."},
-    "reflections": {"type": "array", "items": {"$ref": "#/$defs/reflection"}},
-    "cards": {"type": "array", "items": {"$ref": "#/$defs/quizCard"}},
-    "qtLibrary": {"type": "array", "items": {"$ref": "#/$defs/qtLink"}},
-    "selectedQt": {"type": "string"},
-    "passage": {"type": "integer", "minimum": 0},
-    "customPassage": {
-      "type": ["object", "null"],
-      "additionalProperties": true,
-      "properties": {"ref": {"type": "string", "maxLength": 120}, "text": {"type": "string", "maxLength": 10000}}
+    "firstUsedAt": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Unix epoch milliseconds."
     },
-    "customPassageActive": {"type": "boolean"},
-    "meditationFeedback": {"type": "array", "items": {"$ref": "#/$defs/meditationFeedback"}},
-    "attendanceDays": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
-    "meditationPlaces": {"type": "array", "items": {"$ref": "#/$defs/meditationPlace"}},
+    "reflections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reflection"
+      }
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/quizCard"
+      }
+    },
+    "qtLibrary": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/qtLink"
+      }
+    },
+    "selectedQt": {
+      "type": "string"
+    },
+    "passage": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "customPassage": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "ref": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 10000
+        }
+      }
+    },
+    "customPassageActive": {
+      "type": "boolean"
+    },
+    "meditationFeedback": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/meditationFeedback"
+      }
+    },
+    "attendanceDays": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "meditationPlaces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/meditationPlace"
+      }
+    },
     "feedbackPrompt": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "skips": {"type": "integer", "minimum": 0},
-        "nextAskAt": {"type": "integer", "minimum": 0},
-        "lastPromptDay": {"type": "string"},
-        "updatedAt": {"type": "integer", "minimum": 0}
+        "skips": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "nextAskAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "lastPromptDay": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-    "gptContext": {"type": "string"},
+    "gptContext": {
+      "type": "string"
+    },
     "readerPrefs": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "desktop": {"$ref": "#/$defs/readerPreference"},
-        "mobile": {"$ref": "#/$defs/readerPreference"}
+        "desktop": {
+          "$ref": "#/$defs/readerPreference"
+        },
+        "mobile": {
+          "$ref": "#/$defs/readerPreference"
+        }
       },
       "description": "Separate reader preferences selected by viewport width (mobile at max-width 760px, desktop otherwise)."
     },
     "customFontData": {
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": true,
       "properties": {
-        "name": {"type": "string"},
-        "language": {"type": "string"},
-        "type": {"type": "string"},
-        "data": {"type": "string", "contentEncoding": "base64"},
-        "deleted": {"type": "boolean"},
-        "updatedAt": {"type": "integer", "minimum": 0}
+        "name": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-    "language": {"type": "string"},
+    "language": {
+      "type": "string"
+    },
     "readingState": {
-      "type": ["object", "null"], "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
       "properties": {
-        "passage": {"type": "integer", "minimum": 0}, "book": {"type": "string"}, "chapter": {"type": "integer", "minimum": 1},
-        "customPassageActive": {"type": "boolean"}, "scrollRatio": {"type": "number", "minimum": 0, "maximum": 1},
-        "verseAnchor": {"type": "integer", "minimum": 0}, "verseOffset": {"type": "number", "minimum": 0, "maximum": 1},
-        "updatedAt": {"type": "integer", "minimum": 0}
+        "passage": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "book": {
+          "type": "string"
+        },
+        "chapter": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "customPassageActive": {
+          "type": "boolean"
+        },
+        "scrollRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "verseAnchor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verseOffset": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "meditationSession": {
-      "type": ["object", "null"], "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "status": {"enum": ["running", "paused", "completed", "ended"]},
-        "durationMs": {"type": "integer", "minimum": 0}, "remainingMs": {"type": "integer", "minimum": 0},
-        "endsAt": {"type": "integer", "minimum": 0}, "ref": {"type": "string"}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "paused",
+            "completed",
+            "ended"
+          ]
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remainingMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endsAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ref": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-    "bibleChats": {"type": "array", "items": {"$ref": "#/$defs/bibleChat"}},
-    "_rev": {"type": "integer", "minimum": 0, "description": "Server revision used for optimistic concurrency; the client retries HTTP 409 up to three attempts."}
+    "bibleChats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bibleChat"
+      }
+    },
+    "_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Server revision used for optimistic concurrency; the client retries HTTP 409 up to three attempts."
+    }
   },
   "$defs": {
     "readerPreference": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "font": {"type": "string"},
-        "size": {"type": "integer", "minimum": 18, "maximum": 32},
-        "fontLanguage": {"type": "string"},
-        "fontsByLanguage": {"type": "object", "additionalProperties": {"type": "string"}}
+        "font": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 18,
+          "maximum": 32
+        },
+        "fontLanguage": {
+          "type": "string"
+        },
+        "fontsByLanguage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
       }
     },
     "reflection": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "ref": {"type": "string"}, "date": {"type": "string"},
-        "text": {"type": "string"}, "prayer": {"type": "string"},
-        "tags": {"type": "array", "maxItems": 8, "items": {"type": "string", "maxLength": 24}},
-        "media": {"type": ["object", "null"], "additionalProperties": true, "properties": {"title": {"type": "string"}, "url": {"type": "string"}}},
-        "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "prayer": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 24
+          }
+        },
+        "media": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "quizCard": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "q": {"type": "string"}, "a": {"type": "string"},
-        "due": {"type": "string"}, "interval": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "q": {
+          "type": "string"
+        },
+        "a": {
+          "type": "string"
+        },
+        "due": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "qtLink": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "title": {"type": "string"}, "url": {"type": "string", "format": "uri"},
-        "sourceId": {"type": "string"}, "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "meditationFeedback": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "date": {"type": "string"}, "ref": {"type": "string"}, "rating": {"type": "string"},
-        "good": {"type": "string", "maxLength": 2000}, "improve": {"type": "string", "maxLength": 2000}, "situation": {"type": "string", "maxLength": 2000},
-        "reflection": {"type": ["object", "null"], "additionalProperties": true, "properties": {"text": {"type": "string"}, "prayer": {"type": "string"}}, "default": null},
-        "analysis": {"oneOf": [{"$ref": "#/$defs/experienceAnalysis"}, {"type": "null"}]},
-        "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "string"
+        },
+        "good": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "improve": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "situation": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "reflection": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "prayer": {
+              "type": "string"
+            }
+          },
+          "default": null
+        },
+        "analysis": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/experienceAnalysis"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "experienceAnalysis": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "focusPlaces": {"type": "array", "items": {"$ref": "#/$defs/experiencePlace"}},
-        "avoidPlaces": {"type": "array", "items": {"$ref": "#/$defs/experiencePlace"}},
-        "conditions": {"type": "array", "items": {"$ref": "#/$defs/experienceCondition"}}, "summary": {"type": "string", "maxLength": 400}
+        "focusPlaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/experiencePlace"
+          }
+        },
+        "avoidPlaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/experiencePlace"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/experienceCondition"
+          }
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 400
+        }
       }
     },
     "experiencePlace": {
-      "type": "object", "additionalProperties": true,
-      "properties": {"place": {"type": "string"}, "conditions": {"type": "array", "items": {"type": "string"}}, "reason": {"type": "string"}}
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "place": {
+          "type": "string"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
     },
     "experienceCondition": {
-      "type": "object", "additionalProperties": true,
-      "properties": {"condition": {"type": "string"}, "effect": {"type": "string"}}
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "effect": {
+          "type": "string"
+        }
+      }
     },
     "meditationPlace": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "type": {"enum": ["focus", "avoid", "condition"]},
-        "place": {"type": "string", "maxLength": 120}, "condition": {"type": "string", "maxLength": 120},
-        "conditions": {"type": "array", "maxItems": 8, "items": {"type": "string", "maxLength": 120}},
-        "effect": {"type": "string", "maxLength": 240}, "reason": {"type": "string", "maxLength": 240},
-        "feedbackId": {"type": "string"}, "date": {"type": "string"}, "createdAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "focus",
+            "avoid",
+            "condition"
+          ]
+        },
+        "place": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "condition": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "conditions": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 120
+          }
+        },
+        "effect": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "feedbackId": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "bibleChat": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string", "maxLength": 80}, "ref": {"type": "string", "maxLength": 120}, "quote": {"type": "string", "maxLength": 1500},
-        "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}, "expiresAt": {"type": "integer", "minimum": 0},
-        "status": {"enum": ["active", "ended"]}, "turns": {"type": "array", "items": {"$ref": "#/$defs/bibleChatTurn"}}
+        "id": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "ref": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "quote": {
+          "type": "string",
+          "maxLength": 1500
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "active",
+            "ended"
+          ]
+        },
+        "turns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/bibleChatTurn"
+          }
+        }
       }
     },
     "bibleChatTurn": {
-      "type": "object", "additionalProperties": true,
-      "properties": {"role": {"enum": ["user", "assistant"]}, "text": {"type": "string", "maxLength": 1200}, "createdAt": {"type": "integer", "minimum": 0}}
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 1200
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     }
   },
   "x-selah-sync-semantics": {
-    "endpoint": "/cloud-state/selah",
+    "endpoint": "/api/cloud-state/selah",
     "localStateKey": "selah.v1",
     "authTokenKey": "selah.bluecloud.token",
     "authTokenIncluded": false,
-    "localOnlyStateFields": ["owner", "draft"],
+    "localOnlyStateFields": [
+      "owner",
+      "draft"
+    ],
     "ownerFieldIncludedInPayload": false,
     "draftIncludedInPayload": false,
     "contractVersionField": null,
-    "unknownFields": "The schema allows extra properties. The current web sync sends an explicit known-field payload and merges selected remote fields; a parity client should retain opaque remote fields it does not edit so platform-specific data survives round trips.",
-    "existingUnknownFieldParityGap": "The published web client does not guarantee round-trip preservation for arbitrary unknown server properties.",
+    "unknownFields": "The client forwards unknown top-level properties from the signed-in account GET response and preserves extension properties in modeled nested objects while normalizing known fields. Server persistence is supported by the current Brainwire full-document handler source, but an authenticated live round trip is not yet verified.",
+    "existingUnknownFieldParityGap": "No authenticated live GET → PUT → GET verification has been performed. Current Brainwire origin/main handler source stores the full incoming document.",
     "ownerChange": "The local owner value gates account merges but is not sent; account-scoped state is reset before the newly signed-in account state is applied.",
     "recordCollectionsMerge": "reflections, cards, qtLibrary, bibleChats, meditationFeedback, and meditationPlaces merge by id; the greater updatedAt wins and local data wins ties.",
     "feedbackPromptMerge": "The greater updatedAt wins; local data wins ties.",
