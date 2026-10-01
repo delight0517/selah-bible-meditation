@@ -6,7 +6,7 @@ assert.deepEqual(AD_CONFIG, { enabled: false, publisherId: '', slotId: '' });
 assert.equal(mountDashboardAd(null), null); // Disabled path does not even inspect DOM.
 const source = await readFile(new URL('../assets/dashboard-ad.mjs', import.meta.url), 'utf8');
 assert.doesNotMatch(source, /https?:|adsbygoogle|fetch\(|XMLHttpRequest|createElement\(['"]script/);
-for (const file of ['index.html', 'en/index.html', 'ja/index.html', 'zh-cn/index.html', 'zh-tw/index.html', 'fil/index.html']) {
+for (const file of ['index.html', 'home.html', 'en/index.html', 'ja/index.html', 'zh-cn/index.html', 'zh-tw/index.html', 'fil/index.html']) {
   assert.doesNotMatch(await readFile(new URL(`../${file}`, import.meta.url), 'utf8'), /dashboard-ad\.mjs|adsbygoogle|googlesyndication/);
 }
 let raw = null;

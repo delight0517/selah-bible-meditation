@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import vm from 'node:vm';
+
+const html = await readFile(new URL('../home.html', import.meta.url), 'utf8');
+const reader = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+const helper = html.match(/function readHomeState\(storage\)\{[\s\S]*?\n\}\n/)?.[0];
+assert.ok(helper);
+const read = vm.runInNewContext(`${helper}; readHomeState`);
+const storage = data => ({ getItem: () => data });
+assert.equal(read(storage(null)).attendance, 0);
+assert.equal(read(storage(JSON.stringify({ attendanceDays: ['2026-10-01', '2026-10-01', 'invalid', null], reflections: [{ text: 'private' }], cards: [{}] }))).attendance, 1);
+assert.equal(read(storage(JSON.stringify({ reflections: [{}, {}], cards: [{}] }))).reflections, 2);
+for (const raw of ['{broken', 'null', '[]']) assert.equal(read(storage(raw)).available, false);
+assert.equal(read({ getItem() { throw Error('denied'); } }).available, false);
+assert.equal(read(undefined).available, false);
+assert.equal(read(storage('{"cards":"wrong"}')).cards, 0);
+assert.equal(read(storage('{"reflections":[{"text":"private"}]}')).text, undefined);
+assert.doesNotMatch(html, /id="(?:verseText|meditation|reader)"|class="reading-scripture"|adsbygoogle|googlesyndication|fetch\(|setItem\(/);
+assert.match(html, /id="dashboardAdHost"/);
+assert.match(reader, /id="homeLink" href="\.\/home\.html"/);
+assert.match(reader, /homeAction==="read"[^\n]*startFocusReading/);
+assert.match(reader, /homeAction==="meditate"[^\n]*openMeditation/);
+assert.doesNotMatch(reader, /dashboardAdHost|dashboard-ad\.mjs|adsbygoogle/);
+console.log('home separation and read-only local summary checks passed');
