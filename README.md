@@ -1,5 +1,7 @@
 # Selah — 말씀 묵상
 
+지역별 제품·성장 방향과 검증 상태는 [지역별 플레이북](MARKET_PLAYBOOK.md)에서 관리합니다.
+
 서비스: https://delight0517.github.io/selah-bible-meditation/
 저장소: https://github.com/delight0517/selah-bible-meditation
 
