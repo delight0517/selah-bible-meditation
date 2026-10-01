@@ -13,7 +13,7 @@
 
 ### Português do Brasil
 
-Quando o dia está corrido, leia um capítulo, observe o contexto e guarde uma pergunta ou reflexão curta. O leitor em português oferece a Bíblia Livre 2018 completa (66 livros), leitura offline e notas salvas neste dispositivo, sem exigir login.
+Leia um capítulo, observe o contexto e registre uma pergunta ou reflexão. O leitor em português oferece a Bíblia Livre 2018 completa (66 livros), leitura offline e notas salvas neste dispositivo, sem exigir login.
 
 - [Abrir o leitor bíblico em português](https://delight0517.github.io/selah-bible-meditation/pt-br/?utm_source=github&utm_medium=referral&utm_campaign=selah_ptbr_readme)
 - [Guia: como meditar na Bíblia quando a rotina é corrida](https://delight0517.github.io/selah-bible-meditation/pt-br/guia/?utm_source=github&utm_medium=referral&utm_campaign=selah_ptbr_readme)
