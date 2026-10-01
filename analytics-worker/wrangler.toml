@@ -1,0 +1,13 @@
+name = "selah-feature-analytics"
+main = "src/index.js"
+compatibility_date = "2025-10-01"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGIN = "https://delight0517.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "selah-feature-analytics"
+database_id = "ecd912b7-9baa-4812-b729-91f8c1e91910"
+migrations_dir = "migrations"

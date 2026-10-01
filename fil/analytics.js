@@ -1,5 +1,6 @@
 (() => {
   const endpoint = "https://cloud-account-storage.imdisablebutgodisable.workers.dev/analytics/event";
+  const featureEndpoint = "https://selah-feature-analytics.imdisablebutgodisable.workers.dev/analytics/event";
   const day = new Date().toISOString().slice(0, 10);
   const month = day.slice(0, 7);
   const path = location.pathname;
@@ -57,12 +58,13 @@
     pending.add(key);
     try {
       if (localStorage.getItem(key) === "1") return;
-      const response = await fetch(endpoint, {
+      const feature = event.startsWith("feature:") ? event.slice(8) : "";
+      const response = await fetch(feature ? featureEndpoint : endpoint, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          appId: "selah", event, path, ...visitorIds(), ...campaign
-        })
+        body: JSON.stringify(feature
+          ? { appId: "selah", feature, locale }
+          : { appId: "selah", event, path, ...visitorIds(), ...campaign })
       });
       if (response.ok) localStorage.setItem(key, "1");
     } catch {
@@ -85,6 +87,22 @@
   }
 
   track("page:view", "selah.analytics." + locale + ".page." + path + "." + day + "." + Object.values(campaign).join("."));
+
+  async function applyMarketEmphasis() {
+    try {
+      const key = "selah.analytics.market.checked", today = new Date().toISOString().slice(0, 10);
+      if (localStorage.getItem(key) === today) return;
+      const response = await fetch("https://selah-feature-analytics.imdisablebutgodisable.workers.dev/analytics/market", { cache: "no-store" });
+      if (!response.ok) return;
+      const { topFeature } = await response.json();
+      localStorage.setItem(key, today);
+      const targets = { scripture_read: ".reader-card", reflection_saved: ".note-card", highlight_added: "#highlight", bookmark_added: "#bookmark", verse_shared: "#share" };
+      const target = document.querySelector(targets[topFeature]);
+      if (target) target.classList.add("market-feature-emphasis");
+    } catch {
+    }
+  }
+  void applyMarketEmphasis();
 
   window.selahAnalytics = {
     reader() {
