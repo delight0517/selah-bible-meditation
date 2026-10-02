@@ -13,7 +13,7 @@
 
 ## 바로 재개하는 순서
 
-1. Selah clone `/Users/rogan/Documents/Codex/2026-10-01/new-chat-5/work/selah-adsense`에서 `git fetch origin main`; `git status --short`; `git log -1 --oneline origin/main`. 원격 main이 현재 작업 기준보다 앞서면 새 커밋과 파일 차이를 확인하고 작업 브랜치만 최신 main 위로 rebase한다. 2026-10-02 재개 때 `9971628`까지 기존 변경을 보존해 rebase 완료했다. 호스트 원본 `/Users/rogan/appDev/delight0517.github.io`에는 기존 미커밋 변경이 있으니 절대 checkout/reset/stash하지 않는다.
+1. Selah clone `/Users/rogan/Documents/Codex/2026-10-01/new-chat-5/work/selah-adsense`에서 `git fetch origin main`; `git status --short`; `git log -1 --oneline origin/main`. 원격 main이 현재 작업 기준보다 앞서면 변경 경로를 확인하고 작업 브랜치만 최신 main 위로 rebase한다. 2026-10-02 재개 때 `987dd16`까지 기존 변경을 보존해 rebase 완료했다. 호스트 원본 `/Users/rogan/appDev/delight0517.github.io`에는 기존 미커밋 변경이 있으니 절대 checkout/reset/stash하지 않는다.
 2. AdSense 사이트 상세에서 `delight0517.github.io` 승인 상태와 ads.txt 상태만 확인한다. 오늘 계정 UI 연결이 없어 확인은 남아 있다. 승인이 대기 중이면 계정 설정을 반복하지 않는다.
 3. 게시된 Google CMP와 privacy 페이지는 홈 전용으로 연결했다. 미동의/불명확 상태에 광고 슬롯 요청을 하지 않는다. 승인 후 실제 메시지 표시와 철회 흐름을 browser에서 확인한다.
 4. 승인 전에는 로컬 네트워크 차단 검증만 한다. SDK 요청은 검증/사용자가 명시적으로 원할 때만 수행한다. 슬롯 요청은 남은 일일 quota 확인 뒤에 시작하고, 성공한 실제 표시만 현지 날짜 카운트에 더한다. 홈에서 읽기/묵상 진입 시 광고를 dispose한다. 자동 광고는 켜지 않는다.
@@ -21,8 +21,8 @@
 
 ## 바뀐 파일/작업 위치
 
-- Selah 구현 초안 브랜치: `codex/adsense-disabled-draft-20261001`. 최신 확인한 `origin/main`은 `9971628`; 브랜치 HEAD는 `7755eff`이며 해당 main 위에 있다.
-- 공개 Selah 변경: 계정 보고서에 기록한 공개 커밋 `a3175f6` (홈/개인정보 안내). AdSense CMP/renderer 연결 초안은 `7755eff` 로컬 커밋으로 추가했으며 원격 push는 `delight0517-art` 계정의 403 권한 거부로 완료되지 않았다.
+- Selah 구현 초안 브랜치: `codex/adsense-disabled-draft-20261001`. 최신 확인한 `origin/main`은 `987dd16`; 브랜치는 해당 main 위에 있다.
+- 공개 Selah 변경: 계정 보고서에 기록한 공개 커밋 `a3175f6` (홈/개인정보 안내). AdSense CMP/renderer 연결 초안은 별도 로컬 커밋으로 추가했다. 2026-10-02 GitHub 기기 인증 후 `delight0517` 계정의 `gh auth status`와 저장소 `push: true` 권한을 확인했다. 원격 push는 아직 하지 않았다.
 - 호스트 별도 브랜치 `codex/adsense-host-verification-20261001`, 공개 커밋 `3fc5fda`: 루트 `index.html` 소유 태그와 `ads.txt`.
 - 상세 작업 증거/커밋/검증: `/Users/rogan/Documents/Codex/2026-10-01/new-chat-5/outputs/selah-adsense-account-status.md`; 최신 `origin/main` 기준 patch도 같은 outputs 폴더에 있다. 계정 암호/토큰/device code는 기록하지 않는다.
 
