@@ -20,6 +20,8 @@ Both desktop entry points use the same BlueCloud contract at `GET/PUT /api/cloud
 | Reading preferences and language | `readerPrefs`, `customFontData`, `language` |
 | Server revision | `_rev` |
 
+The complete-Bible download uses the local `selah-bible-library` IndexedDB database. The cache is per browser profile and is excluded from both the BlueCloud cloud-state payload and portable backup; download it separately on Mac and Windows. Default bundled translations are retained, while additional translations unused for 30 days are removed.
+
 Anonymous records stay in the local storage belonging to that browser app. Safari's Dock app and Edge's PWA have separate local stores; users can move records with the portable backup format in [`selah-portable-backup.schema.json`](../contracts/selah-portable-backup.schema.json). Backup v1 carries user state and draft data while excluding the source owner, server revision, and credentials. An authenticated cross-device sync round trip has not been verified in this environment.
 
 ## Platform-specific entry and installation
@@ -29,11 +31,12 @@ Anonymous records stay in the local storage belonging to that browser app. Safar
 | Open the hosted site in Safari and choose **File → Add to Dock** (macOS Sonoma 14+). | Install the hosted site as an Edge PWA; the manifest includes standalone display, app icons, and reading/meditation shortcuts. |
 | Launch from Dock or Spotlight. | Launch from Edge Apps, a desktop/Start shortcut, or `Launch-Selah.cmd`. |
 | Uses the Safari web app's local browser storage. | Uses the Edge app's local browser storage. |
+| Full Scripture offline cache | The shared app stores downloaded chapters in local IndexedDB; extra translations expire after 30 days without use. | The same shared feature and retention policy run in Edge. |
 
 The installer, app menu, shortcuts, and local browser profile are platform-specific. Scripture, reading progress, reflection data, account sync, and backup formats come from the shared web source. Website changes update both platforms; there are no separate Mac and Windows app binaries in this architecture.
 
 ## Current evidence and open verification
 
 - Source basis: root `README.md`, root `index.html`, the manifest, and the two contracts linked above.
-- Windows PWA source current at commit `831225c`; GitHub Pages returned HTTP 200 and the published HTML included the localized install button and `beforeinstallprompt` handler.
+- Windows PWA and offline Bible source current at commit `b5abbf2`; GitHub Pages returned HTTP 200 and the published HTML included the localized install button and `beforeinstallprompt` handler.
 - The live Edge installation dialog, a Mac-side runtime readback, and authenticated synthetic BlueCloud sync remain unverified.
