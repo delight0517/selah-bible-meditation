@@ -225,7 +225,9 @@
     const old = db.computerReadingSession || {};
     const withinGrace = old.status === "paused" && timestamp(old, "resumeGraceUntil") > now;
     const stillRunning = old.status === "running" && now - timestamp(old, "lastSeenAt") < 420000;
-    const deepLinkSession = linkedHandoffSessionId() || routeParams.get("sessionId");
+    const deepLinkSession = handoffRequestId
+      ? linkedHandoffSessionId()
+      : routeParams.get("sessionId");
     db.computerReadingSession = {
       id: withinGrace ? old.id : (deepLinkSession || (stillRunning ? old.id : crypto.randomUUID())),
       status: sessionStatus,

@@ -1,5 +1,5 @@
 {
-  "description": "Fix successful cloud sync reported as failure after guide button removal",
+  "description": "Validate cross-platform reading handoff before session reuse",
   "version": "1.0.6",
-  "build": 18
+  "build": 19
 }
