@@ -39,4 +39,4 @@ See [the macOS and Windows parity matrix](PLATFORM-PARITY.md) for the canonical 
 
 ## Current build basis
 
-Canonical hosted web source: `b5abbf2` (latest commit touching the root `index.html` at this handoff). The Windows app window and macOS Safari web app share that source. No separate native Windows binary build exists; the Windows offline-cache parity clarification is documentation/source handoff build 26.
+Canonical hosted web source: `b7b70a0` (latest commit touching the root `index.html`; PR #46). The Windows Edge app window and macOS Safari web app share that source. GitHub Pages serves the merged source; this repository does not produce a separate native Windows binary.

@@ -42,8 +42,8 @@ The installer, app menu, shortcuts, and local browser profile are platform-speci
 ## Current evidence and open verification
 
 - Source basis: root `README.md`, root `index.html`, the manifest, and the two contracts linked above.
-- Parity change set: `codex/selah-bible-language-sync` at base `9971628`; adds an explicit shared Scripture text-language preference and keeps translation downloads profile-local. This branch is not merged or deployed.
-- Windows PWA and offline Bible source current at commit `b5abbf2`; GitHub Pages returned HTTP 200 and the published HTML included the localized install button and `beforeinstallprompt` handler.
+- Parity change set: PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46), merged at `b7b70a0`; it adds an explicit shared Scripture text-language preference and keeps translation downloads profile-local. GitHub Pages deployment completed for the merge commit.
+- Windows Edge app-window source and macOS Safari web-app source are the same hosted page at `b7b70a0`. Live readback returns HTTP 200 and includes the Bible-language selector, deterministic timestamp-tie resolution, Japanese bundled-text mapping, and standalone manifest. This proves deployment, not that Edge installed the PWA.
 - Mac's source/behavior handoff request `2026-10-01T210800_windows-selah-desktop-parity` is still open and unreceived. The repository README describes Mac as Safari's Add to Dock web app, so the checked-in web source remains the current evidence for its UI and behavior.
 - An October 2 BlueCloud state snapshot in the handoff repository contains the opaque top-level fields `computerReadingRequest` and `computerReadingResult`, both null in that snapshot. Their source-defined structures and lifecycle remain unconfirmed; Windows preserves them as opaque extension fields.
 - The live Edge installation dialog, Mac-side runtime readback, authenticated synthetic BlueCloud sync round trip, and cross-device preference convergence remain unverified.
