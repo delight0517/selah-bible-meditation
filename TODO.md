@@ -11,12 +11,11 @@
 - Mac snapshot audit: a new October 2 `cloudstate_*_selah.json` was found in the handoff repository. Without reading private record values, its top-level inventory showed `computerReadingRequest` and `computerReadingResult` (both null) that were not yet named in the schema; added them as opaque JSON extensions pending Mac source handoff. No `bibleContentLanguage` was present in that snapshot.
 - Conflict-resolution follow-up: equal `bibleContentLanguage.updatedAt` values now use a deterministic lexical code tie-breaker, avoiding each device repeatedly reasserting its own value after simultaneous edits.
 - Follow-up review corrected the Japanese default: the language selector now opens the bundled Japanese Matthew text (`matthew-jpn1965.json`, `jpn_loc`) instead of English. eBible.org identifies this 1965 Japanese New Testament as public domain; the asset already existed in the repository and mobile asset-copy list.
-- Not verified: browser interaction, signed-in BlueCloud GET/PUT/GET, cross-device timestamp convergence, Edge PWA installation, or Mac runtime. Nothing is merged or deployed.
+- Not yet verified: real browser interaction, authenticated BlueCloud GET/PUT/GET, cross-device timestamp convergence, Edge-managed PWA installation, Safari Add to Dock, and Mac runtime. PR #46 is merged and the GitHub Pages deployment for its merge commit succeeded.
 - Mac source/data request `2026-10-01T210800_windows-selah-desktop-parity` remains `open`, `received=false` in `origin/main`.
 - Source milestone version/build: **1.0.5 / build 6** (tracking label only; not released and no native desktop binary built).
-- Review artifact: draft PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46); not merged/deployed, with no CI checks reported.
-- Live deploy readback (2026-10-02): GitHub Pages root and `manifest.webmanifest` both return HTTP 200; manifest content type is `application/manifest+json` with `display: standalone`. The published HTML does not yet contain this branch's Bible-language selector or deterministic merge rule, confirming PR #46 is not deployed.
-
+- Review artifact: PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46) merged at `b7b70a01a7200f8f3f905772c08f03a7c02c392a` (`2026-10-02T01:58:39Z`). No PR checks were reported; the Pages deployment run succeeded for the merge commit.
+- Live deploy readback after merge (2026-10-02): public root and `manifest.webmanifest` both return HTTP 200. Manifest content type is `application/manifest+json`, `display` is `standalone`, and published HTML contains `bibleLanguageSelect`, the deterministic equal-timestamp code tie-break, and the Japanese default mapping (`matthew-jpn1965.json`, `jpn_loc`). This confirms the merged change is deployed; it does not verify signed-in sync or Mac runtime.
 ## Remaining parity work
 - Read Mac operator's reply and reconcile the source/contract description with actual Mac runtime evidence.
 - Use a synthetic test account/fixture to verify preference sync without exposing personal reflections or credentials.
