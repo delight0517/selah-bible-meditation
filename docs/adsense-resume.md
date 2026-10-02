@@ -22,7 +22,7 @@
 ## 바뀐 파일/작업 위치
 
 - Selah 구현 초안 브랜치: `codex/adsense-disabled-draft-20261001`. 최신 확인한 `origin/main`은 `987dd16`; 브랜치는 해당 main 위에 있다.
-- 공개 Selah 변경: 계정 보고서에 기록한 공개 커밋 `a3175f6` (홈/개인정보 안내). AdSense CMP/renderer 연결 초안은 별도 로컬 커밋으로 추가했다. 2026-10-02 GitHub 기기 인증 후 `delight0517` 계정의 `gh auth status`와 저장소 `push: true` 권한을 확인했다. 원격 push는 아직 하지 않았다.
+- 공개 Selah 변경: 계정 보고서에 기록한 공개 커밋 `a3175f6` (홈/개인정보 안내). AdSense CMP/renderer 연결 초안은 별도 feature branch에 있다. 2026-10-02 GitHub 기기 인증 후 `delight0517` 계정의 `gh auth status`와 저장소 `push: true` 권한을 확인했다. push 전에는 항상 main과의 앞섬·뒤처짐 및 해당 시점의 검사 결과를 확인한다.
 - 호스트 별도 브랜치 `codex/adsense-host-verification-20261001`, 공개 커밋 `3fc5fda`: 루트 `index.html` 소유 태그와 `ads.txt`.
 - 상세 작업 증거/커밋/검증: `/Users/rogan/Documents/Codex/2026-10-01/new-chat-5/outputs/selah-adsense-account-status.md`; 최신 `origin/main` 기준 patch도 같은 outputs 폴더에 있다. 계정 암호/토큰/device code는 기록하지 않는다.
 
