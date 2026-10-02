@@ -175,3 +175,4 @@
 - Follow-up readback showed `Sync failed`; the hidden auth error contained `Cannot set properties of null (setting 'hidden')`. DOM inspection confirmed the removed `guideStart` control is absent.
 - Root cause: sync finished its cloud request/merge and then attempted to update the absent optional guide button. The resulting local TypeError was reported as a cloud sync failure. Guide completion had the same missing-element assumption.
 - Guard both optional guide-button updates and hide the Google sign-in section once the account is connected. Provider authorization and Google login are verified; final Synced UI readback awaits build 18 deployment.
+- Changed the stylesheet cache token to `?v=17-9b9913c` after the follow-up UI check showed the `?v=17` response was still cached after confirming GitHub Pages serves CSS with a 600-second cache lifetime; this avoids keeping a previously cached design after publish. Browser verification remains pending.
