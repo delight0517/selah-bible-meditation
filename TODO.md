@@ -1,5 +1,12 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Search Console and current Windows release alignment — 1.0.6 / build 17
+- Registered the exact Selah URL-prefix property `https://delight0517.github.io/selah-bible-meditation/`; Google verified it through the already verified parent property. Performance and indexing reports are still processing for the new property.
+- Submitted the Korean and English download URLs for indexing; Google added both to its priority crawl queue. The live Google URL test says the English page is available to Google. This does not yet mean either URL is indexed or ranking.
+- Submitted `sitemap.xml` to the parent property; the GSC dialog accepted it, while the list still shows its initial “Couldn't fetch” state. Direct Googlebot-UA HTTP reads returned 200 for robots, sitemap, and both landing pages; sitemap XML is valid.
+- Live content extraction found the dedicated Windows download page now serves launcher build 17 (`d9e3951e1992315579416d2141b4fa0fcca2c718ecd644b73b0a029dbb1a01a0`). Updated both download-hub buttons to point at build 17; the prior build-15 link was stale relative to current main.
+- Search-result evidence for broad Korean Bible meditation queries is dominated by mobile-app store listings; prioritize truthful Windows/Mac/iPhone web-app availability and platform-specific long-tail intent. GSC Wizard was found and suggested as the one useful plugin, but is not installed/connected yet; current Selah-specific query data is not available until Google finishes processing.
+
 ## 2026-10-02 · Cross-platform Selah download and install hub — web content / build 15
 - User requested a promotional page that gathers Selah install/download options for Mac, iPhone/iOS, and Windows and can be discovered through Google Search.
 - Added Korean and English `/download/` landing pages, platform-specific install steps, responsive shared styling, home-page entry links in all five supported UI locales, canonical/language metadata, WebPage structured data, and sitemap entries.
@@ -154,6 +161,7 @@
 - [x] Added `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` so each concurrent chat can start from a clean `origin/main` worktree, own a separate branch, and share code through pull requests with explicit status/evidence. Complements the open repository governance PR #63.
 - Version/build: hosted Selah source 1.0.6 / build 17. The Windows launcher package version is governed separately by its build archive.
 - Initial browser check after build 16 exposed an existing one-child `.layout` grid that left unused blank space and narrowed the main panel. The desktop stylesheet now makes that wrapper a full-width block and uses the app's live theme variables so dark mode and user colors continue to apply.
+- Follow-up desktop viewport inspection found the Bible reader wrapper also had only one visible child while its notebook was intentionally moved to the focus-mode drawer. Center the reader card at a readable 920 px maximum instead of leaving an empty second column.
 - Added `?v=17` to the desktop stylesheet URL after confirming GitHub Pages serves CSS with a 600-second cache lifetime; this avoids keeping a previously cached design after publish. Browser verification remains pending.
 
 ## 2026-10-02 · Google OAuth provider correction and account-login handoff — build 17
