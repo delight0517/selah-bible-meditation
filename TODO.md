@@ -149,8 +149,9 @@
 - Prepared adding the Selah origin in Google Cloud. Saving is pending the explicit confirmation required for extending the OAuth origin allowlist. No secrets or scopes changed.
 - App fix: Dedicated Google status and retry UI; concurrent-load deduplication; request and script timeouts; Retry-After cooldown on HTTP 429; reload after failed script/config requests. Google load errors no longer overwrite password-login errors. Mobile web asset copying includes the recovery helper.
 - Five regression scenarios passed: concurrent initialization, rate-limit cooldown/retry, failed script/retry, aborted request/retry, missing server configuration. Actual Google account authorization and cloud synchronization remain unverified.
-## 2026-10-02 · Windows Selah desktop polish and parallel worktrees — 1.0.6 / build 16
+## 2026-10-02 · Windows Selah desktop polish and parallel worktrees — 1.0.6 / build 17
 - [x] Refined the desktop title, Bible reading card, meditation journal, prayer field, and saved-note cards with a calm forest/ivory visual system in `styles/desktop-polish.css`; styles apply above 760 px and keep the existing mobile presentation.
 - [x] Added `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` so each concurrent chat can start from a clean `origin/main` worktree, own a separate branch, and share code through pull requests with explicit status/evidence. Complements the open repository governance PR #63.
-- Version/build: hosted Selah source 1.0.6 / build 16. The Windows launcher package version is governed separately by its build archive.
-- Status: local branch only; browser verification and deployment pending.
+- Version/build: hosted Selah source 1.0.6 / build 17. The Windows launcher package version is governed separately by its build archive.
+- Initial browser check after build 16 exposed an existing one-child `.layout` grid that left unused blank space and narrowed the main panel. The desktop stylesheet now makes that wrapper a full-width block and uses the app's live theme variables so dark mode and user colors continue to apply.
+- Status: follow-up browser verification and deployment pending.
