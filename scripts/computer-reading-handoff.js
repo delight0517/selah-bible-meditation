@@ -132,6 +132,8 @@
     if (!token || !accountId || !isRecord(current) || db.computerReadingResult?.id === current.id) return;
     try {
       const latest = (await originalRequest("/cloud-state/selah")).state;
+      const remoteRevision = Number(latest?._rev);
+      if (Number.isInteger(remoteRevision) && remoteRevision >= 0) db._rev = remoteRevision;
       const previousRequestId = db.computerReadingRequest?.id;
       mergeComputerReadingState(latest);
       if (db.computerReadingRequest?.id !== previousRequestId || db.computerReadingResult?.id === db.computerReadingRequest?.id) {
