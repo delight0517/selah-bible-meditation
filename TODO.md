@@ -142,6 +142,13 @@
 - Mac's installed app still lacks a registered `selah://` scheme. Sent Mac a separate request to register/install the receiving handler and provide version/build/source provenance plus a synthetic request readback.
 - PR #71 merged as `a30a72d10746b0ff3e2da7f194eb78af98501462`; Pages deployment run `36993348281` succeeded. Public `windows/BUILD_INFO.json` reads back 1.0.6/build 15, the download page is HTTP 200, and the build-15 ZIP is HTTP 200 with the locally verified SHA-256. The prior build-15 deployment is confirmed.
 - Source milestone advanced to **1.0.6 / build 16** for the session-correlation update. Windows build-16 ZIP was created and its eight-entry archive manifest verifies all seven payload hashes; SHA-256 is `ef21c18608c98f16998e330d945f8ced9c8a1913627db65798c50c495538fb8c`. Authenticated two-device BlueCloud convergence and Mac URL-scheme launch remain pending.
+## 2026-10-02 · BlueCloud / Google login recovery — 1.0.6 build 17
+- User feedback: Retry BlueCloud/Google login, diagnose the error, and fix it.
+- Live retry rendered the Google button. Clicking it produced `[GSI_LOGGER]: The given origin is not allowed for the given client ID.`
+- Confirmed production `/api/auth/google-client-id` matches `brainwire-web` in Google Cloud project `rogan-youtube`. Its only authorized JavaScript origin was `https://brainwire-f2gf.onrender.com`; Selah runs on `https://delight0517.github.io`.
+- Prepared adding the Selah origin in Google Cloud. Saving is pending the explicit confirmation required for extending the OAuth origin allowlist. No secrets or scopes changed.
+- App fix: Dedicated Google status and retry UI; concurrent-load deduplication; request and script timeouts; Retry-After cooldown on HTTP 429; reload after failed script/config requests. Google load errors no longer overwrite password-login errors. Mobile web asset copying includes the recovery helper.
+- Five regression scenarios passed: concurrent initialization, rate-limit cooldown/retry, failed script/retry, aborted request/retry, missing server configuration. Actual Google account authorization and cloud synchronization remain unverified.
 ## 2026-10-02 · Windows Selah desktop polish and parallel worktrees — 1.0.6 / build 16
 - [x] Refined the desktop title, Bible reading card, meditation journal, prayer field, and saved-note cards with a calm forest/ivory visual system in `styles/desktop-polish.css`; styles apply above 760 px and keep the existing mobile presentation.
 - [x] Added `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` so each concurrent chat can start from a clean `origin/main` worktree, own a separate branch, and share code through pull requests with explicit status/evidence. Complements the open repository governance PR #63.
