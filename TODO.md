@@ -1,5 +1,11 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Windows guide sitemap coverage and post-deploy evidence — 1.0.6 / build 18
+- PR #88 merged and GitHub Pages deployment `36998459124` succeeded. Live readback confirmed the Edge install steps, checksum command, launcher ZIP, and checksum sidecar return successfully; the public SHA-256 sidecar matches the build 18 ZIP digest.
+- Post-deploy GSC Wizard audit of `/windows/download.html`: HTTP 200, self-canonical, indexable, title 38 characters, 390 words, valid WebPage/WebSite structured data, and zero reported issues.
+- Registered the home page, Korean and English download hubs, and Windows guide in the GSC Wizard indexing tracker for its scheduled checks. The exact Selah property still returns no Search Analytics rows and no settled-through boundary; do not infer indexing or rankings.
+- Found the Windows install guide was missing from the published 13-URL sitemap despite being linked from both download hubs. Added its canonical URL to `sitemap.xml`; after deployment, verify the live XML contains 14 valid same-property URLs. The sitemap itself is already submitted and pending, so don't submit it again.
+
 ## 2026-10-02 · Windows install guide clarity after live GSC audit — 1.0.6 / build 18
 - Rechecked the deployed Korean/English hub, Windows install page, and root with GSC Wizard: all 4 returned HTTP 200 and were indexable, with zero critical/high/medium findings. Remaining flags are low-severity heuristics: short Windows title/content and empty alt on decorative brand marks.
 - Expanded the Windows guide with Edge's built-in install route, Windows Script Host fallback, accurate account/local storage and Bible-download behavior, plus a PowerShell SHA-256 verification command. Lengthened the Korean title consistently in title/Open Graph/JSON-LD.
