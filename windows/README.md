@@ -24,7 +24,7 @@ To create persistent desktop and Start menu shortcuts without using Edge menus, 
 2. In Microsoft Edge, choose **Settings and more (…) > More tools > Apps > Install this site as an app**. This enables Edge-managed app details and app-specific pinning.
 3. Open `edge://apps` to launch/manage Selah. From the app's details, Edge can create a desktop shortcut or pin Selah to Start/taskbar.
 
-The exact Edge menu wording may vary by version. Microsoft documents the current flow in [Install, manage, or uninstall apps in Microsoft Edge](https://support.microsoft.com/en-US/edge/install-manage-or-uninstall-apps-in-microsoft-edge). The UI installation remains unverified on this Windows session because Computer Use was stopped with the physical Escape key.
+The exact Edge menu wording may vary by version. Microsoft documents the current flow in [Install, manage, or uninstall apps in Microsoft Edge](https://support.microsoft.com/en-US/edge/install-manage-or-uninstall-apps-in-microsoft-edge). The Edge-managed PWA registration is still unverified; this checkout confirms the Edge app-mode launcher and shortcut files, not registration in Edge's installed-app list.
 
 ## Shared data behavior
 
