@@ -1,4 +1,4 @@
-# Selah Windows launcher — 1.0.6 / build 15
+# Selah Windows launcher — 1.0.6 / build 16
 
 Selah's original application code and original documentation are available under the MIT license. Scripture translations and third-party material keep their own terms; see `THIRD_PARTY_NOTICES.md`.
 
@@ -6,7 +6,7 @@ Download the Windows launcher ZIP, extract it, and run `Launch-Selah.cmd`. To cr
 
 The launcher opens the hosted Selah app, with back/forward navigation, page zoom/reset, and focus-reading controls. If SixVPNBlocker is already installed, its managed Edge route is preserved and incomplete configuration stops the launch. Otherwise normal Edge app mode is used. Use Edge's install-app menu at the official website for Edge-managed PWA registration.
 
-This download is a launcher ZIP. Microsoft Store packaging and certification remain pending, as do installed Store-build runtime verification and authenticated Mac/Windows sync checks. The app's website and shared data service are updated independently of this launcher package; build 15 identifies these launcher/release files.
+This download is a launcher ZIP. Microsoft Store packaging and certification remain pending, as do installed Store-build runtime verification and authenticated Mac/Windows sync checks. The website is the shared runtime for Mac and Windows; build 16 identifies this launcher ZIP, which opens that hosted app with the reading-session handoff update.
 
 Application: <https://delight0517.github.io/selah-bible-meditation/>
 
