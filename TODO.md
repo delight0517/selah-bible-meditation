@@ -1,5 +1,11 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Windows guide sitemap coverage and post-deploy evidence — 1.0.6 / build 18
+- PR #88 merged and GitHub Pages deployment `36998459124` succeeded. Live readback confirmed the Edge install steps, checksum command, launcher ZIP, and checksum sidecar return successfully; the public SHA-256 sidecar matches the build 18 ZIP digest.
+- Post-deploy GSC Wizard audit of `/windows/download.html`: HTTP 200, self-canonical, indexable, title 38 characters, 390 words, valid WebPage/WebSite structured data, and zero reported issues.
+- Registered the home page, Korean and English download hubs, and Windows guide in the GSC Wizard indexing tracker for its scheduled checks. The exact Selah property still returns no Search Analytics rows and no settled-through boundary; do not infer indexing or rankings.
+- Found the Windows install guide was missing from the published 13-URL sitemap despite being linked from both download hubs. Added its canonical URL to `sitemap.xml`; after deployment, verify the live XML contains 14 valid same-property URLs. The sitemap itself is already submitted and pending, so don't submit it again.
+
 ## 2026-10-02 · Windows install guide clarity after live GSC audit — 1.0.6 / build 18
 - Rechecked the deployed Korean/English hub, Windows install page, and root with GSC Wizard: all 4 returned HTTP 200 and were indexable, with zero critical/high/medium findings. Remaining flags are low-severity heuristics: short Windows title/content and empty alt on decorative brand marks.
 - Expanded the Windows guide with Edge's built-in install route, Windows Script Host fallback, accurate account/local storage and Bible-download behavior, plus a PowerShell SHA-256 verification command. Lengthened the Korean title consistently in title/Open Graph/JSON-LD.
@@ -191,18 +197,24 @@
 - User completed Google login in the visible live Selah page. Readback confirmed the Account control and signed-in account panel.
 - Follow-up readback showed `Sync failed`; the hidden auth error contained `Cannot set properties of null (setting 'hidden')`. DOM inspection confirmed the removed `guideStart` control is absent.
 - Root cause: sync finished its cloud request/merge and then attempted to update the absent optional guide button. The resulting local TypeError was reported as a cloud sync failure. Guide completion had the same missing-element assumption.
-- Guard both optional guide-button updates and hide the Google sign-in section once the account is connected. Provider authorization and Google login are verified; final Synced UI readback awaits build 18 deployment.
+- Guard both optional guide-button updates and hide the Google sign-in section once the account is connected. Provider authorization and Google login were verified; final Synced UI readback remains unverified after deployment.
 - Changed the stylesheet cache token to `?v=17-9b9913c` after the follow-up UI check showed the `?v=17` response was still cached after confirming GitHub Pages serves CSS with a 600-second cache lifetime; this avoids keeping a previously cached design after publish. Browser verification remains pending.
 
 ## 2026-10-02 · Windows desktop polish deployed and interaction checked — hosted source 1.0.6 / build 18
 - GitHub Pages deployment for `main` commit `dfc49056eb71d126b6e6c5542fadb80eac276c09` succeeded (run `36997319087`). Cache-busted public HTML and desktop CSS both returned HTTP 200; CSS link is `?v=17-9b9913c`.
-- At a 1440 px browser width, live DOM readback showed the Bible reader centered at 920 px. Clicked through Matthew 2 and restored Matthew 1; Korean Bible rendering and light theme were confirmed. Tested timed meditation, opened its notebook, entered reflection and prayer drafts, confirmed they remained available on this device, then cleared both test strings and ended the session without creating a saved test note. Browser console had no errors.
-- The parallel-work setup is live on `main`: `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` create isolated `origin/main` task branches/worktrees and share changes through PRs with ownership and evidence in `TODO.md`/task notes. Each chat must preserve existing dirty trees and inspect new `main` commits before integration. Root governance PR #63 is still open; required branch protection is not configured or claimed.
-- Scope/evidence limit: this is a hosted web-source style change, not a new Windows launcher binary. BlueCloud cloud sync and final saved-note creation were not exercised in this browser check.
+- At a 1440 px browser width, live DOM readback showed the Bible reader centered at 920 px. Clicked through Matthew 2 and restored Matthew 1; Korean Bible rendering and light theme were confirmed. Tested timed meditation, opened its notebook, entered reflection and prayer drafts, confirmed the entered values in both fields while the on-device save notice was visible, then cleared both test strings and ended the session without creating a saved test note. Browser console had no errors.
+- The parallel-work setup is live on `main`: `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` create isolated `origin/main` task branches/worktrees and share changes through PRs with ownership and evidence in `TODO.md`/task notes. Each chat must preserve existing dirty trees and inspect new `main` commits before integration. Root governance PR #63 remains open for repository instruction/workflow files. GitHub branch protection was enabled separately: PR required, zero approvals required for solo work, admins included, force pushes and deletion disabled; no required status check is configured yet.
+- Scope/evidence limit: this is a hosted web-source style change, not a new Windows launcher binary. BlueCloud cloud sync and final saved-note creation were not exercised.
 
-- Version/build: hosted Selah source 1.0.6 / build 16. The Windows launcher package version is governed separately by its build archive.
-- Status: local branch only; browser verification and deployment pending.
+## 2026-10-02 · Reject invalid Selah handoff session URLs — 1.0.6 / build 19- Read the Windows Pomodoro consumer's actual handoff URL, which includes `requestId` and `sessionId`. Build 16 allowed an unmatched URL session ID to bypass the target and expiration guard.
+- Build 19 only uses a bare URL session ID when no request ID is present. If a request ID exists, require the cloud request to match it, target this platform, and have an age from zero through 120 seconds before adopting its session ID.
+- PR #81 had already published launcher build 18 for Google-login recovery, so the target-validation change was rebased and assigned build 19. The Korean/English download hubs and detail page now point to build 19. Regression coverage includes matching request, missing request, wrong platform, expired/future/missing timestamp, and legacy no-request session URL. Actual authenticated cross-device sync and installed Mac URL dispatch remain pending.
 
+## 2026-10-02 · Selah build 19 handoff validation and Mac follow-up
+- Build 19 was generated with `windows/Build-Selah-Release.ps1` after PR #81 assigned build 18 to Google-login recovery. Launcher ZIP SHA-256: `a74960674a975ff3e49c5e834355af58489b623dadae8a60b4b22b49132da1ae`; release manifest reports version 1.0.6/build 19 and all 7 payload hashes verify.
+- Added `scripts/test-computer-reading-handoff.cjs`; Node syntax and six request/session scenarios pass. A matching Windows request uses its shared session ID; missing, wrong-target, expired, future-dated, or timestamp-less requests do not use the URL session fallback; legacy session-only links remain compatible.
+- Sent Mac follow-up `20261002T105406Z_windows_94ea382b` through releasepilot-hub `origin/main`: verify current Mac source and installed bundle URI registration, align the request/session contract, preserve dirty work, then safely build/install and synthetic-readback if build policy and live process state allow. Mac receipt and response remain pending until the queue status is read back.
+- GitHub PR #83 is the build-19 replacement for the superseded build-17 attempt. Merge and Pages deployment/readback remain pending; authenticated Mac/Windows round-trip and Mac installed `selah://` launch are not yet proven.
 
 ## 2026-10-02 · 모든 기기의 공통 UI와 데이터 계약 — 공유 앱 1.0.7 / 빌드 19
 - 사용자 피드백: “이 앱이 만들어졌잖아 근데 이 성경 앱의 방식 ui 부터 시작해서 모든게 맥의 ios 웹사이트와 간극이 벌어져서 따로따로 서로 다른 데이터를 관리해야 하는 위험으로부터 이 데이터를 통합으로ㅓ 만들수 있는 그러한 시스템 만어줄래 ?”
