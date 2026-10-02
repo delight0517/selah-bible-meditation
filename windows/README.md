@@ -39,4 +39,4 @@ See [the macOS and Windows parity matrix](PLATFORM-PARITY.md) for the canonical 
 
 ## Current build basis
 
-Canonical hosted web source: `origin/main`; Windows desktop shell milestone is version **1.0.6 / build 8**. The Edge app window, Mac Safari web app, and installed Mac WebKit wrapper all point to the same hosted Selah page and BlueCloud contract. Windows app controls are provided by the hosted `windows/app-shell.js`; there is no separate Windows browser engine or copy of the scripture/reflection application.
+Canonical hosted web source: `origin/main`; Windows desktop shell milestone is version **1.0.6 / build 10**. The Edge app window, Mac Safari web app, and installed Mac WebKit wrapper all point to the same hosted Selah page and BlueCloud contract. Windows app controls are provided by the hosted `windows/app-shell.js`; there is no separate Windows browser engine or copy of the scripture/reflection application. The computer-reading request/result/session handoff is deployed in the shared page; authenticated two-device convergence and native Mac-wrapper launch are still unverified.
