@@ -16,6 +16,15 @@
       "properties": {
         "reflections": {"type": "array"},
         "cards": {"type": "array"},
+        "bibleContentLanguage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["code", "updatedAt"],
+          "properties": {
+            "code": {"enum": ["ko", "en", "ja", "zh-CN", "zh-TW"]},
+            "updatedAt": {"type": "integer", "minimum": 0}
+          }
+        },
         "draft": {"type": ["object", "null"], "additionalProperties": true},
         "owner": false,
         "_rev": false,
