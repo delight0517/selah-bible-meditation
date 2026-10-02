@@ -10,7 +10,7 @@
 - After Edge installation, the Selah app's context menu provides direct **말씀 읽기** and **시간 묵상** shortcuts.
 - Mac과 Windows에서 같은 BlueCloud 계정으로 로그인하면 지원되는 기록이 동기화됩니다. 로그인 전 기록은 각 기기의 브라우저 앱 저장 공간에 남으므로 기기 간 이동 전 백업을 내보내고 가져오세요.
 
-Selah's macOS desktop distribution is the same hosted web app opened as a Safari web app. The Windows counterpart uses the same hosted app and data contract in Microsoft Edge's app window; it does not fork scripture, reflection, or account-sync behavior.
+macOS currently has both Safari's Add to Dock web app and an installed `Selah Mac.app` native shell. Static bundle inspection shows the shell embeds the same hosted Selah URL and links SwiftUI/WebKit. Windows uses the same hosted app and data contract in Microsoft Edge's app window; it does not fork scripture, reflection, or account-sync behavior. The native shell source and its app-specific behavior still need a Mac handoff.
 
 ## Quick launch
 
@@ -39,4 +39,4 @@ See [the macOS and Windows parity matrix](PLATFORM-PARITY.md) for the canonical 
 
 ## Current build basis
 
-Canonical hosted web source: `b7b70a0` (latest commit touching the root `index.html`; PR #46). The Windows Edge app window and macOS Safari web app share that source. GitHub Pages serves the merged source; this repository does not produce a separate native Windows binary.
+Canonical hosted web source: `origin/main` at `06415368896fa66777159b49b01eed68af3a37a8`; latest commit touching the root `index.html` is `f197164`, and latest manifest shortcut change is `404fd53`. The Windows Edge app window, Mac Safari web app, and installed Mac WebKit wrapper all point to the same hosted URL. This checkout does not produce a separate native Windows binary.

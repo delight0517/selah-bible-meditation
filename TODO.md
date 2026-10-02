@@ -22,3 +22,10 @@
 - Install/launch the PWA in Edge and verify Windows app-window behavior; verify the same hosted source from Safari Add to Dock on Mac.
 - On the current Windows PC, Selah shortcuts were being retargeted to the managed Edge wrapper, which cleared their URL arguments. Added a Selah-specific Windows Script Host launcher that carries the installed browser protection extension and PAC settings into app mode; real Edge rendering still needs a UI-capable verification session.
 - Resolve whether anonymous local data should remain profile-local or needs a safer migration UX beyond the existing portable backup.
+
+## 2026-10-02 · Installed Mac native shell evidence and queue access
+- User asked to continue the Selah Mac-to-Windows desktop parity work and avoid all UI/mouse interaction. Inspected over SSH only; no Mac app was launched.
+- Mac has a `Selah Mac.app` installed in addition to Safari's `Selah.app` web app. Bundle ID `com.delight0517.selah.mac`; universal x86_64/arm64; minimum macOS 14; SwiftUI/AppKit/WebKit; executable embeds `https://delight0517.github.io/selah-bible-meditation/`; signed entitlements include app sandbox and network-client access. Version/build plist keys are absent. No wrapper source was found in the searched Mac `~/Documents/Codex` and `~/appDev` Swift/Xcode sources.
+- The Mac Hub checkout's local inbox was stale. Left its existing branch and dirty Hermes file untouched, and delivered a separate local copy of the sanitized handoff into its `mac_inbox` over SSH. Upstream response synchronization is still pending.
+- The Mac Selah source checkout is clean and fetched `origin/main` at `06415368896fa66777159b49b01eed68af3a37a8`; its feature branch is 13 commits behind main. Windows docs now distinguish the installed native wrapper from Safari's web app and Edge PWA, and record what still requires a Mac source handoff.
+- No app source/build version changed. Existing Windows source tracking milestone remains **1.0.6 / build 7**; no native Windows binary was built.

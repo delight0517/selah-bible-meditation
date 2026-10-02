@@ -2,9 +2,9 @@
 
 ## Canonical source
 
-The repository's [Mac setup guide](../README.md#mac에서-앱처럼-열기) describes the macOS app as the hosted Selah site added to the Dock from Safari, not a separate native implementation. GitHub Pages serves the root `index.html` from `main`; the Windows Edge PWA uses that same hosted UI and application logic.
+The repository's [Mac setup guide](../README.md#mac에서-앱처럼-열기) describes Safari's **Add to Dock** web app. Read-only inspection of the Mac also found a separate installed `Selah Mac.app` (`com.delight0517.selah.mac`). Its universal x86_64/arm64 binary links SwiftUI, AppKit, and WebKit, targets macOS 14+, and contains the same hosted Selah URL. Its signed entitlements include app sandbox and network-client access; no version/build plist keys or other permission usage descriptions were found. The native shell's source project was not found in the checked Mac Selah checkout or in the searched `~/Documents/Codex` and `~/appDev` Swift/Xcode sources; its exact UI, storage behavior, version, and build workflow remain unconfirmed. GitHub Pages serves root `index.html` from `main`; Windows Edge PWA uses that same hosted UI and application logic.
 
-This keeps scripture reading, reflection behavior, account flows, and data formats in one source. The Mac handoff request remains open for confirmation from the Mac operator; this document records what the checked-in source currently establishes.
+The Mac Safari web app, Mac WebKit wrapper, and Windows Edge PWA use the same hosted product source. The entry shells differ, but scripture reading, reflection behavior, account flows, and data formats run in that shared web app. BlueCloud synchronization is the shared data path after sign-in; unauthenticated browser/WebKit storage remains app-profile-specific. The Mac source handoff request remains open, so this document separates installed-binary evidence from source-level details that still need Mac confirmation.
 
 ## Shared user data
 
@@ -30,20 +30,20 @@ Anonymous records stay in the local storage belonging to that browser app. Safar
 
 ## Platform-specific entry and installation
 
-| macOS | Windows |
-| --- | --- |
-| Open the hosted site in Safari and choose **File → Add to Dock** (macOS Sonoma 14+). | Install the hosted site as an Edge PWA; the manifest includes standalone display, app icons, and reading/meditation shortcuts. |
-| Launch from Dock or Spotlight. | Launch from Edge Apps, a desktop/Start shortcut, or `Launch-Selah.cmd`. |
-| Uses the Safari web app's local browser storage. | Uses the Edge app's local browser storage. |
-| Full Scripture offline cache | The shared app stores downloaded chapters in local IndexedDB; extra translations expire after 30 days without use. | The same shared feature and retention policy run in Edge. |
+| Area | macOS | Windows |
+| --- | --- | --- |
+| Entry/install | Safari **File → Add to Dock** (macOS Sonoma 14+) or installed `Selah Mac.app` WebKit wrapper. | Install the hosted site as an Edge PWA; the manifest includes standalone display, app icons, and reading/meditation shortcuts. |
+| Launch | Safari web app or `Selah Mac.app` from Applications/Dock/Spotlight. | Edge Apps, desktop/Start shortcut, or `Launch-Selah.cmd`. |
+| Local records | Safari web app and WebKit wrapper have platform-owned storage; exact wrapper sharing behavior remains unconfirmed. | Edge app's local browser storage. |
+| Offline Scripture | Downloaded chapters use local IndexedDB; extra translations expire after 30 days without use. | Same shared feature and retention policy in Edge; cache remains profile-local. |
 
-The installer, app menu, shortcuts, and local browser profile are platform-specific. Scripture, reading progress, reflection data, account sync, and backup formats come from the shared web source. Website changes update both platforms; there are no separate Mac and Windows app binaries in this architecture.
+The shell, installer, app menu, shortcuts, and local browser profile are platform-specific. Mac has an installed native SwiftUI/WebKit wrapper; Windows currently has an Edge PWA/app-window launcher rather than a native Windows binary. Scripture, reading progress, reflection data, account sync, and backup formats come from the shared web source. Website changes update both platforms without maintaining separate copies of the product UI.
 
 ## Current evidence and open verification
 
 - Source basis: root `README.md`, root `index.html`, the manifest, and the two contracts linked above.
 - Parity change set: PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46), merged at `b7b70a0`; it adds an explicit shared Scripture text-language preference and keeps translation downloads profile-local. GitHub Pages deployment completed for the merge commit.
-- Windows Edge app-window source and macOS Safari web-app source are the same hosted page at `b7b70a0`. Live readback returns HTTP 200 and includes the Bible-language selector, deterministic timestamp-tie resolution, Japanese bundled-text mapping, and standalone manifest. This proves deployment, not that Edge installed the PWA.
-- Mac's source/behavior handoff request `2026-10-01T210800_windows-selah-desktop-parity` is still open and unreceived. The repository README describes Mac as Safari's Add to Dock web app, so the checked-in web source remains the current evidence for its UI and behavior.
+- Current source readback is `origin/main` at `06415368896fa66777159b49b01eed68af3a37a8` (root `index.html` last changed at `f197164`; manifest shortcut entries at `404fd53`). Live readback returns HTTP 200 for both page and manifest. The page includes the Bible-language selector; manifest has `display=standalone`, three icons, and two shortcuts (`말씀 읽기`, `시간 묵상`). This confirms the website endpoint currently serves an installable Edge app definition, not that Edge PWA installation or the Mac wrapper's loaded webview was behaviorally tested.
+- Mac's source/behavior handoff request `2026-10-01T210800_windows-selah-desktop-parity` is still open. The installed `Selah Mac.app` was inspected without launch or UI interaction: bundle ID `com.delight0517.selah.mac`, universal x86_64/arm64, minimum macOS 14, SwiftUI/AppKit/WebKit links, the public Selah URL embedded in the executable, and sandbox/network-client entitlements. `CFBundleShortVersionString` and `CFBundleVersion` are absent. No Swift/Xcode wrapper source was found in the searched Mac checkouts, so source path, screen behavior beyond the shared hosted page, storage details, and build workflow remain pending.
 - An October 2 BlueCloud state snapshot in the handoff repository contains the opaque top-level fields `computerReadingRequest` and `computerReadingResult`, both null in that snapshot. Their source-defined structures and lifecycle remain unconfirmed; Windows preserves them as opaque extension fields.
-- The live Edge installation dialog, Mac-side runtime readback, authenticated synthetic BlueCloud sync round trip, and cross-device preference convergence remain unverified.
+- The live Edge installation dialog, Mac wrapper UI/runtime behavior, authenticated synthetic BlueCloud sync round trip, and cross-device preference convergence remain unverified.
