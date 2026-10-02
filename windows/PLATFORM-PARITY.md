@@ -35,5 +35,5 @@ The installer, app menu, shortcuts, and local browser profile are platform-speci
 ## Current evidence and open verification
 
 - Source basis: root `README.md`, root `index.html`, the manifest, and the two contracts linked above.
-- Windows PWA source deployed from commit `f6d7674`; GitHub Pages returned HTTP 200 and the published HTML included the localized install button and `beforeinstallprompt` handler.
+- Windows PWA source current at commit `831225c`; GitHub Pages returned HTTP 200 and the published HTML included the localized install button and `beforeinstallprompt` handler.
 - The live Edge installation dialog, a Mac-side runtime readback, and authenticated synthetic BlueCloud sync remain unverified.

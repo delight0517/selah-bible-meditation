@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://delight0517.github.io/selah-bible-meditation/contracts/selah-cloud-state.schema.json",
   "title": "Selah BlueCloud sync payload (current public web implementation)",
-  "description": "Source-derived cross-platform contract for PUT /api/cloud-state/selah, checked against the Selah client at revision 886f6d8. Known record fields are modeled from current writers and normalizers; additional fields remain allowed for compatibility until Mac owner confirmation.",
+  "description": "Source-derived cross-platform contract for PUT /api/cloud-state/selah, checked against the Selah client at revision 831225c (2026-10-02). Known record fields are modeled from current writers and normalizers; additional fields remain allowed for compatibility until Mac owner confirmation.",
   "type": "object",
   "additionalProperties": true,
   "required": [
