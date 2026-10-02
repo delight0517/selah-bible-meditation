@@ -1,5 +1,5 @@
 {
+  "description": "Google login loading recovery and OAuth origin diagnosis",
   "version": "1.0.6",
-  "build": 16,
-  "description": "Mac-to-Windows computer-reading session continuity"
+  "build": 17
 }
