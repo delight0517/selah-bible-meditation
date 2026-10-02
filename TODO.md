@@ -1,5 +1,11 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Localized page favicon coverage after 14-page audit — 1.0.6 / build 18
+- PR #90 merged. GitHub Pages run `36998929617` succeeded; live `sitemap.xml` returns HTTP 200, parses as XML, and contains 14 URLs including `/windows/download.html`.
+- Audited all 14 sitemap URLs through GSC Wizard: all returned HTTP 200 and were indexable; no critical or high issues. Its three medium “thin content” flags are on Japanese and Chinese pages whose substantive CJK paragraphs/lists are tokenized as only 21–29 space-delimited words. Do not pad those pages just to satisfy this word-count heuristic.
+- The audit found the shared favicon was missing from 10 locale/guide pages. Added the existing Selah SVG favicon with correct relative paths; verify GSC Wizard's favicon results after deployment.
+- GSC Wizard's CrUX report is not configured because no Chrome UX Report API key is available; no key or billing setup was attempted. Selah-specific Search Analytics still returns no rows and cannot establish a settled-through date.
+
 ## 2026-10-02 · Windows guide sitemap coverage and post-deploy evidence — 1.0.6 / build 18
 - PR #88 merged and GitHub Pages deployment `36998459124` succeeded. Live readback confirmed the Edge install steps, checksum command, launcher ZIP, and checksum sidecar return successfully; the public SHA-256 sidecar matches the build 18 ZIP digest.
 - Post-deploy GSC Wizard audit of `/windows/download.html`: HTTP 200, self-canonical, indexable, title 38 characters, 390 words, valid WebPage/WebSite structured data, and zero reported issues.
