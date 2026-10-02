@@ -56,7 +56,8 @@
   function linkedHandoffSessionId() {
     const request = db.computerReadingRequest;
     if (!handoffRequestId || !isRecord(request) || request.id !== handoffRequestId || request.targetPlatform !== currentPlatform) return "";
-    if (Date.now() - timestamp(request, "createdAt") > 120000) return "";
+    const age = Date.now() - timestamp(request, "createdAt");
+    if (age < 0 || age > 120000) return "";
     return typeof request.sessionId === "string" && request.sessionId ? request.sessionId : "";
   }
 
@@ -225,7 +226,9 @@
     const old = db.computerReadingSession || {};
     const withinGrace = old.status === "paused" && timestamp(old, "resumeGraceUntil") > now;
     const stillRunning = old.status === "running" && now - timestamp(old, "lastSeenAt") < 420000;
-    const deepLinkSession = linkedHandoffSessionId() || routeParams.get("sessionId");
+    const deepLinkSession = handoffRequestId
+      ? linkedHandoffSessionId()
+      : routeParams.get("sessionId");
     db.computerReadingSession = {
       id: withinGrace ? old.id : (deepLinkSession || (stillRunning ? old.id : crypto.randomUUID())),
       status: sessionStatus,
