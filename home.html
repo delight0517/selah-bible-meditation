@@ -21,15 +21,15 @@
 <section aria-labelledby="summaryTitle"><h2 id="summaryTitle" data-home-text="summary">이 기기에 남긴 기록</h2><dl class="stats"><div><dt data-home-text="attendance">묵상한 날</dt><dd id="homeAttendance">—</dd></div><div><dt data-home-text="reflections">묵상 기록</dt><dd id="homeReflections">—</dd></div><div><dt data-home-text="cards">복습 카드</dt><dd id="homeCards">—</dd></div></dl><p class="note" id="homeStorageStatus" data-home-text="local">현재 브라우저에 저장된 기록이에요.</p></section>
 <!-- Reserved home-only host; no ad module/SDK, request, or preview is loaded. -->
 <div id="dashboardAdHost"></div>
-<footer><a href="./guide/" data-home-text="guide">처음 이용하는 분을 위한 안내</a></footer>
+<footer><a href="./guide/" data-home-text="guide">처음 이용하는 분을 위한 안내</a><br><a class="button secondary" href="./download/" data-home-text="downloads">기기별 앱 설치 안내</a></footer>
 </main>
 <script>
 const homeText={
-ko:{title:"오늘도, 말씀 안에 잠시 머물러요.",intro:"읽던 말씀을 이어가거나, 시간을 정해 조용히 묵상해 보세요.",read:"말씀 읽기",meditate:"시간 묵상",summary:"이 기기에 남긴 기록",attendance:"묵상한 날",reflections:"묵상 기록",cards:"복습 카드",local:"현재 브라우저에 저장된 기록이에요.",unavailable:"저장된 기록을 읽을 수 없어요. 말씀 읽기는 계속 이용할 수 있어요.",guide:"처음 이용하는 분을 위한 안내",home:"홈"},
-en:{title:"Take a quiet moment in the Word.",intro:"Continue reading or set aside time for meditation.",read:"Read Scripture",meditate:"Timed meditation",summary:"Records on this device",attendance:"Days of meditation",reflections:"Reflections",cards:"Review cards",local:"These records are saved in this browser.",unavailable:"Saved records are unavailable. You can still open the reader.",guide:"Getting started",home:"Home"},
-ja:{title:"今日も、みことばに静かにとどまる。",intro:"続きから読むか、時間を決めて黙想しましょう。",read:"聖書を読む",meditate:"時間を決めて黙想",summary:"この端末の記録",attendance:"黙想した日",reflections:"黙想の記録",cards:"復習カード",local:"このブラウザーに保存された記録です。",unavailable:"記録を読み込めません。聖書は引き続き開けます。",guide:"はじめての方へ",home:"ホーム"},
-"zh-CN":{title:"今天，也在话语中安静片刻。",intro:"继续阅读，或留出一段时间默想。",read:"阅读圣经",meditate:"定时默想",summary:"此设备上的记录",attendance:"默想天数",reflections:"默想记录",cards:"复习卡片",local:"这些记录保存在当前浏览器中。",unavailable:"无法读取记录，仍可打开圣经阅读。",guide:"使用指南",home:"首页"},
-"zh-TW":{title:"今天，也在話語中安靜片刻。",intro:"繼續閱讀，或留出一段時間默想。",read:"閱讀聖經",meditate:"定時默想",summary:"此裝置上的記錄",attendance:"默想天數",reflections:"默想記錄",cards:"複習卡片",local:"這些記錄保存在目前瀏覽器中。",unavailable:"無法讀取記錄，仍可開啟聖經閱讀。",guide:"使用指南",home:"首頁"}
+ko:{title:"오늘도, 말씀 안에 잠시 머물러요.",intro:"읽던 말씀을 이어가거나, 시간을 정해 조용히 묵상해 보세요.",read:"말씀 읽기",meditate:"시간 묵상",summary:"이 기기에 남긴 기록",attendance:"묵상한 날",reflections:"묵상 기록",cards:"복습 카드",local:"현재 브라우저에 저장된 기록이에요.",unavailable:"저장된 기록을 읽을 수 없어요. 말씀 읽기는 계속 이용할 수 있어요.",guide:"처음 이용하는 분을 위한 안내",downloads:"기기별 앱 설치 안내",home:"홈"},
+en:{title:"Take a quiet moment in the Word.",intro:"Continue reading or set aside time for meditation.",read:"Read Scripture",meditate:"Timed meditation",summary:"Records on this device",attendance:"Days of meditation",reflections:"Reflections",cards:"Review cards",local:"These records are saved in this browser.",unavailable:"Saved records are unavailable. You can still open the reader.",guide:"Getting started",downloads:"Install on Mac, iPhone or Windows",home:"Home"},
+ja:{title:"今日も、みことばに静かにとどまる。",intro:"続きから読むか、時間を決めて黙想しましょう。",read:"聖書を読む",meditate:"時間を決めて黙想",summary:"この端末の記録",attendance:"黙想した日",reflections:"黙想の記録",cards:"復習カード",local:"このブラウザーに保存された記録です。",unavailable:"記録を読み込めません。聖書は引き続き開けます。",guide:"はじめての方へ",downloads:"Mac・iPhone・Windowsで使う",home:"ホーム"},
+"zh-CN":{title:"今天，也在话语中安静片刻。",intro:"继续阅读，或留出一段时间默想。",read:"阅读圣经",meditate:"定时默想",summary:"此设备上的记录",attendance:"默想天数",reflections:"默想记录",cards:"复习卡片",local:"这些记录保存在当前浏览器中。",unavailable:"无法读取记录，仍可打开圣经阅读。",guide:"使用指南",downloads:"在 Mac、iPhone 或 Windows 安装",home:"首页"},
+"zh-TW":{title:"今天，也在話語中安靜片刻。",intro:"繼續閱讀，或留出一段時間默想。",read:"閱讀聖經",meditate:"定時默想",summary:"此裝置上的記錄",attendance:"默想天數",reflections:"默想記錄",cards:"複習卡片",local:"這些記錄保存在目前瀏覽器中。",unavailable:"無法讀取記錄，仍可開啟聖經閱讀。",guide:"使用指南",downloads:"在 Mac、iPhone 或 Windows 安裝",home:"首頁"}
 };
 function readHomeState(storage){
   try{
