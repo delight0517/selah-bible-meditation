@@ -1,5 +1,11 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Desktop zoom reset parity — source milestone 1.0.6 / build 13
+- Compared Mac `SelahApp.swift` commands with the Windows Edge app-shell toolbar. Windows already had Ctrl+Alt+0, but lacked a visible reset action corresponding to Mac's **Reset Text Size** menu command.
+- Made the zoom percentage button reset to 100% and labeled it with the same keyboard shortcut. The existing 80–150% zoom bounds and per-profile saved zoom remain unchanged.
+- Mac checkout is still dirty and 63 commits behind `origin/main`; its local `selah://` Info.plist changes are not in the installed bundle. The Mac relay request is still `received=false`; native deep-link runtime remains open work.
+- Windows build 12 deployed successfully in PR #65. Build 13 is source-only until its PR merges and Pages deploy succeeds. Do not call the cross-platform goal complete until Mac receipt/source alignment, a visible Windows app launch, authenticated BlueCloud round trip, and Mac wrapper deep-link result are verified.
+
 ## 2026-10-02 · Managed Edge launch correction — source milestone 1.0.6 / build 12
 - Diagnosed the Selah app window title `We couldn't load that extension.`: the installed launcher passed a Claude extension ID as an extra `--disable-extensions-except` item, although Chromium defines this switch as a comma-separated list of extension paths. The SixVPN unpacked extension path itself and PAC route were present.
 - Removed the ID entry from the Selah launcher. It now permits only `%LOCALAPPDATA%\SixVPNBlocker\chrome_blocker` and retains the PAC URL and `--load-extension` protection path. Updated the installed per-user Selah launcher for future launches; left the currently running Edge window and processes untouched.
