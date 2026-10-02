@@ -1,5 +1,12 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Search Console and current Windows release alignment — 1.0.6 / build 17
+- Registered the exact Selah URL-prefix property `https://delight0517.github.io/selah-bible-meditation/`; Google verified it through the already verified parent property. Performance and indexing reports are still processing for the new property.
+- Submitted the Korean and English download URLs for indexing; Google added both to its priority crawl queue. The live Google URL test says the English page is available to Google. This does not yet mean either URL is indexed or ranking.
+- Submitted `sitemap.xml` to the parent property; the GSC dialog accepted it, while the list still shows its initial “Couldn't fetch” state. Direct Googlebot-UA HTTP reads returned 200 for robots, sitemap, and both landing pages; sitemap XML is valid.
+- Live content extraction found the dedicated Windows download page now serves launcher build 17 (`d9e3951e1992315579416d2141b4fa0fcca2c718ecd644b73b0a029dbb1a01a0`). Updated both download-hub buttons to point at build 17; the prior build-15 link was stale relative to current main.
+- Search-result evidence for broad Korean Bible meditation queries is dominated by mobile-app store listings; prioritize truthful Windows/Mac/iPhone web-app availability and platform-specific long-tail intent. GSC Wizard was found and suggested as the one useful plugin, but is not installed/connected yet; current Selah-specific query data is not available until Google finishes processing.
+
 ## 2026-10-02 · Cross-platform Selah download and install hub — web content / build 15
 - User requested a promotional page that gathers Selah install/download options for Mac, iPhone/iOS, and Windows and can be discovered through Google Search.
 - Added Korean and English `/download/` landing pages, platform-specific install steps, responsive shared styling, home-page entry links in all five supported UI locales, canonical/language metadata, WebPage structured data, and sitemap entries.
