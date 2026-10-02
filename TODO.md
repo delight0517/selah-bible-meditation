@@ -153,7 +153,7 @@
 - User feedback: Retry BlueCloud/Google login, diagnose the error, and fix it.
 - Live retry rendered the Google button. Clicking it produced `[GSI_LOGGER]: The given origin is not allowed for the given client ID.`
 - Confirmed production `/api/auth/google-client-id` matches `brainwire-web` in Google Cloud project `rogan-youtube`. Its only authorized JavaScript origin was `https://brainwire-f2gf.onrender.com`; Selah runs on `https://delight0517.github.io`.
-- Prepared adding the Selah origin in Google Cloud. Saving is pending the explicit confirmation required for extending the OAuth origin allowlist. No secrets or scopes changed.
+- User approved saving the Selah origin on 2026-10-02. Saved `https://delight0517.github.io` in the matching Google Cloud OAuth client and reopened its settings to confirm persistent readback. No secrets, redirect URIs, or scopes changed.
 - App fix: Dedicated Google status and retry UI; concurrent-load deduplication; request and script timeouts; Retry-After cooldown on HTTP 429; reload after failed script/config requests. Google load errors no longer overwrite password-login errors. Mobile web asset copying includes the recovery helper.
 - Five regression scenarios passed: concurrent initialization, rate-limit cooldown/retry, failed script/retry, aborted request/retry, missing server configuration. Actual Google account authorization and cloud synchronization remain unverified.
 ## 2026-10-02 · Windows Selah desktop polish and parallel worktrees — 1.0.6 / build 17
@@ -162,4 +162,17 @@
 - Version/build: hosted Selah source 1.0.6 / build 17. The Windows launcher package version is governed separately by its build archive.
 - Initial browser check after build 16 exposed an existing one-child `.layout` grid that left unused blank space and narrowed the main panel. The desktop stylesheet now makes that wrapper a full-width block and uses the app's live theme variables so dark mode and user colors continue to apply.
 - Follow-up desktop viewport inspection found the Bible reader wrapper also had only one visible child while its notebook was intentionally moved to the focus-mode drawer. Center the reader card at a readable 920 px maximum instead of leaving an empty second column.
+- Added `?v=17` to the desktop stylesheet URL after confirming GitHub Pages serves CSS with a 600-second cache lifetime; this avoids keeping a previously cached design after publish. Browser verification remains pending.
+
+## 2026-10-02 · Google OAuth provider correction and account-login handoff — build 17
+- User feedback: Proceed with all required steps; user will handle account login and verification.
+- Saved the missing Selah JavaScript origin in Google Cloud, then navigated back to the client detail screen and confirmed it persisted alongside the existing BlueCloud server origin.
+- The live Selah app renders the Google button without the prior rate-limit message. After a test click, no unauthorized-origin error was captured; an account chooser/new tab was not observable through the automated browser, so this is not proof of completed account sign-in.
+- Displayed the live Selah login screen and requested that the user complete Google account selection/login. Authenticated BlueCloud connection and data synchronization remain pending user login.
+- Prior build 17 deployment and recovery regression checks remain valid. Provider settings take effect separately from the deployed application build; Google console notes a propagation delay of 5 minutes to several hours.
+## 2026-10-02 · Authenticated login and missing-guide-button correction — build 18
+- User completed Google login in the visible live Selah page. Readback confirmed the Account control and signed-in account panel.
+- Follow-up readback showed `Sync failed`; the hidden auth error contained `Cannot set properties of null (setting 'hidden')`. DOM inspection confirmed the removed `guideStart` control is absent.
+- Root cause: sync finished its cloud request/merge and then attempted to update the absent optional guide button. The resulting local TypeError was reported as a cloud sync failure. Guide completion had the same missing-element assumption.
+- Guard both optional guide-button updates and hide the Google sign-in section once the account is connected. Provider authorization and Google login are verified; final Synced UI readback awaits build 18 deployment.
 - Changed the stylesheet cache token to `?v=17-9b9913c` after the follow-up UI check showed the `?v=17` response was still cached after confirming GitHub Pages serves CSS with a 600-second cache lifetime; this avoids keeping a previously cached design after publish. Browser verification remains pending.
