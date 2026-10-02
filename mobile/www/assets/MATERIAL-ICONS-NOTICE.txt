@@ -1,0 +1,8 @@
+Settings and cloud icons are Google Material Icons, licensed under Apache 2.0.
+
+settings-icon.png: google/material-design-icons/png/action/settings/materialicons/24dp/2x/baseline_settings_black_24dp.png
+cloud-icon.png: google/material-design-icons/png/file/cloud/materialicons/24dp/2x/baseline_cloud_black_24dp.png
+
+Upstream: https://github.com/google/material-design-icons
+License: https://www.apache.org/licenses/LICENSE-2.0
+See MATERIAL-ICONS-LICENSE.txt for the license text.

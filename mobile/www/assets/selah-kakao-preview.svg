@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="paper" x2="1" y2="1"><stop stop-color="#fbf9f3"/><stop offset="1" stop-color="#eee9dc"/></linearGradient>
+    <linearGradient id="forest" x2="0.9" y2="1"><stop stop-color="#405d49"/><stop offset="1" stop-color="#263c30"/></linearGradient>
+    <linearGradient id="page" x2="0" y2="1"><stop stop-color="#fffefa"/><stop offset="1" stop-color="#e8e2d4"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#102118" flood-opacity=".22"/></filter>
+  </defs>
+  <rect width="1200" height="630" rx="30" fill="url(#paper)"/>
+  <path d="M788 0h412v630H788z" fill="url(#forest)"/>
+  <circle cx="1010" cy="260" r="183" fill="none" stroke="#d3b679" stroke-opacity=".22" stroke-width="1.5"/>
+  <circle cx="1010" cy="260" r="145" fill="none" stroke="#d3b679" stroke-opacity=".14" stroke-width="1"/>
+  <path d="M842 500c94-58 241-58 336 0" fill="none" stroke="#d3b679" stroke-opacity=".3" stroke-width="1.5"/>
+  <g transform="translate(82 76)">
+    <circle cx="25" cy="25" r="25" fill="#344c3a"/>
+    <path d="M14 32c0-7 4-12 11-15 7 3 11 8 11 15M18 25c3 2 5 5 7 9 2-4 4-7 7-9" fill="none" stroke="#f4f1e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="66" y="23" fill="#263c30" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="18" font-weight="700" letter-spacing="3">SELAH</text>
+    <text x="66" y="47" fill="#798174" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="14" letter-spacing="1">온라인 말씀 묵상</text>
+  </g>
+  <text x="84" y="225" fill="#263c30" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="48" font-weight="600" letter-spacing="-1.5">말씀에 머물고,</text>
+  <text x="84" y="290" fill="#263c30" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="48" font-weight="600" letter-spacing="-1.5">마음에 새기는 시간</text>
+  <text x="86" y="380" fill="#697166" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="20">마태복음 읽기와 묵상 노트</text>
+  <text x="86" y="415" fill="#697166" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="20">궁금한 구절은 질문으로 이어가요.</text>
+  <g transform="translate(86 494)" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="16" font-weight="600">
+    <rect width="142" height="42" rx="21" fill="#e2e9df"/><text x="71" y="27" text-anchor="middle" fill="#344c3a">성경 읽기</text>
+    <rect x="154" width="142" height="42" rx="21" fill="#e2e9df"/><text x="225" y="27" text-anchor="middle" fill="#344c3a">묵상 노트</text>
+    <rect x="308" width="142" height="42" rx="21" fill="#e2e9df"/><text x="379" y="27" text-anchor="middle" fill="#344c3a">구절 질문</text>
+  </g>
+  <text x="86" y="585" fill="#8b8f83" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="14" letter-spacing=".4">무료로 시작하기  ·  delight0517.github.io/selah-bible-meditation</text>
+  <g filter="url(#shadow)" transform="translate(835 143)">
+    <path d="M0 40Q83 3 166 40v219Q83 222 0 259z" fill="#d5cbb7"/>
+    <path d="M9 37Q84 6 160 39v207Q84 213 9 246z" fill="url(#page)"/>
+    <path d="M166 40Q249 3 332 40v219q-83-37-166 0z" fill="#d5cbb7"/>
+    <path d="M172 39Q248 6 323 37v209q-75-33-151 0z" fill="url(#page)"/>
+    <path d="M166 40v219" stroke="#a99f8c" stroke-width="2"/>
+    <path d="M27 76q55-21 112 0M27 101q55-21 112 0M27 126q55-21 112 0M27 151q55-21 112 0M27 176q55-21 112 0M194 76q54-21 111 0M194 101q54-21 111 0M194 126q54-21 111 0M194 151q54-21 111 0M194 176q54-21 111 0" fill="none" stroke="#a4a697" stroke-opacity=".55" stroke-width="2" stroke-linecap="round"/>
+    <path d="M153 245q13-8 26 0" fill="none" stroke="#9f8d6b" stroke-width="2"/>
+  </g>
+  <circle cx="1001" cy="435" r="4" fill="#d3b679"/><circle cx="1040" cy="424" r="2.5" fill="#d3b679" opacity=".7"/><circle cx="963" cy="422" r="2.5" fill="#d3b679" opacity=".7"/>
+  <text x="1000" y="531" text-anchor="middle" fill="#f4f1e8" font-family="Apple SD Gothic Neo, AppleGothic, sans-serif" font-size="14" letter-spacing="3" opacity=".82">PAUSE · READ · REFLECT</text>
+</svg>
