@@ -1,12 +1,10 @@
 @echo off
 setlocal
-set "SELAH_URL=https://delight0517.github.io/selah-bible-meditation/"
-set "EDGE_EXE=%ProgramFiles(x86)%\Microsoft\Edge\Application\msedge.exe"
-if not exist "%EDGE_EXE%" set "EDGE_EXE=%ProgramFiles%\Microsoft\Edge\Application\msedge.exe"
-if not exist "%EDGE_EXE%" set "EDGE_EXE=%LocalAppData%\Microsoft\Edge\Application\msedge.exe"
-if exist "%EDGE_EXE%" (
-  start "Selah" "%EDGE_EXE%" --app="%SELAH_URL%"
+set "SELAH_LAUNCHER=%~dp0Launch-Selah-App.vbs"
+if exist "%SELAH_LAUNCHER%" (
+  start "Selah" "%WINDIR%\System32\wscript.exe" "%SELAH_LAUNCHER%"
 ) else (
-  start "" "%SELAH_URL%"
+  echo Selah launcher file was not found: "%SELAH_LAUNCHER%"
+  exit /b 1
 )
 endlocal

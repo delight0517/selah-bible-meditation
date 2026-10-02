@@ -2,8 +2,8 @@
 
 ## 한국어 빠른 안내
 
-- [빠른 실행](Launch-Selah.cmd): Edge 앱 창으로 Selah를 엽니다. Edge가 표준 설치 위치에 없으면 기본 브라우저로 엽니다.
-- [바탕 화면·시작 메뉴 바로가기 만들기](Create-Selah-Desktop-Shortcut.vbs): 실행하면 두 위치에 `Selah.lnk`를 만듭니다. Edge 앱 모드로 앱 창을 여는 바로가기이며, Edge의 설치 앱 목록에 등록하는 정식 PWA 설치와는 다릅니다.
+- [빠른 실행](Launch-Selah.cmd): `Launch-Selah-App.vbs`를 통해 Selah를 Edge 앱 창으로 엽니다. SixVPNBlocker의 관리형 Edge 설정이 있으면 해당 확장과 PAC 프록시를 유지하며, 설정 파일이 불완전하면 보호되지 않은 Edge로 대체 실행하지 않습니다.
+- [바탕 화면·시작 메뉴 바로가기 만들기](Create-Selah-Desktop-Shortcut.vbs): 런처를 `%LOCALAPPDATA%\Programs\Selah`에 설치하고 두 위치에 `Selah App Window.lnk`를 추가합니다. Windows Script Host를 대상으로 하므로 브라우저 바로가기와 구분되며 기존 Selah 바로가기는 변경하지 않습니다. Edge의 설치 앱 목록에 등록하는 정식 PWA 설치와는 다릅니다.
 - 정식 PWA 설치: Edge에서 Selah 사이트를 연 다음 `설정 및 기타 (…) > 기타 도구 > 앱 > 이 사이트를 앱으로 설치`를 선택하세요. 정식 설치를 마치면 Edge 앱 목록에서 시작 메뉴·작업 표시줄에 고정할 수 있습니다.
 - Edge가 설치 프롬프트를 지원하고 Selah를 아직 설치하지 않은 경우, 사이트 상단에 앱 설치 버튼이 나타납니다. 버튼이 안 보이면 위 Edge 메뉴에서 수동 설치를 진행하세요.
 - The published PWA manifest supplies dedicated 192×192 and 512×512 PNG icons, which Edge requires for promoted PWA installability.
@@ -14,9 +14,9 @@ Selah's macOS desktop distribution is the same hosted web app opened as a Safari
 
 ## Quick launch
 
-Run [`Launch-Selah.cmd`](Launch-Selah.cmd). It opens the official Selah HTTPS site in Edge app mode when Edge is installed in a standard or per-user installation location, and falls back to the default browser otherwise.
+Run [`Launch-Selah.cmd`](Launch-Selah.cmd). It starts [`Launch-Selah-App.vbs`](Launch-Selah-App.vbs), which opens the official Selah HTTPS site in an Edge app window. If the local SixVPNBlocker Edge launcher is present, the script reads its browser, extension, and PAC settings and carries them into the Selah app window. If that managed configuration is incomplete, the launcher stops and explains the problem instead of opening an unprotected browser.
 
-To create persistent desktop and Start menu shortcuts without using Edge menus, run [`Create-Selah-Desktop-Shortcut.vbs`](Create-Selah-Desktop-Shortcut.vbs). Both open the official site in Edge app mode. If either Selah shortcut already exists, the helper leaves both locations unchanged so it does not overwrite a custom launcher. This is a convenient app window, not an Edge-managed PWA registration; use the official Edge install flow below for Edge app management and taskbar integration.
+To create persistent desktop and Start menu shortcuts without using Edge menus, run [`Create-Selah-Desktop-Shortcut.vbs`](Create-Selah-Desktop-Shortcut.vbs). It copies the self-contained launcher to `%LOCALAPPDATA%\Programs\Selah` and adds `Selah App Window.lnk` in both locations. The shortcuts target Windows Script Host rather than Edge directly so managed browser launchers do not erase the app URL. Existing shortcuts are left unchanged. This is an app window, not an Edge-managed PWA registration; use the official Edge install flow below for Edge app management and taskbar integration.
 
 ## Install and create a Windows shortcut
 

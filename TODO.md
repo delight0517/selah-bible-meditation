@@ -13,11 +13,12 @@
 - Follow-up review corrected the Japanese default: the language selector now opens the bundled Japanese Matthew text (`matthew-jpn1965.json`, `jpn_loc`) instead of English. eBible.org identifies this 1965 Japanese New Testament as public domain; the asset already existed in the repository and mobile asset-copy list.
 - Not yet verified: real browser interaction, authenticated BlueCloud GET/PUT/GET, cross-device timestamp convergence, Edge-managed PWA installation, Safari Add to Dock, and Mac runtime. PR #46 is merged and the GitHub Pages deployment for its merge commit succeeded.
 - Mac source/data request `2026-10-01T210800_windows-selah-desktop-parity` remains `open`, `received=false` in `origin/main`.
-- Source milestone version/build: **1.0.5 / build 6** (tracking label only; not released and no native desktop binary built).
+- Source milestone version/build: **1.0.6 / build 7** (tracking label only; Windows protected Edge launcher updated; no native desktop binary built).
 - Review artifact: PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46) merged at `b7b70a01a7200f8f3f905772c08f03a7c02c392a` (`2026-10-02T01:58:39Z`). No PR checks were reported; the Pages deployment run succeeded for the merge commit.
 - Live deploy readback after merge (2026-10-02): public root and `manifest.webmanifest` both return HTTP 200. Manifest content type is `application/manifest+json`, `display` is `standalone`, and published HTML contains `bibleLanguageSelect`, the deterministic equal-timestamp code tie-break, and the Japanese default mapping (`matthew-jpn1965.json`, `jpn_loc`). This confirms the merged change is deployed; it does not verify signed-in sync or Mac runtime.
 ## Remaining parity work
 - Read Mac operator's reply and reconcile the source/contract description with actual Mac runtime evidence.
 - Use a synthetic test account/fixture to verify preference sync without exposing personal reflections or credentials.
 - Install/launch the PWA in Edge and verify Windows app-window behavior; verify the same hosted source from Safari Add to Dock on Mac.
+- On the current Windows PC, Selah shortcuts were being retargeted to the managed Edge wrapper, which cleared their URL arguments. Added a Selah-specific Windows Script Host launcher that carries the installed browser protection extension and PAC settings into app mode; real Edge rendering still needs a UI-capable verification session.
 - Resolve whether anonymous local data should remain profile-local or needs a safer migration UX beyond the existing portable backup.
