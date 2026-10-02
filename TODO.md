@@ -116,3 +116,9 @@
 - Installed Edge launch now shows the live Selah page after a graceful close of the stale error window and a relaunch through the installed VBS. No Edge process was force-killed. The current Edge process kept its old startup arguments, so treat the Windows toolbar query and controls as not yet proven in that process.
 - The Mac reconciliation request remains unacknowledged in the local Mac relay. The live Mac checkout provides a dirty, 71-commits-behind SwiftUI source snapshot, but installed app provenance is unknown.
 - Remaining proof for the full objective: publish/read back build 15 and the Windows download; resolve the Mac source/installed provenance; verify actual Edge toolbar interactions; and perform a synthetic authenticated BlueCloud round trip/convergence test. Existing source tests and release-package integrity checks passed; they do not substitute for these runtime checks.
+
+## 2026-10-02 · GitHub login succeeded; repository write permission pending
+- User confirmed completing GitHub device approval. The official CLI flow exited successfully, and `gh api user` identified the active account as `delight0517-art`.
+- `gh repo view delight0517/selah-bible-meditation` confirmed `visibility=PUBLIC`, default branch `main`, and `viewerPermission=READ`. This account cannot publish the prepared branch, merge it, or create a release in the canonical repository. The inactive original owner's stored token is still invalid.
+- Public Git fetch succeeded and the prepared branch was clean before this evidence note. Started a fresh official device login and asked the user to approve it using the `delight0517` owner account, or report if that account is unavailable. No credential/token contents are recorded here.
+- Prepared Windows source/download milestone remains **1.0.6 / build 15**; no app code, ZIP, runtime installation, or public deployment changed in this authentication check.

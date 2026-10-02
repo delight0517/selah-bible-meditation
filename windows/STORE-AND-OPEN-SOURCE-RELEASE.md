@@ -7,7 +7,7 @@ Tracking version: **1.0.6 / build 15** (Windows launcher/source release preparat
 - Windows runs the hosted Selah PWA in Microsoft Edge app mode. The shared source and Windows controls are in this repository; there is no standalone Windows executable or Microsoft Store package here.
 - The public app is <https://delight0517.github.io/selah-bible-meditation/> and its privacy policy is <https://delight0517.github.io/selah-bible-meditation/privacy.html>.
 - The prepared root `LICENSE` grants MIT terms to original Selah application code and original documentation. `THIRD_PARTY_NOTICES.md` explicitly preserves the distinct terms of Bible editions and third-party assets. These licensing changes still need remote publication and readback.
-- GitHub CLI currently reports the saved `delight0517` credential as invalid. Push, release creation, and public readback are therefore unavailable until GitHub is reauthenticated.
+- GitHub OAuth login succeeded as `delight0517-art`; GitHub reports that account's permission on `delight0517/selah-bible-meditation` as `READ`. The original owner's saved credential remains invalid. Public fetch/readback works, but publishing a branch, merging the source change, or creating a canonical release requires owner authentication or a collaborator with write permission. A new official owner-login request is awaiting browser approval.
 
 ## Store path
 
