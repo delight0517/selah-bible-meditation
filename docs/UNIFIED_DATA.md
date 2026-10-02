@@ -36,3 +36,11 @@ Windows·Mac·iOS·웹은 같은 `index.html`, `scripts/unified-data.js`와 Blue
 - Brainwire 로컬 `origin/main`의 `server/routes/cloudAppState.js`는 인증된 계정+appId 별 전체 문서 저장과 `_rev` 비교를 구현합니다. 서버 코드는 이번 작업에서 변경하지 않았습니다. 현재 생산 서버의 인증된 GET→PUT→GET, 설치된 Mac/iOS 앱의 실제 동기화와 iOS 업데이트 후 로컬 기록 유지 검증은 아직 남아 있습니다.
 
 Mac 적용 요청은 `docs/handoffs/20261002-selah-unified-data-mac.md`에서 관리합니다. 사용자 기록 전체의 병합 완료를 선언하려면 업데이트된 각 앱에서 같은 계정으로 연결된 실제 결과를 확인해야 합니다.
+
+## 배포 확인 — 2026-10-02
+
+PR [#91](https://github.com/delight0517/selah-bible-meditation/pull/91)이 `4625302b30287fc9c597ce8cf61d41a8264abddb`로 병합됐고 Pages 실행 [36999874612](https://github.com/delight0517/selah-bible-meditation/actions/runs/36999874612)이 성공했습니다. 공개 공유 빌드 JSON은 **1.0.7 / 19**입니다. 공개 index, 데이터 코어/UI, 개인정보 안내와 모바일 생성 manifest 6개가 로컬 원본과 정규화 SHA-256으로 일치합니다.
+
+새 익명 Headless Edge의 Windows(1440px)/모바일(390px) 창에서 공개 페이지를 열고 계정 패널의 공통 기록 메뉴 및 버전을 확인했습니다. 두 화면 모두 uncaught page error가 없었습니다. 이 UI 부팅 검사는 외부 인증/분석 요청을 가로채며 사용자 계정에 로그인하지 않았으므로 생산 동기화 증거는 아닙니다. 마지막 합성 세 기기 시험은 14회 쓰기, 4회 stale_state 재시도에서 통과했습니다.
+
+Mac 적용 요청 `20261002T111052Z_windows_selah_unified_build19`가 releasepilot-hub GitHub main의 mac_inbox에 올라간 것을 다시 읽어 확인했습니다. SSH는 고정된 신뢰 키와 일치하는 Mac을 찾지 못했고, 큐의 Response는 비어 있어 수신/설치가 확인되지 않았습니다. 서버 인증 왕복, 설치된 Mac/iOS 앱 업데이트 및 개인 기록 이관은 남아 있습니다.

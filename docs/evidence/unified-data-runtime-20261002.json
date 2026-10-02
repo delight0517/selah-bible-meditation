@@ -1,0 +1,20 @@
+[
+  {
+    "platform": "Windows",
+    "status": 200,
+    "panel": "모든 기기의 내 기록\n\n같은 BlueCloud 계정의 묵상·읽던 위치·화면 설정을 함께 관리해요. 백업을 가져오면 기존 기록과 합쳐집니다.\n\n이 기기에 보관 중 · 계정 연결 후 통합\n\n이어 쓸 초안이나 복구할 기록이 없습니다.\n\nSelah 1.0.7 · 19",
+    "coreVersion": 1,
+    "owner": "",
+    "signedIn": false,
+    "pageErrors": []
+  },
+  {
+    "platform": "mobile",
+    "status": 200,
+    "panel": "모든 기기의 내 기록\n\n같은 BlueCloud 계정의 묵상·읽던 위치·화면 설정을 함께 관리해요. 백업을 가져오면 기존 기록과 합쳐집니다.\n\n이 기기에 보관 중 · 계정 연결 후 통합\n\n이어 쓸 초안이나 복구할 기록이 없습니다.\n\nSelah 1.0.7 · 19",
+    "coreVersion": 1,
+    "owner": "",
+    "signedIn": false,
+    "pageErrors": []
+  }
+]
