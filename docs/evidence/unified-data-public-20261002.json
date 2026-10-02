@@ -1,0 +1,36 @@
+{
+  "build": "1.0.7 / 19",
+  "mergeCommit": "4625302b30287fc9c597ce8cf61d41a8264abddb",
+  "verified": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256": "fa2122657d67ae0f5e4760274351911bf3ce8cfb6007812b9a048dbbc01d1ad2"
+    },
+    {
+      "path": "SHARED_APP_BUILD.json",
+      "status": 200,
+      "sha256": "f9c9d77bff9a86d1a6e1875fb10b0e1f95b854ac1b1a7e3bd22d43ed73820e87"
+    },
+    {
+      "path": "scripts/unified-data.js",
+      "status": 200,
+      "sha256": "ce7706a9a04545a9a21a3da392df597a3e87a2d287e2f15f2fc68a7816b935a3"
+    },
+    {
+      "path": "scripts/unified-data-ui.js",
+      "status": 200,
+      "sha256": "d2a6ff960d90cfd7f6716cbf68bf53024beab38b8b33d6ac9337513b0022db53"
+    },
+    {
+      "path": "privacy.html",
+      "status": 200,
+      "sha256": "3ea59457b2872e539cee6c2a8aa27c2d5878334ac68cd1f1f93c73ca50272277"
+    },
+    {
+      "path": "mobile/www/SHARED_SOURCE_MANIFEST.json",
+      "status": 200,
+      "sha256": "52c34d6f81bc105938e3750fedf98b149e5396e29acc95103830d7d3404bee26"
+    }
+  ]
+}
