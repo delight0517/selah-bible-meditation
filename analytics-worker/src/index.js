@@ -33,10 +33,21 @@ async function rows30(db) {
 export default {
   async fetch(request, env) {
     const origin = request.headers.get("origin") || "";
-    const headers = cors(origin, env.ALLOWED_ORIGIN);
-    if (request.method === "OPTIONS") return new Response(null, { status: origin === env.ALLOWED_ORIGIN ? 204 : 403, headers });
-    if (origin && origin !== env.ALLOWED_ORIGIN) return json({ error: "origin_not_allowed" }, 403, headers);
     const url = new URL(request.url);
+    const signupLocationRoute = url.pathname === "/analytics/signup-location";
+    const headers = signupLocationRoute
+      ? { ...cors(origin, env.ALLOWED_ORIGIN), "access-control-allow-origin": "*", "access-control-allow-methods": "GET, OPTIONS", "cache-control": "no-store" }
+      : cors(origin, env.ALLOWED_ORIGIN);
+    if (request.method === "OPTIONS") return new Response(null, { status: signupLocationRoute || origin === env.ALLOWED_ORIGIN ? 204 : 403, headers });
+    if (origin && origin !== env.ALLOWED_ORIGIN && !signupLocationRoute) return json({ error: "origin_not_allowed" }, 403, headers);
+
+    if (request.method === "GET" && signupLocationRoute) {
+      const country = /^[A-Z]{2}$/.test(request.cf?.country || "") ? request.cf.country : null;
+      const rawRegion = String(request.cf?.regionCode || "").trim().toUpperCase();
+      const region = rawRegion.startsWith(`${country}-`) ? rawRegion.slice(country.length + 1) : rawRegion;
+      const subdivisionCode = country && /^[A-Z0-9]{1,3}$/.test(region) ? `${country}-${region}` : null;
+      return json({ country, subdivisionCode }, 200, headers);
+    }
 
     if (request.method === "POST" && url.pathname === "/analytics/event") {
       const length = Number(request.headers.get("content-length") || 0);
