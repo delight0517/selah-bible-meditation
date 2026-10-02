@@ -4,6 +4,11 @@ const features = new Set([
   "offline_bible_saved", "quiz_created", "quiz_reviewed"
 ]);
 const locales = new Set(["ko", "en", "ja", "zh-CN", "zh-TW", "fil", "es", "pt-BR"]);
+const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "reader_30s", "reader_120s", "reflection_saved", "return_visit"]);
+const experiments = new Set(["kr-home-copy-v1"]);
+const experimentClients = new Set(["app", "web", "unknown"]);
+const experimentDevices = new Set(["phone", "tablet", "computer", "unknown"]);
+const validTag = value => typeof value === "string" && /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? value.toLowerCase() : "";
 
 function cors(origin, allowed) {
   const valid = origin === allowed;
@@ -62,6 +67,32 @@ export default {
       return json({ ok: true }, 202, headers);
     }
 
+    if (request.method === "POST" && url.pathname === "/analytics/experiment/event") {
+      const length = Number(request.headers.get("content-length") || 0);
+      if (length > 1024) return json({ error: "payload_too_large" }, 413, headers);
+      let body;
+      try { body = await request.json(); } catch { return json({ error: "invalid_json" }, 400, headers); }
+      const country = request.cf?.country;
+      const regionCode = String(request.cf?.regionCode || "").toUpperCase();
+      if (body?.appId !== "selah" || !experiments.has(body.experiment) || !["a", "b"].includes(body.variant) || !experimentEvents.has(body.event) || !locales.has(body.locale) || !experimentClients.has(body.client) || !experimentDevices.has(body.deviceClass) || !/^[A-Z]{2}$/.test(country || "") || !/^[A-Z0-9-]{0,8}$/.test(regionCode)) {
+        return json({ error: "invalid_event" }, 400, headers);
+      }
+      const source = validTag(body.source), medium = validTag(body.medium), campaign = validTag(body.campaign);
+      await env.DB.prepare("INSERT INTO market_experiment_daily (day, country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant, event, count) VALUES (date('now'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1) ON CONFLICT(day, country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant, event) DO UPDATE SET count = count + 1").bind(country, regionCode, body.locale, body.client, body.deviceClass, source, medium, campaign, body.experiment, body.variant, body.event).run();
+      return json({ ok: true }, 202, headers);
+    }
+
+    if (request.method === "GET" && url.pathname === "/analytics/experiment/summary") {
+      const period = url.searchParams.get("period") === "all" ? "all" : "30d";
+      const where = period === "all" ? "" : " WHERE day >= date('now', '-29 days')";
+      const metrics = "SUM(CASE WHEN event = 'exposure' THEN count ELSE 0 END) AS exposures, SUM(CASE WHEN event = 'cta_click' THEN count ELSE 0 END) AS ctaClicks, SUM(CASE WHEN event = 'reading_start' THEN count ELSE 0 END) AS readingStarts, SUM(CASE WHEN event = 'reader_30s' THEN count ELSE 0 END) AS readers30s, SUM(CASE WHEN event = 'reader_120s' THEN count ELSE 0 END) AS readers120s, SUM(CASE WHEN event = 'reflection_saved' THEN count ELSE 0 END) AS reflectionsSaved, SUM(CASE WHEN event = 'return_visit' THEN count ELSE 0 END) AS returnVisits FROM market_experiment_daily" + where;
+      const [markets, details] = await Promise.all([
+        env.DB.prepare(`SELECT country, region_code AS regionCode, locale, experiment, variant, ${metrics} GROUP BY country, region_code, locale, experiment, variant ORDER BY country, region_code, locale, experiment, variant`).all(),
+        env.DB.prepare(`SELECT country, region_code AS regionCode, locale, client, device_class AS deviceClass, utm_source AS source, utm_medium AS medium, utm_campaign AS campaign, experiment, variant, ${metrics} GROUP BY country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant ORDER BY country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant`).all()
+      ]);
+      return json({ period, marketRows: markets.results || [], rows: details.results || [] }, 200, headers);
+    }
+
     if (request.method === "GET" && url.pathname === "/analytics/summary") {
       const rows = await rows30(env.DB);
       return json({ period: "30d", featuresByCountry: rollup(rows) }, 200, headers);
@@ -69,10 +100,11 @@ export default {
 
     if (request.method === "GET" && url.pathname === "/analytics/market") {
       const country = request.cf?.country;
-      if (!/^[A-Z]{2}$/.test(country || "")) return json({ country: null, topFeature: null }, 200, headers);
+      const regionCode = String(request.cf?.regionCode || "").toUpperCase();
+      if (!/^[A-Z]{2}$/.test(country || "")) return json({ country: null, regionCode: null, topFeature: null }, 200, headers);
       const row = await env.DB.prepare("SELECT feature, SUM(count) AS total FROM feature_daily WHERE country = ? AND day >= date('now', '-29 days') GROUP BY feature ORDER BY total DESC LIMIT 1").bind(country).first();
       // Require a meaningful aggregate before changing the visual emphasis.
-      return json({ country, topFeature: row && Number(row.total) >= 50 ? row.feature : null, sampleCount: row ? Number(row.total) : 0 }, 200, headers);
+      return json({ country, regionCode: /^[A-Z0-9-]{1,8}$/.test(regionCode) ? regionCode : null, topFeature: row && Number(row.total) >= 50 ? row.feature : null, sampleCount: row ? Number(row.total) : 0 }, 200, headers);
     }
     return json({ error: "not_found" }, 404, headers);
   }
