@@ -6,6 +6,7 @@
   const path = location.pathname;
   const pending = new Set();
   const locale = document.documentElement.lang.startsWith("fil") ? "fil" : document.documentElement.lang;
+  const referrer = (() => { try { return document.referrer ? new URL(document.referrer).hostname : ""; } catch { return ""; } })();
   const campaign = attribution();
   const eligibilityKey = "selah.analytics." + locale + ".activationEligible";
   const activationKey = "selah.analytics." + locale + ".firstReflectionSaved";
@@ -64,7 +65,7 @@
         headers: { "content-type": "application/json" },
         body: JSON.stringify(feature
           ? { appId: "selah", feature, locale }
-          : { appId: "selah", event, path, ...visitorIds(), ...campaign })
+          : { appId: "selah", event, path, locale, referrer, ...visitorIds(), ...campaign })
       });
       if (response.ok) localStorage.setItem(key, "1");
     } catch {
