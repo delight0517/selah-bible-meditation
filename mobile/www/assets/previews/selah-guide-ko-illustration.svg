@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">마태복음 묵상 안내</title>
+  <desc id="desc">아이보리와 짙은 초록 배경 위에 펼쳐진 책을 그린 이미지</desc>
+  <rect width="1200" height="630" fill="#f5f2eb"/>
+  <path d="M0 0h410v630H0z" fill="#294536"/>
+  <circle cx="805" cy="304" r="218" fill="none" stroke="#b9c29a" stroke-opacity=".55" stroke-width="2"/>
+  <circle cx="805" cy="304" r="178" fill="none" stroke="#b9c29a" stroke-opacity=".32" stroke-width="2"/>
+  <path d="M560 231c74-42 159-42 245 7v187c-84-43-166-44-245-6V231Z" fill="#fffdf5"/>
+  <path d="M1050 231c-74-42-159-42-245 7v187c84-43 166-44 245-6V231Z" fill="#eee9dc"/>
+  <path d="M805 238v187" stroke="#a69d88" stroke-width="7"/>
+  <path d="M588 270c54-24 113-23 173 2M588 305c54-24 113-23 173 2M588 340c54-24 113-23 173 2M588 375c54-24 113-23 173 2M1022 270c-54-24-113-23-173 2M1022 305c-54-24-113-23-173 2M1022 340c-54-24-113-23-173 2M1022 375c-54-24-113-23-173 2" fill="none" stroke="#b9b5a8" stroke-width="3" stroke-linecap="round"/>
+  <path d="M548 432c80-35 164-35 257 8 92-43 177-43 257-8" fill="none" stroke="#d4cbb8" stroke-width="18" stroke-linecap="round"/>
+  <path d="M494 500c98-55 204-78 311-63 107-15 213 8 311 63" fill="none" stroke="#b9c29a" stroke-opacity=".65" stroke-width="2"/>
+  <circle cx="805" cy="482" r="5" fill="#c3a66a"/>
+  <circle cx="764" cy="475" r="3" fill="#c3a66a" opacity=".75"/>
+  <circle cx="846" cy="475" r="3" fill="#c3a66a" opacity=".75"/>
+</svg>
