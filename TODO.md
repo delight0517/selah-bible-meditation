@@ -1,5 +1,10 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Search-intent copy for the download hub — 1.0.6 / build 17
+- Google result samples for Korean Bible-meditation queries were weighted toward mobile app-store pages. Added concise, verifiable Selah feature copy for Matthew reading, timed meditation, reflection/prayer notes, and review quizzes to clarify the web app's usefulness before platform install steps.
+- Added direct reading and meditation links on both language landing pages, and aligned the English/Korean descriptions with those visible features. Kept store and native-installer claims explicit.
+- Selah-specific Search Console performance is still processing after property verification; evaluate impressions and queries after Google reports data before changing keyword strategy.
+
 ## 2026-10-02 · Search Console and current Windows release alignment — 1.0.6 / build 17
 - Registered the exact Selah URL-prefix property `https://delight0517.github.io/selah-bible-meditation/`; Google verified it through the already verified parent property. Performance and indexing reports are still processing for the new property.
 - Submitted the Korean and English download URLs for indexing; Google added both to its priority crawl queue. The live Google URL test says the English page is available to Google. This does not yet mean either URL is indexed or ranking.
