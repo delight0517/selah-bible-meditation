@@ -1,5 +1,18 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · 모든 기기의 공통 UI와 데이터 계약 — 공유 앱 1.0.7 / 빌드 19
+- 사용자 피드백: “이 앱이 만들어졌잖아 근데 이 성경 앱의 방식 ui 부터 시작해서 모든게 맥의 ios 웹사이트와 간극이 벌어져서 따로따로 서로 다른 데이터를 관리해야 하는 위험으로부터 이 데이터를 통합으로ㅓ 만들수 있는 그러한 시스템 만어줄래 ?”
+- 공통 데이터 코어에 기록별 결정적 병합, 삭제 이력과 복구본, 필드별 변경 시계, 계정별 오프라인 보관, 기기/작성창별 공유 초안과 추가형 백업 가져오기를 구현했다. 전체 기록을 자동 갱신하고 무변경 PUT 루프를 막으며 인증/계정 병합 오류에는 로컬 기록을 보존한다.
+- iOS 번들은 원본 index/스타일/이미지/스크립트에서 생성하고 SHA-256 검사로 오래된 UI 복사본을 차단한다. CI와 mobile sync 명령에 같은 검사를 연결했다.
+- 공통 코어 13개 및 합성 Windows/Mac/iOS 브라우저 동기화 시험, 기존 폰트/출석 검사를 통과했다. 사용자 실제 계정 토큰/노트를 읽거나 쓰지 않았다.
+- 별도 깨끗한 worktree에서 작업했다. 기존 peer 작업을 보존하며 최신 main의 Google 로그인/디자인 변경을 병합 중이다. 실생산 BlueCloud 왕복과 업데이트한 Mac/iOS 설치본 확인은 남아 있다. 설계와 Mac 적용 요청은 docs/UNIFIED_DATA.md 및 docs/handoffs/20261002-selah-unified-data-mac.md에 있다.
+
+## 2026-10-02 · First exact-property Google index readback — 1.0.6 / build 18
+- GSC Wizard's URL Inspection API checked the four tracked pages (4 of 2,000 daily inspections used): the Selah root is **Submitted and indexed**; `/download/`, `/en/download/`, and `/windows/download.html` are still **URL is unknown to Google** with no crawl time. The hub requests were already accepted earlier; don't repeat them. Let the pending sitemap and hourly tracker progress, then inspect on the next scheduled checkpoint.
+- Search Analytics for 2026-09-02 through 2026-09-29 still returns no query or page rows, and Google gave no settled-through boundary. Treat this as “no data returned,” not as impressions, rankings, or a confirmed indexing cause.
+- Re-audited all 14 sitemap pages after the favicon deployment: 14/14 HTTP 200, indexable, and favicon present; Windows guide remains at zero on-page issues. The remaining three medium flags are CJK word-count heuristics on substantive Japanese and Chinese pages.
+- General web search also surfaced a separate App Store product named “SELAH Bible Meditation.” Keep Selah's Windows/Mac/iPhone distribution clear in search and social metadata so users can distinguish the web app; do not imply association with that publisher.
+
 ## 2026-10-02 · Localized page favicon coverage after 14-page audit — 1.0.6 / build 18
 - PR #90 merged. GitHub Pages run `36998929617` succeeded; live `sitemap.xml` returns HTTP 200, parses as XML, and contains 14 URLs including `/windows/download.html`.
 - Audited all 14 sitemap URLs through GSC Wizard: all returned HTTP 200 and were indexable; no critical or high issues. Its three medium “thin content” flags are on Japanese and Chinese pages whose substantive CJK paragraphs/lists are tokenized as only 21–29 space-delimited words. Do not pad those pages just to satisfy this word-count heuristic.
@@ -228,13 +241,3 @@
 - Public `windows/BUILD_INFO.json` reads version 1.0.6/build 19. Public JS contains the 0–120 second request-age guard; Korean/English download hubs and the detail guide resolve to the build-19 ZIP and matching checksum.
 - Downloaded the public ZIP in memory; SHA-256 matches `a74960674a975ff3e49c5e834355af58489b623dadae8a60b4b22b49132da1ae`. GitHub Release `v1.0.6-build19` contains the ZIP and sidecar checksum.
 - This Windows package remains an Edge app-window launcher, not a standalone EXE/MSIX. Mac installed scheme/provenance and authenticated cross-device data convergence remain open.
-
-- Sent Mac follow-up `20261002T105406Z_windows_94ea382b` through releasepilot-hub `origin/main`: verify current Mac source and installed bundle URI registration, align the request/session contract, preserve dirty work, then safely build/install and synthetic-readback if build policy and live process state allow. Mac receipt and response remain pending until the queue status is read back.
-- GitHub PR #83 is the build-19 replacement for the superseded build-17 attempt. Merge and Pages deployment/readback remain pending; authenticated Mac/Windows round-trip and Mac installed `selah://` launch are not yet proven.
-
-## 2026-10-02 · 모든 기기의 공통 UI와 데이터 계약 — 공유 앱 1.0.7 / 빌드 19
-- 사용자 피드백: “이 앱이 만들어졌잖아 근데 이 성경 앱의 방식 ui 부터 시작해서 모든게 맥의 ios 웹사이트와 간극이 벌어져서 따로따로 서로 다른 데이터를 관리해야 하는 위험으로부터 이 데이터를 통합으로ㅓ 만들수 있는 그러한 시스템 만어줄래 ?”
-- 공통 데이터 코어에 기록별 결정적 병합, 삭제 이력과 복구본, 필드별 변경 시계, 계정별 오프라인 보관, 기기/작성창별 공유 초안과 추가형 백업 가져오기를 구현했다. 전체 기록을 자동 갱신하고 무변경 PUT 루프를 막으며 인증/계정 병합 오류에는 로컬 기록을 보존한다.
-- iOS 번들은 원본 index/스타일/이미지/스크립트에서 생성하고 SHA-256 검사로 오래된 UI 복사본을 차단한다. CI와 mobile sync 명령에 같은 검사를 연결했다.
-- 공통 코어 13개 및 합성 Windows/Mac/iOS 브라우저 동기화 시험, 기존 폰트/출석 검사를 통과했다. 사용자 실제 계정 토큰/노트를 읽거나 쓰지 않았다.
-- 별도 깨끗한 worktree에서 작업했다. 기존 peer 작업을 보존하며 최신 main의 Google 로그인/디자인 변경을 병합 중이다. 실생산 BlueCloud 왕복과 업데이트한 Mac/iOS 설치본 확인은 남아 있다. 설계와 Mac 적용 요청은 docs/UNIFIED_DATA.md 및 docs/handoffs/20261002-selah-unified-data-mac.md에 있다.
