@@ -1,5 +1,10 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Edge PWA registration and Mac follow-up (source milestone 1.0.6 / build 11)
+- Read-only Windows registration check: `Selah App Window` Start/Desktop shortcuts target the installed VBS launcher, and no Selah PWA entry was found in the current default Edge profile. The existing managed Edge app-window launcher remains usable; official PWA installation through Edge is still pending.
+- Sent Mac relay request `20261002T_WINDOWS_SELAH_MAC_FOLLOWUP_REQUEST` asking for receipt, review of the 1.0.30 deep-link scheme guard, safe dirty-checkout/build assessment, and authenticated target-side evidence. No Mac reply has arrived in `windows_inbox` or `windows_inbox_done`.
+- Open verification: Edge PWA install/readback, Mac wrapper dispatch, authenticated two-device BlueCloud GET/PUT/GET, and preference convergence. No account data was changed.
+
 ## 2026-10-02 · Shared Bible text-language preference
 - Add a Bible text-language selector to the Scripture library, independent of the interface locale. The selected language follows the UI locale until the user makes an explicit choice.
 - Save explicit choices as optional `bibleContentLanguage: { code, updatedAt }` in BlueCloud state. Newer timestamps win; local wins ties. Keep selected translation IDs and the `selah-bible-library` chapter cache local because each browser profile may have different downloads.
