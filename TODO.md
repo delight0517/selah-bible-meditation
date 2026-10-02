@@ -8,12 +8,13 @@
 - Current branch: `codex/selah-bible-language-sync`, based on `origin/main` at `9971628`. Original Windows checkout remains separate and dirty; no edits or merges were made there.
 - Validation completed: inline JavaScript syntax parse, copy script `node --check`, JSON parsing for both schemas and manifest, `git diff --check`, and SHA-256 equality between root `index.html` and generated `mobile/www/index.html`.
 - Contract audit: all 20 explicit fields in the current BlueCloud PUT serializer are declared by `selah-cloud-state.schema.json`; the client also preserves unknown remote top-level fields when writing.
+- Mac snapshot audit: a new October 2 `cloudstate_*_selah.json` was found in the handoff repository. Without reading private record values, its top-level inventory showed `computerReadingRequest` and `computerReadingResult` (both null) that were not yet named in the schema; added them as opaque JSON extensions pending Mac source handoff. No `bibleContentLanguage` was present in that snapshot.
 - Conflict-resolution follow-up: equal `bibleContentLanguage.updatedAt` values now use a deterministic lexical code tie-breaker, avoiding each device repeatedly reasserting its own value after simultaneous edits.
 - Follow-up review corrected the Japanese default: the language selector now opens the bundled Japanese Matthew text (`matthew-jpn1965.json`, `jpn_loc`) instead of English. eBible.org identifies this 1965 Japanese New Testament as public domain; the asset already existed in the repository and mobile asset-copy list.
 - Not verified: browser interaction, signed-in BlueCloud GET/PUT/GET, cross-device timestamp convergence, Edge PWA installation, or Mac runtime. Nothing is merged or deployed.
 - Mac source/data request `2026-10-01T210800_windows-selah-desktop-parity` remains `open`, `received=false` in `origin/main`.
-- Source milestone version/build: **1.0.4 / build 5** (tracking label only; not released and no native desktop binary built).
-- Review artifact: draft PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46), latest commit `d4ebbb9`; not merged/deployed, with no CI checks reported.
+- Source milestone version/build: **1.0.5 / build 6** (tracking label only; not released and no native desktop binary built).
+- Review artifact: draft PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46); not merged/deployed, with no CI checks reported.
 - Live deploy readback (2026-10-02): GitHub Pages root and `manifest.webmanifest` both return HTTP 200; manifest content type is `application/manifest+json` with `display: standalone`. The published HTML does not yet contain this branch's Bible-language selector or deterministic merge rule, confirming PR #46 is not deployed.
 
 ## Remaining parity work
