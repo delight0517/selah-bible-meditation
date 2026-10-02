@@ -3,8 +3,10 @@
 ## 2026-10-02 · Desktop zoom reset parity — source milestone 1.0.6 / build 13
 - Compared Mac `SelahApp.swift` commands with the Windows Edge app-shell toolbar. Windows already had Ctrl+Alt+0, but lacked a visible reset action corresponding to Mac's **Reset Text Size** menu command.
 - Made the zoom percentage button reset to 100% and labeled it with the same keyboard shortcut. The existing 80–150% zoom bounds and per-profile saved zoom remain unchanged.
-- Mac checkout is still dirty and 63 commits behind `origin/main`; its local `selah://` Info.plist changes are not in the installed bundle. The Mac relay request is still `received=false`; native deep-link runtime remains open work.
-- Windows build 12 deployed successfully in PR #65. Build 13 is source-only until its PR merges and Pages deploy succeeds. Do not call the cross-platform goal complete until Mac receipt/source alignment, a visible Windows app launch, authenticated BlueCloud round trip, and Mac wrapper deep-link result are verified.
+- Mac checkout is still dirty and 63 commits behind `origin/main`; its local `selah://` Info.plist changes are not in the installed bundle. Native deep-link runtime remains open work.
+- Windows build 12 deployed in PR #65; build 13 deployed in PR #66, merge commit `ecf477ca0be952c04e431aff7e4e8ca0abb7f394`, Pages run `36983685451`. Public readback confirmed `windows/BUILD_INFO.json` reports 1.0.6/build 13 and `windows/app-shell.js` contains the reset control and click handler.
+- The earlier Mac relay item remains unreceived. Sent an updated urgent item `20261002T082415Z_windows_16467cb4`, which supersedes the older handoff and asks Mac to compare installed app registration, source provenance, and computer-reading fields while preserving dirty files. Receipt is still pending.
+- Do not call the cross-platform goal complete until Mac receipt/source alignment, a visible Windows app launch, authenticated BlueCloud round trip, and Mac wrapper deep-link result are verified.
 
 ## 2026-10-02 · Managed Edge launch correction — source milestone 1.0.6 / build 12
 - Diagnosed the Selah app window title `We couldn't load that extension.`: the installed launcher passed a Claude extension ID as an extra `--disable-extensions-except` item, although Chromium defines this switch as a comma-separated list of extension paths. The SixVPN unpacked extension path itself and PAC route were present.
