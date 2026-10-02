@@ -16,7 +16,7 @@ Selah's macOS desktop distribution is the same hosted web app opened as a Safari
 
 Run [`Launch-Selah.cmd`](Launch-Selah.cmd). It opens the official Selah HTTPS site in Edge app mode when Edge is installed in a standard or per-user installation location, and falls back to the default browser otherwise.
 
-To create persistent desktop and Start menu shortcuts without using Edge menus, run [`Create-Selah-Desktop-Shortcut.vbs`](Create-Selah-Desktop-Shortcut.vbs). Both open the official site in Edge app mode. This is a convenient app window, not an Edge-managed PWA registration; use the official Edge install flow below for Edge app management and taskbar integration.
+To create persistent desktop and Start menu shortcuts without using Edge menus, run [`Create-Selah-Desktop-Shortcut.vbs`](Create-Selah-Desktop-Shortcut.vbs). Both open the official site in Edge app mode. If either Selah shortcut already exists, the helper leaves both locations unchanged so it does not overwrite a custom launcher. This is a convenient app window, not an Edge-managed PWA registration; use the official Edge install flow below for Edge app management and taskbar integration.
 
 ## Install and create a Windows shortcut
 
@@ -38,4 +38,4 @@ See [the macOS and Windows parity matrix](PLATFORM-PARITY.md) for the canonical 
 
 ## Current build basis
 
-Source revision inspected for this Windows wrapper: `918ba3e` (`main`). No separate native Windows build number is defined because both desktop wrappers run the hosted web application.
+Canonical hosted web source: `831225c` (latest commit touching the root `index.html` at this handoff). The Windows app window and macOS Safari web app share that source. No separate native Windows binary build exists; the Windows shortcut safety update is documentation/source handoff build 25.

@@ -2,7 +2,8 @@ Option Explicit
 
 Const SELAH_URL = "https://delight0517.github.io/selah-bible-meditation/"
 
-Dim shell, files, edgePath, desktopPath, startMenuPath, programsPath, shortcut
+Dim shell, files, edgePath, desktopPath, startMenuPath, programsPath
+Dim desktopShortcutPath, startShortcutPath, shortcut
 Set shell = CreateObject("WScript.Shell")
 Set files = CreateObject("Scripting.FileSystemObject")
 
@@ -20,7 +21,19 @@ If Not files.FileExists(edgePath) Then
 End If
 
 desktopPath = shell.SpecialFolders("Desktop")
-Set shortcut = shell.CreateShortcut(files.BuildPath(desktopPath, "Selah.lnk"))
+startMenuPath = shell.SpecialFolders("StartMenu")
+programsPath = files.BuildPath(startMenuPath, "Programs")
+desktopShortcutPath = files.BuildPath(desktopPath, "Selah.lnk")
+startShortcutPath = files.BuildPath(programsPath, "Selah.lnk")
+
+If files.FileExists(desktopShortcutPath) Or files.FileExists(startShortcutPath) Then
+  MsgBox "A Selah shortcut already exists on the desktop or Start menu. No shortcut was changed. To avoid replacing an existing launcher, install Selah from Edge using Settings and more > Apps > Install this site as an app.", vbInformation, "Selah"
+  WScript.Quit 0
+End If
+
+If Not files.FolderExists(programsPath) Then files.CreateFolder(programsPath)
+
+Set shortcut = shell.CreateShortcut(desktopShortcutPath)
 shortcut.TargetPath = edgePath
 shortcut.Arguments = "--app=""" & SELAH_URL & """"
 shortcut.WorkingDirectory = files.GetParentFolderName(edgePath)
@@ -28,10 +41,7 @@ shortcut.Description = "Selah Bible Meditation"
 shortcut.IconLocation = edgePath & ",0"
 shortcut.Save
 
-startMenuPath = shell.SpecialFolders("StartMenu")
-programsPath = files.BuildPath(startMenuPath, "Programs")
-If Not files.FolderExists(programsPath) Then files.CreateFolder(programsPath)
-Set shortcut = shell.CreateShortcut(files.BuildPath(programsPath, "Selah.lnk"))
+Set shortcut = shell.CreateShortcut(startShortcutPath)
 shortcut.TargetPath = edgePath
 shortcut.Arguments = "--app=""" & SELAH_URL & """"
 shortcut.WorkingDirectory = files.GetParentFolderName(edgePath)
