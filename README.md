@@ -7,6 +7,14 @@
 
 마태복음에서 시작하는 한국어 성경 묵상 웹앱입니다.
 
+## 소스 라이선스와 Windows 배포
+
+현재 배포 파일: [Windows 런처 다운로드(build 15)](windows/download.html).
+
+Selah 자체 앱 코드와 자체 문서는 [MIT 라이선스](LICENSE)로 공개합니다. 성경 번역문, 외부 아이콘·이미지·폰트, 의존성 코드는 각 자료의 기존 조건을 따릅니다. [라이선스 적용 범위와 제3자 고지](THIRD_PARTY_NOTICES.md)를 함께 확인하세요.
+
+Windows 런처 ZIP은 [`windows/Build-Selah-Release.ps1`](windows/Build-Selah-Release.ps1)로 생성하며 성경 데이터·사용자 기록·인증 정보는 포함하지 않습니다. ZIP을 풀고 `Launch-Selah.cmd`로 실행하거나 `Create-Selah-Desktop-Shortcut.vbs`로 바로가기를 설치할 수 있습니다. [공개 릴리스 목록](https://github.com/delight0517/selah-bible-meditation/releases)에서 실제로 게시된 다운로드를 확인하세요. Microsoft Store 패키지와 심사는 별도로 진행하며, 등록 완료 전에는 Store에서 다운로드할 수 있다고 안내하지 않습니다.
+
 ## 사용해 보기
 
 말씀을 한 장씩 읽고 묵상 기록을 이어가는 Selah입니다. 한국어 앱은 로그인 없이 시작할 수 있고, 계정 동기화는 선택 사항입니다.

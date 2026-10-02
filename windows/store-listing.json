@@ -1,0 +1,24 @@
+{
+  "status": "draft_not_submitted",
+  "productNameProposal": "Selah · 말씀 묵상",
+  "productNameReserved": false,
+  "websiteUrl": "https://delight0517.github.io/selah-bible-meditation/",
+  "privacyPolicyUrl": "https://delight0517.github.io/selah-bible-meditation/privacy.html",
+  "pwaManifestUrl": "https://delight0517.github.io/selah-bible-meditation/manifest.webmanifest",
+  "priceProposal": "Free",
+  "categoryProposal": "Books & reference",
+  "audienceProposal": "Public",
+  "localizations": {
+    "ko-KR": {
+      "description": "Selah는 말씀을 읽고, 생각과 기도, 실천을 기록하는 성경 묵상 앱입니다. 본문을 한 장씩 읽고 집중 읽기와 글자 크기 조절로 편하게 살펴보세요. 기본 읽기와 로컬 묵상 기록은 로그인 없이 시작할 수 있습니다. 내 기록 백업을 내보내고 가져와 보관하거나 다른 기기로 옮길 수 있습니다. 선택 사항인 BlueCloud 계정 기능은 인터넷 연결이 필요합니다. Windows 앱은 Selah 웹 서비스를 사용하며, 로그인 전 기록과 내려받은 번역본은 해당 브라우저 프로필에 저장됩니다.",
+      "features": ["성경 본문 읽기와 번역본 선택", "묵상·기도·실천 기록", "집중 읽기와 글자 크기 조절", "내 기록 백업 내보내기·가져오기", "뒤로·앞으로 탐색과 Windows 읽기 도구막대"],
+      "keywords": ["성경", "묵상", "기도", "말씀", "Selah"]
+    },
+    "en-US": {
+      "description": "Selah helps you read Scripture and keep reflections, prayers, and next steps. Read one chapter at a time with focus-reading and adjustable text size. Start basic reading and local reflection notes without an account. Export and import your notes as a backup or to move them to another device. Optional BlueCloud account features require an internet connection. The Windows app uses the hosted Selah service; anonymous notes and downloaded translations are stored in the browser profile used by the app.",
+      "features": ["Scripture reading and translation selection", "Reflection, prayer, and action notes", "Focus reading and adjustable text size", "Export and import note backups", "Back/forward navigation and Windows reading toolbar"],
+      "keywords": ["Bible", "Scripture", "reflection", "prayer", "Selah"]
+    }
+  },
+  "pending": ["Partner Center account access and reserved product identity", "Worldwide Scripture distribution rights review", "Live PWABuilder evaluation and Windows package validation", "Actual app screenshots and required Store logos", "Age-rating questionnaire completed from actual app behavior", "Certification submission and approved public listing readback", "Installed Store-build runtime verification"]
+}
