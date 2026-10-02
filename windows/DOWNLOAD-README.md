@@ -20,3 +20,5 @@ Application: <https://delight0517.github.io/selah-bible-meditation/>
 Source: <https://github.com/delight0517/selah-bible-meditation>
 
 Original launcher code is MIT licensed; see `LICENSE`. Other material retains its own terms; see `THIRD_PARTY_NOTICES.md`. This package does not delete existing notes or install a separate browser engine.
+
+Build 16 opens the shared hosted Selah app, whose Mac and Windows readers now correlate a matching deep-link request to its existing shared session ID.
