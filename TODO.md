@@ -1,5 +1,12 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · GSC Wizard audit and current release alignment — 1.0.6 / build 18
+- The connected Selah URL-prefix property returned no query rows for 2026-09-02 through 2026-09-29; Search Console did not provide a settled-through boundary. Its sitemap is submitted and pending with zero reported warnings/errors. Google Search Console has not yet produced the first Selah-specific performance data.
+- GSC Wizard audited the root, both download pages, and Windows install guide: 4/4 are HTTP 200 and indexable; 0 critical/high issues, 1 medium, 9 low. The Windows guide's missing canonical was the medium issue; added its canonical, longer description, social metadata, icon, and WebPage JSON-LD. Shortened the English download-page title from 64 characters.
+- The hub's empty-alt logo is decorative next to visible “Selah” text, so it remains correctly ignored by assistive technology rather than receiving redundant alt text.
+- GSC Wizard was connected and the exact Selah property was added to it. No unrelated property was hidden or removed.
+- The Windows launcher advanced to build 18 during this work. The hub download links already target build 18; updated the Windows guide's meta description, Open Graph summary, and WebPage description to match it.
+
 ## 2026-10-02 · Search-intent copy for the download hub — 1.0.6 / build 17
 - Google result samples for Korean Bible-meditation queries were weighted toward mobile app-store pages. Added concise, verifiable Selah feature copy for Matthew reading, timed meditation, reflection/prayer notes, and review quizzes to clarify the web app's usefulness before platform install steps.
 - Added direct reading and meditation links on both language landing pages, and aligned the English/Korean descriptions with those visible features. Kept store and native-installer claims explicit.
