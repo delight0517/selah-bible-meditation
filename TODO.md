@@ -1,5 +1,10 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Windows install guide clarity after live GSC audit — 1.0.6 / build 18
+- Rechecked the deployed Korean/English hub, Windows install page, and root with GSC Wizard: all 4 returned HTTP 200 and were indexable, with zero critical/high/medium findings. Remaining flags are low-severity heuristics: short Windows title/content and empty alt on decorative brand marks.
+- Expanded the Windows guide with Edge's built-in install route, Windows Script Host fallback, accurate account/local storage and Bible-download behavior, plus a PowerShell SHA-256 verification command. Lengthened the Korean title consistently in title/Open Graph/JSON-LD.
+- The page still describes the artifact as a hosted Edge launcher, not a native EXE/MSIX or Store release. App binary/version unchanged at 1.0.6/build 18. Validate links, checksum command examples, and deployed readback after publishing; do not repeatedly resubmit the pending sitemap or request indexing.
+
 ## 2026-10-02 · GSC Wizard audit and current release alignment — 1.0.6 / build 18
 - The connected Selah URL-prefix property returned no query rows for 2026-09-02 through 2026-09-29; Search Console did not provide a settled-through boundary. Its sitemap is submitted and pending with zero reported warnings/errors. Google Search Console has not yet produced the first Selah-specific performance data.
 - GSC Wizard audited the root, both download pages, and Windows install guide: 4/4 are HTTP 200 and indexable; 0 critical/high issues, 1 medium, 9 low. The Windows guide's missing canonical was the medium issue; added its canonical, longer description, social metadata, icon, and WebPage JSON-LD. Shortened the English download-page title from 64 characters.
