@@ -84,7 +84,7 @@
         "code": {"enum": ["ko", "en", "ja", "zh-CN", "zh-TW"]},
         "updatedAt": {"type": "integer", "minimum": 0}
       },
-      "description": "Optional explicit Bible text-language choice, separate from the UI locale in language. Absent means follow the UI locale. Greater updatedAt wins; local value wins ties. Downloaded translation IDs and chapter cache are per browser profile."
+      "description": "Optional explicit Bible text-language choice, separate from the UI locale in language. Absent means follow the UI locale. Greater updatedAt wins; equal timestamps resolve deterministically to the lexicographically smaller code so clients converge. Downloaded translation IDs and chapter cache are per browser profile."
     },
     "readingState": {
       "type": ["object", "null"], "additionalProperties": true,
@@ -203,7 +203,7 @@
     "existingUnknownFieldParityGap": "No authenticated live GET/PUT/GET verification has been performed. Current Brainwire origin/main handler stores the full incoming document.",
     "ownerChange": "The local owner value gates account merges but is not sent; account-scoped state is reset before the newly signed-in account state is applied.",
     "recordCollectionsMerge": "reflections, cards, qtLibrary, bibleChats, meditationFeedback, and meditationPlaces merge by id; the greater updatedAt wins and local data wins ties.",
-    "bibleContentLanguageMerge": "Optional explicit Bible text-language preference merges by updatedAt; local value wins ties. The UI locale remains in language. Translation selections and cached chapter downloads stay per browser profile.",
+    "bibleContentLanguageMerge": "Optional explicit Bible text-language preference merges by updatedAt; equal timestamps resolve to the lexicographically smaller code for deterministic convergence. The UI locale remains in language. Translation selections and cached chapter downloads stay per browser profile.",
     "feedbackPromptMerge": "The greater updatedAt wins; local data wins ties.",
     "attendanceDaysMerge": "Set union, then sort.",
     "readingStateAndMeditationSession": "Merged by source-specific logic; do not replace with generic last-write-wins.",

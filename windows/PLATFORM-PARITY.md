@@ -20,7 +20,7 @@ Both desktop entry points use the same BlueCloud contract at `GET/PUT /api/cloud
 | Reading preferences and language | `readerPrefs`, `customFontData`, `language`, `bibleContentLanguage` |
 | Server revision | `_rev` |
 
-`language` is the app interface locale. The optional `bibleContentLanguage` object stores an explicit Scripture text-language choice (`code`, `updatedAt`) separately; if it is absent, the reader follows the interface locale. The selected translation ID and downloaded chapter cache remain profile-local because each browser may have different locally installed translations.
+`language` is the app interface locale. The optional `bibleContentLanguage` object stores an explicit Scripture text-language choice (`code`, `updatedAt`) separately; if it is absent, the reader follows the interface locale. Greater `updatedAt` wins, and equal timestamps resolve to the lexicographically smaller language code so simultaneous edits converge the same way on both platforms. The selected translation ID and downloaded chapter cache remain profile-local because each browser may have different locally installed translations.
 
 The Japanese default now uses the bundled Japanese Matthew text from the public-domain 1965 Shinkaiyaku New Testament (`matthew-jpn1965.json`, translation ID `jpn_loc`); it no longer falls back to the English World English Bible when Japanese is selected.
 
