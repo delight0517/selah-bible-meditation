@@ -15,6 +15,7 @@ GitHub `main` is the source of truth. Each concurrent chat works in a separate G
 - Before opening a PR, inspect the full diff, run relevant checks, update `TODO.md`, and confirm the worktree is clean after commit.
 - Merge only after review and CI. If `main` moves, fetch and inspect the delta. Resolve conflicts in the task worktree while preserving both tasks; never reset or force-push shared history.
 - After merge, verify the deployed page from its public URL. After publishing an installer or other artifact, download it from the target and verify its hash separately.
+- When changing a static stylesheet, increment its query-string cache token in the HTML link as part of the same PR; GitHub Pages can cache CSS for 600 seconds.
 - Mark a task done only when the note/PR says whether it is local, in review, merged, or deployed and records direct evidence.
 
 ## Shared task note template
