@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#f5f2eb">
 <meta name="description" content="Selah 홈에서 말씀 읽기와 시간 묵상을 시작하고 이 기기의 묵상 기록을 확인하세요.">
 <title>Selah · 홈</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7874410414327857" crossorigin="anonymous"></script>
 <style>
 :root{color-scheme:light;--paper:#f5f2eb;--card:#fffefa;--ink:#20251f;--green:#344c3a;--muted:#687267;--line:#e5e2d9}
 :root[data-theme="dark"]{color-scheme:dark;--paper:#111612;--card:#1b231d;--ink:#eef2ed;--green:#a9c5a7;--muted:#b2c0b1;--line:#3b473d}
@@ -21,7 +22,7 @@
 <section aria-labelledby="summaryTitle"><h2 id="summaryTitle" data-home-text="summary">이 기기에 남긴 기록</h2><dl class="stats"><div><dt data-home-text="attendance">묵상한 날</dt><dd id="homeAttendance">—</dd></div><div><dt data-home-text="reflections">묵상 기록</dt><dd id="homeReflections">—</dd></div><div><dt data-home-text="cards">복습 카드</dt><dd id="homeCards">—</dd></div></dl><p class="note" id="homeStorageStatus" data-home-text="local">현재 브라우저에 저장된 기록이에요.</p></section>
 <!-- Reserved home-only host; no ad module/SDK, request, or preview is loaded. -->
 <div id="dashboardAdHost"></div>
-<footer><a href="./guide/" data-home-text="guide">처음 이용하는 분을 위한 안내</a></footer>
+<footer><a href="./guide/" data-home-text="guide">처음 이용하는 분을 위한 안내</a> · <a id="adPrivacySettings" href="./home.html?consent=settings" hidden>개인정보 및 쿠키 설정</a></footer>
 </main>
 <script>
 const homeText={
@@ -56,5 +57,5 @@ function renderHome(locale){
 renderHome(requested|| (state.language&&state.language!=="auto"?state.language:savedLocale&&savedLocale!=="auto"?savedLocale:deviceLocale));
 languageControl.onchange=()=>renderHome(languageControl.value);
 try{const mode=homeStorage?.getItem("selah.theme")||"system";document.documentElement.dataset.theme=mode==="dark"||(mode==="system"&&matchMedia("(prefers-color-scheme: dark)").matches)?"dark":"light";}catch{}
-</script><footer style="text-align:center;padding:24px"><a href="./privacy.html">개인정보 안내 · Privacy</a></footer>
+</script><script type="module" src="./assets/dashboard-adsense.mjs"></script><footer style="text-align:center;padding:24px"><a href="./privacy.html">개인정보 안내 · Privacy</a></footer>
 </body></html>

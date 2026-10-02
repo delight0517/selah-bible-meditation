@@ -1,14 +1,25 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { AD_CONFIG, createDailyAdGate, mountDashboardAd } from '../assets/dashboard-ad.mjs';
+import { googleTcfConsent } from '../assets/dashboard-adsense.mjs';
 
 assert.deepEqual(AD_CONFIG, { enabled: false, publisherId: 'ca-pub-7874410414327857', slotId: '9881198711' });
 assert.equal(mountDashboardAd(null), null); // Disabled path does not even inspect DOM.
+const tcf = data => ({ __tcfapi: (command, _version, callback) => {
+  if (command === 'addEventListener') callback(data, true);
+} });
+assert.equal(await googleTcfConsent({}), false); // Missing CMP fails closed.
+assert.equal(await googleTcfConsent(tcf({ eventStatus: 'tcloaded', gdprApplies: false })), true);
+assert.equal(await googleTcfConsent(tcf({ eventStatus: 'tcloaded', gdprApplies: true,
+  purpose: { consents: { 1: true, 3: true, 4: true } }, vendor: { consents: { 755: true } } })), true);
+assert.equal(await googleTcfConsent(tcf({ eventStatus: 'useractioncomplete', gdprApplies: true,
+  purpose: { consents: { 1: true, 3: false, 4: true } }, vendor: { consents: { 755: true } } })), false);
 const source = await readFile(new URL('../assets/dashboard-ad.mjs', import.meta.url), 'utf8');
 assert.doesNotMatch(source, /https?:|adsbygoogle|fetch\(|XMLHttpRequest|createElement\(['"]script/);
-for (const file of ['index.html', 'home.html', 'en/index.html', 'ja/index.html', 'zh-cn/index.html', 'zh-tw/index.html', 'fil/index.html']) {
+for (const file of ['index.html', 'en/index.html', 'ja/index.html', 'zh-cn/index.html', 'zh-tw/index.html', 'fil/index.html']) {
   assert.doesNotMatch(await readFile(new URL(`../${file}`, import.meta.url), 'utf8'), /dashboard-ad\.mjs|adsbygoogle|googlesyndication/);
 }
+assert.match(await readFile(new URL('../home.html', import.meta.url), 'utf8'), /adsbygoogle\.js\?client=ca-pub-7874410414327857/);
 let raw = null;
 const storage = { getItem: () => raw, setItem: (_, value) => { raw = value; } };
 let queue = Promise.resolve();

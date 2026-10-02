@@ -72,15 +72,20 @@ export function mountDashboardAd(host, { getView, consentGranted, render } = {})
   if (!allowed(context())) return null;
   let storage;
   try { storage = doc.defaultView.localStorage; } catch { return null; }
+  const words = {
+    ko: ['광고', '광고 닫기'], en: ['Advertisement', 'Close advertisement'],
+    ja: ['広告', '広告を閉じる'], 'zh-CN': ['广告', '关闭广告'],
+    'zh-TW': ['廣告', '關閉廣告'],
+  }[doc.documentElement.lang] || ['Advertisement', 'Close advertisement'];
   const box = doc.createElement('aside');
-  box.setAttribute('aria-label', 'Advertisement');
+  box.setAttribute('aria-label', words[0]);
   box.style.cssText = 'position:relative;max-width:320px;margin:12px auto;border:1px solid var(--line,#ddd);border-radius:8px;padding:6px;background:var(--card,#fff);color:var(--ink,#222)';
   const label = doc.createElement('small');
-  label.textContent = 'Advertisement';
+  label.textContent = words[0];
   const close = doc.createElement('button');
   close.type = 'button';
   close.textContent = '×';
-  close.setAttribute('aria-label', 'Close advertisement');
+  close.setAttribute('aria-label', words[1]);
   close.style.cssText = 'float:right;width:44px;height:44px;cursor:pointer';
   const slot = doc.createElement('div');
   slot.style.cssText = 'clear:both;width:100%;height:100px;overflow:hidden';

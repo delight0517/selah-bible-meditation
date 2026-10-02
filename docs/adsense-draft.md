@@ -1,13 +1,14 @@
-# Selah AdSense 준비 초안 — 비활성
+# Selah AdSense — 승인 대기, 광고 비활성
 
 ## 현재 상태와 설정 경로
 
-- 기준: GitHub `origin/main`의 `e0c1f1653eeebee7a32665cfa9b201ddde3b4dca`.
-- `assets/dashboard-ad.mjs`의 `AD_CONFIG`: `enabled: false`, `publisherId: ''`, `slotId: ''`.
-- 임의 ID, 광고 SDK/로더, 광고 요청, Auto ads, 계정 생성/로그인, 약관 동의, 수익화 활성화, 배포는 포함하지 않았다.
-- 어떤 HTML에도 이 모듈을 연결하지 않았다. ID만 채워도 요청할 수 없다. 실제 provider renderer도 미구현이다.
+- 코드 기준: 최신 원격 `main` 위의 `codex/adsense-disabled-draft-20261001`.
+- 실제 설정: `assets/dashboard-ad.mjs`의 `AD_CONFIG`는 Publisher `ca-pub-7874410414327857`, slot `9881198711`, `enabled: false`.
+- AdSense 호스트 `delight0517.github.io`는 소유 확인 완료, 심사 요청 후 상태 `Getting ready`. 승인 전이며 Auto ads는 Off.
+- Google European regulations CMP는 `Consent`, `Do not consent`, `Manage options`로 게시됐다. EEA/UK/CH는 Google TCF 신호에서 목적 1/3/4와 Google vendor 755 동의가 확인될 때만 요청을 허용한다. 다른 지역은 `gdprApplies === false`가 확인되어야 한다. API 부재·시간 초과·불명확한 값은 차단한다.
+- AdSense tag는 홈에서만 로드해 CMP 메시지와 철회 API를 사용할 수 있게 한다. 실제 슬롯 `push()`는 기능 활성, 동의, 남은 일일 횟수가 모두 확인된 때만 한다. 현재 `enabled: false`이므로 광고 슬롯 요청은 발생하지 않는다.
 - `home.html`에 본문 없는 독립 홈/대시보드를 추가했다. 기록 요약만 읽고 기존 저장소를 변경하지 않는다. 읽기/묵상은 `index.html`로 이동한다. `index.html` 및 `fil/`에는 광고를 붙이지 않는다. 기존 공유 주소와 각 언어 안내 페이지는 보존했다.
-- 홈 전용 `#dashboardAdHost`는 빈 자리다. 광고 모듈·SDK는 여전히 연결하지 않았다. 루트의 기존 읽기 진입점도 유지한다.
+- 홈 전용 `#dashboardAdHost`에만 연결 초안을 둔다. `index.html`과 다국어 읽기 페이지에는 광고 SDK나 요청 코드를 넣지 않았다.
 
 ## 최소 구현 계약
 
@@ -15,18 +16,18 @@
 2. 광고는 본문 흐름 안의 최대 너비 320px, 높이 100px 슬롯이다. 광고 표기와 접근 가능한 44px 닫기 버튼을 포함한다. 화면 덮기/고정 광고 및 Auto ads는 사용하지 않는다.
 3. `createDailyAdGate`는 현지 달력 날짜(`toLocaleDateString('sv-SE')`)로 `localStorage`의 `selah.ads.displayed.v1`에 성공 표시 수만 저장한다. 계정/BlueCloud 동기화에 포함하지 않는다. 같은 origin과 브라우저 프로필의 탭은 공유하고 다른 브라우저/기기는 각각 집계한다. 저장소 삭제/시크릿 모드까지 추적하는 기기 식별은 하지 않는다.
 4. 하루 2회 뒤에는 renderer를 호출하지 않아 광고 요청을 막는다. Web Locks로 같은 브라우저 여러 탭의 요청~성공 집계를 직렬화한다. Web Locks 미지원, 저장소 읽기/쓰기 실패, 손상된 카운터, 동의 없음은 광고를 차단한다.
-5. 요청, 슬롯 생성, 닫기, no-fill, 차단, 오류는 성공으로 세지 않는다. renderer는 **filled 광고가 실제로 화면에 표시된 뒤**에만 `true`를 반환해야 한다. `eligible()`와 AbortSignal을 지키고 취소 시 콘텐츠를 즉시 제거해야 한다. 로더 완료나 AdSense의 filled 속성만으로 가시성을 판정하면 안 된다. 실제 AdSense 성공/가시성 판정 및 제한 시간은 후속 통합에서 검증해야 한다.
+5. 요청, 슬롯 생성, 닫기, no-fill, 차단, 오류는 성공으로 세지 않는다. renderer는 filled status와 화면 교차가 확인된 뒤에만 `true`를 반환한다. `eligible()`와 AbortSignal을 확인하고 취소 시 슬롯을 제거한다. 15초 timeout과 화면 가시성 판정이 연결되어 있다. 실제 승인된 광고 응답을 이용한 동작은 아직 확인하지 않았다.
 6. 닫기는 해당 마운트의 남은 요청을 취소하며 집계를 올리지 않는다. 이미 성공 표시된 광고를 닫으면 기존 성공 수는 유지된다. 재마운트/새로고침도 저장된 일일 집계를 읽는다. 자정을 넘겨 표시되면 표시 시점의 날짜에 센다.
 
 ## CMP 및 추후 설정
 
-EEA/영국/스위스 사용자를 대상으로 광고를 제공할 때 Google 인증 CMP와 IAB TCF 통합 요건을 충족해야 한다. 단순 쿠키 배너나 자체 boolean은 CMP를 대신하지 않는다. 이 초안의 `consentGranted()`는 인증 CMP가 제공하는 적법한 광고 허용 결과를 연결할 자리이며, 현재 CMP를 설치하거나 동의를 수집하지 않는다. 동의/지역 판단이 없거나 불명확하면 SDK 로드와 광고 요청을 모두 차단한다. 비개인화 광고라고 동의 요건을 자동으로 면제하지 않는다.
+EEA/영국/스위스 사용자를 대상으로 광고를 제공할 때 Google 인증 CMP와 IAB TCF 통합 요건을 충족해야 한다. 단순 쿠키 배너나 자체 boolean은 CMP를 대신하지 않는다. 홈 모듈은 Google TCF API 응답의 목적/Google vendor 동의를 읽으며 광고 스크립트가 차단되거나 상태가 불명확하면 fail closed한다. 읽기·묵상 화면에는 SDK가 없다.
 
 - Google 공식 요건: https://support.google.com/adsense/answer/13554116?hl=en
 - 인증 CMP와 TCF 설명: https://support.google.com/adsense/answer/13554020?hl=en-GB
 - EU 사용자 동의 정책 안내: https://www.google.com/about/company/user-consent-policy-help/
 
-후속 작업에서 사용자가 전달한 실제 Publisher ID/광고 단위 ID, 사이트 승인 상태, 인증 CMP·지역/동의 처리, 광고 표시 판정/취소 처리, `ads.txt` 및 개인정보 안내를 확인한 뒤에만 별도 승인 범위로 실제 통합을 진행한다. 계정·약관·광고 요청·배포는 이번 작업 범위 밖이다.
+사이트 승인 대기와 공개 ads.txt 발견을 재확인하고, 실제 지역 동의/철회 UI와 approved filled 광고를 대상으로 요청 상한을 검증하기 전까지 `enabled`는 false로 유지한다.
 
 ## 검증과 한계
 

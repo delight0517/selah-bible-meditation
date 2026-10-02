@@ -9,13 +9,13 @@
 - HTML 메타 태그 소유 확인 통과. Review requested / Getting ready: Google 정책 검토 대기, 승인 아님.
 - `Selah Home European Consent` Google CMP 메시지 Published. Consent, Do not consent, Manage options. 사이트/향후 사이트용 Google CMP 3-choice 선택. Optimize off, header logo off, RTB consent check on, legitimate-interest default off.
 - Auto ads off. Google 사이트 화면의 ads.txt 표시는 아직 Not found; ads.txt는 호스트 main에 커밋되어 있으므로 Google 재확인을 기다린다.
-- AdSense 관리 화면에 CMP 게시됨이어도 홈 HTML에는 CMP SDK나 광고 renderer가 연결되지 않았다. `AD_CONFIG.enabled`도 false다. 실제 광고 요청/수익은 0으로 유지한다.
+- `home.html`에만 AdSense 메시지 tag와 홈 전용 consent/renderer 모듈 연결 초안을 추가했다. `AD_CONFIG.enabled`는 false라 슬롯 request와 수익화는 꺼져 있다. TCF 신호가 불명확하면 차단한다. `index.html`과 다른 언어 읽기 화면에는 SDK가 없다.
 
 ## 바로 재개하는 순서
 
-1. Selah clone `/Users/rogan/Documents/Codex/2026-10-01/new-chat-5/work/selah-adsense`에서 `git fetch origin main`; `git status --short`; `git log -1 --oneline origin/main`. 원격 main이 이 메모의 초안 기준 `7346019`보다 앞서면 사용자 변경은 그대로 두고 작업 브랜치만 최신 main 위로 rebase한다. 호스트 원본 `/Users/rogan/appDev/delight0517.github.io`에는 기존 미커밋 변경이 있으니 절대 checkout/reset/stash하지 않는다.
+1. Selah clone `/Users/rogan/Documents/Codex/2026-10-01/new-chat-5/work/selah-adsense`에서 `git fetch origin main`; `git status --short`; `git log -1 --oneline origin/main`. 원격 main이 현재 작업 기준보다 앞서면 새 커밋과 파일 차이를 확인하고 작업 브랜치만 최신 main 위로 rebase한다. 2026-10-02 재개 때 `9971628`까지 기존 변경을 보존해 rebase 완료했다. 호스트 원본 `/Users/rogan/appDev/delight0517.github.io`에는 기존 미커밋 변경이 있으니 절대 checkout/reset/stash하지 않는다.
 2. AdSense 사이트 상세에서 `delight0517.github.io` 승인 상태와 ads.txt 상태만 확인한다. 승인이 대기 중이면 계정 설정을 반복하지 말고 홈/CMP 통합을 마저 작업한다.
-3. 공개 CMP/개인정보 페이지와 Google의 현재 publisher 정책을 확인한 뒤, 인증된 Google CMP consent/TCF 신호를 안전하게 읽는 홈 전용 boot 경로를 구현한다. consent가 불명확하거나 거부면 광고 SDK/요청을 차단한다. CMP 설정만으로 사이트 HTML에 CMP가 설치된 것으로 간주하지 않는다.
+3. 공개 CMP/개인정보 페이지와 Google의 현재 publisher 정책을 확인한 뒤, 인증된 Google CMP tag는 홈에만 있고 TCF consent 판단 모듈이 연결돼 있다. 미동의/불명확 상태에 광고 슬롯 요청을 하지 않는다. 승인 후 실제 메시지 표시와 철회 흐름을 browser에서 확인한다.
 4. 승인 전에는 로컬 네트워크 차단 검증만 한다. SDK 요청은 검증/사용자가 명시적으로 원할 때만 수행한다. 슬롯 요청은 남은 일일 quota 확인 뒤에 시작하고, 성공한 실제 표시만 현지 날짜 카운트에 더한다. 홈에서 읽기/묵상 진입 시 광고를 dispose한다. 자동 광고는 켜지 않는다.
 5. 한 번의 검증 묶음: `node scripts/check-home.mjs`; `TZ=Asia/Seoul node scripts/check-dashboard-ad.mjs`; `TZ=America/Los_Angeles node scripts/check-dashboard-ad.mjs`. 끝에 `git diff --check`, `git status --short` 및 변경 파일을 보고한다.
 
