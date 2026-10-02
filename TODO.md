@@ -13,7 +13,8 @@
 - Not verified: browser interaction, signed-in BlueCloud GET/PUT/GET, cross-device timestamp convergence, Edge PWA installation, or Mac runtime. Nothing is merged or deployed.
 - Mac source/data request `2026-10-01T210800_windows-selah-desktop-parity` remains `open`, `received=false` in `origin/main`.
 - Source milestone version/build: **1.0.4 / build 5** (tracking label only; not released and no native desktop binary built).
-- Review artifact: draft PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46), commit `a085e5f`; not merged/deployed, with no CI checks reported.
+- Review artifact: draft PR [#46](https://github.com/delight0517/selah-bible-meditation/pull/46), latest commit `d4ebbb9`; not merged/deployed, with no CI checks reported.
+- Live deploy readback (2026-10-02): GitHub Pages root and `manifest.webmanifest` both return HTTP 200; manifest content type is `application/manifest+json` with `display: standalone`. The published HTML does not yet contain this branch's Bible-language selector or deterministic merge rule, confirming PR #46 is not deployed.
 
 ## Remaining parity work
 - Read Mac operator's reply and reconcile the source/contract description with actual Mac runtime evidence.
