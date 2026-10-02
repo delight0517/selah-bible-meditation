@@ -1,5 +1,5 @@
 {
   "version": "1.0.6",
-  "build": 8,
-  "description": "Windows Selah desktop toolbar parity source"
+  "build": 10,
+  "description": "Windows Selah desktop shell and cross-device reading parity source"
 }

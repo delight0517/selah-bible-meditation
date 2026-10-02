@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://delight0517.github.io/selah-bible-meditation/contracts/selah-cloud-state.schema.json",
   "title": "Selah BlueCloud sync payload (current public web implementation)",
-  "description": "Source-derived cross-platform contract for PUT /api/cloud-state/selah. Existing record fields were checked against revision 831225c (2026-10-02); bibleContentLanguage documents the optional shared Scripture-language preference added on the Windows parity branch. Additional fields remain allowed for compatibility until Mac owner confirmation.",
+  "description": "Source-derived cross-platform contract for PUT /api/cloud-state/selah. Existing record fields were checked against revision 831225c (2026-10-02); computer-reading fields were checked against the Mac Selah checkout and Windows Pomodoro consumer on 2026-10-02. Additional fields remain allowed for forward compatibility.",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -87,10 +87,16 @@
       "description": "Optional explicit Bible text-language choice, separate from the UI locale in language. Absent means follow the UI locale. Greater updatedAt wins; equal timestamps resolve deterministically to the lexicographically smaller code so clients converge. Downloaded translation IDs and chapter cache are per browser profile."
     },
     "computerReadingRequest": {
-      "description": "Mac/BlueCloud extension field observed in an October 2, 2026 state snapshot. Its current value was null; the Mac source/schema has not been handed off. Keep opaque and preserve without interpreting its contents."
+      "oneOf": [{"$ref": "#/$defs/computerReadingRequest"}, {"type": "null"}],
+      "description": "Optional cross-device command. It carries only request/session IDs, action, target platform, and creation time; Scripture and reflection text are not included."
     },
     "computerReadingResult": {
-      "description": "Mac/BlueCloud extension field observed in an October 2, 2026 state snapshot. Its current value was null; the Mac source/schema has not been handed off. Keep opaque and preserve without interpreting its contents."
+      "oneOf": [{"$ref": "#/$defs/computerReadingResult"}, {"type": "null"}],
+      "description": "Optional result for the current computerReadingRequest. Consumers must match result.id to request.id before displaying it."
+    },
+    "computerReadingSession": {
+      "oneOf": [{"$ref": "#/$defs/computerReadingSession"}, {"type": "null"}],
+      "description": "Optional shared focus-reading session. Visible readers heartbeat about every 20 seconds; paused sessions remain resumable for seven minutes."
     },
     "readingState": {
       "type": ["object", "null"], "additionalProperties": true,
@@ -113,6 +119,40 @@
     "_rev": {"type": "integer", "minimum": 0, "description": "Server revision used for optimistic concurrency; the client retries HTTP 409 up to three attempts."}
   },
   "$defs": {
+    "computerReadingRequest": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "action", "targetPlatform", "createdAt"],
+      "properties": {
+        "id": {"type": "string", "format": "uuid"},
+        "sessionId": {"type": "string", "format": "uuid"},
+        "action": {"const": "open-reading"},
+        "targetPlatform": {"enum": ["macOS", "windows"]},
+        "createdAt": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds; Windows consumers expire requests after two minutes."}
+      }
+    },
+    "computerReadingResult": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "status", "completedAt"],
+      "properties": {
+        "id": {"type": "string", "format": "uuid"},
+        "status": {"enum": ["opened", "expired", "rejected"]},
+        "reason": {"type": "string"},
+        "openedWith": {"type": ["string", "null"]},
+        "completedAt": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds."}
+      }
+    },
+    "computerReadingSession": {
+      "type": "object", "additionalProperties": true,
+      "required": ["id", "status", "ref", "updatedAt", "lastSeenAt", "resumeGraceUntil"],
+      "properties": {
+        "id": {"type": "string", "format": "uuid"},
+        "status": {"enum": ["running", "paused"]},
+        "ref": {"type": "string"},
+        "updatedAt": {"type": "integer", "minimum": 0},
+        "lastSeenAt": {"type": "integer", "minimum": 0},
+        "resumeGraceUntil": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds; paused sessions remain active until this time."}
+      }
+    },
     "readerPreference": {
       "type": "object",
       "additionalProperties": true,
@@ -210,6 +250,7 @@
     "ownerChange": "The local owner value gates account merges but is not sent; account-scoped state is reset before the newly signed-in account state is applied.",
     "recordCollectionsMerge": "reflections, cards, qtLibrary, bibleChats, meditationFeedback, and meditationPlaces merge by id; the greater updatedAt wins and local data wins ties.",
     "bibleContentLanguageMerge": "Optional explicit Bible text-language preference merges by updatedAt; equal timestamps resolve to the lexicographically smaller code for deterministic convergence. The UI locale remains in language. Translation selections and cached chapter downloads stay per browser profile.",
+    "computerReadingMerge": "The newest request createdAt wins, with remote winning ties. A result is retained only when result.id matches the selected request.id. The greater session updatedAt wins, with local winning ties. These live command/session fields are excluded from portable backups.",
     "feedbackPromptMerge": "The greater updatedAt wins; local data wins ties.",
     "attendanceDaysMerge": "Set union, then sort.",
     "readingStateAndMeditationSession": "Merged by source-specific logic; do not replace with generic last-write-wins.",
