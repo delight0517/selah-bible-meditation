@@ -1,5 +1,11 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Cross-platform Selah download and install hub — web content / build 15
+- User requested a promotional page that gathers Selah install/download options for Mac, iPhone/iOS, and Windows and can be discovered through Google Search.
+- Added Korean and English `/download/` landing pages, platform-specific install steps, responsive shared styling, home-page entry links in all five supported UI locales, canonical/language metadata, WebPage structured data, and sitemap entries.
+- Public release evidence at task start: Windows launcher build 15 is downloadable. Mac and iPhone instructions use the hosted web app (Safari Add to Dock / Add to Home Screen); no separate signed Mac installer, App Store listing, or IPA was observed. Do not claim those binaries exist.
+- Next: validate the routes and links, publish the page changes, read back the deployed assets, then register/verify the Search Console property and submit the sitemap if account access permits. Google indexing is a request, not a guaranteed appearance/ranking.
+
 ## 2026-10-02 · Desktop zoom reset parity — source milestone 1.0.6 / build 13
 - Compared Mac `SelahApp.swift` commands with the Windows Edge app-shell toolbar. Windows already had Ctrl+Alt+0, but lacked a visible reset action corresponding to Mac's **Reset Text Size** menu command.
 - Made the zoom percentage button reset to 100% and labeled it with the same keyboard shortcut. The existing 80–150% zoom bounds and per-profile saved zoom remain unchanged.
@@ -143,3 +149,8 @@
 - Prepared adding the Selah origin in Google Cloud. Saving is pending the explicit confirmation required for extending the OAuth origin allowlist. No secrets or scopes changed.
 - App fix: Dedicated Google status and retry UI; concurrent-load deduplication; request and script timeouts; Retry-After cooldown on HTTP 429; reload after failed script/config requests. Google load errors no longer overwrite password-login errors. Mobile web asset copying includes the recovery helper.
 - Five regression scenarios passed: concurrent initialization, rate-limit cooldown/retry, failed script/retry, aborted request/retry, missing server configuration. Actual Google account authorization and cloud synchronization remain unverified.
+## 2026-10-02 · Windows Selah desktop polish and parallel worktrees — 1.0.6 / build 16
+- [x] Refined the desktop title, Bible reading card, meditation journal, prayer field, and saved-note cards with a calm forest/ivory visual system in `styles/desktop-polish.css`; styles apply above 760 px and keep the existing mobile presentation.
+- [x] Added `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` so each concurrent chat can start from a clean `origin/main` worktree, own a separate branch, and share code through pull requests with explicit status/evidence. Complements the open repository governance PR #63.
+- Version/build: hosted Selah source 1.0.6 / build 16. The Windows launcher package version is governed separately by its build archive.
+- Status: local branch only; browser verification and deployment pending.
