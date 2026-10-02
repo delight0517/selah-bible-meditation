@@ -45,7 +45,7 @@ Safari 웹 앱과 Edge PWA는 각자 별도의 브라우저 저장 공간을 사
 
 Windows도 이 저장소의 같은 Selah 웹 앱을 사용합니다. 두 기기에서 BlueCloud 계정으로 연결하면 기존 동기화 계약을 사용합니다. 로그인하지 않은 기기의 메모는 각 웹 앱 저장 공간에 남으므로 기기 이동 전에 백업하세요.
 
-두 데스크톱 환경이 공유하는 현재 BlueCloud payload와 확인된 묵상·퀴즈·QT·경험·성경 대화 기록 필드는 [`contracts/selah-cloud-state.schema.json`](contracts/selah-cloud-state.schema.json)에 있습니다. Mac 측 추가 자료를 받으면 기존 데이터 호환성을 해치지 않는 범위에서 나머지 필드를 보완합니다.
+두 데스크톱 환경이 공유하는 현재 BlueCloud payload와 확인된 묵상·퀴즈·QT·경험·성경 대화 기록 필드는 [`contracts/selah-cloud-state.schema.json`](contracts/selah-cloud-state.schema.json)에 있습니다. 앱 UI 언어와 성경 본문 언어는 따로 저장하며, 로그인한 기기 사이에서는 본문 언어 선택을 동기화합니다. 번역본 다운로드는 브라우저별로 준비해야 합니다. Mac 측 추가 자료를 받으면 기존 데이터 호환성을 해치지 않는 범위에서 나머지 필드를 보완합니다.
 
 ## 中文阅读
 

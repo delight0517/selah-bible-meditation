@@ -17,12 +17,16 @@ Both desktop entry points use the same BlueCloud contract at `GET/PUT /api/cloud
 | Passage and reading position | `passage`, `customPassage`, `customPassageActive`, `readingState` |
 | Meditation history and feedback | `meditationFeedback`, `attendanceDays`, `meditationPlaces`, `meditationSession` |
 | Prompts and AI conversation context | `feedbackPrompt`, `gptContext`, `bibleChats` |
-| Reading preferences and language | `readerPrefs`, `customFontData`, `language` |
+| Reading preferences and language | `readerPrefs`, `customFontData`, `language`, `bibleContentLanguage` |
 | Server revision | `_rev` |
 
-The complete-Bible download uses the local `selah-bible-library` IndexedDB database. The cache is per browser profile and is excluded from both the BlueCloud cloud-state payload and portable backup; download it separately on Mac and Windows. Default bundled translations are retained, while additional translations unused for 30 days are removed.
+`language` is the app interface locale. The optional `bibleContentLanguage` object stores an explicit Scripture text-language choice (`code`, `updatedAt`) separately; if it is absent, the reader follows the interface locale. The selected translation ID and downloaded chapter cache remain profile-local because each browser may have different locally installed translations.
 
-Anonymous records stay in the local storage belonging to that browser app. Safari's Dock app and Edge's PWA have separate local stores; users can move records with the portable backup format in [`selah-portable-backup.schema.json`](../contracts/selah-portable-backup.schema.json). Backup v1 carries user state and draft data while excluding the source owner, server revision, and credentials. An authenticated cross-device sync round trip has not been verified in this environment.
+The Japanese default now uses the bundled Japanese Matthew text from the public-domain 1965 Shinkaiyaku New Testament (`matthew-jpn1965.json`, translation ID `jpn_loc`); it no longer falls back to the English World English Bible when Japanese is selected.
+
+The complete-Bible download uses the local `selah-bible-library` IndexedDB database. The cache is per browser profile and is excluded from both the BlueCloud cloud-state payload and portable backup; download it separately on Mac and Windows. Default bundled translations are retained, while additional translations unused for 30 days are removed. The selected text language is separate from the UI locale and syncs as `bibleContentLanguage`; a selected non-default translation and its downloaded chapters remain local to each browser profile.
+
+Anonymous records stay in the local storage belonging to that browser app. Safari's Dock app and Edge's PWA have separate local stores; users can move records with the portable backup format in [`selah-portable-backup.schema.json`](../contracts/selah-portable-backup.schema.json). Backup v1 carries user state, draft data, and an explicit Bible text-language preference while excluding the source owner, server revision, and credentials. An authenticated cross-device sync round trip has not been verified in this environment.
 
 ## Platform-specific entry and installation
 
@@ -38,5 +42,7 @@ The installer, app menu, shortcuts, and local browser profile are platform-speci
 ## Current evidence and open verification
 
 - Source basis: root `README.md`, root `index.html`, the manifest, and the two contracts linked above.
+- Parity change set: `codex/selah-bible-language-sync` at base `9971628`; adds an explicit shared Scripture text-language preference and keeps translation downloads profile-local. This branch is not merged or deployed.
 - Windows PWA and offline Bible source current at commit `b5abbf2`; GitHub Pages returned HTTP 200 and the published HTML included the localized install button and `beforeinstallprompt` handler.
-- The live Edge installation dialog, a Mac-side runtime readback, and authenticated synthetic BlueCloud sync remain unverified.
+- Mac's source/behavior handoff request `2026-10-01T210800_windows-selah-desktop-parity` is still open and unreceived. The repository README describes Mac as Safari's Add to Dock web app, so the checked-in web source remains the current evidence for its UI and behavior.
+- The live Edge installation dialog, Mac-side runtime readback, authenticated synthetic BlueCloud sync round trip, and cross-device preference convergence remain unverified.
