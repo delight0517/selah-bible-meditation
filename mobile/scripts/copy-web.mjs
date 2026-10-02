@@ -8,19 +8,20 @@ const repoDir = resolve(mobileDir, '..');
 const webDir = resolve(mobileDir, 'www');
 const check = process.argv.includes('--check');
 const release = JSON.parse(await readFile(resolve(repoDir, 'SHARED_APP_BUILD.json'), 'utf8'));
-const files = ['index.html', 'home.html', 'privacy.html', 'manifest.webmanifest', 'magazine.json', 'windows/app-shell.js', 'scripts/unified-data.js', 'scripts/unified-data-ui.js', 'scripts/computer-reading-handoff.js', 'styles/computer-reading-handoff.css', 'styles/desktop-polish.css', 'matthew-krv.json', 'matthew-web.json', 'matthew-jpn1965.json', 'matthew-cuv-simp.json', 'matthew-cuv-trad.json', 'bible-translations.json', 'SHARED_APP_BUILD.json'];
+const files = ['index.html', 'home.html', 'privacy.html', 'manifest.webmanifest', 'magazine.json', 'windows/app-shell.js', 'scripts/unified-data.js', 'scripts/unified-data-ui.js', 'scripts/computer-reading-handoff.js', 'scripts/google-login-recovery.js', 'styles/computer-reading-handoff.css', 'styles/desktop-polish.css', 'matthew-krv.json', 'matthew-web.json', 'matthew-jpn1965.json', 'matthew-cuv-simp.json', 'matthew-cuv-trad.json', 'bible-translations.json', 'SHARED_APP_BUILD.json'];
 async function assets(directory) {
   for (const entry of await readdir(resolve(repoDir, directory), { withFileTypes: true })) {
     const path = directory + '/' + entry.name;
     if (entry.isDirectory()) await assets(path);
     else if (entry.isFile()) files.push(path);
   }
+
 }
 await assets('assets');
 files.sort();
 const hashes = {};
 for (const file of files) {
-  const canonical = bytes => /\.(?:html|js|css|json|webmanifest|svg)$/.test(file) ? Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n')) : bytes;
+  const canonical = bytes => /\.(?:html|js|css|json|webmanifest|svg|txt)$/.test(file) ? Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n')) : bytes;
   const content = canonical(await readFile(resolve(repoDir, file)));
   hashes[file] = createHash('sha256').update(content).digest('hex');
   const target = resolve(webDir, file);

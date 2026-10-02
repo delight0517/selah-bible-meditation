@@ -1,5 +1,5 @@
 {
+  "description": "Fix successful cloud sync reported as failure after guide button removal",
   "version": "1.0.6",
-  "build": 16,
-  "description": "Mac-to-Windows computer-reading session continuity"
+  "build": 18
 }

@@ -6,8 +6,8 @@
   "source": "https://delight0517.github.io/selah-bible-meditation/",
   "files": {
     "SHARED_APP_BUILD.json": "f9c9d77bff9a86d1a6e1875fb10b0e1f95b854ac1b1a7e3bd22d43ed73820e87",
-    "assets/MATERIAL-ICONS-LICENSE.txt": "49bbe9114e49214df2ccc324cb3ac8d1d1aa1c3a0947f94c286765e86647b32e",
-    "assets/MATERIAL-ICONS-NOTICE.txt": "d7723207f7f94e1405fd9f233f4a549ca8f0460ef4b79f1b3b2fa8d4fc3c3450",
+    "assets/MATERIAL-ICONS-LICENSE.txt": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+    "assets/MATERIAL-ICONS-NOTICE.txt": "c783fe6c609e28c6442b3e8aece00e8a1a9afdcf5c78e1a9566877523d0cea78",
     "assets/cloud-icon.png": "1f59abf38cecc33eb8ba8d8f4890b4e3c84f5fee7f5b91695742f819ee9e1aa8",
     "assets/previews/selah-en.png": "b5e8b9b7841643210c2897771205ee83b26426278edb9c4927563e95ac0343d9",
     "assets/previews/selah-es.png": "6305784fc39291c08c90e3706a99053ae377991ec841f875878a1f5e1bbf7541",
@@ -26,7 +26,7 @@
     "assets/settings-icon.png": "cf180299ef24a311aff2483e3da56c31000b1dc2d09609881f3e81ea3ba62bb3",
     "bible-translations.json": "66c8e34c3d43bc464869d49303308cf394d8c8feaa744ef7b65fb806dd95f2c2",
     "home.html": "13a945a436e544cd275c4c95d8995e21d0ec1971464a70de62695fef8852d2c3",
-    "index.html": "2143104a202e453571e2cd27a4ba5b54e1fb371eec00311b30a4f7b4b2a977b3",
+    "index.html": "fa2122657d67ae0f5e4760274351911bf3ce8cfb6007812b9a048dbbc01d1ad2",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -36,10 +36,11 @@
     "matthew-web.json": "e30a5533d3695e29a04369063ac05e34702d46a67743d969eea16170eb5e48af",
     "privacy.html": "3ea59457b2872e539cee6c2a8aa27c2d5878334ac68cd1f1f93c73ca50272277",
     "scripts/computer-reading-handoff.js": "ea9d17f8424296f05aee2308b138b798f586b4267726b773114f1dee4e3cb7d6",
+    "scripts/google-login-recovery.js": "bb782156325b62ab076d7d83e70dcc4e609180b53554cf97cc4369dc0f3096d0",
     "scripts/unified-data-ui.js": "d2a6ff960d90cfd7f6716cbf68bf53024beab38b8b33d6ac9337513b0022db53",
     "scripts/unified-data.js": "ce7706a9a04545a9a21a3da392df597a3e87a2d287e2f15f2fc68a7816b935a3",
     "styles/computer-reading-handoff.css": "c7f0e639a6c3aaa30b94d9149077b79646558b02629b8ac6c395ded07cfd6d78",
-    "styles/desktop-polish.css": "e333fe552eb4ed970129465ea4895d454a023abe5ee57a0970f965ed228a6124",
+    "styles/desktop-polish.css": "abc2f865eaeabc7a7f451059491dd6d059b8455f30d2cc179a76fb8465f66e8b",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
   }
 }

@@ -1,5 +1,29 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Windows install guide clarity after live GSC audit — 1.0.6 / build 18
+- Rechecked the deployed Korean/English hub, Windows install page, and root with GSC Wizard: all 4 returned HTTP 200 and were indexable, with zero critical/high/medium findings. Remaining flags are low-severity heuristics: short Windows title/content and empty alt on decorative brand marks.
+- Expanded the Windows guide with Edge's built-in install route, Windows Script Host fallback, accurate account/local storage and Bible-download behavior, plus a PowerShell SHA-256 verification command. Lengthened the Korean title consistently in title/Open Graph/JSON-LD.
+- The page still describes the artifact as a hosted Edge launcher, not a native EXE/MSIX or Store release. App binary/version unchanged at 1.0.6/build 18. Validate links, checksum command examples, and deployed readback after publishing; do not repeatedly resubmit the pending sitemap or request indexing.
+
+## 2026-10-02 · GSC Wizard audit and current release alignment — 1.0.6 / build 18
+- The connected Selah URL-prefix property returned no query rows for 2026-09-02 through 2026-09-29; Search Console did not provide a settled-through boundary. Its sitemap is submitted and pending with zero reported warnings/errors. Google Search Console has not yet produced the first Selah-specific performance data.
+- GSC Wizard audited the root, both download pages, and Windows install guide: 4/4 are HTTP 200 and indexable; 0 critical/high issues, 1 medium, 9 low. The Windows guide's missing canonical was the medium issue; added its canonical, longer description, social metadata, icon, and WebPage JSON-LD. Shortened the English download-page title from 64 characters.
+- The hub's empty-alt logo is decorative next to visible “Selah” text, so it remains correctly ignored by assistive technology rather than receiving redundant alt text.
+- GSC Wizard was connected and the exact Selah property was added to it. No unrelated property was hidden or removed.
+- The Windows launcher advanced to build 18 during this work. The hub download links already target build 18; updated the Windows guide's meta description, Open Graph summary, and WebPage description to match it.
+
+## 2026-10-02 · Search-intent copy for the download hub — 1.0.6 / build 17
+- Google result samples for Korean Bible-meditation queries were weighted toward mobile app-store pages. Added concise, verifiable Selah feature copy for Matthew reading, timed meditation, reflection/prayer notes, and review quizzes to clarify the web app's usefulness before platform install steps.
+- Added direct reading and meditation links on both language landing pages, and aligned the English/Korean descriptions with those visible features. Kept store and native-installer claims explicit.
+- Selah-specific Search Console performance is still processing after property verification; evaluate impressions and queries after Google reports data before changing keyword strategy.
+
+## 2026-10-02 · Search Console and current Windows release alignment — 1.0.6 / build 17
+- Registered the exact Selah URL-prefix property `https://delight0517.github.io/selah-bible-meditation/`; Google verified it through the already verified parent property. Performance and indexing reports are still processing for the new property.
+- Submitted the Korean and English download URLs for indexing; Google added both to its priority crawl queue. The live Google URL test says the English page is available to Google. This does not yet mean either URL is indexed or ranking.
+- Submitted `sitemap.xml` to the parent property; the GSC dialog accepted it, while the list still shows its initial “Couldn't fetch” state. Direct Googlebot-UA HTTP reads returned 200 for robots, sitemap, and both landing pages; sitemap XML is valid.
+- Live content extraction found the dedicated Windows download page now serves launcher build 17 (`d9e3951e1992315579416d2141b4fa0fcca2c718ecd644b73b0a029dbb1a01a0`). Updated both download-hub buttons to point at build 17; the prior build-15 link was stale relative to current main.
+- Search-result evidence for broad Korean Bible meditation queries is dominated by mobile-app store listings; prioritize truthful Windows/Mac/iPhone web-app availability and platform-specific long-tail intent. GSC Wizard was found and suggested as the one useful plugin, but is not installed/connected yet; current Selah-specific query data is not available until Google finishes processing.
+
 ## 2026-10-02 · Cross-platform Selah download and install hub — web content / build 15
 - User requested a promotional page that gathers Selah install/download options for Mac, iPhone/iOS, and Windows and can be discovered through Google Search.
 - Added Korean and English `/download/` landing pages, platform-specific install steps, responsive shared styling, home-page entry links in all five supported UI locales, canonical/language metadata, WebPage structured data, and sitemap entries.
@@ -142,9 +166,40 @@
 - Mac's installed app still lacks a registered `selah://` scheme. Sent Mac a separate request to register/install the receiving handler and provide version/build/source provenance plus a synthetic request readback.
 - PR #71 merged as `a30a72d10746b0ff3e2da7f194eb78af98501462`; Pages deployment run `36993348281` succeeded. Public `windows/BUILD_INFO.json` reads back 1.0.6/build 15, the download page is HTTP 200, and the build-15 ZIP is HTTP 200 with the locally verified SHA-256. The prior build-15 deployment is confirmed.
 - Source milestone advanced to **1.0.6 / build 16** for the session-correlation update. Windows build-16 ZIP was created and its eight-entry archive manifest verifies all seven payload hashes; SHA-256 is `ef21c18608c98f16998e330d945f8ced9c8a1913627db65798c50c495538fb8c`. Authenticated two-device BlueCloud convergence and Mac URL-scheme launch remain pending.
-## 2026-10-02 · Windows Selah desktop polish and parallel worktrees — 1.0.6 / build 16
+## 2026-10-02 · BlueCloud / Google login recovery — 1.0.6 build 17
+- User feedback: Retry BlueCloud/Google login, diagnose the error, and fix it.
+- Live retry rendered the Google button. Clicking it produced `[GSI_LOGGER]: The given origin is not allowed for the given client ID.`
+- Confirmed production `/api/auth/google-client-id` matches `brainwire-web` in Google Cloud project `rogan-youtube`. Its only authorized JavaScript origin was `https://brainwire-f2gf.onrender.com`; Selah runs on `https://delight0517.github.io`.
+- User approved saving the Selah origin on 2026-10-02. Saved `https://delight0517.github.io` in the matching Google Cloud OAuth client and reopened its settings to confirm persistent readback. No secrets, redirect URIs, or scopes changed.
+- App fix: Dedicated Google status and retry UI; concurrent-load deduplication; request and script timeouts; Retry-After cooldown on HTTP 429; reload after failed script/config requests. Google load errors no longer overwrite password-login errors. Mobile web asset copying includes the recovery helper.
+- Five regression scenarios passed: concurrent initialization, rate-limit cooldown/retry, failed script/retry, aborted request/retry, missing server configuration. Actual Google account authorization and cloud synchronization remain unverified.
+## 2026-10-02 · Windows Selah desktop polish and parallel worktrees — 1.0.6 / build 17
 - [x] Refined the desktop title, Bible reading card, meditation journal, prayer field, and saved-note cards with a calm forest/ivory visual system in `styles/desktop-polish.css`; styles apply above 760 px and keep the existing mobile presentation.
 - [x] Added `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` so each concurrent chat can start from a clean `origin/main` worktree, own a separate branch, and share code through pull requests with explicit status/evidence. Complements the open repository governance PR #63.
+- Version/build: hosted Selah source 1.0.6 / build 17. The Windows launcher package version is governed separately by its build archive.
+- Initial browser check after build 16 exposed an existing one-child `.layout` grid that left unused blank space and narrowed the main panel. The desktop stylesheet now makes that wrapper a full-width block and uses the app's live theme variables so dark mode and user colors continue to apply.
+- Follow-up desktop viewport inspection found the Bible reader wrapper also had only one visible child while its notebook was intentionally moved to the focus-mode drawer. Center the reader card at a readable 920 px maximum instead of leaving an empty second column.
+- Added `?v=17` to the desktop stylesheet URL after confirming GitHub Pages serves CSS with a 600-second cache lifetime; this avoids keeping a previously cached design after publish. Browser verification remains pending.
+
+## 2026-10-02 · Google OAuth provider correction and account-login handoff — build 17
+- User feedback: Proceed with all required steps; user will handle account login and verification.
+- Saved the missing Selah JavaScript origin in Google Cloud, then navigated back to the client detail screen and confirmed it persisted alongside the existing BlueCloud server origin.
+- The live Selah app renders the Google button without the prior rate-limit message. After a test click, no unauthorized-origin error was captured; an account chooser/new tab was not observable through the automated browser, so this is not proof of completed account sign-in.
+- Displayed the live Selah login screen and requested that the user complete Google account selection/login. Authenticated BlueCloud connection and data synchronization remain pending user login.
+- Prior build 17 deployment and recovery regression checks remain valid. Provider settings take effect separately from the deployed application build; Google console notes a propagation delay of 5 minutes to several hours.
+## 2026-10-02 · Authenticated login and missing-guide-button correction — build 18
+- User completed Google login in the visible live Selah page. Readback confirmed the Account control and signed-in account panel.
+- Follow-up readback showed `Sync failed`; the hidden auth error contained `Cannot set properties of null (setting 'hidden')`. DOM inspection confirmed the removed `guideStart` control is absent.
+- Root cause: sync finished its cloud request/merge and then attempted to update the absent optional guide button. The resulting local TypeError was reported as a cloud sync failure. Guide completion had the same missing-element assumption.
+- Guard both optional guide-button updates and hide the Google sign-in section once the account is connected. Provider authorization and Google login are verified; final Synced UI readback awaits build 18 deployment.
+- Changed the stylesheet cache token to `?v=17-9b9913c` after the follow-up UI check showed the `?v=17` response was still cached after confirming GitHub Pages serves CSS with a 600-second cache lifetime; this avoids keeping a previously cached design after publish. Browser verification remains pending.
+
+## 2026-10-02 · Windows desktop polish deployed and interaction checked — hosted source 1.0.6 / build 18
+- GitHub Pages deployment for `main` commit `dfc49056eb71d126b6e6c5542fadb80eac276c09` succeeded (run `36997319087`). Cache-busted public HTML and desktop CSS both returned HTTP 200; CSS link is `?v=17-9b9913c`.
+- At a 1440 px browser width, live DOM readback showed the Bible reader centered at 920 px. Clicked through Matthew 2 and restored Matthew 1; Korean Bible rendering and light theme were confirmed. Tested timed meditation, opened its notebook, entered reflection and prayer drafts, confirmed they remained available on this device, then cleared both test strings and ended the session without creating a saved test note. Browser console had no errors.
+- The parallel-work setup is live on `main`: `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` create isolated `origin/main` task branches/worktrees and share changes through PRs with ownership and evidence in `TODO.md`/task notes. Each chat must preserve existing dirty trees and inspect new `main` commits before integration. Root governance PR #63 is still open; required branch protection is not configured or claimed.
+- Scope/evidence limit: this is a hosted web-source style change, not a new Windows launcher binary. BlueCloud cloud sync and final saved-note creation were not exercised in this browser check.
+
 - Version/build: hosted Selah source 1.0.6 / build 16. The Windows launcher package version is governed separately by its build archive.
 - Status: local branch only; browser verification and deployment pending.
 
