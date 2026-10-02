@@ -1,5 +1,11 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Cross-platform Selah download and install hub — web content / build 15
+- User requested a promotional page that gathers Selah install/download options for Mac, iPhone/iOS, and Windows and can be discovered through Google Search.
+- Added Korean and English `/download/` landing pages, platform-specific install steps, responsive shared styling, home-page entry links in all five supported UI locales, canonical/language metadata, WebPage structured data, and sitemap entries.
+- Public release evidence at task start: Windows launcher build 15 is downloadable. Mac and iPhone instructions use the hosted web app (Safari Add to Dock / Add to Home Screen); no separate signed Mac installer, App Store listing, or IPA was observed. Do not claim those binaries exist.
+- Next: validate the routes and links, publish the page changes, read back the deployed assets, then register/verify the Search Console property and submit the sitemap if account access permits. Google indexing is a request, not a guaranteed appearance/ranking.
+
 ## 2026-10-02 · Desktop zoom reset parity — source milestone 1.0.6 / build 13
 - Compared Mac `SelahApp.swift` commands with the Windows Edge app-shell toolbar. Windows already had Ctrl+Alt+0, but lacked a visible reset action corresponding to Mac's **Reset Text Size** menu command.
 - Made the zoom percentage button reset to 100% and labeled it with the same keyboard shortcut. The existing 80–150% zoom bounds and per-profile saved zoom remain unchanged.
