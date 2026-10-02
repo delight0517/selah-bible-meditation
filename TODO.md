@@ -170,3 +170,8 @@
 - The live Selah app renders the Google button without the prior rate-limit message. After a test click, no unauthorized-origin error was captured; an account chooser/new tab was not observable through the automated browser, so this is not proof of completed account sign-in.
 - Displayed the live Selah login screen and requested that the user complete Google account selection/login. Authenticated BlueCloud connection and data synchronization remain pending user login.
 - Prior build 17 deployment and recovery regression checks remain valid. Provider settings take effect separately from the deployed application build; Google console notes a propagation delay of 5 minutes to several hours.
+## 2026-10-02 · Authenticated login and missing-guide-button correction — build 18
+- User completed Google login in the visible live Selah page. Readback confirmed the Account control and signed-in account panel.
+- Follow-up readback showed `Sync failed`; the hidden auth error contained `Cannot set properties of null (setting 'hidden')`. DOM inspection confirmed the removed `guideStart` control is absent.
+- Root cause: sync finished its cloud request/merge and then attempted to update the absent optional guide button. The resulting local TypeError was reported as a cloud sync failure. Guide completion had the same missing-element assumption.
+- Guard both optional guide-button updates and hide the Google sign-in section once the account is connected. Provider authorization and Google login are verified; final Synced UI readback awaits build 18 deployment.

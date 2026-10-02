@@ -1,5 +1,5 @@
 {
-  "description": "Google login loading recovery and OAuth origin diagnosis",
+  "description": "Fix successful cloud sync reported as failure after guide button removal",
   "version": "1.0.6",
-  "build": 17
+  "build": 18
 }
