@@ -1,7 +1,7 @@
 Option Explicit
 ' Selah managed app launcher v1
 
-Const SELAH_URL = "https://delight0517.github.io/selah-bible-meditation/"
+Const SELAH_URL = "https://delight0517.github.io/selah-bible-meditation/?windowsShell=1"
 Const EDGE_EXTENSION_ID_PATTERN = "^[a-p]{32}$"
 
 Dim shell, files, edgePath, localAppData, guardRoot, guardLauncher, extensionPath
