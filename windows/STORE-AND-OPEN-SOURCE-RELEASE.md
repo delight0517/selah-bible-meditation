@@ -1,6 +1,6 @@
 # Selah Windows Store and open-source release readiness
 
-Tracking version: **1.0.6 / build 18** (Windows launcher/source release preparation; not a Store binary release).
+Tracking version: **1.0.6 / build 19** (Windows launcher/source release preparation; not a Store binary release).
 
 ## Current state
 

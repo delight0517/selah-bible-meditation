@@ -24,4 +24,4 @@ Original launcher code is MIT licensed; see `LICENSE`. Other material retains it
 Build 16 opens the shared hosted Selah app, whose Mac and Windows readers now correlate a matching deep-link request to its existing shared session ID.
 
 
-Build 18 only adopts the linked session when the matching BlueCloud request targets this platform and has not expired.
+Build 19 only adopts the linked session when the matching BlueCloud request targets this platform and has not expired.

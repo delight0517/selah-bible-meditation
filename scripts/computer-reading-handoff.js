@@ -56,7 +56,8 @@
   function linkedHandoffSessionId() {
     const request = db.computerReadingRequest;
     if (!handoffRequestId || !isRecord(request) || request.id !== handoffRequestId || request.targetPlatform !== currentPlatform) return "";
-    if (Date.now() - timestamp(request, "createdAt") > 120000) return "";
+    const age = Date.now() - timestamp(request, "createdAt");
+    if (age < 0 || age > 120000) return "";
     return typeof request.sessionId === "string" && request.sessionId ? request.sessionId : "";
   }
 
