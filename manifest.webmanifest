@@ -4,7 +4,7 @@
   "short_name": "Selah",
   "description": "말씀을 읽고 천천히 묵상과 기도를 기록하는 Selah",
   "lang": "ko-KR",
-  "start_url": "./",
+  "start_url": "./?windowsShell=1",
   "scope": "./",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
@@ -35,7 +35,7 @@
       "name": "말씀 읽기",
       "short_name": "말씀 읽기",
       "description": "Selah에서 말씀을 읽습니다.",
-      "url": "./?homeAction=read",
+      "url": "./?homeAction=read&windowsShell=1",
       "icons": [
         {
           "src": "./assets/selah-app-192.png",
@@ -48,7 +48,7 @@
       "name": "시간 묵상",
       "short_name": "시간 묵상",
       "description": "Selah에서 시간을 정해 묵상합니다.",
-      "url": "./?homeAction=meditate",
+      "url": "./?homeAction=meditate&windowsShell=1",
       "icons": [
         {
           "src": "./assets/selah-app-192.png",
