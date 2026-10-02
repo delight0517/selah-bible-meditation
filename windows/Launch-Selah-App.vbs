@@ -2,10 +2,9 @@ Option Explicit
 ' Selah managed app launcher v1
 
 Const SELAH_URL = "https://delight0517.github.io/selah-bible-meditation/?windowsShell=1"
-Const EDGE_EXTENSION_ID_PATTERN = "^[a-p]{32}$"
 
 Dim shell, files, edgePath, localAppData, guardRoot, guardLauncher, extensionPath
-Dim extensionId, allowedExtensions, pacPath, netFlags, launcherSource, commandLine, dryRun
+Dim allowedExtensions, pacPath, netFlags, launcherSource, commandLine, dryRun
 Set shell = CreateObject("WScript.Shell")
 Set files = CreateObject("Scripting.FileSystemObject")
 
@@ -21,7 +20,6 @@ If files.FolderExists(guardRoot) Then
   edgePath = ReadAssignment(launcherSource, "browser")
   extensionPath = ReadAssignment(launcherSource, "ext")
   netFlags = ReadAssignment(launcherSource, "netFlags")
-  extensionId = ReadClaudeExtensionId(launcherSource)
   pacPath = files.BuildPath(guardRoot, "sixvpn_block.pac")
 
   If Len(edgePath) = 0 Or LCase(files.GetFileName(edgePath)) <> "msedge.exe" Then FailClosed "Could not read the managed Edge path."
@@ -31,8 +29,9 @@ If files.FolderExists(guardRoot) Then
   If InStr(1, netFlags, "--proxy-pac-url", vbTextCompare) = 0 Or InStr(1, netFlags, "sixvpn_block.pac", vbTextCompare) = 0 Then FailClosed "The managed Edge proxy settings could not be confirmed."
   If Not files.FileExists(pacPath) Then FailClosed "The managed Edge proxy configuration file is missing."
 
+  ' --disable-extensions-except accepts extension directory paths, not IDs.
+  ' Keep only the managed SixVPN unpacked extension in this protected route.
   allowedExtensions = extensionPath
-  If Len(extensionId) > 0 Then allowedExtensions = allowedExtensions & "," & extensionId
   commandLine = Quote(edgePath) & " --disable-extensions-except=" & Quote(allowedExtensions) & _
       " --load-extension=" & Quote(extensionPath) & " --disable-quic --proxy-pac-url=" & Quote(ToFileUri(pacPath)) & _
       " --app=" & Quote(SELAH_URL)
@@ -102,27 +101,6 @@ Function ReadAssignment(source, key)
     End If
   Next
   ReadAssignment = ""
-End Function
-
-Function ReadClaudeExtensionId(source)
-  Dim lines, line, equalsAt, candidate, re
-  lines = Split(source, vbLf)
-  Set re = New RegExp
-  re.Pattern = EDGE_EXTENSION_ID_PATTERN
-  re.IgnoreCase = True
-  re.Global = False
-  For Each line In lines
-    line = Trim(Replace(CStr(line), vbCr, ""))
-    If Len(line) > 0 And InStr(1, line, "Claude in Chrome", vbTextCompare) > 0 Then
-      If Left(line, 1) = "'" Then line = Trim(Mid(line, 2))
-      equalsAt = InStr(1, line, "=", vbBinaryCompare)
-      If equalsAt > 0 Then
-        candidate = Trim(Left(line, equalsAt - 1))
-        If re.Test(candidate) Then ReadClaudeExtensionId = candidate: Exit Function
-      End If
-    End If
-  Next
-  ReadClaudeExtensionId = ""
 End Function
 
 Function ToFileUri(path)

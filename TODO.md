@@ -1,5 +1,11 @@
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-02 · Managed Edge launch correction — source milestone 1.0.6 / build 12
+- Diagnosed the Selah app window title `We couldn't load that extension.`: the installed launcher passed a Claude extension ID as an extra `--disable-extensions-except` item, although Chromium defines this switch as a comma-separated list of extension paths. The SixVPN unpacked extension path itself and PAC route were present.
+- Removed the ID entry from the Selah launcher. It now permits only `%LOCALAPPDATA%\SixVPNBlocker\chrome_blocker` and retains the PAC URL and `--load-extension` protection path. Updated the installed per-user Selah launcher for future launches; left the currently running Edge window and processes untouched.
+- Version/build tracking advanced to **1.0.6 / build 12**. Dry-run verification should confirm one permitted extension path and the existing PAC URL. Visible Edge UI/runtime confirmation remains pending.
+- Mac handoff `SELAH-WINDOWS-DESKTOP-PARITY-20261002` was rechecked against GitHub `origin/main`: `status=open`, `received=false`, `completed=false`. Mac queue receiver files/runtime are absent; no reply is available yet.
+
 ## 2026-10-02 · Edge PWA registration and Mac follow-up (source milestone 1.0.6 / build 11)
 - Read-only Windows registration check: `Selah App Window` Start/Desktop shortcuts target the installed VBS launcher, and no Selah PWA entry was found in the current default Edge profile. The existing managed Edge app-window launcher remains usable; official PWA installation through Edge is still pending.
 - Sent Mac relay request `20261002T_WINDOWS_SELAH_MAC_FOLLOWUP_REQUEST` asking for receipt, review of the 1.0.30 deep-link scheme guard, safe dirty-checkout/build assessment, and authenticated target-side evidence. No Mac reply has arrived in `windows_inbox` or `windows_inbox_done`.
