@@ -1,5 +1,6 @@
 import SwiftUI
 import WebKit
+import UniformTypeIdentifiers
 
 @main
 struct SelahApp: App {
@@ -42,7 +43,7 @@ final class SelahReader {
 
     func openComputerReading(_ url: URL) {
         guard url.scheme == "selah", url.host == "read" else { return }
-        var components = URLComponents(string: "https://delight0517.github.io/selah-bible-meditation/")!
+        var components = URLComponents(string: "selah-local://app/index.html")!
         components.queryItems = [
             URLQueryItem(name: "homeAction", value: "read"),
             URLQueryItem(name: "requestId", value: URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "request" })?.value)
@@ -53,7 +54,7 @@ final class SelahReader {
     }
 
     func initialURL() -> URL {
-        pendingReadingURL ?? URL(string: "https://delight0517.github.io/selah-bible-meditation/")!
+        pendingReadingURL ?? URL(string: "selah-local://app/index.html")!
     }
 
     func adjustZoom(_ delta: CGFloat) {
@@ -116,7 +117,9 @@ struct SelahWebView: NSViewRepresentable {
     @Bindable var reader: SelahReader
 
     func makeNSView(context: Context) -> WKWebView {
-        let view = WKWebView(frame: .zero)
+        let configuration = WKWebViewConfiguration()
+        configuration.setURLSchemeHandler(BundledScriptureAssets(), forURLScheme: "selah-local")
+        let view = WKWebView(frame: .zero, configuration: configuration)
         view.navigationDelegate = context.coordinator
         view.allowsBackForwardNavigationGestures = true
         view.load(URLRequest(url: reader.initialURL()))
@@ -139,4 +142,26 @@ struct SelahWebView: NSViewRepresentable {
             reader.refreshNavigation()
         }
     }
+}
+
+// Keep the shared reader and Scripture bootstrap in the installed app.
+final class BundledScriptureAssets: NSObject, WKURLSchemeHandler {
+    func webView(_ webView: WKWebView, start urlSchemeTask: WKURLSchemeTask) {
+        guard let url = urlSchemeTask.request.url,
+              let root = Bundle.main.resourceURL?.appendingPathComponent("www", isDirectory: true) else {
+            urlSchemeTask.didFailWithError(URLError(.fileDoesNotExist)); return
+        }
+        let relative = url.path == "/" ? "index.html" : String(url.path.dropFirst())
+        let file = root.appendingPathComponent(relative).standardizedFileURL
+        guard file.path.hasPrefix(root.standardizedFileURL.path + "/"),
+              let data = try? Data(contentsOf: file) else {
+            urlSchemeTask.didFailWithError(URLError(.fileDoesNotExist)); return
+        }
+        let mime = UTType(filenameExtension: file.pathExtension)?.preferredMIMEType ?? "application/octet-stream"
+        let response = URLResponse(url: url, mimeType: mime, expectedContentLength: data.count, textEncodingName: "utf-8")
+        urlSchemeTask.didReceive(response)
+        urlSchemeTask.didReceive(data)
+        urlSchemeTask.didFinish()
+    }
+    func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {}
 }

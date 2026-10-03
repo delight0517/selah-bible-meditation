@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "product": "Selah",
   "sourceCommit": "3c42697d2e0822ff95b834be11cea567480edbab",
-  "version": "1.0.9",
-  "build": 21,
+  "version": "1.0.10",
+  "build": 22,
   "phase": "preparation",
   "submissionAuthorized": false,
   "appleAccess": "existing_ASC_API_key_ready",
@@ -14,7 +14,7 @@
       "storeRecord": "not_in_current_account_list",
       "archive": {
         "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS.xcarchive",
-        "status": "succeeded",
+        "status": "previous_1.0.9_build_21_superseded_rebuild_pending",
         "version": "1.0.9",
         "build": "21",
         "signing": "development_signature_verified"
@@ -27,7 +27,7 @@
       "source": "snapshot of selah-language-prep/macos; not yet integrated into main",
       "archive": {
         "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac.xcarchive",
-        "status": "succeeded",
+        "status": "previous_1.0.9_build_21_superseded_rebuild_pending",
         "version": "1.0.9",
         "build": "21",
         "signing": "unsigned_not_launched"
@@ -43,5 +43,13 @@
     "Worldwide Korean Revised Version 1961 redistribution rights evidence",
     "Native account sign-in, sync, offline download and reading journeys",
     "Shared correlation ID instrumentation backlog 474637700f55 remains pending"
-  ]
+  ],
+  "bibleStorage": {
+    "retentionDays": 30,
+    "expiryBasis": "downloadStartedAt",
+    "firstLanguage": "system language unless user selected Bible language",
+    "reader": "local chapter first; server on miss",
+    "resume": "saved chapters survive interruption; online/visible/reopen retries",
+    "backgroundScope": "asynchronous while app WebView can execute; no closed-app native background transfer claimed"
+  }
 }

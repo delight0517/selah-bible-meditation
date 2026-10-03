@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1E4C20B23E5B2F69E086D70F /* SelahApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B8536C3A85CED91C6DA36 /* SelahApp.swift */; };
+		540355C3825B0709EE13F988 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 645941A919880E3C36C198A7 /* www */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		248B8536C3A85CED91C6DA36 /* SelahApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelahApp.swift; sourceTree = "<group>"; };
+		645941A919880E3C36C198A7 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../mobile/www; sourceTree = SOURCE_ROOT; };
 		DDA5AA756A72FB7060A820EA /* Selah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Selah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -19,6 +21,7 @@
 		64141401B08E0754AE68571E = {
 			isa = PBXGroup;
 			children = (
+				645941A919880E3C36C198A7 /* www */,
 				D0D1CC9947738E6860EE8FD7 /* Sources */,
 				919FF4D7363D33E76D5670D1 /* Products */,
 			);
@@ -48,6 +51,7 @@
 			buildConfigurationList = 0C6F3DB3155DC6FB67ACEC34 /* Build configuration list for PBXNativeTarget "Selah" */;
 			buildPhases = (
 				053346424B1B0F8CF95CF047 /* Sources */,
+				260E9DB25E9ABFD2E474E430 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -92,6 +96,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		260E9DB25E9ABFD2E474E430 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				540355C3825B0709EE13F988 /* www in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		053346424B1B0F8CF95CF047 /* Sources */ = {
@@ -172,7 +187,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Selah.entitlements;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = V3J8MR637G;
 				ENABLE_APP_SANDBOX = YES;
@@ -196,7 +211,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Selah;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -244,7 +259,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = Selah.entitlements;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = V3J8MR637G;
 				ENABLE_APP_SANDBOX = YES;
@@ -262,7 +277,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = Selah;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.delight0517.selah.mac;
