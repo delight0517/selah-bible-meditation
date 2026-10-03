@@ -9,6 +9,7 @@
   const path = location.pathname;
   const pending = new Set();
   const locale = document.documentElement.lang.startsWith("fil") ? "fil" : document.documentElement.lang;
+  const nativeApp = window.Capacitor?.isNativePlatform?.() === true;
   const referrer = (() => { try { return document.referrer ? new URL(document.referrer).hostname : ""; } catch { return ""; } })();
   const campaign = attribution();
   const eligibilityKey = "selah.analytics." + locale + ".activationEligible";
@@ -100,6 +101,89 @@
     }
   }
 
+  const deviceClass = (() => {
+    const ua = navigator.userAgent || "";
+    const tablet = /iPad|Tablet|PlayBook|Silk/i.test(ua)
+      || (/MacIntel/.test(navigator.platform || "") && navigator.maxTouchPoints > 1)
+      || (/Android/i.test(ua) && !/Mobile/i.test(ua));
+    const phone = !tablet && (navigator.userAgentData?.mobile === true || /iPhone|iPod|Android.*Mobile|Windows Phone|Mobile/i.test(ua));
+    return tablet ? "tablet" : phone ? "phone" : ua ? "computer" : "unknown";
+  })();
+  const funnelClient = window.matchMedia?.("(display-mode: standalone)").matches || navigator.standalone === true ? "app" : "web";
+  const funnelAttribution = {
+    source: campaign.source || "direct",
+    medium: campaign.medium || "",
+    campaign: campaign.campaign || ""
+  };
+
+  function reserveFunnelKey(key) {
+    try {
+      const saved = localStorage.getItem(key) || "";
+      const pendingAt = saved.startsWith("pending:") ? Number(saved.slice(8)) : NaN;
+      const age = Date.now() - pendingAt;
+      if (saved === "1" || (Number.isFinite(pendingAt) && age >= 0 && age < 30000)) return null;
+      const marker = "pending:" + Date.now();
+      localStorage.setItem(key, marker);
+      return marker;
+    } catch {
+      return "";
+    }
+  }
+
+  function settleFunnelKey(key, marker, success) {
+    try {
+      if (marker && localStorage.getItem(key) !== marker) return;
+      if (success) markTracked(key);
+      else if (marker) localStorage.removeItem(key);
+    } catch { }
+  }
+
+  function trackFunnel(event, occurrence = "once") {
+    if (nativeApp) return;
+    const scope = [locale, funnelClient, deviceClass, funnelAttribution.source, funnelAttribution.medium, funnelAttribution.campaign].join(".");
+    const key = "selah.experiment.global-funnel-v1.a." + scope + "." + event + "." + occurrence;
+    if (pending.has(key)) return;
+    const marker = reserveFunnelKey(key);
+    if (marker === null) return;
+    pending.add(key);
+    fetch("https://selah-feature-analytics.imdisablebutgodisable.workers.dev/analytics/experiment/event", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        appId: "selah", experiment: "global-funnel-v1", variant: "a", event, locale,
+        client: funnelClient, deviceClass, ...funnelAttribution
+      }),
+      keepalive: true
+    }).then(response => settleFunnelKey(key, marker, response.ok))
+      .catch(() => settleFunnelKey(key, marker, false))
+      .finally(() => pending.delete(key));
+  }
+
+  if (!nativeApp) {
+    const firstSeenKey = "selah.experiment.global-funnel-v1.first-seen";
+    try {
+      const firstSeen = localStorage.getItem(firstSeenKey) || "";
+      if (firstSeen && firstSeen < day) trackFunnel("return_visit", day);
+      else if (!firstSeen) localStorage.setItem(firstSeenKey, day);
+    } catch { }
+    trackFunnel("exposure");
+    document.addEventListener("click", event => {
+      const target = event.target instanceof Element ? event.target.closest("a[href],button") : null;
+      if (!target) return;
+      if (target.matches("button#start")) {
+        trackFunnel("cta_click");
+        return;
+      }
+      if (target.tagName !== "A") return;
+      try {
+        const url = new URL(target.href, location.href);
+        if (url.origin === location.origin && ["read", "meditate"].includes(url.searchParams.get("homeAction"))) {
+          trackFunnel("cta_click");
+        }
+      } catch { }
+    }, true);
+  }
+
   async function track(event, key) {
     if (pending.has(key)) return;
     pending.add(key);
@@ -111,7 +195,8 @@
         headers: { "content-type": "application/json" },
         body: JSON.stringify(feature
           ? { appId: "selah", feature, locale }
-          : { appId: "selah", event, path, locale, referrer, ...visitorIds(), ...campaign })
+          : { appId: "selah", event, path, locale, referrer, ...visitorIds(), ...campaign }),
+        keepalive: true
       });
       if (response.ok) markTracked(key);
     } catch {
@@ -154,6 +239,7 @@
 
   window.selahAnalytics = {
     reader() {
+      trackFunnel("reading_start");
       track("engagement:reader_opened", "selah.analytics." + locale + ".reader." + path + "." + day);
       this.feature("scripture_read");
     },
@@ -163,6 +249,7 @@
     },
     reflection(note) {
       if (eligible && note.trim().length >= 20) {
+        trackFunnel("reflection_saved");
         track("activation:first_reflection_saved", activationKey);
         this.feature("reflection_saved");
       }

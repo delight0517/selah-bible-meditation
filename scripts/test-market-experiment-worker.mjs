@@ -88,8 +88,16 @@ assert.equal((await worker.fetch(invitation, env)).status, 202);
 assert.equal(writes[2].values.at(-3), 'kr-gentle-invitation-v1');
 assert.equal(writes[2].values.at(-2), 'b');
 
+const globalLanding = request('https://worker.test/analytics/experiment/event', {
+  method: 'POST',
+  headers: { origin: env.ALLOWED_ORIGIN, 'content-type': 'application/json' },
+  body: JSON.stringify({ appId: 'selah', experiment: 'global-funnel-v1', variant: 'a', event: 'exposure', locale: 'pt-BR', client: 'web', deviceClass: 'phone', source: 'google', medium: 'organic', campaign: 'pt-br-landing' })
+}, { country: 'BR', regionCode: 'SP' });
+assert.equal((await worker.fetch(globalLanding, env)).status, 202);
+assert.deepEqual(writes[3].values, ['BR', 'SP', 'pt-BR', 'web', 'phone', 'google', 'organic', 'pt-br-landing', 'global-funnel-v1', 'a', 'exposure']);
+
 const market = await worker.fetch(request('https://worker.test/analytics/market'), env);
-assert.deepEqual(await market.json(), { country: 'KR', regionCode: '11', topFeature: null, sampleCount: 1, experiments: ["kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"] });
+assert.deepEqual(await market.json(), { country: 'KR', regionCode: '11', topFeature: null, sampleCount: 1, experiments: ["global-funnel-v1", "kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"] });
 
 const denied = request('https://worker.test/analytics/experiment/event', {
   method: 'POST', headers: { origin: 'https://wrong.example' }, body: '{}'
