@@ -344,6 +344,67 @@
           "reason": "Public search landing instrumentation is a web browser capability; native Capacitor events remain intentionally excluded."
         }
       }
+    },
+    {
+      "id": "SELAH-LOCALIZED-SEARCH-PREVIEW",
+      "revision": 1,
+      "title": "필리핀어·스페인어·브라질 포르투갈어 검색 미리보기 정합성",
+      "acceptance": [
+        "각 현지화 랜딩의 title, meta description, Open Graph, Twitter 제목과 설명이 현지어이며 같은 기능·성경판 약속을 표현한다.",
+        "페이지 제목, 구조화 데이터 이름, 검색·공유 이미지 대체 문구는 해당 페이지 언어로 일관되고 번역되지 않은 마케팅 표현을 섞지 않는다.",
+        "검색 제목과 설명은 감사에서 관측한 잘림 길이 이내이며 정식 canonical URL과 og:url이 같다.",
+        "현지화 랜딩은 SoftwareApplication, 현지화 안내 페이지는 Article 구조화 데이터를 포함하고 언어 및 canonical 페이지를 표시한다.",
+        "검색·공유 이미지 URL은 존재하는 로컬 미리보기 파일을 가리킨다.",
+        "구조화 데이터나 메타 태그는 Google의 검색 노출, 선택된 제목/설명 또는 썸네일 표시를 보장한다고 설명하지 않는다."
+      ],
+      "paths": [
+        "fil/index.html",
+        "fil/guide/index.html",
+        "es/index.html",
+        "pt-br/index.html",
+        "pt-br/guia/index.html",
+        "scripts/test-localized-search-metadata.mjs",
+        "GROWTH_RESEARCH.md",
+        "MARKET_PLAYBOOK.md",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah growth funnel",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/localized-search-preview-20261004",
+          "build": "Static HTML; scripts/test-localized-search-metadata.mjs",
+          "evidence": "Five-page source regression check passes for exact locale titles, descriptions, canonical/share URLs, image alt/local files and JSON-LD. PR, Pages deployment, live metadata and later Search Console results remain pending."
+        },
+        "windows": {
+          "owner": "Native platform maintainers (no native change)",
+          "state": "not_applicable",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "This SEO metadata work changes public localized web landing/document pages only.",
+          "reason": "Search-result metadata and static page schema are web-document capabilities; native app behavior is unchanged."
+        },
+        "macos": {
+          "owner": "Native platform maintainers (no native change)",
+          "state": "not_applicable",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "This SEO metadata work changes public localized web landing/document pages only.",
+          "reason": "Search-result metadata and static page schema are web-document capabilities; native app behavior is unchanged."
+        },
+        "ios": {
+          "owner": "Native platform maintainers (no native change)",
+          "state": "not_applicable",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "This SEO metadata work changes public localized web landing/document pages only.",
+          "reason": "Search-result metadata and static page schema are web-document capabilities; native app behavior is unchanged."
+        }
+      }
     }
   ]
 }

@@ -472,3 +472,11 @@
 - [x] direct attribution medium 정합성 수정·회귀 검사, PR #192 병합 및 Pages 배포 확인 (run `37149372833`, 공개 landing 4개 및 정적 script HTTP 200).
 - [ ] 운영 `global-funnel-v1`의 exposure/CTA/read/save/signup 이벤트가 실제로 도착하는지 다음 관찰 주기에 확인한다. 이번 summary 재조회가 HTTP 403을 반환해 최신 상태는 미확인이다. 합성 이벤트를 보내지 않는다.
 - [ ] 결과를 실제 사용자 수로 과장하지 않는다. Search Console의 다음 정착 날짜와 국가/언어 연결도 별도로 대조한다.
+
+
+## 2026-10-04 · 현지 검색 결과 미리보기 정합성
+- [ ] Fil/ES/PT-BR 현지 SEO metadata와 JSON-LD 변경 PR을 검사·병합·배포하고 공개 title/meta/og/schema/image 읽기를 확인한다.
+- [ ] 변경 URL의 Google index/crawl 상태는 배포 이후 한 번 검사한다. GSC에 색인 요청을 제출한 것처럼 표현하지 않는다.
+- [ ] 다음 정착 Search Console 구간에서 Web/Image 노출, query/page, 국가, CTR을 확인한다. 노출 0이면 기다리고 복수 카피/시장 승자를 선택하지 않는다.
+- [ ] 필리핀어 페이지 검색 제목·이미지 대체문구·구조화 이름의 영어 혼용 수정과 locale-specific metadata regression 검사를 PR에 포함한다.
+- [ ] CJK 페이지의 word count는 스페이스 토큰 수의 false positive 가능성을 반영한다. 실제 현지 언어 본문과 검색 노출 전에는 페이지를 억지로 늘리지 않는다.
