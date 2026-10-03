@@ -30,6 +30,7 @@ test('another account does not receive a previously claimed local source', () =>
   const store = storage({ 'selah.reader.es.v1': JSON.stringify(fixture), 'selah.migration.claims.v1': JSON.stringify({ 'selah.reader.es.v1': { owner: 'alice' } }) });
   const result = migration.plan({ ...base(), owner: 'bob' }, store);
   assert.equal(result.report.skipped.length, 1); assert.equal(result.state.reflections.length, 1);
+  assert.equal(result.backup.originals.length, 0);
 });
 test('linking anonymous records claims only records already present in the selected account', () => {
   const store = storage({ 'selah.reader.es.v1': JSON.stringify(fixture) });

@@ -60,7 +60,6 @@
     for (const source of sources) {
       const raw = storage.getItem(source.key);
       if (!raw) continue;
-      originals.push({ key: source.key, raw });
       try {
         const parsed = JSON.parse(raw);
         if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Invalid reader store');
@@ -68,6 +67,7 @@
         const converted = convert(parsed, source.key, now), claim = claims[source.key];
         const alreadyHere = (current.legacyReaderArchives || []).some(item => item.sourceKey === source.key && item.digest === converted.digest);
         if (claim && claim.owner !== owner && !(claim.owner === '@local' && alreadyHere)) { report.skipped.push(source.key); continue; }
+        originals.push({ key: source.key, raw });
         if (alreadyHere) { claims[source.key] = { owner, digest: converted.digest }; continue; }
         // Background migration must not resurrect a record deliberately deleted in the shared app.
         // Explicit backup import still restores such records as new copies.
@@ -76,7 +76,11 @@
         claims[source.key] = { owner, digest: converted.digest };
         report.imported.push(source.key);
         for (const name of ['notes', 'bookmarks', 'highlights']) report[name] += converted.counts[name];
-      } catch (error) { report.errors.push({ key: source.key, error: error.message }); }
+      } catch (error) {
+        if (claims[source.key] && claims[source.key].owner !== owner) { report.skipped.push(source.key); continue; }
+        if (!originals.some(item => item.key === source.key)) originals.push({ key: source.key, raw });
+        report.errors.push({ key: source.key, error: error.message });
+      }
     }
     return { state, report, claims, backup: { appId: 'selah-migration', version: 1, createdAt: now, current: root.SelahData.portable(current), originals } };
   }
