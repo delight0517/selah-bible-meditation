@@ -112,7 +112,7 @@
   const funnelClient = window.matchMedia?.("(display-mode: standalone)").matches || navigator.standalone === true ? "app" : "web";
   const funnelAttribution = {
     source: campaign.source || "direct",
-    medium: campaign.medium || "",
+    medium: campaign.medium || "none",
     campaign: campaign.campaign || ""
   };
 

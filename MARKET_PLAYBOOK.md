@@ -195,3 +195,9 @@ Google은 언어·지역별 URL을 명시하고 `hreflang`으로 대응 버전�
 - `/en/`, `/ja/`, `/zh-cn/`, `/zh-tw/`, `/fil/`, `/es/`, `/pt-br/` 정적 랜딩은 기존 `fil/analytics.js`의 페이지 열기만 공통 퍼널에 연결하지 않아 Search landing→CTA를 계측할 수 없었다. 이전 첫 앱 초기화 수정(#188)과는 별도의 누락이다. 이 브랜치에서 공통 exposure·CTA·reader-open·first eligible reflection 전달을 추가했다. landing과 앱 사이의 전송 경쟁은 동일 브라우저 키의 30초 만료 pending 예약으로 중복을 막고, 실패하면 재시도할 수 있다. 네이티브 Capacitor는 제외하며 새 funnel payload는 직접 식별자나 기록 내용을 보내지 않는다.
 - PR #190 병합 커밋 `063a8da83061e7d3437652a9d8d0d1daadd86b6b`의 Pages run `37145789565`와 deployment `6831691787`가 success다. 공개 루트/Filipino 계측 스크립트/브라질 포르투갈어/대만 중국어 페이지는 HTTP 200이며 새 코드가 공개 응답에서 확인됐다. 직후 운영 요약에는 `global-funnel-v1` 행이 없다. 실사용 이벤트 전달이 확인될 때까지 end-to-end 계측은 대기이며, 색인 요청 수·순위는 사용자 증가와 별도다.
 - 브라질·타갈로그·대만 경쟁 메시지는 정성 검색 관찰로만 저장했다. 검색량이나 국가별 pain point 통계가 확보되지 않았으므로 어느 시장을 승자로 고르지 않았고, 무료 전권/오프라인을 차별점으로 과장하지 않는다.
+
+
+### 2026-10-04 직접 유입 deduplication 정정
+
+- 정적 landing은 direct medium을 빈 문자열로, 앱은 `none`으로 묶어 같은 브라우저 landing→app 이동에서 공통 exposure/CTA 키가 달라질 수 있었다. 수정에서 landing fallback을 `none`으로 맞추고 회귀 검사를 추가했다.
+- 이는 구현 결함의 교정이지 실제 중복 방문이 확인됐다는 뜻이 아니다. 최신 공통 funnel 집계는 0행이다. 공개 반영과 이후 실제 이벤트 도착을 각각 확인하기 전까지 분석 공백은 남는다.

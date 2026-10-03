@@ -2,6 +2,11 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 const html=fs.readFileSync('index.html','utf8');
+const staticAnalytics=fs.readFileSync('fil/analytics.js','utf8');
+assert.match(staticAnalytics,/source:\s*campaign\.source\s*\|\|\s*"direct",\s*medium:\s*campaign\.medium\s*\|\|\s*"none",\s*campaign:\s*campaign\.campaign\s*\|\|\s*""/,'Static landing and app must use the same direct-attribution deduplication scope');
+assert.match(html,/let source="direct",medium="none"/,'Application direct-attribution default must remain aligned with static landing events');
+assert.match(staticAnalytics,/"selah\.experiment\.global-funnel-v1\.a\."\s*\+\s*scope\s*\+\s*"\."\s*\+\s*event/,'Static landing funnel key must use the shared funnel scope');
+assert.match(html,/"selah\.experiment\.global-funnel-v1\.a\."\s*\+\s*scope\s*\+\s*"\."\s*\+\s*event/,'Application funnel key must use the shared funnel scope');
 for(const match of html.matchAll(/<script(\s[^>]*)?>([\s\S]*?)<\/script>/g)){if(!/application\/ld\+json/.test(match[1]||""))new vm.Script(match[2]);}
 const activation=html.split('\n').find(line=>line.startsWith('async function activateKoreanHomeExperiment'));
 async function scenario(search, client='web',country='KR',locale='ko',ready=true){

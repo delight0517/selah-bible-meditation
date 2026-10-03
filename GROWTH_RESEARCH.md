@@ -508,3 +508,10 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **실사용 전달 판정:** 배포 직후 운영 `summary?period=30d` readback에는 `global-funnel-v1` 행이 아직 없다. 집계 GET은 이벤트를 만들지 않으며, 이번 공개 URL readback도 사용자 도착으로 세지 않았다. 검색 landing→CTA→성경 열기→기록 이벤트 연결 코드는 배포됐으나 실사용 전 구간 전달, 30초 집중 읽기, 가입은 검증 대기다. GSC와 앱 이벤트는 개인별 결합 없이 국가·언어·기간 집계 수준에서만 비교한다.
 - **시장 탐색 기록(정성):** 2026-10-04 확인한 브라질 포르투갈어 검색 결과에는 바쁜 일상에 맞춘 짧은 묵상·성경 읽기와 죄책감 없이 습관을 다시 시작하는 콘텐츠가 보였다 ([Wanessa Nery](https://blog.wanessanery.com.br/post/como-criar-habito-ler-biblia-rotina-corrida), [Soulroom](https://soulroomdevos.com/blog/como-fazer-devocional-na-rotina-corrida-em-dez-minutos), [Agapefy](https://blog.agapefy.com/devocional-diario-como-comecar-sem-culpa/)). 필리핀어권에는 전권 오프라인 성경/연간 계획 앱이 이미 있으며 ([Tagalog Bible 365](https://play.google.com/store/apps/details?hl=fil&id=com.ymobidev.mydevotional.app)), 대만에는 무료 CUV 1919 전권·오프라인·노트 경험을 제공하는 앱이 보인다 ([一筆一恩](https://apps.apple.com/tw/app/%E4%B8%80%E7%AD%86%E4%B8%80%E6%81%A9-%E6%89%8B%E5%AF%AB%E8%81%96%E7%B6%93/id6815144120), [Bible.com zh-TW](https://www.bible.com/zh-TW/app)). 이것은 검색 결과/경쟁 제품을 본 정성 관찰일 뿐, 검색량·시장 규모·현지 pain point 빈도 증거가 아니다. 무료 전권·오프라인만으로 차별화를 주장하지 않는다.
 - **판정과 다음 확인:** 10개 URL의 기존 기술 점검은 HTTP 200, indexable, self-canonical이며 critical/high 0건이었다. CJK 페이지의 공백 단어 수로 생긴 얇은 콘텐츠 경고는 언어 특성상 false positive 가능성이 있어, 본문 검토 없이 확장하지 않는다. 일본어 페이지는 영어 WEB 전권과 선택형 일본어 신약만 제공한다고 정확히 말한다. 검색 행이 0인 지금은 국가 winner, CTR winner, SEO 약속 변경, 유료 지출을 선택하지 않는다. 배포된 퍼널의 실제 유입·후속 행동과 다음 GSC 정착 창을 기다린다.
+
+
+## 2026-10-04: 직접 방문 퍼널 키 정합성
+
+- 코드 점검에서 정적 검색 랜딩은 attribution이 없으면 `(direct, 빈 medium, 빈 campaign)`으로 dedup key를 만들지만 앱은 `(direct, none, 빈 campaign)`을 사용함을 확인했다. 같은 브라우저가 랜딩에서 앱으로 이동해도 exposure/CTA 키가 달라 중복 기록될 수 있는 결함이다. 기존 “동일 키 공유” 설명은 이 경우에 한해 부정확했다.
+- 최소 수정으로 정적 랜딩의 기본 medium을 앱과 같은 `none`으로 맞추고, 직접 attribution 기본값 및 두 코드 경로의 공유 dedup key 회귀 assertion을 추가했다. tagged UTM과 검색/referral 규칙은 변경하지 않았다.
+- 기존 운영 행을 소급 변경하지 않는다. 최신 `global-funnel-v1` 요약은 0행이며, 실제 중복이 데이터에서 관측됐다는 뜻은 아니다. PR·배포·이후 실제 이벤트 도착은 별도 확인이 필요하다.
