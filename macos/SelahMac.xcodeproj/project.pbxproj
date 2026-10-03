@@ -9,12 +9,23 @@
 /* Begin PBXBuildFile section */
 		1E4C20B23E5B2F69E086D70F /* SelahApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B8536C3A85CED91C6DA36 /* SelahApp.swift */; };
 		540355C3825B0709EE13F988 /* www in Resources */ = {isa = PBXBuildFile; fileRef = 645941A919880E3C36C198A7 /* www */; };
+		7691ECD72FED5B77D927DDF5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E5CC2038F2A2DB517BD89CEC /* Localizable.strings */; };
+		E63B2545F577531EBBC73267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EBB9BB5CC14F4C1C1669E1B /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00F39711EC8520416905441B /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		0EBB9BB5CC14F4C1C1669E1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		248B8536C3A85CED91C6DA36 /* SelahApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelahApp.swift; sourceTree = "<group>"; };
+		42DEC9D505B3EACCB2606B86 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5542212A8C6D14F6E02FA46E /* fil */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fil; path = fil.lproj/Localizable.strings; sourceTree = "<group>"; };
 		645941A919880E3C36C198A7 /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../mobile/www; sourceTree = SOURCE_ROOT; };
+		7319A234BA296948A209E267 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		B717A130AE94FB59023139E5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C3247E877DB363D744D057C3 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DDA5AA756A72FB7060A820EA /* Selah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Selah.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDFA2C24432540B21CA92A9A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EEEDE11276DBE4C649E3994D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -22,6 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				645941A919880E3C36C198A7 /* www */,
+				94375746D8A5EA2F5E967B8D /* Resources */,
 				D0D1CC9947738E6860EE8FD7 /* Sources */,
 				919FF4D7363D33E76D5670D1 /* Products */,
 			);
@@ -33,6 +45,15 @@
 				DDA5AA756A72FB7060A820EA /* Selah.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		94375746D8A5EA2F5E967B8D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0EBB9BB5CC14F4C1C1669E1B /* Assets.xcassets */,
+				E5CC2038F2A2DB517BD89CEC /* Localizable.strings */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		D0D1CC9947738E6860EE8FD7 /* Sources */ = {
@@ -84,6 +105,13 @@
 			knownRegions = (
 				Base,
 				en,
+				es,
+				fil,
+				ja,
+				ko,
+				"pt-BR",
+				"zh-Hans",
+				"zh-Hant",
 			);
 			mainGroup = 64141401B08E0754AE68571E;
 			minimizedProjectReferenceProxies = 1;
@@ -102,6 +130,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E63B2545F577531EBBC73267 /* Assets.xcassets in Resources */,
+				7691ECD72FED5B77D927DDF5 /* Localizable.strings in Resources */,
 				540355C3825B0709EE13F988 /* www in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +148,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E5CC2038F2A2DB517BD89CEC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B717A130AE94FB59023139E5 /* en */,
+				DDFA2C24432540B21CA92A9A /* es */,
+				5542212A8C6D14F6E02FA46E /* fil */,
+				C3247E877DB363D744D057C3 /* ja */,
+				EEEDE11276DBE4C649E3994D /* ko */,
+				00F39711EC8520416905441B /* pt-BR */,
+				7319A234BA296948A209E267 /* zh-Hans */,
+				42DEC9D505B3EACCB2606B86 /* zh-Hant */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		33A6353DE85740734EB2832F /* Debug */ = {
@@ -156,6 +204,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -228,6 +277,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
