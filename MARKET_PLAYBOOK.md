@@ -212,6 +212,7 @@ Google은 언어·지역별 URL을 명시하고 `hreflang`으로 대응 버전�
 - 우선 메타·스키마 정합성만 수정하고 제목 A/B, 추가 썸네일 또는 유료 노출은 보류한다. search preview가 수정 후 Google에서 실제 갱신됐는지 GSC settled results 및 수동 검색으로 확인하기 전에는 성공으로 기록하지 않는다.
 - 타갈로그어 랜딩에는 제목·썸네일 설명·앱 이름의 영어 혼용이 있어 현지 언어로 통일했다. 검색결과 미리보기와 방문 직후 메시지도 계속 같은 번역판·기능을 약속해야 한다.
 - 브라질 SBB+와 Ora의 현재 공개 정보는 무료 번역·오디오·계획 제공 및 바쁜 일상용 짧은 영적 루틴이 이미 경쟁 메시지임을 보인다. 한 장 묵상은 검증할 가설이며 독점적 pain point로 과장하지 않는다.
+- *Retratos da Leitura no Brasil* 2024 조사에서 독서자 표본(n=2,547)의 38%가 최근 1년 동안 성경을 읽었다고 답했다(비재학생 독서자 46%, 재학생 25%). 조사 전체는 5세 이상 5,504명·208개 지자체지만 이 장르 질문의 분모는 전체 표본이 아니다. 성경 앱 수요, 묵상 빈도, 검색량, 독자 pain point를 증명하지 않으므로 브라질은 관련성 후보로만 둔다. 현재 실험과 정착된 검색 데이터가 준비되기 전에는 별도 카피·UI 승자나 홍보 캠페인을 만들지 않는다. [조사 설명](https://www.fundacaoitau.org.br/observatorio/biblioteca/retratos-da-leitura-no-brasil-6-edicao) · [원문 표 P.37](https://cbl.org.br/wp-content/uploads/2024/11/Apresentac%CC%A7a%CC%83o_Retratos_da_Leitura_2024_13-11_SITE.pdf)
 
 ### 배포 직후 읽기와 측정
 
