@@ -18,6 +18,8 @@ function readLedger() {
 }
 
 function writeLedger(data) {
+  const issues = validate(data);
+  if (issues.length) throw new Error(issues.join('\n'));
   data.updatedAt = new Date().toISOString();
   fs.writeFileSync(ledgerPath, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
 }
@@ -64,7 +66,7 @@ function validate(data) {
     if (liveStatuses.has(task.status) && (!task.repo || !task.baseCommit || !Array.isArray(task.files))) {
       console.warn(`Work Hub warning: ${task.id} is a legacy live claim without complete repo/base/files metadata.`);
     }
-    if (['claimed', 'in_progress', 'review'].includes(task.status) && task.claimVersion === 2) {
+    if (['claimed', 'in_progress', 'review'].includes(task.status) && !(data.legacyClaimIds ?? []).includes(task.id)) {
       if (!task.repo || !task.threadId || !task.baseCommit || !Array.isArray(task.files) || task.files.length === 0) {
         issues.push(`${task.id}: active implementation claims require repo, threadId, baseCommit, and at least one file`);
       }
@@ -93,7 +95,7 @@ function validate(data) {
           continue;
         }
         for (const previous of activeFiles) {
-          if (task.repo === previous.repo && pathsOverlap(normalized, previous.file)) {
+          if (task.id !== previous.taskId && normalizeRepo(task.repo) === normalizeRepo(previous.repo) && pathsOverlap(normalized, previous.file)) {
             issues.push(`file collision ${task.repo}:${normalized}: ${previous.taskId} and ${task.id} overlap at ${previous.file}`);
           }
         }
@@ -101,6 +103,16 @@ function validate(data) {
       }
     }
     if (task.status === 'completed' && (!Array.isArray(task.evidence) || task.evidence.length === 0)) issues.push(`${task.id}: completed tasks require evidence`);
+    const handoffIds = new Set();
+    for (const handoff of task.handoffs ?? []) {
+      if (!handoff.id || handoffIds.has(handoff.id)) issues.push(`${task.id}: missing or duplicate handoff id`);
+      handoffIds.add(handoff.id);
+      if (!['requested', 'received', 'responded', 'accepted', 'declined'].includes(handoff.status)) issues.push(`${task.id}: invalid handoff status`);
+      if (!handoff.request || !handoff.requestedAt || !['mac', 'windows', 'shared'].includes(handoff.from) || !['mac', 'windows'].includes(handoff.to)) issues.push(`${task.id}: handoff requires request, timestamp, sender, recipient`);
+      if (['received', 'responded', 'accepted', 'declined'].includes(handoff.status) && (!handoff.receipt || !handoff.receivedAt)) issues.push(`${task.id}: handoff requires receipt and receivedAt`);
+      if (['responded', 'accepted', 'declined'].includes(handoff.status) && (!handoff.response || !handoff.respondedAt)) issues.push(`${task.id}: handoff requires response and respondedAt`);
+      if (['accepted', 'declined'].includes(handoff.status) && !handoff.resolvedAt) issues.push(`${task.id}: resolved handoff requires resolvedAt`);
+    }
   }
   const sourceIds = new Set();
   for (const source of data.dataSources) {
@@ -122,6 +134,16 @@ function normalizeClaimPath(value) {
 
 function pathsOverlap(left, right) {
   return left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
+}
+
+function normalizeRepo(value) {
+  if (!value) return value;
+  try {
+    const url = new URL(value);
+    if (url.protocol !== 'https:' || url.username || url.password || url.search || url.hash) return null;
+    const pathname = url.pathname.replace(/\/+$/, '').replace(/\.git$/i, '');
+    return `${url.origin}${url.hostname === 'github.com' ? pathname.toLowerCase() : pathname}`;
+  } catch { return null; }
 }
 
 function usage() {
@@ -153,7 +175,8 @@ function main() {
     const unknown = scopeIds.filter((scopeId) => !data.scopeCatalog.some((scope) => scope.id === scopeId));
     if (unknown.length) throw new Error(`Register scope IDs in docs/work-hub.json first: ${unknown.join(', ')}`);
     if (data.tasks.some((task) => task.id === flags.id)) throw new Error(`Task ID already exists: ${flags.id}`);
-    if (!/^https:\/\//.test(flags.repo)) throw new Error('--repo must be an HTTPS repository URL');
+    flags.repo = normalizeRepo(flags.repo);
+    if (!flags.repo) throw new Error('--repo must be an HTTPS repository URL without credentials, query, or fragment');
     if (!/^[0-9a-f]{7,40}$/i.test(flags.base)) throw new Error('--base must be a Git commit SHA');
     const files = [...new Set(flags.files.split(',').map(normalizeClaimPath))];
     if (!files.length || files.includes(null)) throw new Error('--files must contain repository-relative paths without wildcards');
@@ -162,7 +185,7 @@ function main() {
       if (owner) throw new Error(`Scope ${scopeId} is already ${owner.status} under ${owner.id} (${owner.owner}). Add feedback or request a handoff instead.`);
     }
     for (const task of data.tasks.filter((item) => liveStatuses.has(item.status))) {
-      if (task.repo === flags.repo && (task.files ?? []).some((claimed) => files.some((file) => pathsOverlap(file, normalizeClaimPath(claimed))))) {
+      if (normalizeRepo(task.repo) === flags.repo && (task.files ?? []).some((claimed) => files.some((file) => pathsOverlap(file, normalizeClaimPath(claimed))))) {
         throw new Error(`Repository file overlap with live task ${task.id}; request a handoff or coordinate a single owner.`);
       }
     }
