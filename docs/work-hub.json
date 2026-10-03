@@ -1,6 +1,11 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-10-03T14:45:44.277Z",
+  "legacyClaimIds": [
+    "selah-analytics-ga4-connect-20261003",
+    "selah-apple-feature-parity-20261003",
+    "selah-windows-feature-runtime-20261003"
+  ],
+  "updatedAt": "2026-10-03T14:50:29.653Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -295,12 +300,12 @@
       "id": "selah-work-hub-functional-test-20261003",
       "summary": "Run real CLI scenarios and fix any duplicate-work enforcement gaps before pausing the goal",
       "owner": "windows",
-      "status": "in_progress",
+      "status": "review",
       "claimVersion": 2,
       "scopes": [
         "selah.coordination.claim-integrity"
       ],
-      "branch": "codex/selah-work-hub-runtime-tests-20261003",
+      "branch": "codex/selah-work-hub-tested-fixes-20261003",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a0fc19-3ed4-7bc1-90c8-8552f112a6da",
       "baseCommit": "097c244413a6786891735c5343d7ad52be7045df",
@@ -311,8 +316,10 @@
         "docs/WORK_HUB.md",
         "TODO.md"
       ],
-      "evidence": [],
-      "nextAction": "Update this record before handoff or completion.",
+      "evidence": [
+        "Windows real CLI regression suite: 13/13 passed after reproducing six enforcement gaps; every rejected mutation preserves original ledger bytes."
+      ],
+      "nextAction": "Merge tested fixes after required CI, verify public deployment, then pause the analytics goal per user request.",
       "feedback": [],
       "handoffs": []
     }

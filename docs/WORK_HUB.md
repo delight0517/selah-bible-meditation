@@ -35,5 +35,11 @@ Google Search Console, the first-party Cloudflare Worker, and GA4 remain separat
 
 The CLI edits only `docs/work-hub.json`; it never commits, pushes, merges, changes account settings, or copies analytics rows.
 
+Every mutation validates the proposed whole ledger before writing. Rejected claims or status changes preserve the original file, including resource collisions across different scope IDs and reactivation of an overlapping completed task. Repository URL aliases ending in `.git` or `/` normalize to the same repository. Multiple overlapping paths within one task remain valid because they have one owner.
+
+Only the explicitly listed historical `legacyClaimIds` may retain incomplete metadata during migration. New active records require ownership metadata even when edited manually. Handoff validation checks the receipt/response/resolution fields for each state.
+
+Run `node --test scripts/test-work-hub.mjs` to exercise the real CLI against isolated temporary ledgers. The suite checks 13 scenarios, including accepted writes, rejected-write integrity, scope/resource/file collisions, repository aliases, task reactivation, metadata, completion evidence, and handoff ordering. It also runs in the required `validate` CI job. Fixture acknowledgements exercise the state machine; they do not prove a new Mac device has received a request.
+
 ## 플랫폼 기능 동등성
 기능별 합격 기준과 revision은 contracts/feature-parity.json에서 관리한다. 작업 담당·중복 범위·수신 대기는 이 work-hub 원장을 사용한다. 기능 원장의 workItem으로 기존 작업을 이어가고 같은 요청을 새로 만들지 않는다. 플랫폼별 구현 기술은 강제하지 않는다. 자세한 규칙은 PLATFORM_RELEASE.md를 따른다.

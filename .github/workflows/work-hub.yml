@@ -20,3 +20,5 @@ jobs:
           node-version: 22
       - name: Reject invalid or overlapping work claims
         run: node scripts/work-hub.mjs check
+      - name: Verify work hub CLI behavior and rejected-write safety
+        run: node --test scripts/test-work-hub.mjs
