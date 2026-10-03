@@ -62,6 +62,7 @@ If Not files.FolderExists(programsPath) Then files.CreateFolder(programsPath)
 
 EnsureShortcut desktopShortcutPath
 EnsureShortcut startShortcutPath
+RegisterProtocol
 
 Sub EnsureShortcut(path)
   Dim shortcut, expectedArgs, sourceArgs, currentArgs
@@ -90,7 +91,33 @@ Sub EnsureShortcut(path)
   shortcut.IconLocation = iconPath & ",0"
   shortcut.Save
 End Sub
+Sub RegisterProtocol()
+  Dim expectedCommand, existingCommand, existingProtocol, existingName, writeFailed
+  expectedCommand = Chr(34) & wscriptPath & Chr(34) & " " & Chr(34) & launcherPath & Chr(34) & " " & Chr(34) & "%1" & Chr(34)
+  existingCommand = ReadRegistry("HKCR\selah\shell\open\command\")
+  existingProtocol = ReadRegistry("HKCR\selah\URL Protocol")
+  existingName = ReadRegistry("HKCR\selah\")
 
+  If LCase(existingCommand) = LCase(expectedCommand) And existingProtocol = "" Then Exit Sub
+  If Len(existingCommand) > 0 Or Len(existingProtocol) > 0 Or (Len(existingName) > 0 And existingName <> "URL:Selah Reading Protocol") Then
+    MsgBox "Another application already owns the selah: link. Its registration was left unchanged. Selah shortcuts were installed, but reading links will not open this Windows app until that registration is resolved.", vbExclamation, "Selah"
+    Exit Sub
+  End If
+
+  On Error Resume Next
+  Err.Clear
+  shell.RegWrite "HKCU\Software\Classes\selah\", "URL:Selah Reading Protocol", "REG_SZ"
+  If Err.Number = 0 Then shell.RegWrite "HKCU\Software\Classes\selah\URL Protocol", "", "REG_SZ"
+  If Err.Number = 0 Then shell.RegWrite "HKCU\Software\Classes\selah\DefaultIcon\", Chr(34) & iconPath & Chr(34) & ",0", "REG_SZ"
+  If Err.Number = 0 Then shell.RegWrite "HKCU\Software\Classes\selah\shell\open\command\", expectedCommand, "REG_SZ"
+  writeFailed = (Err.Number <> 0)
+  Err.Clear
+  On Error GoTo 0
+
+  If writeFailed Then
+    MsgBox "Selah shortcuts were installed, but Windows could not register the selah: reading-link handler.", vbExclamation, "Selah"
+  End If
+End Sub
 Function ReadUtf8(path)
   Dim stream
   Set stream = CreateObject("ADODB.Stream")
@@ -100,4 +127,12 @@ Function ReadUtf8(path)
   stream.LoadFromFile path
   ReadUtf8 = stream.ReadText
   stream.Close
+End Function
+Function ReadRegistry(path)
+  On Error Resume Next
+  Err.Clear
+  ReadRegistry = CStr(shell.RegRead(path))
+  If Err.Number <> 0 Then ReadRegistry = ""
+  Err.Clear
+  On Error GoTo 0
 End Function
