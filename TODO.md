@@ -382,3 +382,9 @@
 - [ ] PWABuilder assessment could not start: after entering the public app URL, its Start control remained disabled. Retry only after diagnosing the builder form; do not record a pass without a report card.
 - [ ] Continue with live PWABuilder findings, reserved Partner Center product identity, Windows package generation/validation, real listing assets and age rating, certification, and installed Store build verification.
 - [ ] Verify worldwide distribution rights for every bundled Bible edition before packaging any Scripture dataset.
+
+## 2026-10-03 — Narrow-window invitation layout (build 27)
+- User feedback: current UI text stretches into excessive vertical lines.
+- Confirmed at 644px viewport: invitation copy shrank to 15.9px while action group reserved 558.5px; card height reached 612.6px.
+- Fix: preserve a readable copy width, wrap controls, and stack invitation/actions through 760px. Keep existing font preferences and other chats' thumbnail changes.
+- Verification: responsive browser checks and published Pages readback tracked with this release.
