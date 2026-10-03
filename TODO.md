@@ -275,3 +275,7 @@
 - [x] Live HTTP readback confirms the CTA CSS and shared app version 1.0.9/build 21. The signup flow itself was not completed or verified.
 - [ ] Wait until Search Console's settled-through date passes the Oct 2 crawls; compare Selah-only impressions/clicks and queries with tagged first-party visits, reading/reflection events and verified signups. No current data identifies 100,000 concurrent users, 1,000,000 cumulative users, 300,000 registrations or 10,000 premium customers; those remain owner-stated aspirations, not forecasts.
 - [ ] Keep the ₩20,000 ad allowance unspent until campaign attribution can connect an acquired visit to reading/reflection and verified signup. Continue excluding personal Instagram.
+
+## 2026-10-03 · Configure free change notification for supported search engines
+- [ ] Publish `selah-indexnow-key.txt` under the Selah URL prefix, compare its live content to the generated project key without echoing the key, and submit only the changed Korean homepage through the IndexNow protocol.
+- [ ] Record the protocol response separately from whether Bing/Naver/etc. later crawl or index the URL. IndexNow does not notify Google and cannot guarantee indexing. Current Google Search Console still has zero settled Selah impressions through Sep 29; some locale guides report `Crawled - currently not indexed`.
