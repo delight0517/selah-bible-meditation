@@ -74,3 +74,5 @@ test('hybrid clocks advance after observing a device whose clock was ahead', () 
   const future=edit(base(),'Mac',10000,s=>s.language='en'), merged=data.merge(base(),future);const local=edit(merged,'Windows',100,s=>s.language='ko');
   assert.equal(data.merge(local,future).language,'ko');
 });
+
+test("reader restores location and protects asynchronous selection and scroll", async () => { const { default: run } = await import("./test-reader-startup.cjs"); await run(); });

@@ -39,3 +39,10 @@ if (check) {
   if (await readFile(target, 'utf8').catch(() => '') !== manifest) throw new Error('Stale shared source manifest');
 } else await writeFile(target, manifest);
 console.log(`${check ? 'Verified' : 'Copied'} ${files.length} shared runtime files: ${release.version} / build ${release.build}`);
+
+// Native bundle identity follows the same release descriptor as web/mobile UI.
+const projectPath = resolve(mobileDir, 'ios/App/App.xcodeproj/project.pbxproj');
+const project = await readFile(projectPath, 'utf8');
+const versionedProject = project.replace(/CURRENT_PROJECT_VERSION = [^;]+;/g, `CURRENT_PROJECT_VERSION = ${release.build};`).replace(/MARKETING_VERSION = [^;]+;/g, `MARKETING_VERSION = ${release.version};`);
+if (check) { if (project !== versionedProject) throw new Error('Stale iOS build version; run npm run copy:web.'); }
+else if (project !== versionedProject) await writeFile(projectPath, versionedProject);
