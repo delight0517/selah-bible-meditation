@@ -734,4 +734,4 @@ async function applyRegionalFeatureEmphasis(){try{const marker="selah.analytics.
 const homeAction=new URLSearchParams(location.search).get("homeAction");if(homeAction==="read"){$("startFocusReading").click();$("passageBookSelect").focus()}else if(homeAction==="meditate"&&!meditationView.classList.contains("active"))$("openMeditation").click();
 
 const incomingFriend=(new URLSearchParams(location.search).get("selahAddFriend")||"").trim().slice(0,100);if(incomingFriend){$("friendSearch").value=incomingFriend;queueMicrotask(openFriendPanel)}
-</script><script src="./windows/app-shell.js"></script><script src="./scripts/computer-reading-handoff.js"></script><script src="./scripts/unified-data-ui.js?v=19"></script></body></html>
+</script><script src="./assets/selah-focus-session.js"></script><script src="./windows/app-shell.js"></script><script src="./scripts/computer-reading-handoff.js"></script><script src="./scripts/unified-data-ui.js?v=19"></script></body></html>
