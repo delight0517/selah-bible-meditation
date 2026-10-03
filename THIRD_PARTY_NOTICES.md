@@ -18,6 +18,7 @@ Mirrored copies in mobile web bundles retain the same terms. Downloadable transl
 
 ## Icons, images, fonts, and dependencies
 
+- `assets/korea-top-region-maps.json` contains simplified 2013 municipality boundaries for Seoul and Chungnam from [southkorea/southkorea-maps](https://github.com/southkorea/southkorea-maps/tree/master/kostat/2013/json). The upstream README states: “KOSTAT: Free to share or remix.” The source is KOSTAT 2013; these shapes are for visual navigation and are not used to infer visitor locations below the province level.
 - `assets/settings-icon.png` and `assets/cloud-icon.png` are Google Material Icons under Apache 2.0. Preserve [the notice](assets/MATERIAL-ICONS-NOTICE.txt) and [the complete license](assets/MATERIAL-ICONS-LICENSE.txt).
 - Other images, illustrations, logos, preview images, and fonts are outside the source-code MIT grant unless a separate notice explicitly grants reuse rights. Reference this distinction when copying the code with its visual assets.
 - Capacitor and other dependency packages retain their upstream license files and notices. The mobile package manager must preserve those when building a distribution; they are not relicensed by Selah.
