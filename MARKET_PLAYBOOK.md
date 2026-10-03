@@ -218,3 +218,9 @@ Google은 언어·지역별 URL을 명시하고 `hreflang`으로 대응 버전�
 - PR #194 live readback에서 5개 현지 URL과 이미지가 HTTP 200이며, 제목/설명/미리보기가 첫 화면의 실제 성경판·읽기·기록 기능과 맞았다.
 - Search Console은 아직 09-29까지만 정착돼 있고 해당 기간 노출은 0이다. 홈페이지 3개는 indexed, 두 안내 페이지는 crawled-not-indexed이며 현재 메타를 Google이 본 증거는 없다.
 - 현재 행동 표본은 한국어만 있다. A/B 각 5 exposure와 읽기 시작 3건, 30초 읽기·기록 저장·가입 0건은 승자 선택에 너무 작다. 한 장 묵상 카피를 확정하거나 국가별 디자인을 더 만들지 않고 다음 관찰 주기를 기다린다.
+
+### 2026-10-04 재확인
+
+- PR #195 문서 병합 `563de97` 및 Pages run `37152669100` 성공. 공개 현지 랜딩 5개는 HTTP 200이고 title/canonical/description이 배포 버전과 일치한다.
+- GSC는 09-29까지 정착된 창에서 Selah page/country·query/page 행이 없고 Image 응답 한 행은 다른 프로젝트다. 다섯 URL의 `requested_at`은 URL Inspection API 조회 기록일 뿐 “Request indexing” 제출 증거가 아니다. 세 홈은 indexed, 두 guide는 crawled-not-indexed이며 마지막 크롤링은 배포 전이다. Selah sitemap은 pending, 오류·경고 0이다.
+- Worker 요약은 허용된 GitHub Pages Origin에서 200, 30일 동안 KR/ko만 반환했다. 공통 `global-funnel-v1`은 0행. 기존 한국어 A/B 이벤트 표본은 각 5 exposure이며 30초 집중 읽기·기록 저장·가입은 0이다. 사람 수나 승자로 해석하지 않고 비한국 유입·Google 재크롤링을 다음 주기에 기다린다.
