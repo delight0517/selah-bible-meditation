@@ -354,4 +354,13 @@
 ## 2026-10-03 · 개발자 통계에 사이트 호스트·페이지 경로 연결
 - [x] 같은 `cloud-account-storage` 요약 API의 새 `pageViewsByOriginCountryLocalePath` 필드를 개발자 통계에 표시하도록 적용. 브라우저가 보낸 Origin 호스트, 국가, 인터페이스 언어, 페이지 경로별 **페이지 열기 횟수**이며 사람 수나 검색 유입으로 계산하지 않음.
 - [x] 공통 웹·모바일 파일을 47개 기준으로 동기화하고 앱 버전을 1.0.10/build 26으로 갱신. JavaScript 구문 검사와 source parity 검사를 통과.
-- [ ] GitHub Pages build 26 배포 완료 후 공개 화면을 확인하고, 다음 실제 방문부터 새 호스트별 집계가 쌓이는지 기다려 확인. 기존 데이터의 배포판/호스트 분리는 미확인으로 유지.
+- [x] GitHub Pages build 26 배포 확인: PR #152, Pages run `37125069069`, live `SHARED_APP_BUILD.json` 1.0.10/build 26, host/path panel present in public HTML.
+- [ ] 다음 실제 페이지 열기부터 새 호스트별 집계가 나타나는지 확인. 기존 데이터의 배포판/호스트 분리는 미확인으로 유지.
+
+
+## 2026-10-03 · Search and campaign measurement checkpoint
+- [x] Rechecked Selah-filtered GSC web pages/queries and Image pages for 2026-09-03–09-30: 0 rows, settled through 2026-09-29. Google Web-result thumbnail choice remains unobserved.
+- [x] Compared Metricool's one published 2026-10-02 Instagram post (84 reach, 186 views, 3 likes/interactions) with first-party Selah campaign totals. No Instagram UTM campaign row is recorded; cause may be no click or missing event attribution, so do not credit the post with site visits.
+- [x] Rechecked the 30-day product experiment: `kr-home-copy-v1` has 7 exposures / 5 CTA clicks / 2 reading starts / 0 focused readers / 0 saved reflections / 0 signups / 4 return events; `kr-spiritual-curiosity-v2` has no rows. Do not infer people or winners from these counts.
+- [ ] Confirm that the connected Instagram profile is the separate Selah marketing profile before using it for the queued thumbnail comparison; if it is personal, keep it excluded and choose a public channel with clickable links and usable analytics.
+- [ ] Wait for additional settled GSC data and genuine, attributable product events before changing the Korean market promise or calling a creative variant successful.
