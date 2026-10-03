@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:06:14.006Z",
+  "updatedAt": "2026-10-03T15:15:13.083Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -345,7 +345,7 @@
       "id": "selah-live-together-20261003",
       "summary": "Live invite same passage peer positions and shared timer",
       "owner": "windows",
-      "status": "review",
+      "status": "waiting_external",
       "claimVersion": 2,
       "scopes": [
         "selah.features.live-together"
@@ -366,9 +366,10 @@
       "evidence": [
         "Live server two-participant tests and Node mock tests pass; web UI validation pending",
         "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc",
-        "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated."
+        "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated.",
+        "Home promotional copy 5 locales published in PR #181 / merge d5692245c17f8993a9359d13597015b3c3cffb7d; local checks passed; public build readback pending; Mac request still unacknowledged"
       ],
-      "nextAction": "Browser UI and device acceptance pending; Mac maintainer request must apply latest revision3/build32.",
+      "nextAction": "Confirm Pages publication; Mac maintainer to apply revision3/build32; actual browser/device acceptance remains pending",
       "feedback": [],
       "handoffs": []
     }
