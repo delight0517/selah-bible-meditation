@@ -133,7 +133,8 @@
         "privacy.html",
         "mobile/www/",
         "mobile/ios/",
-        "together-worker/"
+        "together-worker/",
+        "home.html"
       ],
       "platforms": {
         "web": {
