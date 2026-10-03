@@ -333,7 +333,9 @@
 - [ ] Resolve worldwide redistribution rights for bundled Korean Revised Version 1961 or explicitly select a verified permitted replacement before distribution.
 - [ ] Verify native sign-in, sync, offline reading and 30-day download behavior. Use Simulator per latest user instruction; physical-device evidence is not claimed.
 - [ ] Preserve shared correlation ID backlog `474637700f55` for Selah/Pomodoro/RiseSync; Windows validation remains pending under user device context.
-- [ ] On resume inspect the generated, uncommitted `macos/SelahMac.xcodeproj/project.pbxproj` asset/localization changes before integrating. Store records and review submission are not complete.
+- [x] Integrated Mac generated asset/localization resources and latest main. Both signed build 25 packages exported; 43 actual native resource hashes verified per platform. Build 22 is superseded.
+- [x] Simulator: reading, font sizing, settings, Korean locale and mobile action layout verified; fixed stale Capacitor public resource packaging and locale refresh.
+- [ ] Finish authentic locale screenshots, app privacy/review metadata, upload and exact build attachment before authorized review submission.
 
 - [x] Reconciled 21 additional main commits, preserved migration/foreground guard/icon changes, and set shared release candidate to 1.0.10 / 25. Previous build 22 packages retained, not uploaded.
 - [x] Official Korean Bible Society FAQ confirms royalty-free use of 개역한글 subject to attribution and text integrity; worldwide scope remains unstated in this FAQ.

@@ -39,13 +39,13 @@
     "matthew-krv.json": "ecc07e6134e651eac193699d569d66b9317ad591824a9be23580f82c3d0899d9",
     "matthew-web.json": "e30a5533d3695e29a04369063ac05e34702d46a67743d969eea16170eb5e48af",
     "privacy.html": "b85c0f37bbeca41025bc13740b4282d325085422e454b0d0431ced7d4195b59f",
-    "scripts/computer-reading-handoff.js": "f8f63ebf6a845e82b2561a39e3a4ddb6bb29d3fa418dfa9aa3287b26bfeac55e",
+    "scripts/computer-reading-handoff.js": "6f024180255e5cd4666784849e7f69537d6846a11416f170c14a1365643135a9",
     "scripts/google-login-recovery.js": "bb782156325b62ab076d7d83e70dcc4e609180b53554cf97cc4369dc0f3096d0",
     "scripts/legacy-migration-ui.js": "3657e6e92d97d515a339efa948b8dc97617f051451849eb4005ac1b735d3a88c",
     "scripts/legacy-migration.js": "75b0b01084bd94ff8b9979b8dd4199133b4c14486416e7b1b2f09456108d415c",
     "scripts/unified-data-ui.js": "d2a6ff960d90cfd7f6716cbf68bf53024beab38b8b33d6ac9337513b0022db53",
     "scripts/unified-data.js": "252fc30ef5e1061f05717f7e01a4d21a4eeeac6554c0265c839c69ebe5526b0f",
-    "styles/computer-reading-handoff.css": "c7f0e639a6c3aaa30b94d9149077b79646558b02629b8ac6c395ded07cfd6d78",
+    "styles/computer-reading-handoff.css": "cf4cc737ce9232cae5030045860589481ad34a3d300c765a4b514974f2dbc47e",
     "styles/desktop-polish.css": "abc2f865eaeabc7a7f451059491dd6d059b8455f30d2cc179a76fb8465f66e8b",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
   }

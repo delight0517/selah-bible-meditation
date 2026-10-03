@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "product": "Selah",
-  "sourceCommit": "8cd0a99",
+  "sourceCommit": "3d6c75e + local locale/layout/native-resource guard changes",
   "version": "1.0.10",
   "build": 25,
-  "phase": "resumed_latest_source_preparation",
+  "phase": "signed_build25_exported_metadata_in_progress",
   "submissionAuthorized": true,
   "appleAccess": "existing_ASC_API_key_ready",
   "apps": {
@@ -13,22 +13,40 @@
       "appId": "6818769383",
       "storeRecord": "PREPARE_FOR_SUBMISSION",
       "archive": {
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS-1.0.10-22.xcarchive",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS-1.0.10-25.xcarchive",
         "status": "succeeded",
         "version": "1.0.10",
-        "build": "22",
-        "readerMatchesFinalSource": true,
-        "signing": "development_signature_verified",
-        "nativeRuntime": "not_tested"
+        "build": "25",
+        "packagedRuntimeHashes": "43 verified against shared source manifest",
+        "nativeRuntime": "Simulator reading/font/settings verified"
       },
       "registeredBundleId": "587L379GH9",
       "export": {
         "status": "succeeded",
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/ios-store-22/App.ipa",
-        "sha256": "8e3dbb8a1492b515ce5fca4f71e4b421a28d7f7ae77b668731fec492e517d0fc",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/ios-store-25/App.ipa",
+        "sha256": "bc8a85ee0762c2fe20f6cb1654a3fd6420420b1108ca4d592205c76d3fe16068",
         "uploaded": false
       },
-      "appStoreVersionId": "1924e71a-2952-47da-9f90-7afbe7605996"
+      "appStoreVersionId": "1924e71a-2952-47da-9f90-7afbe7605996",
+      "historicalBuild22": {
+        "archive": {
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS-1.0.10-22.xcarchive",
+          "status": "succeeded",
+          "version": "1.0.10",
+          "build": "22",
+          "readerMatchesFinalSource": false,
+          "signing": "development_signature_verified",
+          "nativeRuntime": "not_tested"
+        },
+        "export": {
+          "status": "succeeded",
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/ios-store-22/App.ipa",
+          "sha256": "8e3dbb8a1492b515ce5fca4f71e4b421a28d7f7ae77b668731fec492e517d0fc",
+          "uploaded": false
+        },
+        "status": "superseded_do_not_upload"
+      },
+      "localizedDescriptions": "en-US, ko, ja uploaded and API read back"
     },
     "MAC_OS": {
       "bundleId": "com.delight0517.selah.mac",
@@ -36,19 +54,18 @@
       "storeRecord": "PREPARE_FOR_SUBMISSION",
       "source": "snapshot of selah-language-prep/macos; not yet integrated into main",
       "archive": {
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-1.0.10-22.xcarchive",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-1.0.10-25.xcarchive",
         "status": "succeeded",
         "version": "1.0.10",
-        "build": "22",
-        "readerMatchesFinalSource": true,
-        "signing": "unsigned_not_launched",
+        "build": "25",
+        "packagedRuntimeHashes": "43 verified against shared source manifest",
         "nativeRuntime": "not_tested"
       },
       "registeredBundleId": "564D4H9HP5",
       "export": {
         "status": "succeeded",
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-assets-store-22/Selah.pkg",
-        "sha256": "4b0c6a9c59a4cd76c9570915727833625131e22ead8b4b132bd92a43935d6381",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-store-25/Selah.pkg",
+        "sha256": "0774e24ecaf983b6704a7ffca503f6ac81c78f47fd526e61c740390a43dae7da",
         "uploaded": false
       },
       "signedArchive": {
@@ -70,11 +87,29 @@
         ],
         "includedInBuild22": true
       },
-      "appStoreVersionId": "80ae8acf-1e42-40ed-af18-67ca91a58ca7"
+      "appStoreVersionId": "80ae8acf-1e42-40ed-af18-67ca91a58ca7",
+      "historicalBuild22": {
+        "archive": {
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-1.0.10-22.xcarchive",
+          "status": "succeeded",
+          "version": "1.0.10",
+          "build": "22",
+          "readerMatchesFinalSource": false,
+          "signing": "unsigned_not_launched",
+          "nativeRuntime": "not_tested"
+        },
+        "export": {
+          "status": "succeeded",
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-assets-store-22/Selah.pkg",
+          "sha256": "4b0c6a9c59a4cd76c9570915727833625131e22ead8b4b132bd92a43935d6381",
+          "uploaded": false
+        },
+        "status": "superseded_do_not_upload"
+      },
+      "localizedDescriptions": "en-US, ko, ja uploaded and API read back"
     }
   },
   "pending": [
-    "ASC app registration and exact IDs",
     "Authentic platform screenshots",
     "Privacy declarations based on actual account/sync and analytics behavior",
     "Worldwide Korean Revised Version 1961 redistribution rights evidence",
@@ -118,5 +153,10 @@
     "resumedAt": "2026-10-03T19:22:00+09:00",
     "resumeEvidence": "direct user: continue authorized work"
   },
-  "previousBuildsRetained": true
+  "previousBuildsRetained": true,
+  "runtimeFixes": [
+    "Capacitor public resources must be copied after shared www generation; packaged hash gate added",
+    "Mobile action overflow fixed and visibly verified",
+    "Computer reading control refreshes translations after locale/data updates; Korean visible runtime verified"
+  ]
 }
