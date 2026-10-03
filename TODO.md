@@ -330,3 +330,8 @@
 - [x] Prepared the Korea-only `kr-gentle-invitation-v1` first-screen image experiment with two non-coercive Scripture invitation designs and existing aggregate funnel events; added its observation rules to `GROWTH_RESEARCH.md`.
 - [x] Publish the invitation assets and Worker allowlist before counting exposure. PR #146 merged as `85279317bcd88f3e61e100c2c10f7af127744489`; Pages run `37118904585` succeeded; live homepage and both assets returned HTTP 200. Worker `b6e21128-e734-4016-80ee-4788b2b85258` returned the expected CORS-enabled summary response.
 - [ ] Observe at least 28 days and 50 eligible exposures per variant. At initial live readback the new experiment had no rows; this means no recorded exposure yet, not zero visitors. Keep Google SERP image selection/CTR separate from the on-page creative test; no paid campaign or search-preview claim is implied.
+
+## 2026-10-03 · Korean low-pressure God-curiosity creative test v2
+- [x] Added a new Korea-only A/B creative assignment `kr-spiritual-curiosity-v2` to distinguish a direct “하나님을 더 알고 싶으신가요?” invitation from a quieter “하나님이 궁금해진 날…” invitation. The earlier `kr-gentle-invitation-v1` remains a separate historical ID.
+- [x] Reused the existing anonymous funnel events and Korean-market gate; synced the web source and creative assets into the mobile bundle. No new analytics service, account, or data field was added.
+- [ ] Publish the Pages source and Worker allowlist, then confirm the deployed HTML, both thumbnail assets, Worker version, and experiment-summary response. Keep the test running until the recorded sample gate; do not call either creative a winner early.
