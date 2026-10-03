@@ -149,6 +149,8 @@
 
   let computerReadingSendError = false;
   function renderStatus() {
+    target.setAttribute("aria-label", text("target"));
+    if (targetLabel) targetLabel.textContent = text("target");
     button.hidden = false;
     button.textContent = text("open");
     const current = db.computerReadingRequest;
@@ -374,6 +376,7 @@
     publishMeditationRest(session);
   };
   window.addEventListener("selah-data-updated", () => {
+    renderStatus();
     const session = db.meditationSession;
     if (currentPlatform && session?.status === "running" && Number(session.endsAt) > Date.now()
         && (!meditationHeartbeat || db.computerReadingSession?.id !== "meditation-" + session.id)) {

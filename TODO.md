@@ -327,3 +327,25 @@
 - [ ] Complete Gate 0: source-preserving attribution and successful username/password signup event are implemented locally; deploy the Cloudflare Worker and Pages app, then verify non-QA aggregate readback connecting tagged arrivals through focused reading, saved reflection and signup. Search Console query/country metrics can only be compared at aggregate date/market level, not joined to individual visitors.
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
+
+## 2026-10-03 · Selah ad-free iOS and Mac release — resumed
+
+- [ ] User resumed on 2026-10-03 at 19:22 KST. Finish remaining store metadata after ASC records for `com.delight0517.selah` and `com.delight0517.selah.mac`, read back numeric app IDs, finish metadata/privacy/authentic screenshots, upload exact packages and submit review. iOS app ID 6818769383 and Mac app ID 6818769432 independently read back via ASC API; both PREPARE_FOR_SUBMISSION. No recurring human-action polling.
+- [x] Prepared ad-free iOS IPA and signed Mac package for 1.0.10 / 22. Mac icon and eight native locales included in `mac-assets-store-22/Selah.pkg`; exact artifact paths/hashes are in `store/release-manifest.json`. PR #117 retains the release work; ad PR #121 stays deferred.
+- [ ] Resolve worldwide redistribution rights for bundled Korean Revised Version 1961 or explicitly select a verified permitted replacement before distribution.
+- [ ] Verify native sign-in, sync, offline reading and 30-day download behavior. Use Simulator per latest user instruction; physical-device evidence is not claimed.
+- [ ] Preserve shared correlation ID backlog `474637700f55` for Selah/Pomodoro/RiseSync; Windows validation remains pending under user device context.
+- [x] Integrated Mac generated asset/localization resources and latest main. Both signed build 25 packages exported; 43 actual native resource hashes verified per platform. Build 22 is superseded.
+- [x] Simulator: reading, font sizing, settings, Korean locale and mobile action layout verified; fixed stale Capacitor public resource packaging and locale refresh.
+- [ ] Finish authentic locale screenshots, app privacy/review metadata, upload and exact build attachment before authorized review submission.
+
+- [x] Reconciled 21 additional main commits, preserved migration/foreground guard/icon changes, and set shared release candidate to 1.0.10 / 25. Previous build 22 packages retained, not uploaded.
+- [x] Official Korean Bible Society FAQ confirms royalty-free use of 개역한글 subject to attribution and text integrity; worldwide scope remains unstated in this FAQ.
+
+- [x] Build 25 iOS and Mac uploaded, processed VALID and attached; en-US/ko/ja subtitles and privacy URL read back.
+- [ ] Replace both with build 26 after five-language meditation setup fix; finish final runtime, locale screenshots, privacy and review requirements.
+
+## 2026-10-03 Selah Mac Scripture response repair
+- [x] Both build26 exports uploaded; Mac26 VALID.
+- [x] Fixed bundled WKURLSchemeHandler response status (generic URLResponse caused fetch Response.ok to fail); notarized QA and visible Matthew1 readback verified.
+- [ ] Mac build27 archive/export/upload/attach; iOS26 processing/attach; screenshots, privacy and review submission remain pending.

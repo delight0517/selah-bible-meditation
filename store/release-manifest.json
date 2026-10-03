@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "product": "Selah",
+  "sourceCommit": "1f3856f + verified Mac scheme response repair",
+  "version": "1.0.10",
+  "build": 26,
+  "phase": "ios26_uploaded_mac27_scripture_response_repair",
+  "submissionAuthorized": true,
+  "appleAccess": "existing_ASC_API_key_ready",
+  "apps": {
+    "IOS": {
+      "bundleId": "com.delight0517.selah",
+      "appId": "6818769383",
+      "storeRecord": "PREPARE_FOR_SUBMISSION",
+      "archive": {
+        "status": "succeeded",
+        "build": "26",
+        "version": "1.0.10",
+        "packagedRuntimeHashes": "43 verified against shared source manifest"
+      },
+      "registeredBundleId": "587L379GH9",
+      "export": {
+        "status": "succeeded",
+        "uploaded": true,
+        "deliveryId": "9879c68e-d16f-4aeb-94ee-901e03d6584c",
+        "build": "26"
+      },
+      "appStoreVersionId": "1924e71a-2952-47da-9f90-7afbe7605996",
+      "historicalBuild22": {
+        "archive": {
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS-1.0.10-22.xcarchive",
+          "status": "succeeded",
+          "version": "1.0.10",
+          "build": "22",
+          "readerMatchesFinalSource": false,
+          "signing": "development_signature_verified",
+          "nativeRuntime": "not_tested"
+        },
+        "export": {
+          "status": "succeeded",
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/ios-store-22/App.ipa",
+          "sha256": "8e3dbb8a1492b515ce5fca4f71e4b421a28d7f7ae77b668731fec492e517d0fc",
+          "uploaded": false
+        },
+        "status": "superseded_do_not_upload"
+      },
+      "localizedDescriptions": "en-US, ko, ja uploaded and API read back",
+      "historicalBuild25": {
+        "archive": {
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS-1.0.10-25.xcarchive",
+          "status": "succeeded",
+          "version": "1.0.10",
+          "build": "25",
+          "packagedRuntimeHashes": "43 verified against shared source manifest",
+          "nativeRuntime": "Simulator reading/font/settings verified"
+        },
+        "export": {
+          "status": "succeeded",
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/ios-store-25/App.ipa",
+          "sha256": "bc8a85ee0762c2fe20f6cb1654a3fd6420420b1108ca4d592205c76d3fe16068",
+          "uploaded": false
+        },
+        "providerBuildId": "2001ca5a-66e7-42f3-a111-ae0586815b16",
+        "processingState": "VALID",
+        "attached": true,
+        "status": "superseded_by_localization_fix26"
+      }
+    },
+    "MAC_OS": {
+      "bundleId": "com.delight0517.selah.mac",
+      "appId": "6818769432",
+      "storeRecord": "PREPARE_FOR_SUBMISSION",
+      "source": "snapshot of selah-language-prep/macos; not yet integrated into main",
+      "archive": {
+        "status": "succeeded",
+        "build": "26",
+        "version": "1.0.10",
+        "packagedRuntimeHashes": "43 verified against shared source manifest"
+      },
+      "registeredBundleId": "564D4H9HP5",
+      "export": {
+        "status": "succeeded",
+        "uploaded": true,
+        "deliveryId": "0819cf8c-a15e-4fe2-b0f7-5aa85f30b729",
+        "build": "26"
+      },
+      "signedArchive": {
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-Assets-1.0.10-22.xcarchive",
+        "status": "succeeded",
+        "signing": "codesign deep strict verified; distribution export succeeded"
+      },
+      "preparedAssets": {
+        "icon": "macos/Resources/Assets.xcassets/AppIcon.appiconset",
+        "nativeLocales": [
+          "en",
+          "ko",
+          "ja",
+          "zh-Hans",
+          "zh-Hant",
+          "pt-BR",
+          "es",
+          "fil"
+        ],
+        "includedInBuild22": true
+      },
+      "appStoreVersionId": "80ae8acf-1e42-40ed-af18-67ca91a58ca7",
+      "historicalBuild22": {
+        "archive": {
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-1.0.10-22.xcarchive",
+          "status": "succeeded",
+          "version": "1.0.10",
+          "build": "22",
+          "readerMatchesFinalSource": false,
+          "signing": "unsigned_not_launched",
+          "nativeRuntime": "not_tested"
+        },
+        "export": {
+          "status": "succeeded",
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-assets-store-22/Selah.pkg",
+          "sha256": "4b0c6a9c59a4cd76c9570915727833625131e22ead8b4b132bd92a43935d6381",
+          "uploaded": false
+        },
+        "status": "superseded_do_not_upload"
+      },
+      "localizedDescriptions": "en-US, ko, ja uploaded and API read back",
+      "historicalBuild25": {
+        "archive": {
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-1.0.10-25.xcarchive",
+          "status": "succeeded",
+          "version": "1.0.10",
+          "build": "25",
+          "packagedRuntimeHashes": "43 verified against shared source manifest",
+          "nativeRuntime": "not_tested"
+        },
+        "export": {
+          "status": "succeeded",
+          "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-store-25/Selah.pkg",
+          "sha256": "0774e24ecaf983b6704a7ffca503f6ac81c78f47fd526e61c740390a43dae7da",
+          "uploaded": false
+        },
+        "providerBuildId": "e1b35930-d77c-4531-aea6-e920eb3eacc9",
+        "processingState": "VALID",
+        "attached": true,
+        "status": "superseded_by_localization_fix26"
+      },
+      "candidateBuild": "27",
+      "nativeRuntime": "Response repair notarized 5e3a2779-ada4-4f82-8eee-22f0f875f73f; codesign/spctl accepted; Matthew1 visibly rendered"
+    }
+  },
+  "pending": [
+    "Authentic platform screenshots",
+    "Privacy declarations based on actual account/sync and analytics behavior",
+    "Worldwide Korean Revised Version 1961 redistribution rights evidence",
+    "Native account sign-in, sync, offline download and reading journeys",
+    "Shared correlation ID instrumentation backlog 474637700f55 remains pending"
+  ],
+  "bibleStorage": {
+    "retentionDays": 30,
+    "expiryBasis": "downloadStartedAt",
+    "firstLanguage": "system language unless user selected Bible language",
+    "reader": "local chapter first; server on miss",
+    "resume": "saved chapters survive interruption; online/visible/reopen retries",
+    "backgroundScope": "asynchronous while app WebView can execute; no closed-app native background transfer claimed"
+  },
+  "sourceBaseCommit": "daf7f53642b66ebc0d5b7db1e978e9e8ba83952f",
+  "implementationCommit": "7e7243a82b60aef6b08b9a5ff69ed7e1de14b583",
+  "pullRequest": "https://github.com/delight0517/selah-bible-meditation/pull/117",
+  "physicalDevice": {
+    "status": "not_requested_simulator_only",
+    "reason": "Current user requested all iPhone tests on Simulator.",
+    "evidenceRun": "540d77ab-8027-40df-886b-b1d98df15471"
+  },
+  "advertising": {
+    "enabled": false,
+    "sdkIncluded": false,
+    "decision": "user requested first release without advertising on 2026-10-03",
+    "deferredPullRequest": 121
+  },
+  "rightsEvidence": {
+    "checkedAt": "2026-10-03",
+    "source": "https://bible.bskorea.or.kr/copyright_notice",
+    "observation": "Korean Revised Version 1961 copyright notice; worldwide distribution permission remains unverified",
+    "faqSource": "https://www.bskorea.or.kr/bbs/board.php?bo_table=copyright_faq&wr_id=5",
+    "faqObservation": "Official FAQ permits use without royalty after expired economic protection, while requiring attribution and integrity; worldwide scope not explicitly stated."
+  },
+  "pause": {
+    "date": "2026-10-03",
+    "source": "direct user request: save as TODO and continue when ready",
+    "resume": "explicit user ready/resume instruction",
+    "automaticSubmission": false,
+    "resumedAt": "2026-10-03T19:22:00+09:00",
+    "resumeEvidence": "direct user: continue authorized work"
+  },
+  "previousBuildsRetained": true,
+  "runtimeFixes": [
+    "Capacitor public resources must be copied after shared www generation; packaged hash gate added",
+    "Mobile action overflow fixed and visibly verified",
+    "Computer reading control refreshes translations after locale/data updates; Korean visible runtime verified"
+  ]
+}

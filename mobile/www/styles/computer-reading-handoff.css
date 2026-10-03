@@ -3,3 +3,9 @@
 .computer-reading-control .btn{white-space:nowrap}
 #computerReadingStatus{flex-basis:100%;color:var(--muted);font-size:var(--type-micro);line-height:1.4}
 @media(max-width:600px){.computer-reading-control{flex-basis:100%;justify-content:center}.computer-reading-control select{flex:0 0 auto}#computerReadingStatus{text-align:center}}
+@media(max-width:600px){
+  .meditation-entry-actions{flex-direction:column;align-items:stretch;min-inline-size:0;inline-size:100%}
+  .meditation-entry-actions>.btn{white-space:normal}
+  .meditation-entry-actions>.computer-reading-control{min-inline-size:0;flex-basis:auto}
+  .meditation-entry-actions>.computer-reading-control .btn{inline-size:auto;flex:1 1 120px;min-inline-size:0;white-space:normal}
+}
