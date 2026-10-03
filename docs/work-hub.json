@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T14:53:06.217Z",
+  "updatedAt": "2026-10-03T14:53:45.137Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -309,7 +309,7 @@
       "id": "selah-work-hub-functional-test-20261003",
       "summary": "Run real CLI scenarios and fix any duplicate-work enforcement gaps before pausing the goal",
       "owner": "windows",
-      "status": "review",
+      "status": "completed",
       "claimVersion": 2,
       "scopes": [
         "selah.coordination.claim-integrity"
@@ -326,9 +326,10 @@
         "TODO.md"
       ],
       "evidence": [
-        "Windows real CLI regression suite: 13/13 passed after reproducing six enforcement gaps; every rejected mutation preserves original ledger bytes."
+        "Windows real CLI regression suite: 13/13 passed after reproducing six enforcement gaps; every rejected mutation preserves original ledger bytes.",
+        "PR #175 merged at 2bb382822191cb1dd0a568a7910a28afaefefc6a; real CLI scenarios 13/13 passed on Windows and required GitHub validate run 37131152234; Pages run 37131208988 succeeded; public CLI HTTP 200 exactly matches tested source after newline normalization; public ledger has explicit legacy claim migration exceptions."
       ],
-      "nextAction": "Merge tested fixes after required CI, verify public deployment, then pause the analytics goal per user request.",
+      "nextAction": "Verification complete. User requested pausing the overall analytics goal; GA4 OAuth remains waiting_external until resume.",
       "feedback": [],
       "handoffs": []
     },
