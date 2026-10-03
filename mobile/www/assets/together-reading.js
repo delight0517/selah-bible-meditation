@@ -27,7 +27,7 @@
     bar.append(status, peers, invite, leave); $(readerId).before(bar); bars.push({bar,status,peers});
   }
   for (const targetId of ['sharePassageMenu', 'toggleMeditationTools']) {
-    const button = document.createElement('button'); button.className = 'btn ghost together-entry'; button.type = 'button'; button.textContent = t(0); button.id = targetId === 'sharePassageMenu' ? 'startTogetherReading' : 'startTogetherMeditation'; button.onclick = createRoom; $(targetId).before(button);
+    const button = document.createElement('button'); button.className = 'btn ghost together-entry'; button.type = 'button'; button.textContent = t(0); button.id = targetId === 'sharePassageMenu' ? 'startTogetherReading' : 'startTogetherMeditation'; button.onclick = createRoom; if (targetId === 'sharePassageMenu') document.querySelector('.passage-picker').append(button); else $(targetId).before(button);
   }
   $('shareTogether').onclick = createRoom;
   $('closeTogetherInvite').onclick = () => modal.style.display = 'none';
