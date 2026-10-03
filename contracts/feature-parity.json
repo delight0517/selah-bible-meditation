@@ -308,11 +308,11 @@
       "platforms": {
         "web": {
           "owner": "Selah growth funnel",
-          "state": "implementing",
+          "state": "implemented",
           "appliedRevision": 3,
-          "source": "codex/market-evidence-audit-20261004",
-          "build": "shared web/mobile source 1.0.10 / build 32; deployment pending",
-          "evidence": "Static localized SEO pages now emit shared-funnel exposure, CTA, reader-open, and first eligible reflection events with browser-scope deduplication. Local source change; deployment and real-user event delivery remain unverified."
+          "source": "delight0517/selah-bible-meditation@063a8da83061e7d3437652a9d8d0d1daadd86b6b",
+          "build": "GitHub Pages deployment 6831691787 / run 37145789565 succeeded",
+          "evidence": "Localized public routes and fil/analytics.js returned HTTP 200 with deployed global-funnel handlers. A post-deploy summary readback still has no global-funnel-v1 rows; real-user event delivery remains unverified."
         },
         "windows": {
           "owner": "Native platform maintainers (no native change in this revision)",
