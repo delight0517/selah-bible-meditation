@@ -9,6 +9,10 @@
 - 후속 PR #139 및 #140 병합 후 Pages runs 37115934577 / 37116060574 성공. GSC 원페이지 감사에서 모든 3페이지 indexable/self-canonical, alt 누락 0건(한국어 상세 허브의 thin-content low 경고 1건 유지). 공개 한국어 허브가 build 23을 표시하고 build 19 참조가 없으며, build 23 ZIP/sidecar는 HTTP 200; 공개 ZIP의 실제 SHA-256과 sidecar가 일치함.
 - 다운로드 안내 페이지에는 reader/note 기능 카드가 없으므로, 공용 분석 스크립트의 지역별 기능 강조 GET도 그런 카드가 있는 읽기 화면에서만 실행하도록 제한해 불필요한 지역 판별 요청을 줄임.
 - 분석 이벤트 중복 표식은 localStorage 접근이 거부될 때 sessionStorage로 대체해, 기존 방문 ID fallback과 함께 작동하도록 보완. 두 저장소 모두 막힌 경우에도 한 번의 페이지 로드 요청은 계속 시도하며 중복 제어가 불가능할 수 있음.
+- PR #142/Pages run 37116611517, PR #144/Pages run 37116945119 병합·성공. 공개 `fil/analytics.js` HTTP 200에서 reader-target 가드와 storage fallback 확인; localStorage 차단 + sessionStorage 허용 시 최초 1회 전송/새로고침 0회, 둘 다 차단 시 첫 로드 전송 시도.
+- 2026-10-03 13:25 UTC GSC 재조회: Selah 28일 Web 클릭 0·노출 0, CTR 산출 불가(정착 through 2026-09-29). 국가·기기 행도 0. 부모 속성의 추적기 15 URL 중 indexed 8 / not indexed 4 / pending 3, errors/warnings 0; Korean 다운로드는 `URL is unknown to Google`, 영문·Windows 페이지는 pending. Selah sitemap은 pending이지만 경고/오류 0이며 Googlebot 요청에 XML 200, sitemap URL 14개 응답.
+- 2026-10-03 13:23 UTC first-party rolling-month readback: 55 page-view events, 34 approximate random browser IDs; country KR 45 / US 10, device desktop 38 / mobile 17 (both dimensions sum to 55). Download paths still have no recorded page views; sources/referrers/campaign attribution remain sparse. These are browser/request aggregates, not verified people or Google-search CTR.
+- GA4 연결 상태 재확인: GSC Wizard `rogan2534@gmail.com`에 Google Analytics scope 없음. Measurement ID를 추측하거나 태그를 임의 추가하지 말고, 계정 소유자의 OAuth 승인 후 GA4 property 연결부터 확인할 것.
 
 ## 2026-10-03 · Selah 화면 브랜드 아이콘 통일 — 1.0.9 / build 23
 - 배포 앱을 직접 열어 보니 본문 화면 상단에는 기존 별표 표식이 남아 있어 새 앱 아이콘과 브랜드가 달랐음. 본문/홈 상단에 동일한 Selah 성경책·십자가 SVG를 적용.
