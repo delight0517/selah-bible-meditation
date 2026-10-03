@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "product": "Selah",
+  "sourceCommit": "3c42697d2e0822ff95b834be11cea567480edbab",
+  "version": "1.0.9",
+  "build": 21,
+  "phase": "preparation",
+  "submissionAuthorized": false,
+  "appleAccess": "existing_ASC_API_key_ready",
+  "apps": {
+    "IOS": {
+      "bundleId": "com.delight0517.selah",
+      "appId": null,
+      "storeRecord": "not_in_current_account_list",
+      "archive": {
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS.xcarchive",
+        "status": "succeeded",
+        "version": "1.0.9",
+        "build": "21",
+        "signing": "development_signature_verified"
+      }
+    },
+    "MAC_OS": {
+      "bundleId": "com.delight0517.selah.mac",
+      "appId": null,
+      "storeRecord": "not_in_current_account_list",
+      "source": "snapshot of selah-language-prep/macos; not yet integrated into main",
+      "archive": {
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac.xcarchive",
+        "status": "succeeded",
+        "version": "1.0.9",
+        "build": "21",
+        "signing": "unsigned_not_launched"
+      }
+    }
+  },
+  "pending": [
+    "ASC app registration and exact IDs",
+    "App Store signed export for each platform",
+    "Mac app icon and localized native controls",
+    "Authentic platform screenshots",
+    "Privacy declarations based on actual account/sync and analytics behavior",
+    "Worldwide Korean Revised Version 1961 redistribution rights evidence",
+    "Native account sign-in, sync, offline download and reading journeys",
+    "Shared correlation ID instrumentation backlog 474637700f55 remains pending"
+  ]
+}

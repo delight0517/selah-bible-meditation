@@ -1,0 +1,23 @@
+{
+  "status": "draft_not_uploaded",
+  "locales": {
+    "ko": {
+      "name": "Selah — 성경 묵상",
+      "subtitle": "성경 읽기와 묵상 기록",
+      "description": "Selah에서 성경을 읽고 묵상 내용을 기록하세요. 읽기 화면과 글자 크기를 조절하고, 선택한 번역을 다운로드해 사용할 수 있습니다. BlueCloud 로그인 후 지원되는 묵상과 읽기 설정을 동기화할 수 있습니다. 최초 번역 다운로드와 계정 동기화에는 인터넷 연결이 필요합니다."
+    },
+    "en-US": {
+      "name": "Selah — Bible Meditation",
+      "subtitle": "Read Scripture and reflect",
+      "description": "Read Scripture and keep reflections with Selah. Adjust the reading view and text size. Download a selected translation for supported offline reading. Sign in to BlueCloud to sync supported reflections and reading preferences. Initial translation downloads and account sync require an internet connection."
+    },
+    "ja": {
+      "name": "Selah — 聖書の黙想",
+      "subtitle": "聖書を読み、黙想を記録",
+      "description": "Selahで聖書を読み、黙想を記録できます。読書画面や文字サイズを調整し、選択した翻訳をダウンロードできます。BlueCloudにログインすると、対応する黙想や読書設定を同期できます。初回の翻訳ダウンロードと同期にはインターネット接続が必要です。日本語UIの初期設定では英語のWorld English Bibleを使用します。"
+    }
+  },
+  "privacyUrl": "https://delight0517.github.io/selah-bible-meditation/privacy.html",
+  "supportUrl": "https://github.com/delight0517/selah-bible-meditation/issues",
+  "macNote": "Mac currently hosts the online site; do not claim tested Mac offline support."
+}

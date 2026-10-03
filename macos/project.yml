@@ -1,0 +1,42 @@
+name: SelahMac
+options:
+  bundleIdPrefix: com.delight0517
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    DEVELOPMENT_TEAM: V3J8MR637G
+    MARKETING_VERSION: "1.0.9"
+    CURRENT_PROJECT_VERSION: "21"
+    PRODUCT_BUNDLE_IDENTIFIER: com.delight0517.selah.mac
+    PRODUCT_NAME: Selah
+    INFOPLIST_KEY_CFBundleDisplayName: Selah
+    INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
+    GENERATE_INFOPLIST_FILE: YES
+    ENABLE_APP_SANDBOX: YES
+    CODE_SIGN_ENTITLEMENTS: Selah.entitlements
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+targets:
+  Selah:
+    type: application
+    platform: macOS
+    info:
+      path: Selah-Info.plist
+      properties:
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        CFBundleURLTypes:
+          - CFBundleURLName: Selah Reading
+            CFBundleURLSchemes:
+              - selah
+    sources:
+      - Sources
+    entitlements:
+      path: Selah.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.network.client: true
+    settings:
+      base:
+        INFOPLIST_KEY_NSHighResolutionCapable: YES
