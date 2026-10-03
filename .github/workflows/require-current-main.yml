@@ -1,0 +1,30 @@
+name: Require current main
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  branch-current:
+    name: branch-current
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Require latest main in the pull request branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main --quiet
+          if git merge-base --is-ancestor origin/main HEAD; then
+            echo "Pull request branch contains the current main commit."
+          else
+            echo "::error::This branch is behind main. Rebase or update it from the latest main, then push again."
+            exit 1
+          fi
