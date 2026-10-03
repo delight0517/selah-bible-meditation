@@ -28,16 +28,16 @@
           "state": "verified",
           "appliedRevision": 1,
           "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "1.0.10/29",
-          "evidence": "Pages run 37128446369 success; production click and Enter collapse verified 2026-10-03"
+          "build": "1.0.10/32",
+          "evidence": "Shared app 1.0.10/build32 deployed; production shell click/open-close and acceptance copy verified in isolated Edge on 2026-10-04"
         },
         "windows": {
           "owner": "Windows app task",
           "state": "implemented",
           "appliedRevision": 1,
           "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "shared UI 1.0.10/29",
-          "evidence": "Hosted implementation deployed; installed Edge app runtime check pending",
+          "build": "shared UI 1.0.10/32",
+          "evidence": "Production windowsShell=1 isolated Edge runtime verified toolbar, zoom reset/increase, focus toggle, explanation open/close and required copy; Start-menu launch in an isolated profile remains unverified",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
@@ -54,8 +54,8 @@
           "state": "implemented",
           "appliedRevision": 1,
           "source": "delight0517/selah-bible-meditation@5011f2e mobile/www",
-          "build": "1.0.10/29 source bundle only",
-          "evidence": "48 bundle files match; iPhone installation and UI test pending",
+          "build": "1.0.10/32 source bundle only",
+          "evidence": "Current shared-app CI source-bundle parity check passed; iPhone installation and UI test remain pending",
           "workItem": "selah-apple-feature-parity-20261003"
         }
       }
@@ -83,16 +83,16 @@
           "state": "implemented",
           "appliedRevision": 1,
           "source": "delight0517/selah-bible-meditation main",
-          "build": "shared UI 1.0.10/29",
-          "evidence": "Synthetic data tests passed; authenticated cross-device round trip pending"
+          "build": "shared UI 1.0.10/32",
+          "evidence": "Synthetic data and legacy-migration CI suites pass on the current source; authenticated cross-device GET/PUT/GET round trip remains pending"
         },
         "windows": {
           "owner": "Windows data task",
           "state": "implemented",
           "appliedRevision": 1,
           "source": "delight0517/selah-bible-meditation main",
-          "build": "shared UI 1.0.10/29",
-          "evidence": "Hosted data implementation; target runtime round trip pending",
+          "build": "shared UI 1.0.10/32",
+          "evidence": "Hosted data implementation is live; authenticated Windows runtime GET/PUT/GET round trip remains pending",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
@@ -109,8 +109,8 @@
           "state": "implemented",
           "appliedRevision": 1,
           "source": "delight0517/selah-bible-meditation mobile/www",
-          "build": "shared source 1.0.10/29",
-          "evidence": "Bundle parity only; device/account round trip pending",
+          "build": "shared source 1.0.10/32",
+          "evidence": "Current shared-app CI source-bundle parity check passed; device install and authenticated account round trip remain pending",
           "workItem": "selah-apple-feature-parity-20261003"
         }
       }
@@ -141,7 +141,7 @@
           "owner": "Windows together-reading task",
           "state": "implemented",
           "appliedRevision": 3,
-          "source": "codex/selah-together-promo-20261004",
+          "source": "delight0517/selah-bible-meditation@d569224",
           "build": "shared UI 1.0.10/32",
           "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
           "workItem": "selah-live-together-20261003"
@@ -150,7 +150,7 @@
           "owner": "Windows together-reading task",
           "state": "implemented",
           "appliedRevision": 3,
-          "source": "codex/selah-together-promo-20261004",
+          "source": "delight0517/selah-bible-meditation@d569224",
           "build": "shared UI 1.0.10/32",
           "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
           "workItem": "selah-live-together-20261003"
@@ -168,7 +168,7 @@
           "owner": "Mac maintainer - request pending",
           "state": "implemented",
           "appliedRevision": 3,
-          "source": "codex/selah-together-promo-20261004",
+          "source": "delight0517/selah-bible-meditation@d569224",
           "build": "shared UI 1.0.10/32",
           "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
           "workItem": "selah-live-together-20261003"
