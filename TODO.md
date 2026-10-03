@@ -373,3 +373,12 @@
 - [x] Rechecked the 30-day product experiment: `kr-home-copy-v1` has 7 exposures / 5 CTA clicks / 2 reading starts / 0 focused readers / 0 saved reflections / 0 signups / 4 return events; `kr-spiritual-curiosity-v2` has no rows. Do not infer people or winners from these counts.
 - [ ] Confirm that the connected Instagram profile is the separate Selah marketing profile before using it for the queued thumbnail comparison; if it is personal, keep it excluded and choose a public channel with clickable links and usable analytics.
 - [ ] Wait for additional settled GSC data and genuine, attributable product events before changing the Korean market promise or calling a creative variant successful.
+
+## 2026-10-03 · Windows Store release continuation
+- [x] Continue from a clean task worktree based on fetched `origin/main` (`ba286351`); leave older parallel Selah worktrees and their changes untouched.
+- [x] Confirm version split: hosted Selah 1.0.10/build 26; latest Windows launcher ZIP 1.0.9/build 23. The launcher is still not a Store package.
+- [x] Read back HTTP 200 for the live app, PWA manifest, privacy page, and 192/512 PNG icons; confirm public MIT license and third-party notice paths.
+- [x] Manually verify Bible navigation Matthew 1 → 2 → 1 and open/dismiss the timed-meditation introduction without saving test content.
+- [ ] PWABuilder assessment could not start: after entering the public app URL, its Start control remained disabled. Retry only after diagnosing the builder form; do not record a pass without a report card.
+- [ ] Continue with live PWABuilder findings, reserved Partner Center product identity, Windows package generation/validation, real listing assets and age rating, certification, and installed Store build verification.
+- [ ] Verify worldwide distribution rights for every bundled Bible edition before packaging any Scripture dataset.
