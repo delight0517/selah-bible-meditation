@@ -397,6 +397,17 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **현재 데이터 한계:** 새 조회는 최초 DNS 실패 후 재시도에서 성공했다. 2026-10-03 재확인 결과 기존 v2의 30일 `marketRows`와 `rows`는 모두 비어 있었다. 실험 노출이 기록되지 않았으며 실제 방문자 0명을 뜻하지는 않는다. 썸네일 시안은 현재 테스트가 실행 중인 것으로 간주하지 않는다.
 - **배포 채널 확인:** 이전 사용자는 개인 Instagram 홍보를 보류하고 Selah용 새 Instagram 계정을 만들었다고 알렸다. 다만 Metricool에서 현재 연결된 브랜드가 그 전용 계정인지 확인되지 않아 게시물 예약은 보류한다. Google 검색에서 실제로 어떤 이미지를 보여줄지는 이 실험의 통제 밖이며, 검색 노출이 발생하면 GSC CTR만 별도로 기록한다.
 
+
+### MULTI-MARKET-SCRIPTURE-INVITATION-20261003-01 — 지원 언어권 전체로 확장
+
+- **사용자 정정:** 한국만 실험하는 것으로 제한하지 않는다. 한국은 앱 현지화와 현재 이벤트가 가장 준비된 첫 비교 시장일 뿐이다. 준비된 한국어 외에 영어, 일본어, 간체·번체 중국어, 필리핀어, 스페인어, 브라질 포르투갈어 카피를 함께 준비한다.
+- **최근 사실:** 2026-10-01~03의 first-party 요약은 페이지 열기 이벤트 55건을 KR 45 / US 10으로 집계했다. 이는 사람 수나 검색 방문이 아니다. 같은 구간 Selah URL로 필터한 Search Console 국가+페이지 검색은 0행(확정 자료는 2026-09-29까지)이다. 따라서 현재 관찰만으로 다른 나라에 필요가 없다고 말할 수 없다.
+- **언어와 국가 구분:** `fil` 경로 열기는 필리핀 국가 방문으로 간주하지 않는다. 최신 교차 상세의 필리핀어 경로 1건은 미국 국가 코드로 기록되었고 다른 경로 키는 전체 이벤트 합계와 일치하지 않는다. 영어·스페인어·중국어도 동일하게 국가를 언어 코드에서 추정하지 않는다.
+- **범위와 카피 초안:** 구체적인 `country-locale` 후보, 질문형/초대형 문구 8개 로케일, 현지 성경판 제약은 `MARKET_PLAYBOOK.md`의 “현재 다국어 성장 실험” 표에 기록했다. 초안은 모두 말씀 읽기를 권하지만 신앙 결핍, 긴급성, 보장된 영적 결과를 암시하지 않는다. 비한국어 이미지 자산은 아직 렌더링·현지 독자 검토 전이므로 준비 완료로 표시하지 않는다.
+- **측정 설계:** 각 언어·국가 조합에서 도달/노출, 실제 링크 클릭과 태그 유입, 120초 읽기, 기록 저장, 가입을 따로 본다. 국가 이벤트와 언어 경로가 충분히 분리되지 않으면 `unknown`에 둔다. 시장을 합쳐 CTR 승자를 뽑지 않는다. variant별 50회 노출은 탐색을 계속할지 판단하는 최소선일 뿐 통계적 유의 기준이 아니다.
+- **검색 한계:** 각 로케일 URL의 표기와 `hreflang`은 유지·점검한다. Google 검색 미리보기는 자동 선택이며 특정 국가에 이미지가 반드시 표시된다고 약속하지 않는다. 한국 썸네일 A/B, 다국어 소셜 링크 실험, 실제 Google 검색 결과 관찰을 서로 다른 표본/결과로 남긴다. [Google multi-regional/multilingual guidance](https://developers.google.com/search/docs/advanced/crawling/managing-multi-regional-sites)
+- **채널과 실행 상태:** 다국어 카피는 준비 단계다. Metricool에서 확인되는 브랜드는 `vivid_wave`뿐이며 Selah 전용 또는 개인 계정인지 식별되지 않았다. 개인 계정은 기존 요청대로 제외하며, 이 모호함을 이유로 한국 밖의 검색 현지화 준비까지 중단하지 않는다. 유료 광고 없이, 승인된 국가·언어별 공개 채널부터 시험한다.
+
 ### GATE0-SEARCH-ANALYTICS-20261003-02 — 검색·지역 집계 최신 대조
 
 - **Search Console:** 확인 속성은 상위 GitHub Pages URL-prefix `https://delight0517.github.io/`이며, Selah 경로(`/selah-bible-meditation/`)를 포함하는 page 필터로 조회했다. 2026-09-03–2026-09-30 구간에서 페이지+검색어와 국가+페이지 보고 모두 0행, 확정 데이터는 2026-09-29까지였다. 이는 해당 기간에 보고 가능한 Selah 검색 행이 없다는 뜻이며, 실제 방문이 없다는 뜻은 아니다.
@@ -426,6 +437,14 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **Next measurement:** verify an approved public channel, keep the CTA and destination consistent, use a link that is actually clickable on that channel, then read channel reach/link taps against first-party tagged arrivals, focused reading, reflection saves, and confirmed signups. Keep Google Web-result thumbnails as a separate observation because Search Console does not report which Web snippet image Google selected.
 
 
+### 다국가 탐색과 한국 단일 실험 범위 구분 — 2026-10-03 사용자 정정
+
+- 한국어 전용 build 28은 현 시점의 통제 실험 한 건의 범위다. 이를 전체 시장 선택으로 해석하거나 한국 결과를 기다리느라 다른 언어권의 검색·제품 적합성 조사를 멈추지 않는다.
+- 시장 탐색은 앱의 8개 제공 경로(`ko`, `en`, `ja`, `zh-CN`, `zh-TW`, `fil`, `es`, `pt-BR`)에서 병행한다. 각 경로에 해당하는 국가 후보를 따로 조사하되, 스페인어/영어/중국어 경로를 단일 국가로 가정하지 않는다. 데이터에 국가가 없으면 `unknown`이다.
+- 각 후보마다 현지 검색 질의와 Search Console 상태, 실제 국가별 방문/행동, 해당 지역에서 읽을 수 있는 성경판, 접속 가능성, 검색 결과의 약속과 착지 화면 일치를 확인한다. 검색 노출이 없다는 이유만으로 필요가 없다고 하거나 언어 페이지뷰만으로 수요를 증명하지 않는다.
+- 비한국어 카피는 초안이며 실제 썸네일 이미지 제작·현지 독자 검토·게시/노출은 완료되지 않았다. 국가별 메시지는 현지 자연스러움과 성경판 범위를 확인한 뒤 해당 국가의 클릭 전 약속과 앱 첫 화면을 일치시켜 시험한다.
+- 측정은 국가×언어×시안별 도달/노출, 태그 유입, 읽기 지속, 묵상 저장, 가입으로 분리한다. 충분한 표본이 없으면 결론을 내지 않는다. 방문 이벤트는 사람 수와 구별하고, 개인 Instagram 및 유료 집행은 기존 제한을 유지한다.
+
 ## 2026-10-03: 기존 디자인을 보존하는 유입 실험 (build 28)
 
 사용자 피드백: “하나님을 알고 싶은가요”는 전체 적용이 아니라 반응을 보기 위한 방향으로, 이전 디자인을 삭제하지 않고 사용자 유입을 늘리는 방법으로 운영한다.
@@ -438,3 +457,12 @@ Copy this block for each study; replace every unknown with an observation or `no
 - QA: 같은 링크에 `&selah_qa=1&invitation_variant=a` 또는 `b`를 추가하면 위치와 관계없이 웹 시안을 점검한다. QA 이벤트는 전송하지 않는다.
 
 측정 서버가 v3 지원을 응답해야 실제 실험이 활성화된다. 서버 배포가 미완료된 동안 기존 화면을 유지하며 QA 시안만 열 수 있다.
+
+### OPS-ACQUISITION-20261004-01 — 유입·읽기 전환 단절과 귀속 수정
+
+- **Search Console (2026-10-04 재확인):** `https://delight0517.github.io/`에서 Selah 경로를 대상으로 2026-09-05–10-01 Web 검색의 `page,country`와 `query,page` 요청 모두 0행. 확정 데이터는 2026-09-29까지다. 색인 트래커는 15 URL 중 indexed 8, not indexed 4, pending 3, error/warning 0. 여덟 주 언어 랜딩은 모두 HTTP 200·자기 canonical·indexable로 확인됨. 이번 결과는 색인 문제보다는 아직 보고된 노출이 없음을 보여 주며, Google이 실제로 노출하지 않았다는 미래 예측은 아니다.
+- **첫-party 도착 (2026-10-04):** 최근 3 UTC 날짜(10-01–10-03) `/analytics/summary?appId=selah&period=month`는 page:view 58건, 익명 브라우저 ID 36개, 국가 이벤트 합계 KR 48 / US 10. 두 값 모두 확인된 사람 수가 아니다. referrer 집계는 비었고 source=direct 6, medium=none 6, campaign 0. 전체 이벤트가 page:view뿐이어서 이 엔드포인트만으로는 읽기·기록 전환을 판단할 수 없다.
+- **제품 행동 분리 집계:** 기능 Worker의 30일 합계는 KR meditation_started 5, scripture_read 2. 실험 요약은 기록된 행 전체에서 exposures 10, CTA clicks 7, reading starts 4, 30초/120초 독자 0, 저장 0, 가입 0. 작은 표본이고 owner/QA 여부가 판별되지 않아 공개 방문자의 전환율로 해석하지 않는다.
+- **확인된 유입 결함 및 수정:** 현지 랜딩의 analytics 코드는 유입 referrer/UTM을 받았지만, 같은 도메인 reader 링크가 이를 이어가지 않아 앱에서 원래 검색·소셜 출처가 direct/empty로 바뀔 수 있었다. `fil/analytics.js`에서 Google 등 검색 referrer와 지원 소셜 referrer를 분류하고 검증된 source/medium/campaign UTM을 같은 도메인의 다음 링크에 전달하도록 수정했다. 캠페인별 page → reader → reflection funnel을 한 익명 브라우저에서 비교할 기반이며, 기존 데이터는 소급 복구하지 않는다.
+- **검색 결과와 첫 화면 일치:** 영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어에서 읽기 CTA를 설명이나 큰 미리보기 이미지보다 앞에 배치해 방문 직후 읽기를 시작할 수 있게 했다. 일본어는 일본어 UI와 영어 WEB 전권/추가 가능한 일본어 신약판의 차이를 먼저 설명한다. 간체/번체는 정확한 1919년 화합본과 마태복음을, 필리핀어는 Ang Biblia 1905가 현대 Filipino 개정판이 아닌 옛 Tagalog 번역임을 첫 화면에서 밝힌다. 각 페이지는 무가입 여부와 기록 저장·동기화 범위를 시작 전에 알린다. 이는 정확한 약속과 빠른 진입을 위한 현지 카피/배치 수정이지 Google 노출 증가의 증거가 아니다.
+- **다음 판정:** 배포 후 변경한 세 URL을 공개 페이지/metadata에서 읽어 확인하고 URL 검사 요청을 1회 제출한다. 이후 안정된 GSC 기간의 언어별 검색어·노출·클릭과 같은 캠페인의 랜딩·reader·30초·reflection-save·signup을 비교한다. 공개 Instagram 브랜드는 현재 `vivid_wave`뿐이며 Selah 전용인지 검증되지 않았다. 개인 계정 제한에 따라 게시/예약하지 않고, 유료 캠페인도 집행하지 않는다.
