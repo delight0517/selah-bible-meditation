@@ -1,3 +1,7 @@
+# Selah Windows launcher — 1.0.9 / build 22
+
+Adds the Selah app icon to desktop and Start menu shortcuts and includes the multi-size icon in the launcher package. The hosted PWA uses the matching 192×192 and 512×512 assets; the iOS asset catalog uses the matching 1024×1024 artwork.
+
 # Selah Windows launcher — 1.0.6 / build 19
 
 Preserves the build 18 Google sign-in cloud-sync recovery and requires a matching current BlueCloud request for the current platform before reusing its reading session. A bare `sessionId` cannot bypass an invalid, expired, or wrong-platform `requestId`. The Windows launcher opens the same hosted Selah runtime.
