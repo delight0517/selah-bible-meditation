@@ -272,9 +272,11 @@
       ],
       "evidence": [
         "contracts/feature-parity.json",
-        "Claimed on codex/selah-windows-feature-runtime-20261003 from origin/main c95542d; Windows launcher 1.0.10/build25 and hosted shared UI 1.0.10/build29 are deployed, but installed UI/feature acceptance and authenticated cross-device sync remain unverified."
+        "Claimed on codex/selah-windows-feature-runtime-20261003 from origin/main c95542d; Windows launcher 1.0.10/build25 and hosted shared UI 1.0.10/build29 are deployed, but installed UI/feature acceptance and authenticated cross-device sync remain unverified.",
+        "2026-10-03: isolated credential-free headless Edge runtime against production windowsShell=1 passed toolbar, zoom reset/increase, reading-focus toggle, and visitor explanation open/close/content checks (anonymous IDs, duplicate browser examples, UTC period, privacy); blocked one telemetry write. This is the browser shell runtime, not the installed Start-menu PWA. Authenticated GET/PUT/GET account round trip remains unverified.",
+        "2026-10-03: repeated credential-free headless Edge interaction against current production shared UI 1.0.10/build30. Windows shell toolbar, zoom reset/increase, focus reading toggle and all visitor explanation acceptance text/expand-collapse checks passed; one telemetry write was blocked. Installed Start-menu PWA and authenticated account GET/PUT/GET remain unverified."
       ],
-      "nextAction": "Verify installed Windows Edge app acceptance with non-personal fixtures; then record remaining account/Mac/iOS runtime dependencies without mixing user records."
+      "nextAction": "Verify the installed Start-menu Selah app shell without exposing or changing personal records; then prove same-account GET/PUT/GET using synthetic records if a safe test account is available. Keep Mac/iPhone parity pending until their receipt, implementation and device runtime evidence arrive."
     },
     {
       "id": "selah-work-hub-claim-integrity-20261003",
