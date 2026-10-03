@@ -10,4 +10,5 @@ jobs:
           node-version: 22
       - run: node --test scripts/test-unified-data.mjs
       - run: node --test scripts/test-legacy-migration.mjs
-      - run: node mobile/scripts/copy-web.mjs --check
+      - run: node scripts/check-platform-source.mjs
+      - run: node scripts/test-shared-bundle.mjs
