@@ -302,7 +302,7 @@
           "appliedRevision": 2,
           "source": "delight0517/selah-bible-meditation@4e21e21",
           "build": "shared web/mobile source 1.0.10 / build 32",
-          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified."
+          "evidence": "Startup initializes the shared funnel before any homeAction CTA; PR #188 merge 815262e and Pages run 37141440259 succeeded, with the call read back from the public root HTML. No synthetic events were sent; real visitor delivery remains unverified."
         },
         "windows": {
           "owner": "Hosted web funnel",
@@ -310,7 +310,7 @@
           "appliedRevision": 2,
           "source": "delight0517/selah-bible-meditation@4e21e21",
           "build": "shared web/mobile source 1.0.10 / build 32",
-          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified. Windows physical shell runtime remains unverified.",
+          "evidence": "Hosted source initializes the shared funnel before any homeAction CTA; PR #188 merge 815262e and Pages run 37141440259 succeeded, with the call read back from the public root HTML. No synthetic events were sent; real visitor delivery and Windows physical shell runtime remain unverified.",
           "workItem": "selah-1000"
         },
         "macos": {
@@ -319,7 +319,7 @@
           "appliedRevision": 2,
           "source": "delight0517/selah-bible-meditation@4e21e21",
           "build": "shared web/mobile source 1.0.10 / build 32",
-          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified. Hosted Mac browser uses this source; native telemetry remains outside this contract."
+          "evidence": "Hosted source initializes the shared funnel before any homeAction CTA; PR #188 merge 815262e and Pages run 37141440259 succeeded, with the call read back from the public root HTML. No synthetic events were sent; real visitor delivery remains unverified. Hosted Mac browser uses this source; native telemetry remains outside this contract."
         },
         "ios": {
           "owner": "Hosted mobile web funnel",
@@ -327,7 +327,7 @@
           "appliedRevision": 2,
           "source": "delight0517/selah-bible-meditation@4e21e21",
           "build": "shared web/mobile source 1.0.10 / build 32",
-          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified. Hosted browser/PWA uses this source; native Capacitor telemetry remains excluded."
+          "evidence": "Hosted source initializes the shared funnel before any homeAction CTA; PR #188 merge 815262e and Pages run 37141440259 succeeded, with the call read back from the public root HTML. No synthetic events were sent; real visitor delivery remains unverified. Hosted browser/PWA uses this source; native Capacitor telemetry remains excluded."
         }
       }
     }
