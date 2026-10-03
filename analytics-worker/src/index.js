@@ -4,7 +4,7 @@ const features = new Set([
   "offline_bible_saved", "quiz_created", "quiz_reviewed"
 ]);
 const locales = new Set(["ko", "en", "ja", "zh-CN", "zh-TW", "fil", "es", "pt-BR"]);
-const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "reader_30s", "reader_120s", "reflection_saved", "return_visit"]);
+const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "reader_30s", "reader_120s", "reflection_saved", "signup_complete", "return_visit"]);
 const experiments = new Set(["kr-home-copy-v1"]);
 const experimentClients = new Set(["app", "web", "unknown"]);
 const experimentDevices = new Set(["phone", "tablet", "computer", "unknown"]);
@@ -85,7 +85,7 @@ export default {
     if (request.method === "GET" && url.pathname === "/analytics/experiment/summary") {
       const period = url.searchParams.get("period") === "all" ? "all" : "30d";
       const where = period === "all" ? "" : " WHERE day >= date('now', '-29 days')";
-      const metrics = "SUM(CASE WHEN event = 'exposure' THEN count ELSE 0 END) AS exposures, SUM(CASE WHEN event = 'cta_click' THEN count ELSE 0 END) AS ctaClicks, SUM(CASE WHEN event = 'reading_start' THEN count ELSE 0 END) AS readingStarts, SUM(CASE WHEN event = 'reader_30s' THEN count ELSE 0 END) AS readers30s, SUM(CASE WHEN event = 'reader_120s' THEN count ELSE 0 END) AS readers120s, SUM(CASE WHEN event = 'reflection_saved' THEN count ELSE 0 END) AS reflectionsSaved, SUM(CASE WHEN event = 'return_visit' THEN count ELSE 0 END) AS returnVisits FROM market_experiment_daily" + where;
+      const metrics = "SUM(CASE WHEN event = 'exposure' THEN count ELSE 0 END) AS exposures, SUM(CASE WHEN event = 'cta_click' THEN count ELSE 0 END) AS ctaClicks, SUM(CASE WHEN event = 'reading_start' THEN count ELSE 0 END) AS readingStarts, SUM(CASE WHEN event = 'reader_30s' THEN count ELSE 0 END) AS readers30s, SUM(CASE WHEN event = 'reader_120s' THEN count ELSE 0 END) AS readers120s, SUM(CASE WHEN event = 'reflection_saved' THEN count ELSE 0 END) AS reflectionsSaved, SUM(CASE WHEN event = 'signup_complete' THEN count ELSE 0 END) AS signups, SUM(CASE WHEN event = 'return_visit' THEN count ELSE 0 END) AS returnVisits FROM market_experiment_daily" + where;
       const [markets, details] = await Promise.all([
         env.DB.prepare(`SELECT country, region_code AS regionCode, locale, experiment, variant, ${metrics} GROUP BY country, region_code, locale, experiment, variant ORDER BY country, region_code, locale, experiment, variant`).all(),
         env.DB.prepare(`SELECT country, region_code AS regionCode, locale, client, device_class AS deviceClass, utm_source AS source, utm_medium AS medium, utm_campaign AS campaign, experiment, variant, ${metrics} GROUP BY country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant ORDER BY country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant`).all()

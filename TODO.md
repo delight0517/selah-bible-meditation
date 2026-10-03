@@ -322,6 +322,6 @@
 ## 2026-10-03 · North Star growth plan and execution gates
 - [x] Recorded the owner's four long-range aspirations separately from current performance and retained 1,000 verified active users as the first evidence milestone.
 - [x] Wrote a staged plan covering metric definitions, Korea-first validation, locale selection, search-result/landing promise match, one-variable experiments, the ₩20,000 spend cap, premium evidence and concurrent-load readiness: `docs/GROWTH_PLAN_NORTHSTAR.md`.
-- [ ] Complete Gate 0: connect tagged arrivals through focused reading, saved reflection and confirmed signup; exclude QA and verify the live aggregate readback.
+- [ ] Complete Gate 0: source-preserving attribution and successful username/password signup event are implemented locally; deploy the Cloudflare Worker and Pages app, then verify non-QA aggregate readback connecting tagged arrivals through focused reading, saved reflection and signup. Search Console query/country metrics can only be compared at aggregate date/market level, not joined to individual visitors.
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
