@@ -424,3 +424,17 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **Product funnel:** current 30-day experiment rollup contains only `kr-home-copy-v1`: 7 exposures, 5 CTA clicks, 2 reading starts, 0 readers at 30/120 seconds, 0 reflections saved, 0 signups, and 4 return-visit events. These are event counts, not people; the sample is too small and may include prior owner/QA activity. `kr-spiritual-curiosity-v2` still has no recorded rows, which is not proof of zero site visitors.
 - **Channel decision:** the gentle thumbnail pair remains a prepared experiment only. The connected Instagram profile was not classified as personal or campaign-only in this readback, and the standing privacy instruction excludes personal Instagram. Do not schedule the thumbnail test there until that ambiguity is resolved. No paid promotion was started.
 - **Next measurement:** verify an approved public channel, keep the CTA and destination consistent, use a link that is actually clickable on that channel, then read channel reach/link taps against first-party tagged arrivals, focused reading, reflection saves, and confirmed signups. Keep Google Web-result thumbnails as a separate observation because Search Console does not report which Web snippet image Google selected.
+
+
+## 2026-10-03: 기존 디자인을 보존하는 유입 실험 (build 28)
+
+사용자 피드백: “하나님을 알고 싶은가요”는 전체 적용이 아니라 반응을 보기 위한 방향으로, 이전 디자인을 삭제하지 않고 사용자 유입을 늘리는 방법으로 운영한다.
+
+- 일반 방문 및 설치 앱에서는 초대 카드를 표시하지 않는다. 기존 화면과 기존 자산을 보존한다.
+- 한국어·한국 지역·일반 웹의 전용 링크 `?utm_source=owned&utm_medium=share&utm_campaign=kr-god-curiosity-v3` 진입만 실험 대상이다. 별도의 광고 집행이나 게시물 발송은 하지 않는다.
+- v3 A: 기존 화면, B: 동일한 기존 화면에 “하나님을 더 알고 싶으신가요?” 초대 카드만 추가. 브라우저별 50:50 배정을 저장한다. 해당 집단에서는 기존 제목 문구 실험을 중단해 비교 변수를 하나로 제한한다. v2 집계와 분리한다.
+- 노출, 클릭, 읽기 시작, 30초·2분 읽기, 묵상 저장, 가입, 다른 날 캠페인 링크 재방문을 채널·기기별로 비교한다. 일반 주소 재방문은 이 캠페인의 재방문으로 집계하지 않는다.
+- 최소 28일과 안별 50회 노출은 관찰 기준이며 통계적 유의성의 증명이 아니다. 작은 표본으로 승자를 정하거나 자동으로 전체 적용하지 않는다. 현재 유입 증가를 입증한 결과는 없다.
+- QA: 같은 링크에 `&selah_qa=1&invitation_variant=a` 또는 `b`를 추가하면 위치와 관계없이 웹 시안을 점검한다. QA 이벤트는 전송하지 않는다.
+
+측정 서버가 v3 지원을 응답해야 실제 실험이 활성화된다. 서버 배포가 미완료된 동안 기존 화면을 유지하며 QA 시안만 열 수 있다.

@@ -1,3 +1,7 @@
+## 2026-10-03 · 월간 고유 방문자 숫자 설명 — 1.0.10 / build 29
+- 사용자 피드백: “이번 달 고유 방문자 34”의 뜻을 이해하기 어렵고 누르면 상세 설명을 볼 수 있게 요청함.
+- 월간 숫자 전체를 키보드로도 누를 수 있는 버튼으로 바꾸고 현재 숫자의 의미, 브라우저 중복 제거 예시, 기기/공유 브라우저/저장 데이터 삭제에 따른 오차, UTC 달력 월 기간, 회원·실시간 방문자와의 차이를 설명하는 패널을 추가. 5개 UI 언어를 지원.
+
 ## 2026-10-03 · 하나님을 알아가도록 초대하는 한국어 썸네일 실험
 - 사용자 요청의 핵심을 기존 A/B 시안 실험에 반영: “하나님을 알고 싶으신가요?”라는 호기심을 존중하고, 말씀을 읽으며 알아가도록 부담 없이 초대한다. 죄책감·긴급성·신앙 수준 압박은 사용하지 않는다.
 - 1200×630 A/B 썸네일과 게시 캡션 초안은 `GROWTH_RESEARCH.md`의 `KR-GOD-CURIOSITY-THUMBNAIL-20261003-01`에 기록했다. 동일 목적지/CTA로 비교하고 도달→태그 유입→120초 읽기→묵상 저장→가입을 별도 집계한다. Google 검색 썸네일은 통제할 수 없어 GSC 검색 결과와 혼합하지 않는다.
@@ -388,6 +392,14 @@
 - Confirmed at 644px viewport: invitation copy shrank to 15.9px while action group reserved 558.5px; card height reached 612.6px.
 - Fix: preserve a readable copy width, wrap controls, and stack invitation/actions through 760px. Keep existing font preferences and other chats' thumbnail changes.
 - Verification: responsive browser checks and published Pages readback tracked with this release.
+
+## 2026-10-03 사용자 피드백 — 유입 문구 범위 (1.0.10 / build 28)
+- [x] “하나님을 알고 싶은가요” 전체 적용 중단, 기존 디자인 보존.
+- [x] 전용 캠페인 진입에서 기존 화면 A / 초대 추가 B 실험으로 분리.
+- [x] v2와 측정 분리 및 QA 통계 제외.
+- [ ] 28일 이상 실사용 데이터로 읽기·저장·가입 전환 관찰; 실제 유입 증가 여부는 아직 미확인.
+
+- [ ] 새 측정 Worker 배포: 현재 Wrangler 계정이 Selah 소유 계정과 달라 인증 필요. 서버 준비 응답 전에는 실제 캠페인 실험을 활성화하지 않음.
 ## 2026-10-03 · Windows Selah desktop link parity — launcher 1.0.10/build 25
 
 - [x] Added a per-user `selah://read?request=<id>` handler to the packaged Edge app-window launcher. It rejects unsupported/ambiguous URLs and keeps the managed SixVPN Edge route.
