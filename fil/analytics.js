@@ -57,11 +57,23 @@
     }));
   }
 
+  function wasTracked(key) {
+    try { return localStorage.getItem(key) === "1"; } catch {
+      try { return sessionStorage.getItem(key) === "1"; } catch { return false; }
+    }
+  }
+
+  function markTracked(key) {
+    try { localStorage.setItem(key, "1"); } catch {
+      try { sessionStorage.setItem(key, "1"); } catch { }
+    }
+  }
+
   async function track(event, key) {
     if (pending.has(key)) return;
     pending.add(key);
     try {
-      if (localStorage.getItem(key) === "1") return;
+      if (wasTracked(key)) return;
       const feature = event.startsWith("feature:") ? event.slice(8) : "";
       const response = await fetch(feature ? featureEndpoint : endpoint, {
         method: "POST",
@@ -70,7 +82,7 @@
           ? { appId: "selah", feature, locale }
           : { appId: "selah", event, path, locale, referrer, ...visitorIds(), ...campaign })
       });
-      if (response.ok) localStorage.setItem(key, "1");
+      if (response.ok) markTracked(key);
     } catch {
     } finally {
       pending.delete(key);
@@ -93,6 +105,7 @@
   track("page:view", "selah.analytics." + locale + ".page." + path + "." + day + "." + Object.values(campaign).join("."));
 
   async function applyMarketEmphasis() {
+    if (!document.querySelector(".reader-card,.note-card,#highlight,#bookmark,#share")) return;
     try {
       const key = "selah.analytics.market.checked", today = new Date().toISOString().slice(0, 10);
       if (localStorage.getItem(key) === today) return;
