@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03T14:23:47.0703093Z",
+  "updatedAt": "2026-10-03T14:26:45.6572319Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -197,7 +197,7 @@
       "id": "selah-apple-feature-parity-20261003",
       "summary": "Mac/iOS apply and verify visitor explanation and account data feature revisions",
       "owner": "mac",
-      "status": "planned",
+      "status": "waiting_external",
       "scopes": [
         "selah.features.apple-parity"
       ],
@@ -207,9 +207,10 @@
         "SELAH-ACCOUNT-DATA-PARITY"
       ],
       "evidence": [
-        "contracts/feature-parity.json"
+        "contracts/feature-parity.json",
+        "https://github.com/delight0517/releasepilot-hub/commit/d0eb1304a32d2271916c174172d81e9989778278"
       ],
-      "nextAction": "Acknowledge queue request; inspect real sources; apply and test each feature revision"
+      "nextAction": "Request queued with ID selah-apple-feature-parity-20261003; Mac receipt and implementation response pending"
     },
     {
       "id": "selah-windows-feature-runtime-20261003",
