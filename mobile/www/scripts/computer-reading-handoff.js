@@ -223,6 +223,10 @@
   let heartbeat = 0;
   let focusWasActive = document.body.classList.contains("mobile-reading-focus");
   function saveSession(sessionStatus, now = Date.now()) {
+    if (currentPlatform && db.meditationSession?.status === "running"
+        && Number(db.meditationSession.endsAt) > now && meditationView.classList.contains("active")) {
+      publishMeditationRest(db.meditationSession);return;
+    }
     const old = db.computerReadingSession || {};
     const withinGrace = old.status === "paused" && timestamp(old, "resumeGraceUntil") > now;
     const stillRunning = old.status === "running" && now - timestamp(old, "lastSeenAt") < 420000;
