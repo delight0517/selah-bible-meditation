@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03T14:26:45.6572319Z",
+  "updatedAt": "2026-10-03T14:31:30.252Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -216,19 +216,20 @@
       "id": "selah-windows-feature-runtime-20261003",
       "summary": "Confirm feature acceptance in installed Windows app and cross-device account tests",
       "owner": "windows",
-      "status": "planned",
+      "status": "in_progress",
       "scopes": [
         "selah.features.windows-runtime"
       ],
-      "branch": "Windows maintainer to claim",
+      "branch": "codex/selah-windows-feature-runtime-20261003",
       "featureIds": [
         "SELAH-VISITOR-EXPLANATION",
         "SELAH-ACCOUNT-DATA-PARITY"
       ],
       "evidence": [
-        "contracts/feature-parity.json"
+        "contracts/feature-parity.json",
+        "Claimed on codex/selah-windows-feature-runtime-20261003 from origin/main c95542d; Windows launcher 1.0.10/build25 and hosted shared UI 1.0.10/build29 are deployed, but installed UI/feature acceptance and authenticated cross-device sync remain unverified."
       ],
-      "nextAction": "Claim existing task instead of creating duplicate; record actual Windows runtime evidence"
+      "nextAction": "Verify installed Windows Edge app acceptance with non-personal fixtures; then record remaining account/Mac/iOS runtime dependencies without mixing user records."
     }
   ],
   "featureParityFile": "contracts/feature-parity.json"
