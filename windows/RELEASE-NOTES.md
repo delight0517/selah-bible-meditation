@@ -1,3 +1,11 @@
+# Selah Windows launcher — 1.0.10 / build 25
+
+Repairs an incomplete Selah-owned selah: registry marker during reinstall after unregistering the handler. Existing handlers from other apps remain untouched; the shortcut installation and URI forwarding can now be repeated safely.
+
+# Selah Windows launcher — 1.0.10 / build 24
+
+Registers the per-user selah://read?request=<id> handoff when installing desktop shortcuts, but only if the scheme is not already owned. The launcher accepts one strictly validated reading request and routes it to the shared Selah reader while preserving the managed Edge launch path. Includes an exact-match-only protocol unregister script.
+
 # Selah Windows launcher — 1.0.9 / build 23
 
 The app's reader and home headers now use the same Bible-and-cross icon as the PWA, iOS, and Windows app icon.

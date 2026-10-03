@@ -57,7 +57,7 @@ for (const file of files) {
 const manifest = JSON.stringify({ appId: 'selah', version: release.version, build: release.build, dataContractVersion: release.dataContractVersion, source: release.canonicalUrl, files: hashes }, null, 2) + '\n';
 const target = resolve(webDir, 'SHARED_SOURCE_MANIFEST.json');
 if (check) {
-  if (await readFile(target, 'utf8').catch(() => '') !== manifest) throw new Error('Stale shared source manifest');
+  if ((await readFile(target, 'utf8').catch(() => '')).replace(/\r\n/g, '\n') !== manifest) throw new Error('Stale shared source manifest');
 } else await writeFile(target, manifest);
 console.log(`${check ? 'Verified' : 'Copied'} ${files.length} shared runtime files: ${release.version} / build ${release.build}`);
 

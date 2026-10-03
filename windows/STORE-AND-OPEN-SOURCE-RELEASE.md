@@ -1,6 +1,6 @@
 # Selah Windows Store and open-source release readiness
 
-Tracking versions: **Windows launcher 1.0.9 / build 23** and **hosted Selah app 1.0.10 / build 26** (Store preparation; not a Store binary release).
+Tracking versions: **Windows launcher 1.0.10 / build 25** and **hosted Selah app 1.0.10 / build 29** (Store preparation; not a Store binary release).
 
 ## Current state
 
@@ -38,7 +38,7 @@ The release script produces a Windows launcher ZIP without bundled Bible text or
 
 ## 2026-10-03 continuation checkpoint
 
-- Live version readback: hosted app 1.0.10/build 26; latest Windows launcher release remains 1.0.9/build 23.
+- Live version readback: hosted app 1.0.10/build 29; latest Windows launcher release remains 1.0.9/build 23.
 - Live availability: app, manifest, privacy page, 192 px icon, and 512 px icon all returned HTTP 200.
 - Manual browser interaction: Matthew 1 → Matthew 2 → Matthew 1 navigation worked; the timed-meditation instructions opened and were dismissed without saving test content. This was a browser check, not a Store-installed Windows package test.
 - PWABuilder: public URL was entered in its official assessment page, but Start stayed disabled, so the live report remains unverified and packaging did not start.

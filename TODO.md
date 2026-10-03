@@ -405,6 +405,12 @@
 - [ ] 28일 이상 실사용 데이터로 읽기·저장·가입 전환 관찰; 실제 유입 증가 여부는 아직 미확인.
 
 - [ ] 새 측정 Worker 배포: 현재 Wrangler 계정이 Selah 소유 계정과 달라 인증 필요. 서버 준비 응답 전에는 실제 캠페인 실험을 활성화하지 않음.
+## 2026-10-03 · Windows Selah desktop link parity — launcher 1.0.10/build 25
+
+- [x] Added a per-user `selah://read?request=<id>` handler to the packaged Edge app-window launcher. It rejects unsupported/ambiguous URLs and keeps the managed SixVPN Edge route.
+- [x] Packaged and locally installed Windows launcher build 25; verified Start menu app entry, registry handler, valid deep-link request forwarding, invalid-link rejection, handler removal, and reinstall recovery.
+- [x] Fixed the shared-source manifest check to normalize CRLF/LF; verified the Windows check with a CRLF manifest.
+- [ ] Obtain Mac response to the open source/handoff request and verify authenticated Mac↔Windows BlueCloud request/result/session round trip. The inspected Mac checkout is dirty and the installed Mac app still lacks URL-scheme registration.
 
 ## 2026-10-03 · Selah Mac·Windows 공용 작업 허브
 - [x] 기존 worktree note에는 작업 소유자/브랜치 정보만 있고 중복 범위 claim 차단은 없음을 확인. GitHub `main`은 현재 `branch-current`만 필수로 보호됨.
