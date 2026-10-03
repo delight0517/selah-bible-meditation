@@ -392,4 +392,5 @@
 
 - [x] Added a per-user `selah://read?request=<id>` handler to the packaged Edge app-window launcher. It rejects unsupported/ambiguous URLs and keeps the managed SixVPN Edge route.
 - [x] Packaged and locally installed Windows launcher build 25; verified Start menu app entry, registry handler, valid deep-link request forwarding, invalid-link rejection, handler removal, and reinstall recovery.
+- [x] Fixed the shared-source manifest check to normalize CRLF/LF; verified the Windows check with a CRLF manifest.
 - [ ] Obtain Mac response to the open source/handoff request and verify authenticated Mac↔Windows BlueCloud request/result/session round trip. The inspected Mac checkout is dirty and the installed Mac app still lacks URL-scheme registration.
