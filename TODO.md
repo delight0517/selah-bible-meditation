@@ -469,6 +469,6 @@
 - revision3 / build32. 서버·클라이언트 통합 검증은 이전 변경에서 통과; 실제 브라우저·실기기 검증은 pending.
 
 ## 2026-10-04 · 직접 방문 퍼널 중복 방지
-- [ ] 정적 landing과 앱의 direct attribution medium을 `none`으로 통일하고 회귀 검사를 추가한 PR을 병합·배포한 뒤 공개 스크립트를 확인한다.
-- [ ] 운영 `global-funnel-v1`의 exposure/CTA/read/save/signup 이벤트가 실제로 도착하는지 다음 관찰 주기에 확인한다. 현재 0행이며 합성 이벤트를 보내지 않는다.
+- [x] direct attribution medium 정합성 수정·회귀 검사, PR #192 병합 및 Pages 배포 확인 (run `37149372833`, 공개 landing 4개 및 정적 script HTTP 200).
+- [ ] 운영 `global-funnel-v1`의 exposure/CTA/read/save/signup 이벤트가 실제로 도착하는지 다음 관찰 주기에 확인한다. 이번 summary 재조회가 HTTP 403을 반환해 최신 상태는 미확인이다. 합성 이벤트를 보내지 않는다.
 - [ ] 결과를 실제 사용자 수로 과장하지 않는다. Search Console의 다음 정착 날짜와 국가/언어 연결도 별도로 대조한다.

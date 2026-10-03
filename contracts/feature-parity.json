@@ -309,11 +309,11 @@
       "platforms": {
         "web": {
           "owner": "Selah growth funnel",
-          "state": "implementing",
-          "appliedRevision": null,
-          "source": "codex/direct-funnel-dedupe-20261004",
-          "build": "",
-          "evidence": "Revision 3 remains deployed. Revision 4 aligns direct attribution defaults and adds a source regression assertion; PR, Pages deploy and production event delivery are pending."
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "delight0517/selah-bible-meditation@95d86c96a029285ee27d259f815edfe0d8ef16be",
+          "build": "GitHub Pages deployment run 37149372833 succeeded",
+          "evidence": "PR #192 merged; public root/en/fil/pt-br and fil/analytics.js return HTTP 200; deployed direct fallback is medium=none. Analytics summary refresh returned HTTP 403 in this check, so real event delivery remains unverified."
         },
         "windows": {
           "owner": "Native platform maintainers (no native change in this revision)",

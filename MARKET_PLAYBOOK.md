@@ -201,3 +201,5 @@ Google은 언어·지역별 URL을 명시하고 `hreflang`으로 대응 버전�
 
 - 정적 landing은 direct medium을 빈 문자열로, 앱은 `none`으로 묶어 같은 브라우저 landing→app 이동에서 공통 exposure/CTA 키가 달라질 수 있었다. 수정에서 landing fallback을 `none`으로 맞추고 회귀 검사를 추가했다.
 - 이는 구현 결함의 교정이지 실제 중복 방문이 확인됐다는 뜻이 아니다. 최신 공통 funnel 집계는 0행이다. 공개 반영과 이후 실제 이벤트 도착을 각각 확인하기 전까지 분석 공백은 남는다.
+
+- **배포 상태:** PR #192와 Pages 배포 run `37149372833` 성공. 공개 4개 경로와 Filipino 분석 스크립트에서 HTTP 200 및 direct medium 기본값 일치를 확인했다. 분석 요약 API는 재조회에서 403이므로 실사용 전환 측정은 여전히 검증 대기다.
