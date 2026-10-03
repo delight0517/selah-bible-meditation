@@ -1,5 +1,16 @@
-.computer-reading-control{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+/* Keep the invitation readable when device controls consume the row. */
+.meditation-entry{flex-wrap:wrap}
+.meditation-entry>div:first-child{flex:1 0 220px;max-width:100%}
+.meditation-entry-actions{min-width:0;max-width:100%;flex-wrap:wrap}
+.computer-reading-control{display:flex;align-items:center;gap:6px;flex-wrap:wrap;max-width:100%}
 .computer-reading-control select{width:auto;min-width:88px;max-width:112px;min-height:42px;padding:8px 9px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-size:var(--type-small)}
 .computer-reading-control .btn{white-space:nowrap}
 #computerReadingStatus{flex-basis:100%;color:var(--muted);font-size:var(--type-micro);line-height:1.4}
-@media(max-width:600px){.computer-reading-control{flex-basis:100%;justify-content:center}.computer-reading-control select{flex:0 0 auto}#computerReadingStatus{text-align:center}}
+@media(max-width:760px){
+  .meditation-entry{flex-direction:column;align-items:stretch}
+  .meditation-entry>div:first-child{flex:0 1 auto}
+  .meditation-entry-actions{width:100%;justify-content:flex-start}
+  .meditation-entry-actions .computer-reading-control{flex-basis:100%;justify-content:flex-start}
+  .computer-reading-control select{flex:0 0 auto}
+  #computerReadingStatus{text-align:left}
+}
