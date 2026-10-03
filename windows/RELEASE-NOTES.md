@@ -1,4 +1,7 @@
-# Selah Windows launcher — 1.0.9 / build 22
+# Selah Windows launcher — 1.0.9 / build 23
+
+The app's reader and home headers now use the same Bible-and-cross icon as the PWA, iOS, and Windows app icon.
+
 
 Adds the Selah app icon to desktop and Start menu shortcuts and includes the multi-size icon in the launcher package. The hosted PWA uses the matching 192×192 and 512×512 assets; the iOS asset catalog uses the matching 1024×1024 artwork.
 

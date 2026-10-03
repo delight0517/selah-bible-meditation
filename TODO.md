@@ -1,3 +1,7 @@
+## 2026-10-03 · Selah 화면 브랜드 아이콘 통일 — 1.0.9 / build 23
+- 배포 앱을 직접 열어 보니 본문 화면 상단에는 기존 별표 표식이 남아 있어 새 앱 아이콘과 브랜드가 달랐음. 본문/홈 상단에 동일한 Selah 성경책·십자가 SVG를 적용.
+- 웹/PWA와 모바일 공유 번들을 다시 생성하고 Windows 배포판 버전을 1.0.9/build 23으로 올림. 배포 후 실제 화면의 아이콘 및 동작을 확인할 것.
+
 ## 2026-10-03 · Country/device analytics live check and Selah GSC filter — 1.0.9 / build 22
 - Current first-party `/analytics/summary?appId=selah&period=month` readback: 49 page-view events over 3 UTC dates, 31 approximate anonymous browser IDs, country KR 39 / US 10, page-view device classes desktop 36 / mobile 13. Referrers, source, medium and campaign are empty; this is not confirmed human traffic or campaign attribution.
 - The 30-day Korea hero-copy experiment currently has 7 exposures (A=3, B=4), 5 CTA clicks, 2 reading starts, 0 30-second focused reads, 0 reflection saves, and 0 signups. The observed CTA ratio is 5/7 (71%), but this sample is tiny and may include QA; do not select a variant or call it a stable conversion rate.
