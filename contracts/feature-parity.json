@@ -299,34 +299,34 @@
           "owner": "Selah growth funnel",
           "state": "implemented",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9668acc",
+          "source": "delight0517/selah-bible-meditation@9388419",
           "build": "shared web source",
-          "evidence": "All 8 supported UI locales use one aggregated funnel schema; source/deployment validation pending."
+          "evidence": "Public app HTML reads back the deployed baseline; Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed."
         },
         "windows": {
           "owner": "Hosted web funnel",
           "state": "implemented",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9668acc",
+          "source": "delight0517/selah-bible-meditation@9388419",
           "build": "shared hosted UI",
-          "evidence": "Windows browser/shell routes use hosted web UI; physical Windows runtime remains unverified.",
+          "evidence": "Hosted web funnel code is deployed; physical Windows shell runtime remains unverified. Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed.",
           "workItem": "selah-1000"
         },
         "macos": {
           "owner": "Hosted web funnel",
           "state": "implemented",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9668acc",
+          "source": "delight0517/selah-bible-meditation@9388419",
           "build": "shared hosted UI",
-          "evidence": "Hosted Mac browser is covered by the web funnel; native app telemetry is outside this contract."
+          "evidence": "Hosted Mac browser is covered; native app telemetry is outside this contract. Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed."
         },
         "ios": {
           "owner": "Hosted mobile web funnel",
           "state": "implemented",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9668acc",
+          "source": "delight0517/selah-bible-meditation@9388419",
           "build": "shared hosted UI",
-          "evidence": "Hosted iPhone browser/PWA uses the web funnel; Capacitor native app intentionally skips this endpoint."
+          "evidence": "Hosted iPhone browser/PWA is covered; Capacitor native app skips this endpoint. Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed."
         }
       }
     }

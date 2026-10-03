@@ -474,3 +474,10 @@ Copy this block for each study; replace every unknown with an observation or `no
 - `SELAH-ANONYMOUS-MARKET-FUNNEL`은 현재 8개 지원 UI 언어에 공통 기준선(`global-funnel-v1`)을 추가한다. 노출, 읽기 CTA/시작, 집중 읽기 중 30초·2분, 첫 묵상 저장, 가입, 다른 날짜 재방문을 국가·Cloudflare 지역·언어·기기·UTM 태그별 집계한다. 별도 A/B 변형을 만들지 않고 기존 한국어 실험과 분리한다.
 - 서버에는 방문자 ID나 묵상 내용이 전송되지 않는다. 한 브라우저의 같은 이벤트는 로컬 저장소로 중복 제한되며 내부 QA와 Capacitor 네이티브 앱은 제외한다. 새 계측은 배포 후부터 쌓이며 과거 값은 복원하지 않는다.
 - 표본이 작을 때에는 승자·전환율을 주장하지 않는다. 캠페인 없는 직접 유입은 수요를 만들어내지 못하므로, 검색 및 사용자가 승인한 배포 채널의 태그된 유입이 생길 때까지 공통 기준선 데이터를 기다린다. 개인 Instagram은 제외하고, 광고비는 집행하지 않는다.
+
+
+## 2026-10-04: 공통 퍼널 배포 읽기 결과
+
+- PR #186 (`9388419c2d2df4ad87b1ecbc3449539a7248f2a9`) 병합 및 GitHub Pages 배포 workflow 성공을 확인했다. 공개 앱 HTML과 지원 언어 랜딩 8개 경로가 모두 HTTP 200이다.
+- Cloudflare Worker `selah-feature-analytics` 배포 버전 `418c8c8b-5dc0-4dc1-89b9-3dcbbdf2b8a1`; 공개 market readback에서 `global-funnel-v1` 활성 및 CORS preflight 204를 확인했다. 30일 요약에는 기존 실험 행 6개, 새 공통 퍼널 행 0개다.
+- 0행은 신규 퍼널에 실제 사용자가 아직 이벤트를 보내지 않았다는 뜻이다. 임의 이벤트는 넣지 않았다. 데이터 수집 연결은 배포됐지만, 실제 사용자가 시작하기 전까지 적용 성공이나 유입·가입 증가를 주장하지 않는다.
