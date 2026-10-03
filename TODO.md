@@ -348,4 +348,10 @@
 - [x] 10월 1–3일 기존 집계 API 최신 readback을 기록: 55 page:view 이벤트, 브라우저 월 ID 34, KR 45 / US 10 이벤트. 경로·기기·국가 값은 사람 수나 유입 채널로 해석하지 않음.
 - [x] API가 hostname/origin을 반환하지 않고 일부 locale/path/device 교차 합계가 총합과 불일치함을 기록. `GROWTH_RESEARCH.md`의 `GATE0-SEARCH-ANALYTICS-20261003-02` 참조.
 - [x] “오늘 방문” 카운터가 월간 합계를 읽던 오류를 수정해 UTC 오늘 행의 익명 고유 브라우저 수를 사용하게 함. 공통 웹·모바일 원본을 동기화하고 버전을 1.0.10/build 25로 갱신.
-- [ ] `cloud-account-storage` Worker의 배포 소스 저장소와 관리/배포 경로를 찾아 기존 API 안에 서버 유래 hostname/origin 분리를 추가하고 실제 집계를 재검증. 소스가 확보될 때까지 유입 국가/지역을 배포판별 성과로 주장하지 않음.
+- [x] 배포 소스를 `delight0517/releasepilot-reports`에서 확인하고 기존 `cloud-account-storage` 요약 API에 Selah 전용 Origin 호스트·국가·언어·경로 페이지 열기 합계를 추가. PR #14 병합 후 Worker 배포 `adef387f-d44d-47d2-a1ca-829ec2c5d4e3`; 요약 응답 필드는 확인했으며 새 방문 행은 아직 없음. 과거 행은 출처를 소급 분리하지 않음.
+
+
+## 2026-10-03 · 개발자 통계에 사이트 호스트·페이지 경로 연결
+- [x] 같은 `cloud-account-storage` 요약 API의 새 `pageViewsByOriginCountryLocalePath` 필드를 개발자 통계에 표시하도록 적용. 브라우저가 보낸 Origin 호스트, 국가, 인터페이스 언어, 페이지 경로별 **페이지 열기 횟수**이며 사람 수나 검색 유입으로 계산하지 않음.
+- [x] 공통 웹·모바일 파일을 47개 기준으로 동기화하고 앱 버전을 1.0.10/build 26으로 갱신. JavaScript 구문 검사와 source parity 검사를 통과.
+- [ ] GitHub Pages build 26 배포 완료 후 공개 화면을 확인하고, 다음 실제 방문부터 새 호스트별 집계가 쌓이는지 기다려 확인. 기존 데이터의 배포판/호스트 분리는 미확인으로 유지.

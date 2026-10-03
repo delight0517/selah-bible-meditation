@@ -402,3 +402,12 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **실험 상태:** 같은 기간 `kr-spiritual-curiosity-v2`의 30일 실험 요약은 `marketRows`와 `rows` 모두 빈 배열이었다. 이는 기록된 실험 이벤트가 없다는 뜻이지 페이지 방문자 0명이라는 뜻이 아니다. 썸네일 실험은 계속 대기 상태이며 이 결과와 섞지 않는다.
 - **Worker 코드 출처 감사:** Selah 저장소의 웹 코드는 `/analytics/event`로 `location.pathname`을 보내지만 origin을 보내지 않는다. Selah 저장소의 `analytics-worker`는 별도 기능/실험 Worker다. GitHub 코드 검색에서는 `cloud-account-storage`의 배포 소스가 발견되지 않았고, `brainwire-app`에서 확인된 파일은 이 요약을 읽는 프록시뿐이다. 배포된 Worker를 편집할 소스 저장소와 릴리스 경로가 아직 확인되지 않았다.
 - **다음 조치:** 동일 기존 이벤트 API의 Worker 소스를 찾아 서버가 확인한 hostname/origin을 저장·요약하도록 최소 수정한다. 새 분석 API는 만들지 않는다. 소스 확인 전까지 현 API 수치는 합계의 참고치로만 보관하고, 1,000명 목표에는 어떤 숫자도 더하지 않는다.
+
+
+### GATE0 follow-up — 2026-10-03 host attribution source and dashboard
+
+- **Canonical source found:** the deployed `cloud-account-storage` Worker is maintained in `delight0517/releasepilot-reports/apps/cloud-account/worker/worker.js`, not Selah's feature Worker. PR #14 (`dd63f89`) was merged as `9408183`; the Worker was deployed from that merged source as version `adef387f-d44d-47d2-a1ca-829ec2c5d4e3`.
+- **Additive field:** Selah `page:view` events now aggregate `pageViewsByOriginCountryLocalePath` inside the existing summary endpoint, using the browser-supplied Origin hostname with the existing country, locale, and client-supplied path. Other apps and existing totals are unchanged. This is an attribution hint, not authenticated site identity; a non-browser sender can spoof request headers. Origin-less/native requests appear as `unknown`. No raw referrer, account, note, IP, or location beyond country is added.
+- **Live readback:** immediately after deploy the Selah month summary returned HTTP 200 and the new field, with 0 origin rows because no new event had arrived yet. It still returned 55 page views in the UTC month and 7 legacy country/locale/path keys; these historic totals are not backfilled into the new host dimension.
+- **Developer display prepared:** build 26 adds a host/path row group in the existing developer analytics panel, labelled explicitly as page opens. It will remain empty until a subsequent page-view request reaches the deployed Worker and the Pages build is live.
+- **Interpretation:** preserve the old mixed-origin evidence as historical and unverified. Do not count page opens as people, assign them to Google or a country-specific campaign without corroboration, or claim a winner.
