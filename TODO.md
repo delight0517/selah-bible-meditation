@@ -3,7 +3,11 @@
 - 공통 앱 아이콘을 새 Selah 성경책과 십자가 디자인으로 적용하고 웹/PWA, iOS 앱 아이콘 카탈로그, Windows 다중 크기 바로가기 아이콘을 맞춤. Windows 런처 ZIP에도 전용 아이콘을 포함하고 바탕 화면/시작 메뉴 바로가기가 이 아이콘을 사용하도록 연결.
 - 버전 메타데이터를 1.0.9/build 22로 갱신. Windows 런처 패키지 생성 성공; SHA-256 49ce8408127ded3b2f10f553dd5b928f91a5ed60cf6c1a55e23d1483dcbcfa85. ZIP 내부 아이콘/체크섬과 공개 배포 readback 결과를 계속 기록할 것. iPhone 실기기 및 Xcode 빌드는 이 작업에서 수행하지 않음.
 
-## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
+## 2026-10-03 · CTR / 국가별 분석 연결 점검 — 1.0.9 / build 21
+- Search Console query를 country, device, country+device, query+country, page+country dimensions로 조회했지만 모두 0행이었다. CTR/국가별 검색 리포트는 API 차원에서 지원되며, Selah 검색 노출 데이터가 아직 없어 수치를 표시할 수 없다. 기존 색인/노출 점검은 계속한다.
+- 기존 first-party 이벤트 요약(10/01–10/03)은 page_view 46건, 익명 브라우저 ID 31개, 국가 KR/US를 기록했다. 이 값은 Search Console 클릭/CTR이나 검증된 인간 방문자 수와 구분한다.
+- GSC Wizard 연결 계정 `rogan2534@gmail.com`에는 Google Analytics 권한(scope)이 없어 GA4 속성 조회 불가. 저장소 소스에서 GA4 `G-...`/gtag 측정 태그를 찾지 못했다. GA4 국가·기기 보고를 활성화하려면 사이트 소유 계정으로 Google Analytics 권한을 GSC Wizard에 연결하고 측정 ID를 사이트에 설정해야 한다. 비밀 키나 소유자 계정 권한은 추측하지 않는다.
+- 사용자 요청: CTR 및 국가별 조회까지 작동시킬 것. 진행 다음 단계는 GSC Wizard에서 동일 소유 계정으로 Google Analytics 연결 승인 후 GA4 속성 연결 여부 확인; 그 후 적절하면 측정 ID 추가, 배포, GA4 실시간 이벤트 및 국가/기기 리포트 readback. GSC 검색 CTR은 Google 검색 노출이 발생한 뒤 재조회한다.## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
 - Google can crawl and has indexed the Selah root and Filipino page, but the latest settled Selah-only Search Console window (2026-09-03–2026-09-30; data through 2026-09-29) has zero page/query rows and zero sitemap-URL impressions. The parent GitHub Pages property has other projects; do not count its 88 impressions / 3 clicks as Selah traffic.
 - Live first-party summary for 2026-10-01–03 reports 46 page-view events / 31 anonymous browser IDs (KR and US); source, medium and campaign are empty. This is not verified human count or attributable acquisition. Current Korean copy test: 7 exposures (A=3/B=4), 4 CTA clicks, 2 reading starts, 0 30-second reads, 0 saved reflections, 0 recorded signup events; sample is too small and may include QA.
 - Corrected an accidental `.signup-cta { display:none }` in the shared root reader/landing CSS; the free account button had no visible signup path. Shared source is 1.0.9/build 21 and mobile bundle is generated from the root.
