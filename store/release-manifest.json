@@ -4,8 +4,8 @@
   "sourceCommit": "3c42697d2e0822ff95b834be11cea567480edbab",
   "version": "1.0.10",
   "build": 22,
-  "phase": "preparation",
-  "submissionAuthorized": false,
+  "phase": "authorized_ad_free_release",
+  "submissionAuthorized": true,
   "appleAccess": "existing_ASC_API_key_ready",
   "apps": {
     "IOS": {
@@ -81,5 +81,11 @@
     "status": "blocked_before_install",
     "reason": "iPhone Mirroring requires local Mac login authentication",
     "evidenceRun": "540d77ab-8027-40df-886b-b1d98df15471"
+  },
+  "advertising": {
+    "enabled": false,
+    "sdkIncluded": false,
+    "decision": "user requested first release without advertising on 2026-10-03",
+    "deferredPullRequest": 121
   }
 }
