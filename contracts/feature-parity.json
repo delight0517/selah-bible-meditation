@@ -35,9 +35,9 @@
           "owner": "Windows app task",
           "state": "implemented",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "shared UI 1.0.10/29",
-          "evidence": "Fresh isolated headless Edge runtime with windowsShell=1 verified toolbar, zoom 100%→110%→100%, focus toggle on/off, visitor explanation open/close, anonymous-ID and duplicate-browser examples, UTC period, and account-privacy copy; one telemetry write was blocked. Installed Start-menu app invocation and authenticated account round trip remain pending.",
+          "source": "delight0517/selah-bible-meditation@d8e6554",
+          "build": "shared UI 1.0.10/30",
+          "evidence": "Fresh isolated headless Edge runtime against live build 30 with windowsShell=1 verified toolbar, zoom 100%→110%→100%, focus toggle on/off, visitor explanation open/close, anonymous-ID and duplicate-browser examples, UTC period, and account-privacy copy; one telemetry write was blocked. Installed Start-menu app invocation and authenticated account round trip remain pending.",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
