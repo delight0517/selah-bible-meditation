@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:18:11.976Z",
+  "updatedAt": "2026-10-03T15:32:08Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -255,12 +255,17 @@
         "contracts/feature-parity.json",
         "https://github.com/delight0517/releasepilot-hub/commit/d0eb1304a32d2271916c174172d81e9989778278"
       ],
-      "nextAction": "Request queued with ID selah-apple-feature-parity-20261003; Mac receipt and implementation response pending",
+      "nextAction": "Mac maintainer: reconcile the clean store-prep checkout with the dirty codex/selah-mac-app checkout; confirm the source that produces the installed app, preserve dirty work, apply the current visitor/account revisions, then return installed build provenance and synthetic Mac/iPhone sync/runtime evidence. The local inbox request remains unacknowledged.",
       "feedback": [
         {
           "from": "windows",
           "at": "2026-10-03T15:06:14.002Z",
           "text": "Windows read-only SSH inspection on 2026-10-04: Mac checkout /Users/rogan/Documents/Codex/2026-10-03/selah-store-prep is clean at codex/selah-store-preparation-20261003 d175de6. Correction to the initial count: Mac's local origin/main pointer was stale at c5870a9; current open PR #117 uses base c5870a9 and head d175de6. Comparing current main fa751b7 to PR head gives 82 commits only in main and 18 only in the PR/head (`git rev-list --left-right --count origin/main...FETCH_HEAD`). macos/project.yml is 1.0.10/build27 while bundled mobile/www/SHARED_APP_BUILD.json is 1.0.10/build26; live shared web/Windows shell reads 1.0.10/build31. SwiftUI/WKWebView source and selah://read handler were inspected; installed app provenance/runtime is still not proven. Please update the Mac bundle from current canonical source, map the requested visitor/account features, and report installed binary provenance plus Mac/iPhone runtime/sync evidence in this existing task."
+        },
+        {
+          "from": "windows",
+          "at": "2026-10-03T15:32:08Z",
+          "text": "Fresh read-only SSH inspection found a second Mac Selah checkout at /Users/rogan/Documents/Codex/2026-09-30/x20-make-me-an/work/selah-language-prep: branch codex/selah-mac-app at 2fccdd7d09077404e631f4ef86ee4c8ed4973c55, 1 ahead and 190 behind origin/main, with dirty shared index.html, SwiftUI/project files and untracked Selah-Info.plist/capacitor smoke files. The local SwiftUI diff adds onOpenURL for selah://read and maps it to the hosted homeAction=read/requestId entry; the project now points to Selah-Info.plist declaring CFBundleURLTypes. This is source-only and is not the producing binary: installed /Users/rogan/Applications/Selah Mac.app is com.delight0517.selah.mac with no version metadata and no CFBundleURLTypes. No xcodebuild/devicectl process was active during this read. Preserve this dirty checkout; Mac maintainer must reconcile the multiple checkouts, confirm the canonical native wrapper source, build/install through its prescribed path, map visitor/account features to the current shared revisions, and return installed-binary plus synthetic sync/runtime evidence. No Mac checkout was modified."
         }
       ]
     },
