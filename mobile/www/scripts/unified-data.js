@@ -2,7 +2,7 @@
 (function (root) {
   'use strict';
   const VERSION = 1;
-  const collections = ['reflections', 'cards', 'qtLibrary', 'bibleChats', 'meditationFeedback', 'meditationPlaces', 'drafts'];
+  const collections = ['reflections', 'cards', 'qtLibrary', 'bibleChats', 'meditationFeedback', 'meditationPlaces', 'drafts', 'togetherStamps'];
   const registers = ['selectedQt', 'gptContext', 'language', 'customPassage', 'customPassageActive', 'readerPrefs.desktop', 'readerPrefs.mobile', 'appearance'];
   const privateFields = new Set(['owner', 'draft', '_rev', 'token', 'authToken', 'authorization', '__proto__', 'constructor', 'prototype']);
   const liveFields = ['computerReadingRequest', 'computerReadingResult', 'computerReadingSession', 'readingState', 'meditationSession'];
