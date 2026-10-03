@@ -487,3 +487,14 @@
 - [x] 지역은 KR-11 서울, KR-30 대전, KR-44 충남만 관측됐다. 표본이 variant당 5건 이하여서 승자 판정 기준 50 exposure에 크게 못 미친다. 비한국 시장이나 1,000 verified active users 달성으로 계산할 데이터는 없다.
 - [x] PR #195 증거 문서 통합 merge `563de97efc5b438e44e013408c433b0de5100c29`; Pages run `37152669100` 성공.
 - [ ] 10/05 다음 점검에서 GSC settled-through 날짜·재크롤링·검색 유입과 Worker의 global-funnel-v1 전달·비한국 locale/국가 분포를 재확인한다. GSC UI의 별도 “Request indexing” 제출/수락은 확인되지 않았으므로 필요 시 URL 상태와 기존 요청을 확인한 뒤 한 번만 제출한다. 작은 표본에서는 승자를 고르지 않는다.
+
+## 2026-10-04 · 다국어 검색 유입과 IndexNow 후속
+- [x] GSC에서 Selah 경로를 직접 필터한 settled Web page/country 조회가 0행임을 재확인. 최신 settled-through는 2026-09-29. 속성 전체의 다른 앱 검색 노출을 Selah 유입으로 세지 않는다.
+- [x] 6개 현지 홈은 HTTP 200/indexable/self-canonical이며 현재 Google 실적 0. CJK whitespace 단어 수는 자동 감사의 토큰화 오탐 가능성이 있어 본문을 억지로 늘리지 않음.
+- [x] 일본·대만·중국어권·필리핀의 공개 앱/성서기관 안내를 경쟁 기준으로 기록. 오프라인·오디오·전체 번역·메모는 여러 경쟁 제품의 기본 제공 범위여서 Selah의 차별점으로 주장하지 않음. 실제 검색 수요나 설문으로 해석하지 않음.
+- [x] 기존 호스트 루트 IndexNow 공개 키 파일 검증 후 GSC Wizard의 IndexNow 설정을 맞추고 7개 언어 홈 제출. 기록된 7개가 모두 HTTP 200 `submitted, key validated`; 실제 크롤링·색인·Google 검색 효과는 아직 확인되지 않음.
+- [ ] 다음 정착 GSC 창에서 Selah 경로별 Web 노출·국가·검색어, Google 재크롤링, IndexNow 이력, 실제 locale funnel 이벤트를 별도로 비교. 노출/표본이 없으면 카피 승자·시장 승자·유료 집행을 정하지 않는다.
+- [x] 10/04 최신 재확인: 호스트 전체 GSC 88 impressions/3 clicks지만 Selah 하위경로 page/query는 0행이며 settled-through 09/29. Selah 8개 언어 홈은 10/01–10/02에 색인되어, 아직 색인 후 검색 성과가 측정창에 반영되기 전임을 기록.
+- [x] Cloudflare 10/01–10/03: 59 page-view events/36 monthly anonymous browser IDs, KR49·US10, 10 browser IDs multi-day. 기능 API는 KR meditation_started 5/scripture_read 2; 한국 copy A/B 노출5/5, CTA4/2, read-start2/1, 30초읽기·노트·가입 0. 사람 수나 시장 선호 결론으로 해석하지 않음.
+- [x] Metricool 브랜드 목록 재확인: 연결 브랜드 1개 `vivid_wave` Instagram. 개인 계정 비공개 요청에 따라 홍보 게시/예약에 사용하지 않음. 별도 Selah 전용 채널이 연결됐다는 증거 없음.
+- [ ] 10/05 이후 첫 settled window가 10/02 색인 이후를 포함하는지 확인. 실행 대기 동안 Search Console 재요청 반복·신규 콘텐츠 양산 금지; Google/Bing 실제 유입과 읽기·노트 행동을 확인한 뒤 다음 시장·채널을 선택.
