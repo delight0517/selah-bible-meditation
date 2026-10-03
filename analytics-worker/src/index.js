@@ -1,7 +1,7 @@
 const features = new Set([
   "scripture_read", "meditation_started", "reflection_saved",
   "highlight_added", "bookmark_added", "verse_shared",
-  "offline_bible_saved", "quiz_created", "quiz_reviewed"
+  "offline_bible_saved", "bible_downloaded", "quiz_created", "quiz_reviewed", "focused_reading_started"
 ]);
 const locales = new Set(["ko", "en", "ja", "zh-CN", "zh-TW", "fil", "es", "pt-BR"]);
 const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "reader_30s", "reader_120s", "reflection_saved", "return_visit"]);
@@ -15,7 +15,7 @@ function cors(origin, allowed) {
   return {
     "access-control-allow-origin": valid ? origin : "null",
     "access-control-allow-methods": "GET, POST, OPTIONS",
-    "access-control-allow-headers": "content-type",
+    "access-control-allow-headers": "content-type, authorization",
     "access-control-max-age": "86400",
     "vary": "Origin"
   };
@@ -45,6 +45,50 @@ export default {
       : cors(origin, env.ALLOWED_ORIGIN);
     if (request.method === "OPTIONS") return new Response(null, { status: signupLocationRoute || origin === env.ALLOWED_ORIGIN ? 204 : 403, headers });
     if (origin && origin !== env.ALLOWED_ORIGIN && !signupLocationRoute) return json({ error: "origin_not_allowed" }, 403, headers);
+
+    if (url.pathname.startsWith("/analytics/usage/")) {
+      headers["cache-control"] = "no-store";
+      const uuid = value => typeof value === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+      if (request.method === "POST") {
+        const raw = await request.text();
+        if (raw.length > 2048) return json({ error: "payload_too_large" }, 413, headers);
+        let body;
+        try { body = JSON.parse(raw); } catch { return json({ error: "invalid_json" }, 400, headers); }
+        if (!uuid(body?.visitorId)) return json({ error: "invalid_visitor" }, 400, headers);
+        if (url.pathname === "/analytics/usage/delete") {
+          await env.DB.prepare("DELETE FROM usage_events WHERE visitor_id = ?").bind(body.visitorId).run();
+          return json({ ok: true }, 200, headers);
+        }
+        if (url.pathname === "/analytics/usage/event") {
+          const country = /^[A-Z]{2}$/.test(request.cf?.country || "") ? request.cf.country : "ZZ";
+          if (body.consent !== true || !uuid(body.eventId) || !features.has(body.feature) || !locales.has(body.locale) || !experimentClients.has(body.client) || !experimentDevices.has(body.deviceClass)) return json({ error: "invalid_event" }, 400, headers);
+          await env.DB.prepare("DELETE FROM usage_events WHERE occurred_at < datetime('now', '-30 days')").run();
+          // Stable event IDs make offline retries idempotent. Cap each browser's daily writes.
+          await env.DB.prepare("INSERT OR IGNORE INTO usage_events (event_id, visitor_id, occurred_at, country, locale, client, device_class, feature, source, medium, campaign) SELECT ?, ?, datetime('now'), ?, ?, ?, ?, ?, ?, ?, ? WHERE (SELECT COUNT(*) FROM usage_events WHERE visitor_id = ? AND occurred_at >= date('now')) < 500").bind(body.eventId, body.visitorId, country, body.locale, body.client, body.deviceClass, body.feature, validTag(body.source), validTag(body.medium), validTag(body.campaign), body.visitorId).run();
+          return json({ ok: true }, 202, headers);
+        }
+      }
+      if (request.method === "GET" && url.pathname === "/analytics/usage/users") {
+        const authorization = request.headers.get("authorization") || "";
+        if (!/^Bearer [^\s]{1,4096}$/.test(authorization)) return json({ error: "developer_session_required" }, 401, headers);
+        // Validate the current developer session with the owning auth server, never a client flag.
+        try {
+          const access = await fetch("https://brainwire-f2gf.onrender.com/api/feedback/developer-proof", { headers: { authorization }, redirect: "error", signal: AbortSignal.timeout(8000) });
+          const proof = access.ok ? await access.json() : null;
+          if (!proof?.ok || !proof.proof) return json({ error: "developer_session_required" }, 403, headers);
+        } catch { return json({ error: "auth_unavailable" }, 503, headers); }
+        await env.DB.prepare("DELETE FROM usage_events WHERE occurred_at < datetime('now', '-30 days')").run();
+        const visitor = url.searchParams.get("visitorId");
+        if (visitor && !uuid(visitor)) return json({ error: "invalid_visitor" }, 400, headers);
+        if (visitor) {
+          const result = await env.DB.prepare("SELECT occurred_at AS occurredAt, country, locale, client, device_class AS deviceClass, feature, source, medium, campaign FROM usage_events WHERE visitor_id = ? ORDER BY occurred_at DESC, event_id DESC LIMIT 200").bind(visitor).all();
+          return json({ visitorId: visitor, events: result.results || [], limit: 200, period: "30d" }, 200, headers);
+        }
+        const result = await env.DB.prepare("SELECT visitor_id AS visitorId, feature, COUNT(*) AS uses, MIN(occurred_at) AS firstSeen, MAX(occurred_at) AS lastSeen FROM usage_events WHERE visitor_id IN (SELECT visitor_id FROM usage_events GROUP BY visitor_id ORDER BY MAX(occurred_at) DESC, visitor_id LIMIT 100) GROUP BY visitor_id, feature ORDER BY lastSeen DESC, visitorId, feature").all();
+        return json({ rows: result.results || [], limit: 100, period: "30d", identity: "consented_browser" }, 200, headers);
+      }
+      return json({ error: "not_found" }, 404, headers);
+    }
 
     if (request.method === "GET" && signupLocationRoute) {
       const country = /^[A-Z]{2}$/.test(request.cf?.country || "") ? request.cf.country : null;
