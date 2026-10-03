@@ -291,7 +291,8 @@
       "paths": [
         "index.html",
         "analytics-worker/src/index.js",
-        "mobile/www/index.html"
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json"
       ],
       "platforms": {
         "web": {
