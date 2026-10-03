@@ -1,7 +1,12 @@
-## 2026-10-03 · 성장 실험을 한국 단독에서 지원 언어권 전체로 확대
-- 사용자 정정 반영: 한국은 첫 데이터 비교 시장이지 전체 홍보 범위가 아니다. `MARKET_PLAYBOOK.md`에 현재 제품의 8개 언어 경로별 질문형·초대형 썸네일 카피 초안을 추가하고, `GROWTH_RESEARCH.md`에 측정·국가/언어 분리 원칙을 기록.
-- 현재 확인된 55 page-view 이벤트는 KR 45 / US 10이며 사람 수가 아니다. 필리핀어 경로는 필리핀 국가 방문 증거가 아니고, GSC 국가+페이지 자료에는 아직 행이 없다. 다른 지원 언어권을 제외할 근거는 없으므로 각 조합은 별도로 관찰.
-- 한국 외 카피 초안은 실제 이미지가 아니며 현지 독자 검토 전이다. 앱의 번역판 범위(특히 일본어 성경은 신약)를 넘는 약속을 금지한다. 개인 계정/유료 광고는 사용하지 않으며, 채널 승인이 확인되는 곳부터 유기적으로 측정.
+## 2026-10-03 · 월간 고유 방문자 숫자 설명 — 1.0.10 / build 29
+- 사용자 피드백: “이번 달 고유 방문자 34”의 뜻을 이해하기 어렵고 누르면 상세 설명을 볼 수 있게 요청함.
+- 월간 숫자 전체를 키보드로도 누를 수 있는 버튼으로 바꾸고 현재 숫자의 의미, 브라우저 중복 제거 예시, 기기/공유 브라우저/저장 데이터 삭제에 따른 오차, UTC 달력 월 기간, 회원·실시간 방문자와의 차이를 설명하는 패널을 추가. 5개 UI 언어를 지원.
+
+## 2026-10-03 · 성장 시장을 한국만으로 제한하지 않기
+- 사용자 정정 반영: 한국어 전용 build 28은 해당 통제 실험 한 건의 범위이며 전체 시장 우선순위가 아니다. 앱의 8개 언어 경로에서 국가별 검색 의도, 접속 가능성, 성경판 적합성, 유입 후 읽기·기록 행동을 병행 조사한다.
+- `MARKET_PLAYBOOK.md`와 `GROWTH_RESEARCH.md`에 시장 탐색 절차와 언어별 메시지 초안을 정리했다. 언어를 국가로 추정하지 않고, 확인된 국가×언어×시안별로 성과를 분리한다.
+- 현재 확인된 55 page-view 이벤트는 KR 45 / US 10이며 사람 수가 아니다. 필리핀어 경로는 필리핀 국가 방문 증거가 아니고 GSC 자료에는 Selah 검색 행이 없다. 비한국어 문구는 초안이며 실제 썸네일 제작·현지 검토·게시/노출 전이다.
+- 개인 Instagram 제외와 유료 집행 금지를 유지한다. 현지 본문/표현 적합성, 검색 결과의 약속과 도착 화면 일치, 행동 데이터가 확인된 시장부터 판단하며 작은 표본에서 승자를 고르지 않는다.
 
 ## 2026-10-03 · 하나님을 알아가도록 초대하는 한국어 썸네일 실험
 - 사용자 요청의 핵심을 기존 A/B 시안 실험에 반영: “하나님을 알고 싶으신가요?”라는 호기심을 존중하고, 말씀을 읽으며 알아가도록 부담 없이 초대한다. 죄책감·긴급성·신앙 수준 압박은 사용하지 않는다.
@@ -387,3 +392,17 @@
 - [ ] PWABuilder assessment could not start: after entering the public app URL, its Start control remained disabled. Retry only after diagnosing the builder form; do not record a pass without a report card.
 - [ ] Continue with live PWABuilder findings, reserved Partner Center product identity, Windows package generation/validation, real listing assets and age rating, certification, and installed Store build verification.
 - [ ] Verify worldwide distribution rights for every bundled Bible edition before packaging any Scripture dataset.
+
+## 2026-10-03 — Narrow-window invitation layout (build 27)
+- User feedback: current UI text stretches into excessive vertical lines.
+- Confirmed at 644px viewport: invitation copy shrank to 15.9px while action group reserved 558.5px; card height reached 612.6px.
+- Fix: preserve a readable copy width, wrap controls, and stack invitation/actions through 760px. Keep existing font preferences and other chats' thumbnail changes.
+- Verification: responsive browser checks and published Pages readback tracked with this release.
+
+## 2026-10-03 사용자 피드백 — 유입 문구 범위 (1.0.10 / build 28)
+- [x] “하나님을 알고 싶은가요” 전체 적용 중단, 기존 디자인 보존.
+- [x] 전용 캠페인 진입에서 기존 화면 A / 초대 추가 B 실험으로 분리.
+- [x] v2와 측정 분리 및 QA 통계 제외.
+- [ ] 28일 이상 실사용 데이터로 읽기·저장·가입 전환 관찰; 실제 유입 증가 여부는 아직 미확인.
+
+- [ ] 새 측정 Worker 배포: 현재 Wrangler 계정이 Selah 소유 계정과 달라 인증 필요. 서버 준비 응답 전에는 실제 캠페인 실험을 활성화하지 않음.
