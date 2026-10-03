@@ -3,7 +3,7 @@
 - Live first-party summary for 2026-10-01–03 reports 46 page-view events / 31 anonymous browser IDs (KR and US); source, medium and campaign are empty. This is not verified human count or attributable acquisition. Current Korean copy test: 7 exposures (A=3/B=4), 4 CTA clicks, 2 reading starts, 0 30-second reads, 0 saved reflections, 0 recorded signup events; sample is too small and may include QA.
 - Corrected an accidental `.signup-cta { display:none }` in the shared root reader/landing CSS; the free account button had no visible signup path. Shared source is 1.0.9/build 21 and mobile bundle is generated from the root.
 - Paid ad decision: hold the authorized ₩20,000 for now. Search Console has not yet measured post-Oct-2 crawl visibility, and acquisition source attribution is empty. Reassess after post-crawl query/page data and a clean tagged campaign path exist; do not buy unmeasurable visits.
-- [ ] Open PR, merge through the canonical `main` workflow, and verify the Pages deployment plus live visible-CTA stylesheet.
+- [x] Open PR #115, merge through the canonical `main` workflow, and verify Pages run `37096278336` plus the live visible-CTA stylesheet; readback is recorded below.
 - [ ] After Google’s settled-through date passes the Oct-2 crawl, compare Selah-only page/query/country impressions and clicks with tagged first-party arrivals, signup, focused reading and reflection saves. Keep the existing 28-day / minimum-sample rules; no copy winner selected.
 - Long-range owner-stated outcomes, not forecasts: 100,000 simultaneous users; 1,000,000 cumulative users; 300,000 registrations; 10,000 premium customers. Keep the active 1,000 verified-active-user goal as the first proof milestone. Count each stage separately and only from auditable measurements.
 
@@ -275,3 +275,20 @@
 - [x] Live HTTP readback confirms the CTA CSS and shared app version 1.0.9/build 21. The signup flow itself was not completed or verified.
 - [ ] Wait until Search Console's settled-through date passes the Oct 2 crawls; compare Selah-only impressions/clicks and queries with tagged first-party visits, reading/reflection events and verified signups. No current data identifies 100,000 concurrent users, 1,000,000 cumulative users, 300,000 registrations or 10,000 premium customers; those remain owner-stated aspirations, not forecasts.
 - [ ] Keep the ₩20,000 ad allowance unspent until campaign attribution can connect an acquired visit to reading/reflection and verified signup. Continue excluding personal Instagram.
+
+## 2026-10-03 · Configure free change notification for supported search engines
+- [x] Publish `selah-indexnow-key.txt` under the Selah URL prefix, compare its live content to the generated project key without echoing the key, and submit only the changed Korean homepage through the IndexNow protocol.
+- [x] Record protocol acceptance separately from search indexing. PR #118 / Pages run `37097961779` published the key file; live byte comparison passed; the global IndexNow endpoint returned HTTP 200 for the Korean homepage only.
+- [ ] Check later Bing/Naver result and crawl status; Google Search Console still has zero settled Selah impressions through Sep 29 and some locale guides report `Crawled - currently not indexed`. IndexNow does not notify Google or guarantee indexing.
+
+## 2026-10-03 · Localized SERP and preview checkpoint
+- [x] Reviewed current GSC page/query evidence, direct mobile inspections of the Tagalog and Brazilian Portuguese guides, and on-page SEO for the Korean and English landing pages. The sample remains pre-change for the main CTA and contains no settled Selah search row.
+- [x] Visually checked the configured Korean, Tagalog, and Brazilian Portuguese preview cards. Their content matches the local Bible-reading promise; the actual Google-rendered title, description, and image are still unknown.
+- [ ] Wait for the post-Oct-2 crawl dates to settle in GSC; decide whether to improve the two crawled-but-not-indexed guide pages only after comparing actual search queries and downstream local-market activity. Do not infer the cause from low-severity audit heuristics.
+
+## 2026-10-03 · North Star growth plan and execution gates
+- [x] Recorded the owner's four long-range aspirations separately from current performance and retained 1,000 verified active users as the first evidence milestone.
+- [x] Wrote a staged plan covering metric definitions, Korea-first validation, locale selection, search-result/landing promise match, one-variable experiments, the ₩20,000 spend cap, premium evidence and concurrent-load readiness: `docs/GROWTH_PLAN_NORTHSTAR.md`.
+- [ ] Complete Gate 0: connect tagged arrivals through focused reading, saved reflection and confirmed signup; exclude QA and verify the live aggregate readback.
+- [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
+- [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
