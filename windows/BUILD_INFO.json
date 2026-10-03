@@ -1,5 +1,5 @@
 {
-  "description": "Refresh Selah app icons across web, iOS, and Windows",
-  "version": "1.0.9",
-  "build": 23
+  "description": "Selah Windows app-window launcher with validated reading-link handoff",
+  "version": "1.0.10",
+  "build": 25
 }

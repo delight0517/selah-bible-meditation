@@ -15,7 +15,7 @@ Microsoft Edge와 Windows Script Host가 필요합니다. Script Host가 조직 
 
 ## English
 
-Extract the ZIP and run `Launch-Selah.cmd`. Optionally run `Create-Selah-Desktop-Shortcut.vbs` to copy the launcher and Selah icon into your per-user Programs folder and create desktop/Start menu shortcuts using the app icon. Use Edge's app-install menu at the official site for an Edge-managed PWA installation. This package does not include Scripture datasets, third-party assets, or user data. The launcher uses an existing SixVPNBlocker managed Edge route if present and stops if its configuration is incomplete.
+Extract the ZIP and run `Launch-Selah.cmd`. Optionally run `Create-Selah-Desktop-Shortcut.vbs` to copy the launcher and Selah icon into your per-user Programs folder and create desktop/Start menu shortcuts, and register the `selah://read?request=<id>` link for this user if it is unclaimed. Conflicting protocol registrations are preserved. Run `Unregister-Selah-Protocol.vbs` to remove only the exact Selah handler. Use Edge's app-install menu at the official site for an Edge-managed PWA installation. This package does not include Scripture datasets, third-party assets, or user data. The launcher uses an existing SixVPNBlocker managed Edge route if present and stops if its configuration is incomplete.
 
 Application: <https://delight0517.github.io/selah-bible-meditation/>
 
@@ -23,7 +23,7 @@ Source: <https://github.com/delight0517/selah-bible-meditation>
 
 Original launcher code is MIT licensed; see `LICENSE`. Other material retains its own terms; see `THIRD_PARTY_NOTICES.md`. This package does not delete existing notes or install a separate browser engine.
 
-Build 16 opens the shared hosted Selah app, whose Mac and Windows readers now correlate a matching deep-link request to its existing shared session ID.
+
 
 
 Build 20 includes the Selah icon in the Windows shortcut package. Build 19 only adopts the linked session when the matching BlueCloud request targets this platform and has not expired.

@@ -18,3 +18,15 @@ jobs:
         env:
           SELAH_PARITY_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
       - run: node scripts/test-feature-parity.mjs
+      - run: node mobile/scripts/copy-web.mjs --check
+
+  windows-protocol:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/test-windows-selah-protocol.cjs
+      - run: node mobile/scripts/copy-web.mjs --check
+      - run: powershell -ExecutionPolicy Bypass -File windows/Build-Selah-Release.ps1
