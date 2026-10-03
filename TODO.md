@@ -449,3 +449,9 @@
 - [x] 모든 저장 전 원장 검증, repo URL 정규화, 동일 task 경로 오탐 제거, 기존 claim 예외 목록 명시, handoff 검증으로 수정. Windows CLI 13/13 통과 및 모든 거부 입력의 원장 바이트 보존 확인.
 - [x] PR #175 merged `2bb382822191cb1dd0a568a7910a28afaefefc6a`; 필수 validate CI run `37131152234`에서도 13/13 성공. Pages run `37131208988` 성공, 공개 CLI HTTP 200 및 검사 소스와 일치 확인. 공개 원장 schema2/기존 claim 예외 목록 readback.
 - [x] 허브 검증 완료. 사용자 요청은 검증 성공 후 analytics goal 일시 중지이며 이 결과 기록 병합 후 paused 처리. GA4 OAuth 미완료는 waiting_external로 보존; Mac 신규 실기기 수신을 이번 fixture 시험으로 확인한 것으로 간주하지 않음. 앱 build30 유지.
+
+## 2026-10-04 함께 읽기 사용자 요구 및 검증
+- 말씀 읽기에서 함께 읽기 초대 URL 생성, 상대 동일 번역본/책/장, 상대 읽는 위치 옅은 UI, 서버 기준 동일 타이머.
+- build31: 접힌 번역본 메뉴에서 초대 버튼을 읽기 상단으로 이동.
+- 서버 두 참여자 검증 통과. 브라우저 로딩/CDP 응답 멈춤으로 실제 클릭 E2E는 미완료; 완료로 표시하지 않는다.
+- Mac/iOS 요청 selah-live-together-20261004 전달됨; 수신 및 실기기 증거 pending. 최종 계약 revision2를 반영할 것.

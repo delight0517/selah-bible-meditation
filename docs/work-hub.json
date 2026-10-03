@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:01:24.275Z",
+  "updatedAt": "2026-10-03T15:06:04.899Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -338,15 +338,15 @@
       "id": "selah-live-together-20261003",
       "summary": "Live invite same passage peer positions and shared timer",
       "owner": "windows",
-      "status": "review",
+      "status": "waiting_external",
       "claimVersion": 2,
       "scopes": [
         "selah.features.live-together"
       ],
-      "branch": "codex/selah-live-together-20261003",
+      "branch": "codex/selah-live-together-fix-20261004",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a1020d-68fc-74c2-b27d-458e67a868fb",
-      "baseCommit": "9c89128",
+      "baseCommit": "51f0646",
       "files": [
         "index.html",
         "assets/together-reading.js",
@@ -354,12 +354,14 @@
         "together-worker",
         "contracts/feature-parity.json",
         "mobile/www",
-        "mobile/ios"
+        "mobile/ios",
+        "scripts/test-together-reading.mjs"
       ],
       "evidence": [
-        "Live server two-participant tests and Node mock tests pass; web UI validation pending"
+        "Live server two-participant tests and Node mock tests pass; web UI validation pending",
+        "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc"
       ],
-      "nextAction": "Deploy shared UI then verify two browser views; hand off same revision to Mac/iPhone",
+      "nextAction": "Resume browser clicks once renderer available; Mac/iOS acknowledge request and apply revision2/build31 before device acceptance",
       "feedback": [],
       "handoffs": []
     }
