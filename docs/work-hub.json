@@ -291,6 +291,31 @@
       "nextAction": "Use schema v2 claims before future Mac/Windows edits; resolve legacy metadata warnings only when each existing owner confirms repo, thread, base, and file paths.",
       "feedback": [],
       "handoffs": []
+    },
+    {
+      "id": "selah-work-hub-functional-test-20261003",
+      "summary": "Run real CLI scenarios and fix any duplicate-work enforcement gaps before pausing the goal",
+      "owner": "windows",
+      "status": "in_progress",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.coordination.claim-integrity"
+      ],
+      "branch": "codex/selah-work-hub-runtime-tests-20261003",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a0fc19-3ed4-7bc1-90c8-8552f112a6da",
+      "baseCommit": "097c244413a6786891735c5343d7ad52be7045df",
+      "files": [
+        "scripts/work-hub.mjs",
+        "scripts/test-work-hub.mjs",
+        ".github/workflows/work-hub.yml",
+        "docs/WORK_HUB.md",
+        "TODO.md"
+      ],
+      "evidence": [],
+      "nextAction": "Update this record before handoff or completion.",
+      "feedback": [],
+      "handoffs": []
     }
   ],
   "featureParityFile": "contracts/feature-parity.json"
