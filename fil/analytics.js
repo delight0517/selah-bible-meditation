@@ -1,4 +1,7 @@
 (() => {
+  // Keep internal QA visits out of first-party page and feature analytics.
+  if (new URLSearchParams(location.search).get("selah_qa") === "1") return;
+
   const endpoint = "https://cloud-account-storage.imdisablebutgodisable.workers.dev/analytics/event";
   const featureEndpoint = "https://selah-feature-analytics.imdisablebutgodisable.workers.dev/analytics/event";
   const day = new Date().toISOString().slice(0, 10);
