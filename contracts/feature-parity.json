@@ -276,6 +276,59 @@
           "workItem": "selah-live-together-20261003"
         }
       }
+    },
+    {
+      "id": "SELAH-ANONYMOUS-MARKET-FUNNEL",
+      "revision": 1,
+      "title": "지원 언어 전체의 익명 유입·읽기 전환 측정",
+      "acceptance": [
+        "지원하는 8개 UI 언어의 웹 방문을 국가·지역·언어·기기·UTM 출처별 집계로 기록한다.",
+        "노출·읽기 CTA·읽기 시작·집중 읽기 30초/2분·첫 묵상 저장·회원가입·재방문을 같은 기준선으로 집계한다.",
+        "30초/2분 이벤트는 화면이 보이고 집중 읽기 모드가 활성인 동안에만 기록한다.",
+        "내부 QA와 네이티브 Capacitor 앱은 제외하고, 방문자 ID나 묵상 본문은 서버에 보내지 않는다.",
+        "작은 표본은 승자나 전환율로 해석하지 않고 집계 이벤트 수로 표시한다."
+      ],
+      "paths": [
+        "index.html",
+        "analytics-worker/src/index.js",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah growth funnel",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation@9668acc",
+          "build": "shared web source",
+          "evidence": "All 8 supported UI locales use one aggregated funnel schema; source/deployment validation pending."
+        },
+        "windows": {
+          "owner": "Hosted web funnel",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation@9668acc",
+          "build": "shared hosted UI",
+          "evidence": "Windows browser/shell routes use hosted web UI; physical Windows runtime remains unverified.",
+          "workItem": "selah-1000"
+        },
+        "macos": {
+          "owner": "Hosted web funnel",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation@9668acc",
+          "build": "shared hosted UI",
+          "evidence": "Hosted Mac browser is covered by the web funnel; native app telemetry is outside this contract."
+        },
+        "ios": {
+          "owner": "Hosted mobile web funnel",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation@9668acc",
+          "build": "shared hosted UI",
+          "evidence": "Hosted iPhone browser/PWA uses the web funnel; Capacitor native app intentionally skips this endpoint."
+        }
+      }
     }
   ]
 }
