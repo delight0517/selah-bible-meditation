@@ -25,6 +25,11 @@
 
 # TODO — Selah Windows/macOS parity
 
+## 2026-10-03 · Scheduled GSC indexing checkpoint — 1.0.6 / build 19
+- The GSC Wizard tracker ran at `2026-10-03T07:39:22Z`: 1/4 tracked URLs indexed (home page); the Korean download hub, English download hub, and Windows install page still report “URL is unknown to Google,” with no crawl time. All four inspections completed with zero warnings/errors.
+- Search Analytics now reports settled data through 2026-09-29 (first incomplete date 2026-09-30), but still returns no query or page rows. No Google impressions or ranking positions are available yet.
+- Sitemap report still shows the submitted sitemap pending with 0 warnings and 0 errors. The published 14-URL sitemap is live and valid; do not resubmit it repeatedly or claim the other pages are indexed. Continue at the next hourly checkpoint.
+
 ## 2026-10-02 · 모든 기기의 공통 UI와 데이터 계약 — 공유 앱 1.0.7 / 빌드 19
 - 사용자 피드백: “이 앱이 만들어졌잖아 근데 이 성경 앱의 방식 ui 부터 시작해서 모든게 맥의 ios 웹사이트와 간극이 벌어져서 따로따로 서로 다른 데이터를 관리해야 하는 위험으로부터 이 데이터를 통합으로ㅓ 만들수 있는 그러한 시스템 만어줄래 ?”
 - 공통 데이터 코어에 기록별 결정적 병합, 삭제 이력과 복구본, 필드별 변경 시계, 계정별 오프라인 보관, 기기/작성창별 공유 초안과 추가형 백업 가져오기를 구현했다. 전체 기록을 자동 갱신하고 무변경 PUT 루프를 막으며 인증/계정 병합 오류에는 로컬 기록을 보존한다.
