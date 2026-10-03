@@ -1,3 +1,8 @@
+## 2026-10-03 · 기존 기록 통합 이관 — 공유 1.0.10 / 빌드 23
+- 사용자 피드백: “그러면 그걸 적용하고 이전의 것들을 이제 여기 시스템에 다 옮겨ㅈ줘 효율적이고 빠르게!”
+- 기존 주 앱 selah.v1 IDs와 현재 초안은 보존한다. 스페인어/포르투갈어/타갈로그 독립 읽기 저장소를 원본 백업 후 공통 묵상/북마크/표시/원본 아카이브로 추가 이관하며, 반복 실행 중복과 계정 간 자동 복사를 막는다.
+- [ ] 코드 배포 및 실제 Windows 이관 개수 확인. 현재 두 Windows 앱 창은 로그아웃 상태이며 Mac SSH 탐색/회신은 없다. 사용자는 목적 계정 로그인이 필요하다. 게임 화면이 앞에 있어 현재 마우스/키보드 입력은 멈췄다.
+
 ## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
 - Google can crawl and has indexed the Selah root and Filipino page, but the latest settled Selah-only Search Console window (2026-09-03–2026-09-30; data through 2026-09-29) has zero page/query rows and zero sitemap-URL impressions. The parent GitHub Pages property has other projects; do not count its 88 impressions / 3 clicks as Selah traffic.
 - Live first-party summary for 2026-10-01–03 reports 46 page-view events / 31 anonymous browser IDs (KR and US); source, medium and campaign are empty. This is not verified human count or attributable acquisition. Current Korean copy test: 7 exposures (A=3/B=4), 4 CTA clicks, 2 reading starts, 0 30-second reads, 0 saved reflections, 0 recorded signup events; sample is too small and may include QA.
