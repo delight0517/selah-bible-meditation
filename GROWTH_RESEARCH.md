@@ -381,3 +381,15 @@ Copy this block for each study; replace every unknown with an observation or `no
 - PR #148 merged to `main` as `db7e10ab132320adb569f2047e98e9e0007b425e`. GitHub Pages deployment `37120362878` completed successfully for that exact commit.
 - Public root returned HTTP 200 and contained the v2 experiment identifier, both asset references, and both Korean variants. Both public SVG assets returned HTTP 200 (2,564 and 2,357 bytes).
 - Cloudflare Worker deployment `00282dc2-2277-443a-baea-9863a58cd7f6` became active. The 30-day experiment-summary endpoint returned HTTP 200 with the allowed Selah origin; at readback it had no v2 rows. No synthetic event was sent to production. This confirms the summary API is reachable but does not yet prove an eligible visitor exposure or variant outcome.
+
+### KR-GOD-CURIOSITY-THUMBNAIL-20261003-01 — 부담 없는 말씀 초대 썸네일
+
+- **상태:** 다음 순차 실험용 시안 준비 완료. 공개 페이지 메타데이터, 광고, 게시물에는 아직 연결하지 않음.
+- **가설:** 한국어 성경 독자 중 하나님을 알고 싶거나 신앙에 질문이 있는 사람에게, 호기심을 존중하는 짧은 문구와 차분한 성경 이미지를 함께 보여주면 부담이나 죄책감 없이 실제 말씀 읽기로 이어질 수 있다.
+- **A 시안:** `marketing/experiments/selah-ko-god-curiosity-thumb-a.jpg` — “하나님을 알고 싶은 마음이 있나요? / 말씀 한 장부터 천천히 읽어 보세요.” 밝은 아침빛, 펼친 성경과 노트.
+- **B 시안:** `marketing/experiments/selah-ko-god-curiosity-thumb-b.jpg` — “하나님이 궁금해진 날, / 말씀 곁에 잠시 머물러 보세요.” 숲빛 저녁, 펼친 성경과 노트.
+- **실험 단위:** 각 1200×630 썸네일을 하나의 광고/게시물 크리에이티브 묶음으로 비교한다. 두 안은 문구와 색감이 함께 달라 원인 요소 하나씩을 분리하는 실험은 아니다. 한 번에 한 채널에서만 진행하고, 노출·링크 클릭 수를 제공하는 계정 소유 채널을 먼저 확정한다. 개인 Instagram은 제외한다.
+- **순서와 검색 한계:** 현재 `kr-spiritual-curiosity-v2`와 같은 한국 시장이므로 그 관측을 끝내기 전에는 노출을 시작하지 않는다. Google 검색 결과의 이미지와 문구는 Google이 자동 선택하므로 이 A/B를 Google 결과에 강제로 적용할 수 없다. 검색은 GSC의 확정된 국가/검색어/기기별 노출·클릭을 별도의 전후 관찰로 본다.
+- **측정:** 기존 실험 이벤트/API를 재사용해 노출, 클릭, 유입 태그, 120초 집중 읽기, 묵상 저장, 가입 완료를 집계한다. 채널 보고서의 노출·링크 클릭도 별도로 함께 기록한다. 읽기 내용, 계정 식별자, 기도/묵상 원문, 정밀 위치는 수집하지 않는다.
+- **판정:** 최소 28일과 시안별 적격 노출 50회를 확보하기 전에는 승자를 고르지 않는다. 그 뒤에도 클릭률만으로 결정하지 않고 실제 읽기·기록·가입까지 비교한다. 표본이 부족하거나 태그가 끊기면 미결로 남기며 유료 집행은 하지 않는다.
+- **현재 데이터 한계:** 2026-10-03 프로덕션 읽기에서는 기존 v2 요약이 행 없음으로 확인됐지만, 이번 새 조회는 DNS 오류로 실패했다. 최신 표본은 확인되지 않았고, 이 시안들은 테스트가 실행 중인 것으로 간주하지 않는다.
