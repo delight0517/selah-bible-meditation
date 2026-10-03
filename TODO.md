@@ -436,4 +436,5 @@
 - [x] Mac GPT에 GA4 작업 중복 및 현재 파일 변경 여부 확인 요청. 직접 dispatch 응답 아티팩트 SHA-256 `d6eb5b99005b42c2759921b1c58a0914ec614c40afb1a4cbe194310e84771ac2`를 검증하고 GA4 task handoff에 회신·수신 근거 기록.
 - [x] Mac 확인 범위: 검사한 Mac checkout에서 GA4 구현 겹침 없음. 인증·GA4 property/measurement ID 읽기 전 구현 금지. GSC/first-party baseline 재수행 금지. 오래된 `selah-admin-analytics` dirty 파일은 변경 금지. Mac 원격 main 근거는 stale cached 상태였으므로 checkout 관찰 범위로 한정.
 - [x] Work Hub schema v2: 신규 claim에 repo/task/thread/base commit/exact file path 요구, scope 외 동일 자원·동일 저장소 파일/상위-하위 경로 충돌 및 증거 없는 완료 거부, handoff request/receipt/response/owner decision 분리.
-- [ ] CI 및 최신 main 병합 후 public ledger/Pages 결과 readback. GA4 Analytics OAuth 연결과 정확한 property 확인은 외부 계정 작업 대기.
+- [x] PR #170 merge commit `a5bfc6476e712ed4264a20ae45c9cf66de19d455`; `branch-current`, `validate`, `contract`, `windows-protocol` 성공. Pages run `37130418662` 성공, 공개 `/docs/work-hub.json` HTTP 200에서 schema v2/6개 task/Mac 회신 hash readback.
+- [ ] GA4 Analytics OAuth 연결과 정확한 property 확인은 외부 계정 작업 대기.

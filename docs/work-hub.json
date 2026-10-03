@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "updatedAt": "2026-10-03T14:36:48.000Z",
+  "updatedAt": "2026-10-03T14:41:04.412Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -268,16 +268,26 @@
       "id": "selah-work-hub-claim-integrity-20261003",
       "summary": "Harden cross-device work claims with repository, base, file/resource overlap, evidence, and Mac handoff receipts",
       "owner": "windows",
-      "status": "in_progress",
+      "status": "completed",
       "claimVersion": 2,
-      "scopes": ["selah.coordination.claim-integrity"],
+      "scopes": [
+        "selah.coordination.claim-integrity"
+      ],
       "branch": "codex/selah-work-hub-v2-20261003",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a0fc19-3ed4-7bc1-90c8-8552f112a6da",
       "baseCommit": "2721d57",
-      "files": ["docs/work-hub.json", "docs/WORK_HUB.md", "scripts/work-hub.mjs", ".github/workflows/work-hub.yml", "TODO.md"],
-      "evidence": [],
-      "nextAction": "Implement and validate stricter claims, then merge through a PR.",
+      "files": [
+        "docs/work-hub.json",
+        "docs/WORK_HUB.md",
+        "scripts/work-hub.mjs",
+        ".github/workflows/work-hub.yml",
+        "TODO.md"
+      ],
+      "evidence": [
+        "PR #170 merged as a5bfc6476e712ed4264a20ae45c9cf66de19d455; required branch-current, validate, contract, windows-protocol checks passed; Pages run 37130418662 succeeded; public /docs/work-hub.json HTTP 200 confirmed schemaVersion 2, 6 tasks, and Mac handoff SHA-256."
+      ],
+      "nextAction": "Use schema v2 claims before future Mac/Windows edits; resolve legacy metadata warnings only when each existing owner confirms repo, thread, base, and file paths.",
       "feedback": [],
       "handoffs": []
     }
