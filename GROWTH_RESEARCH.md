@@ -517,3 +517,13 @@ Copy this block for each study; replace every unknown with an observation or `no
 - 기존 운영 행을 소급 변경하지 않는다. 최신 `global-funnel-v1` 요약은 0행이며, 실제 중복이 데이터에서 관측됐다는 뜻은 아니다. PR·배포·이후 실제 이벤트 도착은 별도 확인이 필요하다.
 
 - **배포 읽기 결과:** PR #192 merge commit `95d86c96a029285ee27d259f815edfe0d8ef16be`, Pages run `37149372833` 성공. 공개 루트, `/en/`, `/fil/`, `/pt-br/`, `/fil/analytics.js`는 HTTP 200이며 정적 스크립트에서 `medium: campaign.medium || "none"`을 확인했다. 현재 analytics summary 재조회는 HTTP 403이어서 신규 운영 이벤트 도착을 확인하지 못했다. 이전 0행을 이번 조회 결과처럼 표현하지 않고 후속 확인 대상으로 둔다.
+
+
+## 2026-10-04: 현지 검색 미리보기 감사와 수정 기준
+
+- **Search Console:** GSC Wizard의 현재 연결 계정은 `rogan2534@gmail.com`, 속성 `https://delight0517.github.io/`는 owner 권한이다. Selah 경로의 Web `page+country`, `query+page`, Image `page+country` 조회가 모두 2026-09-03–09-30 구간에 0행이며 데이터는 09-29까지 정착했다. 따라서 현재 Google CTR/국가별 검색 승자/썸네일 노출은 측정할 수 없다. 메인 언어 랜딩은 8개 indexed지만 안내·다운로드 URL 일부는 unknown 또는 crawled-not-indexed다. Selah sitemap 제출은 pending, 오류·경고 0으로 보였고 재제출하지 않았다. Bing Webmaster 연결은 not configured다.
+- **현지 페이지 실측 감사:** Fil/ES/PT-BR 랜딩은 200, self-canonical, 각 언어의 9개 hreflang를 포함했다. Fil 설명문은 165자, ES 제목은 63자로 도구의 추정 잘림 범위를 넘었고 세 언어 홈에는 SoftwareApplication JSON-LD가 없었다. Fil guide 설명문은 165자였고 두 guide의 Article 구조화 데이터·X 이미지 메타가 빠져 있었다. CJK 홈의 공백 분리 기준 34단어 경고는 중국어 토큰화를 고려하면 콘텐츠 부족의 증거로 쓰지 않는다. 이 감사에 직접 제공한 `/ko-KR/`는 hreflang/사이트맵에 선언되지 않은 경로로 404였으므로 현재 정식 한국어 페이지의 결함으로 세지 않는다.
+- **현지 시장 관찰:** 브라질 성서공회는 Biblia SBB+의 무료 성경 읽기/오디오, 계획, 검색, 공유 기능을 공개한다 ([SBB](https://www.sbb.org.br/artigos/sbb-lanca-novo-aplicativo-biblia-sbb)). 브라질의 Ora는 바쁜 일상에서 5분 이내 영적 루틴과 죄책감 없는 재시작을 강조한다 ([Ora](https://oraapp.com.br/)). 이는 Selah의 “한 장 읽기 + 기기 내 개인 기록 + 계정 없이 시작” 문구가 이 시장에서 유일하다는 근거가 아니라, 장시간/복잡한 과정을 피하려는 가설을 시험할 신호다. 일본 App Store의 Hagah는 전체 성경·오디오·메모·공유를 제공하므로, Selah는 일본어 UI만으로 차별화된다고 주장하지 않고 영어 WEB 전체와 추가 가능한 일본어 신약이라는 제공 범위를 정확히 밝힌다 ([Hagah](https://apps.apple.com/jp/app/hagah-daily-bible-meditation/id6792995647)). 이번 검색은 검색량 조사나 대표성 있는 사용자 연구가 아니다.
+- **수정:** Fil 설명문을 162자에서 144자로 줄이고, ES 제목을 60자 미만으로 맞췄다. Fil/ES/PT-BR 홈에는 언어·canonical·설명을 맞춘 무료 SoftwareApplication 구조화 데이터를 추가했다. Fil/PT-BR 안내에는 Article 메타데이터와 현지 이미지 미리보기를 연결했다. OG/X 설명과 Google용 meta description을 같은 약속으로 맞췄다. 기존 그림을 확인한 결과 세 이미지 모두 해당 언어·성경판을 표시한다.
+- **언어 회귀 발견:** 최종 화면 대조에서 필리핀어 홈의 검색 제목·OG 이미지 대체문구·SoftwareApplication 이름에 영어 광고 표현이 남아 있었다. 이를 타갈로그어로 통일하고, 5개 페이지의 현지 제목·구조화 데이터 이름·이미지 설명을 명시적으로 고정하는 검사로 보강했다.
+- **판정 기준:** 검증 스크립트는 title/description·canonical·OG/X·JSON-LD·실제 이미지 파일의 일치만 검사한다. 이는 Google이 실제로 어떤 title/description/image를 선택하는지 증명하지 않는다. 구조화 데이터는 검색 노출이나 리치 결과를 보장하지 않으며, 검색 노출 0인 기간에는 CTR 실험·시장 승자 선정·유료 집행을 하지 않는다. 배포 이후 URL 검사와 이후 정착 기간을 별도로 기다린다.
