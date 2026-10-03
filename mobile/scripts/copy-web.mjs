@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile, readdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
+import { dirname, resolve, relative } from 'node:path';
 
 const mobileDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const repoDir = resolve(mobileDir, '..');
@@ -18,6 +18,27 @@ async function assets(directory) {
 
 }
 await assets('assets');
+// Follow local runtime dependencies so a newly linked script/style cannot be
+// deployed to web while silently disappearing from the packaged iPhone app.
+const discovered = new Set(files);
+for (const file of discovered) {
+  if (!/\.(?:html|css|js)$/.test(file)) continue;
+  const source = await readFile(resolve(repoDir, file), 'utf8');
+  const patterns = file.endsWith('.html')
+    ? [/<(?:script|link|img)\b[^>]*?\b(?:src|href)=["']([^"']+)["']/gi]
+    : file.endsWith('.css')
+      ? [/url\(\s*["']?([^\s"')]+)["']?\s*\)/gi, /@import\s+["']([^"']+)["']/gi]
+      : [/(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s*)["'](\.\.?\/[^"']+)["']/g];
+  for (const pattern of patterns) for (const match of source.matchAll(pattern)) {
+    const reference = match[1].split(/[?#]/)[0];
+    if (!reference || /^(?:[a-z]+:|\/\/|\/)/i.test(reference) || reference.includes('${')) continue;
+    const dependency = relative(repoDir, resolve(repoDir, dirname(file), reference)).replaceAll('\\', '/');
+    if (dependency.startsWith('../')) throw new Error('Runtime dependency escapes repository: ' + reference);
+    await readFile(resolve(repoDir, dependency)); // Missing dependency must fail before copying.
+    discovered.add(dependency);
+  }
+}
+files.splice(0, files.length, ...discovered);
 files.sort();
 const hashes = {};
 for (const file of files) {
@@ -36,7 +57,7 @@ for (const file of files) {
 const manifest = JSON.stringify({ appId: 'selah', version: release.version, build: release.build, dataContractVersion: release.dataContractVersion, source: release.canonicalUrl, files: hashes }, null, 2) + '\n';
 const target = resolve(webDir, 'SHARED_SOURCE_MANIFEST.json');
 if (check) {
-  if (await readFile(target, 'utf8').catch(() => '') !== manifest) throw new Error('Stale shared source manifest');
+  if ((await readFile(target, 'utf8').catch(() => '')).replace(/\r\n/g, '\n') !== manifest) throw new Error('Stale shared source manifest');
 } else await writeFile(target, manifest);
 console.log(`${check ? 'Verified' : 'Copied'} ${files.length} shared runtime files: ${release.version} / build ${release.build}`);
 

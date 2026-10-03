@@ -1,3 +1,8 @@
+## 2026-10-03 · 플랫폼 공통 기능 중복 방지
+- 사용자 피드백: 새 기능이 iOS·웹·Microsoft 앱·iPhone에 동일하게 반영되고 같은 구현을 반복하지 않도록 시스템 확인 요청.
+- 루트 원본 1회 구현 → 모바일 생성, 정적 의존성 자동 발견, 플랫폼 URL/번들/iOS 버전 검사와 필수 CI를 추가. PLATFORM_RELEASE.md에 플랫폼별 완료 조건을 기록.
+- 공유 UI 1.0.10/build 29 유지(개발 도구·운영 규칙 변경). iPhone 설치 확인 대기, Microsoft Store 미제출.
+
 ## 2026-10-03 · 월간 고유 방문자 숫자 설명 — 1.0.10 / build 29
 - 사용자 피드백: “이번 달 고유 방문자 34”의 뜻을 이해하기 어렵고 누르면 상세 설명을 볼 수 있게 요청함.
 - 월간 숫자 전체를 키보드로도 누를 수 있는 버튼으로 바꾸고 현재 숫자의 의미, 브라우저 중복 제거 예시, 기기/공유 브라우저/저장 데이터 삭제에 따른 오차, UTC 달력 월 기간, 회원·실시간 방문자와의 차이를 설명하는 패널을 추가. 5개 UI 언어를 지원.
@@ -406,3 +411,16 @@
 - [ ] 28일 이상 실사용 데이터로 읽기·저장·가입 전환 관찰; 실제 유입 증가 여부는 아직 미확인.
 
 - [ ] 새 측정 Worker 배포: 현재 Wrangler 계정이 Selah 소유 계정과 달라 인증 필요. 서버 준비 응답 전에는 실제 캠페인 실험을 활성화하지 않음.
+## 2026-10-03 · Windows Selah desktop link parity — launcher 1.0.10/build 25
+
+- [x] Added a per-user `selah://read?request=<id>` handler to the packaged Edge app-window launcher. It rejects unsupported/ambiguous URLs and keeps the managed SixVPN Edge route.
+- [x] Packaged and locally installed Windows launcher build 25; verified Start menu app entry, registry handler, valid deep-link request forwarding, invalid-link rejection, handler removal, and reinstall recovery.
+- [x] Fixed the shared-source manifest check to normalize CRLF/LF; verified the Windows check with a CRLF manifest.
+- [ ] Obtain Mac response to the open source/handoff request and verify authenticated Mac↔Windows BlueCloud request/result/session round trip. The inspected Mac checkout is dirty and the installed Mac app still lacks URL-scheme registration.
+
+## 2026-10-03 · Selah Mac·Windows 공용 작업 허브
+- [x] 기존 worktree note에는 작업 소유자/브랜치 정보만 있고 중복 범위 claim 차단은 없음을 확인. GitHub `main`은 현재 `branch-current`만 필수로 보호됨.
+- [x] 단일 `docs/work-hub.json`에 Mac/Windows 작업 claim, controlled scope IDs, 상태, feedback, analytics 데이터 원본·정의·coverage·제한을 통합.
+- [x] `scripts/work-hub.mjs`에 `list/check/claim/set/feedback` 흐름 추가. 열린/대기/리뷰 상태의 동일 scope claim을 거부하도록 구성.
+- [ ] PR CI에서 `Selah Work Hub / validate`가 통과하는지 확인하고, GitHub protected-main required checks에 해당 check를 추가한 후 중복 claim이 실제로 막히는지 확인.
+- [ ] PR 병합 후 clean main을 다시 읽고 Mac/Windows 공유 계약과 analytics 항목을 반영했는지 readback.
