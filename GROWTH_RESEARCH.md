@@ -286,3 +286,10 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **Target:** only the Korean canonical homepage, because its signup call to action changed on Oct 3. Do not notify unrelated or unchanged Bible guides.
 - **Status:** implementation and publication pending. Submit only after live key-file readback returns the exact expected contents; record the protocol HTTP response, which proves receipt only, not indexing. Follow up with Bing/Naver results when available.
 - **Research decision:** continue treating 1,000 verified-active-user growth as the first milestone; keep campaign/channel attribution unknown until tagged arrivals can be connected to downstream reading and signup events. Do not spend the ₩20,000 allowance on this free notification step.
+
+#### 2026-10-03 completion readback
+
+- PR #118 merged as `427ae2b76e080d22f097ddf185425f093d85bbec`; GitHub Pages run `37097961779` succeeded for that commit.
+- Live `selah-indexnow-key.txt` matched the source file byte-for-byte and met the required 64-character lowercase-hex format. The key value is intentionally omitted from research notes.
+- Submitted only `https://delight0517.github.io/selah-bible-meditation/` to the global IndexNow endpoint with the published Selah-scoped key location. The endpoint returned HTTP 200, which confirms URL submission was received; it is not evidence that a participating engine crawled or indexed the URL.
+- No extra submit to Google was possible through IndexNow; Google Search Console's last settled performance date remains Sep 29, before the Oct 2 crawl. Search impressions, result appearance, and signup conversion remain unobserved.

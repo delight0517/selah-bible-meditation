@@ -277,5 +277,6 @@
 - [ ] Keep the ₩20,000 ad allowance unspent until campaign attribution can connect an acquired visit to reading/reflection and verified signup. Continue excluding personal Instagram.
 
 ## 2026-10-03 · Configure free change notification for supported search engines
-- [ ] Publish `selah-indexnow-key.txt` under the Selah URL prefix, compare its live content to the generated project key without echoing the key, and submit only the changed Korean homepage through the IndexNow protocol.
-- [ ] Record the protocol response separately from whether Bing/Naver/etc. later crawl or index the URL. IndexNow does not notify Google and cannot guarantee indexing. Current Google Search Console still has zero settled Selah impressions through Sep 29; some locale guides report `Crawled - currently not indexed`.
+- [x] Publish `selah-indexnow-key.txt` under the Selah URL prefix, compare its live content to the generated project key without echoing the key, and submit only the changed Korean homepage through the IndexNow protocol.
+- [x] Record protocol acceptance separately from search indexing. PR #118 / Pages run `37097961779` published the key file; live byte comparison passed; the global IndexNow endpoint returned HTTP 200 for the Korean homepage only.
+- [ ] Check later Bing/Naver result and crawl status; Google Search Console still has zero settled Selah impressions through Sep 29 and some locale guides report `Crawled - currently not indexed`. IndexNow does not notify Google or guarantee indexing.
