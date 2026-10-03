@@ -93,6 +93,7 @@
   track("page:view", "selah.analytics." + locale + ".page." + path + "." + day + "." + Object.values(campaign).join("."));
 
   async function applyMarketEmphasis() {
+    if (!document.querySelector(".reader-card,.note-card,#highlight,#bookmark,#share")) return;
     try {
       const key = "selah.analytics.market.checked", today = new Date().toISOString().slice(0, 10);
       if (localStorage.getItem(key) === today) return;
