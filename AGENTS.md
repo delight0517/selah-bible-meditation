@@ -36,6 +36,16 @@ do not grant access to Selah.
 4. After merge, fetch `main` and verify the merged commit and Pages deployment
    separately. A successful push or merge alone is not proof of deployment.
 
+## Shared feature ownership and release
+
+Follow [PLATFORM_RELEASE.md](PLATFORM_RELEASE.md) for every feature change.
+Implement shared features in the root web source once; `mobile/www` is generated.
+Run `npm --prefix mobile run copy:web` and `node scripts/check-platform-source.mjs`
+before a PR. iOS and iPhone are the same target. Record source parity, web
+deployment, native packaging, installation and runtime verification separately
+in TODO.md. Never report a native install or Microsoft Store release from a web
+deployment alone. Keep Windows launcher package and shared UI versions distinct.
+
 ## Checkout inventory
 
 Old task checkouts may remain for recovery. Their presence does not make them
