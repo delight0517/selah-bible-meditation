@@ -1,10 +1,9 @@
-## 2026-10-03 · 기존 기록 통합 이관 — 공유 1.0.10 / 빌드 23
-- 사용자 피드백: “그러면 그걸 적용하고 이전의 것들을 이제 여기 시스템에 다 옮겨ㅈ줘 효율적이고 빠르게!”
-- 기존 주 앱 selah.v1 IDs와 현재 초안은 보존한다. 스페인어/포르투갈어/타갈로그 독립 읽기 저장소를 원본 백업 후 공통 묵상/북마크/표시/원본 아카이브로 추가 이관하며, 반복 실행 중복과 계정 간 자동 복사를 막는다.
-- [ ] 코드 배포 및 실제 Windows 이관 개수 확인. 현재 두 Windows 앱 창은 로그아웃 상태이며 Mac SSH 탐색/회신은 없다. 사용자는 목적 계정 로그인이 필요하다. 게임 화면이 앞에 있어 현재 마우스/키보드 입력은 멈췄다.
-- 이관 코어 9개, 공통 코어 14개, 실제 페이지 합성 이관 시험(옛 저장소 3개→메모 4개/표시 6개, 원본/백업 유지, 재실행 중복 없음, 합성 계정 왕복, 다른 계정 격리, 백업 quota 실패 시 중단), 기존 공통 동기화 및 Google/guide 회귀 검사를 통과했다. 실제 사용자 기록/생산 토큰은 시험에 사용하지 않았다.
-
-## 2026-10-03 · Selah 앱 아이콘 및 Windows 런처 — 1.0.9 / build 22
+## 2026-10-03 · Country/device analytics live check and Selah GSC filter — 1.0.9 / build 22
+- Current first-party `/analytics/summary?appId=selah&period=month` readback: 49 page-view events over 3 UTC dates, 31 approximate anonymous browser IDs, country KR 39 / US 10, page-view device classes desktop 36 / mobile 13. Referrers, source, medium and campaign are empty; this is not confirmed human traffic or campaign attribution.
+- The 30-day Korea hero-copy experiment currently has 7 exposures (A=3, B=4), 5 CTA clicks, 2 reading starts, 0 30-second focused reads, 0 reflection saves, and 0 signups. The observed CTA ratio is 5/7 (71%), but this sample is tiny and may include QA; do not select a variant or call it a stable conversion rate.
+- Verified GSC Wizard supports country/device clicks, impressions, CTR and average position. Direct Selah property reports remain 0 rows through 2026-09-29; first incomplete date is 2026-09-30. The Selah sitemap remains pending with 0 warnings and 0 errors. The existing tracker has 1/4 URLs indexed (home page); three download pages are still unknown to Google. Do not repeat accepted indexing requests or spend another inspection quota now.
+- The parent `https://delight0517.github.io/` GSC property includes unrelated GitHub Pages projects. Filtering its pages by `/selah-bible-meditation/` over 2026-07-01–2026-10-01 returned 0 rows. Created and read back the saved filter `Selah | selah-bible-meditation only` (page contains `/selah-bible-meditation/`) so future parent-property reports can isolate this app without counting sibling projects.
+- GA4 remains not configured for the connected GSC Wizard account (`rogan2534@gmail.com` lacks the Google Analytics scope), and no site GA4 measurement tag was found in tracked source. Existing first-party country/device analytics work without GA4. To add standard GA4 property reports, the account owner must connect Google Analytics in GSC Wizard; then verify/link the property before considering a measurement ID change.## 2026-10-03 · Selah 앱 아이콘 및 Windows 런처 — 1.0.9 / build 22
 - 사용자 피드백: Windows 무료 성경 앱의 화면 디자인을 세련되게 정리하고 앱 아이콘도 제대로 만들어 달라고 요청함.
 - 공통 앱 아이콘을 새 Selah 성경책과 십자가 디자인으로 적용하고 웹/PWA, iOS 앱 아이콘 카탈로그, Windows 다중 크기 바로가기 아이콘을 맞춤. Windows 런처 ZIP에도 전용 아이콘을 포함하고 바탕 화면/시작 메뉴 바로가기가 이 아이콘을 사용하도록 연결.
 - 버전 메타데이터를 1.0.9/build 22로 갱신. Windows 런처 패키지 생성 성공; SHA-256 49ce8408127ded3b2f10f553dd5b928f91a5ed60cf6c1a55e23d1483dcbcfa85. ZIP 내부 아이콘/체크섬과 공개 배포 readback 결과를 계속 기록할 것. iPhone 실기기 및 Xcode 빌드는 이 작업에서 수행하지 않음.
@@ -312,3 +311,9 @@
 - [ ] Complete Gate 0: connect tagged arrivals through focused reading, saved reflection and confirmed signup; exclude QA and verify the live aggregate readback.
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
+
+## 2026-10-03 · 기존 기록 통합 이관 — 공유 1.0.10 / 빌드 23
+- 사용자 피드백: “그러면 그걸 적용하고 이전의 것들을 이제 여기 시스템에 다 옮겨ㅈ줘 효율적이고 빠르게!”
+- 기존 주 앱 selah.v1 IDs와 현재 초안은 보존한다. 스페인어/포르투갈어/타갈로그 독립 읽기 저장소를 원본 백업 후 공통 묵상/북마크/표시/원본 아카이브로 추가 이관하며, 반복 실행 중복과 계정 간 자동 복사를 막는다.
+- [ ] 코드 배포 및 실제 Windows 이관 개수 확인. 현재 두 Windows 앱 창은 로그아웃 상태이며 Mac SSH 탐색/회신은 없다. 사용자는 목적 계정 로그인이 필요하다. 게임 화면이 앞에 있어 현재 마우스/키보드 입력은 멈췄다.
+- 이관 코어 9개, 공통 코어 14개, 실제 페이지 합성 이관 시험(옛 저장소 3개→메모 4개/표시 6개, 원본/백업 유지, 재실행 중복 없음, 합성 계정 왕복, 다른 계정 격리, 백업 quota 실패 시 중단), 기존 공통 동기화 및 Google/guide 회귀 검사를 통과했다. 실제 사용자 기록/생산 토큰은 시험에 사용하지 않았다.
