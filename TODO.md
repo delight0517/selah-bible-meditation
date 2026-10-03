@@ -331,3 +331,4 @@
 - Mac 소스의 hosted-site/WebKit 창, 내비게이션, 80–150% 확대, 집중 읽기, 키보드 명령을 Windows `windows/app-shell.js`와 대조. 공유 콘텐츠/로그인 데이터 경로는 BlueCloud이며, 웹 콘텐츠 UI와 셸 조작은 구분해 기록.
 - 설치된 Mac 앱의 bundle ID는 확인했으나 버전·빌드 및 `selah://` URL scheme 등록은 없음. dirty Mac 소스에 있는 URL handler를 설치 기능으로 간주하지 않음.
 - 갱신 자료: `windows/PLATFORM-PARITY.md`. 남은 검증은 Mac 설치본의 소스/버전 provenance, scheme 실기기 실행, 인증된 양방향 BlueCloud read/write/read와 설정·익명 기록 수렴. 합성 브라우저 테스트는 실제 기기 동기화 증거가 아님.
+- Mac의 releasepilot queue watcher 프로세스/launch service/user crontab을 읽기 전용 확인했으나 일치 항목이 없음. 기존 요청의 `received=false`는 저장소 push만으로 Mac 작업자 수신이 보장되지 않음을 확인해 주며, watcher 활성화 또는 Mac에서 요청 확인이 필요함.
