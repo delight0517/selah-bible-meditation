@@ -511,3 +511,9 @@
 - [x] 필리핀 Open Generation 자료는 2021년 13–17세 1,000명 조사이므로 성인 시장/지역 수요로 일반화하지 않고 청소년 대상 캠페인도 시작하지 않는다.
 - [ ] 미국 주별 유입 증거가 없으므로 지역별 맞춤 UI는 보류. Semrush 연결이 확인되면 미국 영어 검색량·난이도·상위 검색 결과를 조사해 실제 랜딩 약속과 맞는지 검토한다. 구독/유료 키워드 조회는 별도 승인 전 시작하지 않는다.
 - [ ] 10/05 이후 settled GSC와 global-funnel 실제 event 도착을 다시 읽는다. 미국 전용 카피를 배포하려면 검색 의도 자료와 작동하는 이벤트 측정이 먼저 확인되어야 하며, downstream 읽기·기록·재방문과 분리해 CTR만으로 승자를 고르지 않는다.
+
+## 2026-10-04 · 다국어 검색 크롤링 readback
+- [x] `robots.txt` 전체 허용 및 sitemap 선언, sitemap HTTP 200/XML·14 URL, 표본 현지 홈 응답을 확인했다. sitemap 제출은 여전히 pending이며 경고·오류는 0이다.
+- [x] GSC settled-through 2026-09-29; Selah 홈 page performance와 국가 행, 최근 14일 속성 요약 모두 impressions/clicks 0. GSC 지연 때문에 10/04 이후 검색 효과는 아직 모른다.
+- [x] `/en/`, `/ja/`, `/zh-cn/`, `/zh-tw/`, `/fil/`, `/es/`, `/pt-br/`를 색인 추적기에 추가했다. readback은 전체 11 URL 중 indexed 2, not indexed 3, pending 6. 영어 `/en/`은 indexed, 나머지 새 6개 페이지는 pending이다. 추적기 등록은 Google 색인 요청이 아니다.
+- [ ] 10/05 KST 이후 settled GSC·색인 추적기·실제 글로벌 funnel event를 한 번 대조한다. Semrush 키워드량은 연결 전까지 미확인으로 두고, 새 국가별 제목/광고는 실제 현지 검색 의도가 확인된 뒤에만 검토한다.
