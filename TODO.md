@@ -430,3 +430,5 @@
 - [x] `scripts/work-hub.mjs`에 `list/check/claim/set/feedback` 흐름 추가. 열린/대기/리뷰 상태의 동일 scope claim을 거부하도록 구성.
 - [x] PR #163에서 `validate`·`contract`·`branch-current` CI 통과; protected-main required contexts에 `validate`를 추가하고 API readback으로 확인.
 - [x] PR #163 merge commit `c2a93354`; Pages run `37129017878` 성공. GitHub raw의 공개 `docs/work-hub.json` HTTP 200에서 3개 task/4개 data source ledger readback.
+
+- 플랫폼 동등성 Mac 요구 전송 근거: releasepilot-hub commit d0eb1304a32d2271916c174172d81e9989778278, request_id selah-apple-feature-parity-20261003. Git push 경쟁으로 기존 스크립트 전송이 실패해 같은 요청을 GitHub Contents API로 1건 게시했고 읽기 확인을 진행함. Mac 수신·구현 완료는 아직 증거 없음.
