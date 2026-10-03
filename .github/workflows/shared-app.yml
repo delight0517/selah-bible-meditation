@@ -10,3 +10,11 @@ jobs:
           node-version: 22
       - run: node --test scripts/test-unified-data.mjs
       - run: node mobile/scripts/copy-web.mjs --check
+  windows-bundle:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node mobile/scripts/copy-web.mjs --check

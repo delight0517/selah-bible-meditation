@@ -311,3 +311,10 @@
 - [ ] Complete Gate 0: connect tagged arrivals through focused reading, saved reflection and confirmed signup; exclude QA and verify the live aggregate readback.
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
+
+## 2026-10-03 · Windows checkout validation for shared iOS bundle — 1.0.9 / build 22
+- On a fresh Windows worktree at current `origin/main` (`bab4941`), `node mobile/scripts/copy-web.mjs --check` falsely failed with `Stale shared source manifest`. All payloads are compared after CRLF normalization, but the manifest check was byte-sensitive.
+- Fixed the manifest check to normalize CRLF to LF. Keep generated `mobile/www` files untouched: the actual copy command writes LF under Windows `core.autocrlf=true` and makes every generated file appear modified even when contents match.
+- The pre-existing `test-sync-without-guide.cjs` VM omitted app retry globals and timers; the isolated fixture now supplies them and passes the optional-guide regression.
+- Verification: Windows CRLF `node mobile/scripts/copy-web.mjs --check` passed for all 41 shared runtime files; 14 unified-data tests, handoff, focus-session, reader-startup, optional-guide sync, and JS syntax checks passed. `test-unified-sync.mjs` remains unavailable because no Playwright package is installed in the checkout; no dependency was added. Public and source build is 1.0.9 / build 22. This tooling fix does not require an app version increment.
+- Added a Windows GitHub Actions job so future bundle checks exercise Windows line-ending behavior as well as the existing Linux job.
