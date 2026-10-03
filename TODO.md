@@ -334,4 +334,5 @@
 ## 2026-10-03 · Korean low-pressure God-curiosity creative test v2
 - [x] Added a new Korea-only A/B creative assignment `kr-spiritual-curiosity-v2` to distinguish a direct “하나님을 더 알고 싶으신가요?” invitation from a quieter “하나님이 궁금해진 날…” invitation. The earlier `kr-gentle-invitation-v1` remains a separate historical ID.
 - [x] Reused the existing anonymous funnel events and Korean-market gate; synced the web source and creative assets into the mobile bundle. No new analytics service, account, or data field was added.
-- [ ] Publish the Pages source and Worker allowlist, then confirm the deployed HTML, both thumbnail assets, Worker version, and experiment-summary response. Keep the test running until the recorded sample gate; do not call either creative a winner early.
+- [x] Published PR #148 as `db7e10ab132320adb569f2047e98e9e0007b425e`; Pages run `37120362878` succeeded, homepage and both assets returned HTTP 200, Worker `00282dc2-2277-443a-baea-9863a58cd7f6` is active, and the summary endpoint returned HTTP 200. No v2 rows were present yet; no production test event was inserted.
+- [ ] Observe at least 28 days and 50 eligible exposures per variant in South Korea; wait for enough data and compare focused reading, reflection saves, and confirmed signups before choosing any winner.

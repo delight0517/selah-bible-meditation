@@ -375,3 +375,9 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **Interpretation boundary:** this compares the visible on-page invitation card, not the image Google displays in Search. Google preview selection is automated; keep OG metadata stable and assess search exposure/CTR separately in settled Search Console reports.
 - **Decision gate:** observe at least 28 days and 50 eligible exposures per variant in South Korea. Compare CTA with focused reading, reflection saving and confirmed signup; do not select a winner on click-through alone. If traffic is still below the floor, retain both measurements as inconclusive and continue observing. No paid spend or personal-social publishing is part of this test.
 - **Implementation/deployment evidence:** to be filled after the v2 source and Worker allowlist are published and read back from production.
+
+### KR-SPIRITUAL-CURIOSITY-20261003-02 — Production readback
+
+- PR #148 merged to `main` as `db7e10ab132320adb569f2047e98e9e0007b425e`. GitHub Pages deployment `37120362878` completed successfully for that exact commit.
+- Public root returned HTTP 200 and contained the v2 experiment identifier, both asset references, and both Korean variants. Both public SVG assets returned HTTP 200 (2,564 and 2,357 bytes).
+- Cloudflare Worker deployment `00282dc2-2277-443a-baea-9863a58cd7f6` became active. The 30-day experiment-summary endpoint returned HTTP 200 with the allowed Selah origin; at readback it had no v2 rows. No synthetic event was sent to production. This confirms the summary API is reachable but does not yet prove an eligible visitor exposure or variant outcome.
