@@ -1,0 +1,18 @@
+const assert = require('node:assert/strict'), vm = require('node:vm'), fs = require('node:fs');
+const store = new Map(), sent = [], listeners = {}, nodes = {};
+const element = () => ({append(){}, addEventListener(name, fn){this[name]=fn;}, setAttribute(){}});
+const created = [];
+const settings = element();
+const document = {documentElement: {lang:'ko'}, createElement: () => {const node = element();created.push(node);return node;}, createTextNode: x=>x, querySelector:()=>settings, getElementById:id=>id==='developerAnalyticsPanel'?null:(nodes[id] ||= element())};
+const sandbox = {window:{addEventListener(name,fn){listeners[name]=fn;}}, localStorage:{getItem:k=>store.get(k)||null,setItem:(k,v)=>store.set(k,v)},navigator:{onLine:false},document,crypto:require('node:crypto').webcrypto,AbortSignal,fetch:async(url,options)=>{sent.push(JSON.parse(options.body)); return {ok:true};}};
+vm.runInNewContext(fs.readFileSync('assets/selah-usage.js','utf8'),sandbox);
+const usage=sandbox.window.SelahUsage;
+usage.init({context:()=>({locale:'ko',client:'web',deviceClass:'phone',source:'naver',qa:false,username:'private'}),adminToken:()=>''});
+usage.track('reflection_saved'); assert.equal(store.size,0);
+store.set('selah.usage.v1',JSON.stringify({enabled:true,visitorId:'11111111-1111-4111-8111-111111111111'}));
+usage.track('reflection_saved'); usage.track('private_note');
+let state=JSON.parse(store.get('selah.usage.v1')); assert.equal(state.queue.length,1); assert.equal(state.queue[0].username,undefined);
+for(let i=0;i<105;i++)usage.track('quiz_reviewed');
+state=JSON.parse(store.get('selah.usage.v1')); assert.equal(state.queue.length,100); assert.equal(new Set(state.queue.map(x=>x.eventId)).size,100);
+sandbox.navigator.onLine=true;
+(async()=>{ await listeners.online(); assert.equal(sent.length,100); assert.equal(JSON.parse(store.get('selah.usage.v1')).queue.length,0); sandbox.navigator.onLine=false; const toggle=created[2]; toggle.checked=false; toggle.change(); state=JSON.parse(store.get('selah.usage.v1')); assert.equal(state.enabled,false); assert.equal(state.visitorId,undefined); assert.equal(state.deleteIds.length,1); usage.track('reflection_saved'); assert.equal(JSON.parse(store.get('selah.usage.v1')).queue.length,0); sandbox.navigator.onLine=true; await listeners.online(); assert.equal(sent.at(-1).visitorId,'11111111-1111-4111-8111-111111111111'); assert.equal(JSON.parse(store.get('selah.usage.v1')).deleteIds.length,0); console.log('Usage client: opt-in, private fields, bounded offline queue, revocation and deletion passed'); })().catch(error=>{console.error(error);process.exitCode=1;});
