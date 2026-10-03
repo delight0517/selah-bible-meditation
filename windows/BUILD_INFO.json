@@ -1,5 +1,5 @@
 {
+  "description": "Validate cross-platform reading handoff before session reuse",
   "version": "1.0.6",
-  "build": 12,
-  "description": "Windows Selah managed Edge launch extension path fix"
+  "build": 19
 }

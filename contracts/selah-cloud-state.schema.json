@@ -28,212 +28,836 @@
     "_rev"
   ],
   "properties": {
-    "firstUsedAt": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds."},
-    "reflections": {"type": "array", "items": {"$ref": "#/$defs/reflection"}},
-    "cards": {"type": "array", "items": {"$ref": "#/$defs/quizCard"}},
-    "qtLibrary": {"type": "array", "items": {"$ref": "#/$defs/qtLink"}},
-    "selectedQt": {"type": "string"},
-    "passage": {"type": "integer", "minimum": 0},
-    "customPassage": {
-      "type": ["object", "null"],
-      "additionalProperties": true,
-      "properties": {"ref": {"type": "string", "maxLength": 120}, "text": {"type": "string", "maxLength": 10000}}
+    "firstUsedAt": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Unix epoch milliseconds."
     },
-    "customPassageActive": {"type": "boolean"},
-    "meditationFeedback": {"type": "array", "items": {"$ref": "#/$defs/meditationFeedback"}},
-    "attendanceDays": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
-    "meditationPlaces": {"type": "array", "items": {"$ref": "#/$defs/meditationPlace"}},
+    "reflections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/reflection"
+      }
+    },
+    "cards": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/quizCard"
+      }
+    },
+    "qtLibrary": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/qtLink"
+      }
+    },
+    "selectedQt": {
+      "type": "string"
+    },
+    "passage": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "customPassage": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "ref": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 10000
+        }
+      }
+    },
+    "customPassageActive": {
+      "type": "boolean"
+    },
+    "meditationFeedback": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/meditationFeedback"
+      }
+    },
+    "attendanceDays": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "meditationPlaces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/meditationPlace"
+      }
+    },
     "feedbackPrompt": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "skips": {"type": "integer", "minimum": 0},
-        "nextAskAt": {"type": "integer", "minimum": 0},
-        "lastPromptDay": {"type": "string"},
-        "updatedAt": {"type": "integer", "minimum": 0}
+        "skips": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "nextAskAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "lastPromptDay": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-    "gptContext": {"type": "string"},
+    "gptContext": {
+      "type": "string"
+    },
     "readerPrefs": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "desktop": {"$ref": "#/$defs/readerPreference"},
-        "mobile": {"$ref": "#/$defs/readerPreference"}
+        "desktop": {
+          "$ref": "#/$defs/readerPreference"
+        },
+        "mobile": {
+          "$ref": "#/$defs/readerPreference"
+        }
       },
       "description": "Separate reader preferences selected by viewport width (mobile at max-width 760px, desktop otherwise)."
     },
     "customFontData": {
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": true,
       "properties": {
-        "name": {"type": "string"},
-        "language": {"type": "string"},
-        "type": {"type": "string"},
-        "data": {"type": "string", "contentEncoding": "base64"},
-        "deleted": {"type": "boolean"},
-        "updatedAt": {"type": "integer", "minimum": 0}
+        "name": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-    "language": {"type": "string"},
+    "language": {
+      "type": "string"
+    },
     "bibleContentLanguage": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["code", "updatedAt"],
+      "required": [
+        "code",
+        "updatedAt"
+      ],
       "properties": {
-        "code": {"enum": ["ko", "en", "ja", "zh-CN", "zh-TW"]},
-        "updatedAt": {"type": "integer", "minimum": 0}
+        "code": {
+          "enum": [
+            "ko",
+            "en",
+            "ja",
+            "zh-CN",
+            "zh-TW"
+          ]
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       },
       "description": "Optional explicit Bible text-language choice, separate from the UI locale in language. Absent means follow the UI locale. Greater updatedAt wins; equal timestamps resolve deterministically to the lexicographically smaller code so clients converge. Downloaded translation IDs and chapter cache are per browser profile."
     },
     "computerReadingRequest": {
-      "oneOf": [{"$ref": "#/$defs/computerReadingRequest"}, {"type": "null"}],
+      "oneOf": [
+        {
+          "$ref": "#/$defs/computerReadingRequest"
+        },
+        {
+          "type": "null"
+        }
+      ],
       "description": "Optional cross-device command. It carries only request/session IDs, action, target platform, and creation time; Scripture and reflection text are not included."
     },
     "computerReadingResult": {
-      "oneOf": [{"$ref": "#/$defs/computerReadingResult"}, {"type": "null"}],
+      "oneOf": [
+        {
+          "$ref": "#/$defs/computerReadingResult"
+        },
+        {
+          "type": "null"
+        }
+      ],
       "description": "Optional result for the current computerReadingRequest. Consumers must match result.id to request.id before displaying it."
     },
     "computerReadingSession": {
-      "oneOf": [{"$ref": "#/$defs/computerReadingSession"}, {"type": "null"}],
+      "oneOf": [
+        {
+          "$ref": "#/$defs/computerReadingSession"
+        },
+        {
+          "type": "null"
+        }
+      ],
       "description": "Optional shared focus-reading session. Visible readers heartbeat about every 20 seconds; paused sessions remain resumable for seven minutes."
     },
     "readingState": {
-      "type": ["object", "null"], "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
       "properties": {
-        "passage": {"type": "integer", "minimum": 0}, "book": {"type": "string"}, "chapter": {"type": "integer", "minimum": 1},
-        "customPassageActive": {"type": "boolean"}, "scrollRatio": {"type": "number", "minimum": 0, "maximum": 1},
-        "verseAnchor": {"type": "integer", "minimum": 0}, "verseOffset": {"type": "number", "minimum": 0, "maximum": 1},
-        "updatedAt": {"type": "integer", "minimum": 0}
+        "passage": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "book": {
+          "type": "string"
+        },
+        "chapter": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "customPassageActive": {
+          "type": "boolean"
+        },
+        "scrollRatio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "verseAnchor": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verseOffset": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "meditationSession": {
-      "type": ["object", "null"], "additionalProperties": true,
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "status": {"enum": ["running", "paused", "completed", "ended"]},
-        "durationMs": {"type": "integer", "minimum": 0}, "remainingMs": {"type": "integer", "minimum": 0},
-        "endsAt": {"type": "integer", "minimum": 0}, "ref": {"type": "string"}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "paused",
+            "completed",
+            "ended"
+          ]
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remainingMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endsAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ref": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
-    "bibleChats": {"type": "array", "items": {"$ref": "#/$defs/bibleChat"}},
-    "_rev": {"type": "integer", "minimum": 0, "description": "Server revision used for optimistic concurrency; the client retries HTTP 409 up to three attempts."}
+    "bibleChats": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bibleChat"
+      }
+    },
+    "_rev": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Server revision used for optimistic concurrency; the client retries HTTP 409 up to three attempts."
+    },
+    "_selahSync": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "version",
+        "counter",
+        "fields",
+        "records",
+        "deleted",
+        "recovery"
+      ],
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "counter": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fields": {
+          "type": "object"
+        },
+        "records": {
+          "type": "object"
+        },
+        "deleted": {
+          "type": "object"
+        },
+        "recovery": {
+          "type": "object"
+        }
+      },
+      "description": "Shared data contract v1: hybrid clocks, per-record deletions and recoverable losing record versions. No account credentials."
+    },
+    "drafts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "prayer": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "description": "Account-synced drafts per installation and writer. The active local draft is retained separately."
+    },
+    "appearance": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
+      "description": "Shared theme, UI font and custom palettes. Stored values are selected through _selahSync.fields.appearance."
+    }
   },
   "$defs": {
     "computerReadingRequest": {
-      "type": "object", "additionalProperties": true,
-      "required": ["id", "action", "targetPlatform", "createdAt"],
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "action",
+        "targetPlatform",
+        "createdAt"
+      ],
       "properties": {
-        "id": {"type": "string", "format": "uuid"},
-        "sessionId": {"type": "string", "format": "uuid"},
-        "action": {"const": "open-reading"},
-        "targetPlatform": {"enum": ["macOS", "windows"]},
-        "createdAt": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds; Windows consumers expire requests after two minutes."}
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "sessionId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "action": {
+          "const": "open-reading"
+        },
+        "targetPlatform": {
+          "enum": [
+            "macOS",
+            "windows"
+          ]
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Unix epoch milliseconds; Windows consumers expire requests after two minutes."
+        }
       }
     },
     "computerReadingResult": {
-      "type": "object", "additionalProperties": true,
-      "required": ["id", "status", "completedAt"],
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "status",
+        "completedAt"
+      ],
       "properties": {
-        "id": {"type": "string", "format": "uuid"},
-        "status": {"enum": ["opened", "expired", "rejected"]},
-        "reason": {"type": "string"},
-        "openedWith": {"type": ["string", "null"]},
-        "completedAt": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds."}
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "enum": [
+            "opened",
+            "expired",
+            "rejected"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "openedWith": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "completedAt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Unix epoch milliseconds."
+        }
       }
     },
     "computerReadingSession": {
-      "type": "object", "additionalProperties": true,
-      "required": ["id", "status", "ref", "updatedAt", "lastSeenAt", "resumeGraceUntil"],
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "status",
+        "ref",
+        "updatedAt",
+        "lastSeenAt",
+        "resumeGraceUntil"
+      ],
       "properties": {
-        "id": {"type": "string", "format": "uuid"},
-        "status": {"enum": ["running", "paused"]},
-        "ref": {"type": "string"},
-        "updatedAt": {"type": "integer", "minimum": 0},
-        "lastSeenAt": {"type": "integer", "minimum": 0},
-        "resumeGraceUntil": {"type": "integer", "minimum": 0, "description": "Unix epoch milliseconds; paused sessions remain active until this time."}
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "status": {
+          "enum": [
+            "running",
+            "paused"
+          ]
+        },
+        "ref": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "lastSeenAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resumeGraceUntil": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Unix epoch milliseconds; paused sessions remain active until this time."
+        }
       }
     },
     "readerPreference": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "font": {"type": "string"},
-        "size": {"type": "integer", "minimum": 18, "maximum": 32},
-        "fontLanguage": {"type": "string"},
-        "fontsByLanguage": {"type": "object", "additionalProperties": {"type": "string"}}
+        "font": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 18,
+          "maximum": 32
+        },
+        "fontLanguage": {
+          "type": "string"
+        },
+        "fontsByLanguage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
       }
     },
     "reflection": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "ref": {"type": "string"}, "date": {"type": "string"},
-        "text": {"type": "string"}, "prayer": {"type": "string"},
-        "tags": {"type": "array", "maxItems": 8, "items": {"type": "string", "maxLength": 24}},
-        "media": {"type": ["object", "null"], "additionalProperties": true, "properties": {"title": {"type": "string"}, "url": {"type": "string"}}},
-        "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "prayer": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 24
+          }
+        },
+        "media": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "quizCard": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "q": {"type": "string"}, "a": {"type": "string"},
-        "due": {"type": "string"}, "interval": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "q": {
+          "type": "string"
+        },
+        "a": {
+          "type": "string"
+        },
+        "due": {
+          "type": "string"
+        },
+        "interval": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "qtLink": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "title": {"type": "string"}, "url": {"type": "string", "format": "uri"},
-        "sourceId": {"type": "string"}, "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "meditationFeedback": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "date": {"type": "string"}, "ref": {"type": "string"}, "rating": {"type": "string"},
-        "good": {"type": "string", "maxLength": 2000}, "improve": {"type": "string", "maxLength": 2000}, "situation": {"type": "string", "maxLength": 2000},
-        "reflection": {"type": ["object", "null"], "additionalProperties": true, "properties": {"text": {"type": "string"}, "prayer": {"type": "string"}}, "default": null},
-        "analysis": {"oneOf": [{"$ref": "#/$defs/experienceAnalysis"}, {"type": "null"}]},
-        "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "string"
+        },
+        "good": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "improve": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "situation": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "reflection": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "prayer": {
+              "type": "string"
+            }
+          },
+          "default": null
+        },
+        "analysis": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/experienceAnalysis"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "experienceAnalysis": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "focusPlaces": {"type": "array", "items": {"$ref": "#/$defs/experiencePlace"}},
-        "avoidPlaces": {"type": "array", "items": {"$ref": "#/$defs/experiencePlace"}},
-        "conditions": {"type": "array", "items": {"$ref": "#/$defs/experienceCondition"}}, "summary": {"type": "string", "maxLength": 400}
+        "focusPlaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/experiencePlace"
+          }
+        },
+        "avoidPlaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/experiencePlace"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/experienceCondition"
+          }
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 400
+        }
       }
     },
     "experiencePlace": {
-      "type": "object", "additionalProperties": true,
-      "properties": {"place": {"type": "string"}, "conditions": {"type": "array", "items": {"type": "string"}}, "reason": {"type": "string"}}
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "place": {
+          "type": "string"
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
     },
     "experienceCondition": {
-      "type": "object", "additionalProperties": true,
-      "properties": {"condition": {"type": "string"}, "effect": {"type": "string"}}
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "effect": {
+          "type": "string"
+        }
+      }
     },
     "meditationPlace": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string"}, "type": {"enum": ["focus", "avoid", "condition"]},
-        "place": {"type": "string", "maxLength": 120}, "condition": {"type": "string", "maxLength": 120},
-        "conditions": {"type": "array", "maxItems": 8, "items": {"type": "string", "maxLength": 120}},
-        "effect": {"type": "string", "maxLength": 240}, "reason": {"type": "string", "maxLength": 240},
-        "feedbackId": {"type": "string"}, "date": {"type": "string"}, "createdAt": {"type": "integer", "minimum": 0}
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "focus",
+            "avoid",
+            "condition"
+          ]
+        },
+        "place": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "condition": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "conditions": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "maxLength": 120
+          }
+        },
+        "effect": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "feedbackId": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "bibleChat": {
-      "type": "object", "additionalProperties": true,
+      "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "id": {"type": "string", "maxLength": 80}, "ref": {"type": "string", "maxLength": 120}, "quote": {"type": "string", "maxLength": 1500},
-        "createdAt": {"type": "integer", "minimum": 0}, "updatedAt": {"type": "integer", "minimum": 0}, "expiresAt": {"type": "integer", "minimum": 0},
-        "status": {"enum": ["active", "ended"]}, "turns": {"type": "array", "items": {"$ref": "#/$defs/bibleChatTurn"}}
+        "id": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "ref": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "quote": {
+          "type": "string",
+          "maxLength": 1500
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "active",
+            "ended"
+          ]
+        },
+        "turns": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/bibleChatTurn"
+          }
+        }
       }
     },
     "bibleChatTurn": {
-      "type": "object", "additionalProperties": true,
-      "properties": {"role": {"enum": ["user", "assistant"]}, "text": {"type": "string", "maxLength": 1200}, "createdAt": {"type": "integer", "minimum": 0}}
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 1200
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     }
   },
   "x-selah-sync-semantics": {
@@ -241,19 +865,24 @@
     "localStateKey": "selah.v1",
     "authTokenKey": "selah.bluecloud.token",
     "authTokenIncluded": false,
-    "localOnlyStateFields": ["owner", "draft"],
+    "localOnlyStateFields": [
+      "owner",
+      "draft"
+    ],
     "ownerFieldIncludedInPayload": false,
     "draftIncludedInPayload": false,
-    "contractVersionField": null,
-    "unknownFields": "The client forwards unknown top-level properties from the signed-in account GET response and preserves extension properties in modeled nested objects while normalizing known fields. Current Brainwire origin/main source stores the full incoming document; authenticated live round trip remains unverified.",
+    "contractVersionField": "_selahSync.version",
+    "unknownFields": "Unknown noncredential top-level properties survive the shared merge. Brainwire origin/main cloudAppState.js stores the full incoming document with optimistic _rev checks; no authenticated production round trip has been performed.",
     "existingUnknownFieldParityGap": "No authenticated live GET/PUT/GET verification has been performed. Current Brainwire origin/main handler stores the full incoming document.",
-    "ownerChange": "The local owner value gates account merges but is not sent; account-scoped state is reset before the newly signed-in account state is applied.",
-    "recordCollectionsMerge": "reflections, cards, qtLibrary, bibleChats, meditationFeedback, and meditationPlaces merge by id; the greater updatedAt wins and local data wins ties.",
+    "ownerChange": "Local state is archived by owner before account switching; only the target owner archive and its remote account data are selected.",
+    "recordCollectionsMerge": "Shared scripts/unified-data.js merges by stable ID and hybrid clock (legacy updatedAt remains respected). Deterministic ties, deletion tombstones and losing content in _selahSync.recovery prevent silent record loss.",
     "bibleContentLanguageMerge": "Optional explicit Bible text-language preference merges by updatedAt; equal timestamps resolve to the lexicographically smaller code for deterministic convergence. The UI locale remains in language. Translation selections and cached chapter downloads stay per browser profile.",
     "computerReadingMerge": "The newest request createdAt wins, with remote winning ties. A result is retained only when result.id matches the selected request.id. The greater session updatedAt wins, with local winning ties. These live command/session fields are excluded from portable backups.",
     "feedbackPromptMerge": "The greater updatedAt wins; local data wins ties.",
     "attendanceDaysMerge": "Set union, then sort.",
     "readingStateAndMeditationSession": "Merged by source-specific logic; do not replace with generic last-write-wins.",
-    "localAnonymousData": "Remains in the current browser app storage and is not automatically shared with another device."
+    "localAnonymousData": "Kept in the local archive and combined with the first explicitly connected account. Importing a backup adds records and preserves overwritten versions.",
+    "readerPreferencesMerge": "desktop and mobile preferences have separate shared clocks; a stale GET cannot replace a newer stamped local preference.",
+    "sharedDrafts": "The active draft remains local; drafts collection syncs recoverable per-writer copies to the same account."
   }
 }

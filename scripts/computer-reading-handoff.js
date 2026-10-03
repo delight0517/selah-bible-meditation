@@ -44,6 +44,40 @@
     return Number.isFinite(number) && number > 0 ? number : 0;
   };
   const isRecord = (value) => value && typeof value === "object" && !Array.isArray(value);
+  const routeParams = new URLSearchParams(location.search);
+  const handoffRequestId = routeParams.get("requestId") || routeParams.get("request");
+  const isWindowsShell = routeParams.get("windowsShell") === "1";
+  const platformName = navigator.platform || "";
+  const isMac = /Mac|iPhone|iPad/.test(platformName);
+  const currentPlatform = isWindowsShell || /Win/.test(platformName)
+    ? "windows"
+    : /^Mac/.test(platformName) && Number(navigator.maxTouchPoints || 0) <= 1 ? "macOS" : "";
+
+  function linkedHandoffSessionId() {
+    const request = db.computerReadingRequest;
+    if (!handoffRequestId || !isRecord(request) || request.id !== handoffRequestId || request.targetPlatform !== currentPlatform) return "";
+    const age = Date.now() - timestamp(request, "createdAt");
+    if (age < 0 || age > 120000) return "";
+    return typeof request.sessionId === "string" && request.sessionId ? request.sessionId : "";
+  }
+
+  function adoptLinkedHandoffSession() {
+    if (!document.body.classList.contains("mobile-reading-focus")) return;
+    const sessionId = linkedHandoffSessionId();
+    if (!sessionId || db.computerReadingSession?.id === sessionId) return;
+    const now = Date.now();
+    db.computerReadingSession = {
+      ...(isRecord(db.computerReadingSession) ? db.computerReadingSession : {}),
+      id: sessionId,
+      status: "running",
+      ref: typeof currentPassage === "function" ? currentPassage().ref : "",
+      updatedAt: now,
+      lastSeenAt: now,
+      resumeGraceUntil: 0
+    };
+    persist();
+    scheduleSync();
+  }
 
   db.computerReadingRequest ??= null;
   db.computerReadingResult ??= null;
@@ -54,7 +88,9 @@
     const localRequest = db.computerReadingRequest;
     const remoteRequest = remote.computerReadingRequest;
     if (isRecord(remoteRequest)) {
-      db.computerReadingRequest = isRecord(localRequest) && timestamp(localRequest, "createdAt") > timestamp(remoteRequest, "createdAt")
+      db.computerReadingRequest = handoffRequestId && remoteRequest.id === handoffRequestId
+        ? remoteRequest
+        : isRecord(localRequest) && timestamp(localRequest, "createdAt") > timestamp(remoteRequest, "createdAt")
         ? localRequest : remoteRequest;
     }
 
@@ -70,6 +106,7 @@
     if (isRecord(remoteSession) && (!isRecord(localSession) || timestamp(remoteSession, "updatedAt") > timestamp(localSession, "updatedAt"))) {
       db.computerReadingSession = remoteSession;
     }
+    adoptLinkedHandoffSession();
   }
 
   const originalMergeSharedProgress = mergeSharedProgress;
@@ -100,8 +137,6 @@
   const targetLabel = document.getElementById("computerReadingTargetLabel");
   if (!button || !target || !status) return;
 
-  const isWindowsShell = new URLSearchParams(location.search).get("windowsShell") === "1";
-  const isMac = /Mac|iPhone|iPad/.test(navigator.platform || "");
   const savedTarget = localStorage.getItem("selah.computerReadingTarget");
   target.value = ["macOS", "windows"].includes(savedTarget) ? savedTarget : (isWindowsShell || !isMac ? "macOS" : "windows");
   target.setAttribute("aria-label", text("target"));
@@ -188,10 +223,16 @@
   let heartbeat = 0;
   let focusWasActive = document.body.classList.contains("mobile-reading-focus");
   function saveSession(sessionStatus, now = Date.now()) {
+    if (currentPlatform && db.meditationSession?.status === "running"
+        && Number(db.meditationSession.endsAt) > now && meditationView.classList.contains("active")) {
+      publishMeditationRest(db.meditationSession);return;
+    }
     const old = db.computerReadingSession || {};
     const withinGrace = old.status === "paused" && timestamp(old, "resumeGraceUntil") > now;
     const stillRunning = old.status === "running" && now - timestamp(old, "lastSeenAt") < 420000;
-    const deepLinkSession = new URLSearchParams(location.search).get("sessionId");
+    const deepLinkSession = handoffRequestId
+      ? linkedHandoffSessionId()
+      : routeParams.get("sessionId");
     db.computerReadingSession = {
       id: withinGrace ? old.id : (deepLinkSession || (stillRunning ? old.id : crypto.randomUUID())),
       status: sessionStatus,
@@ -237,8 +278,51 @@
     }
   });
 
+  // Timed meditation and focus reading use the same desktop rest contract.
+  let meditationHeartbeat = 0;
+  function publishMeditationRest(session) {
+    if (!currentPlatform || !session?.id) return;
+    const now = Date.now(), duration = Math.max(0, Number(session.durationMs) || 0);
+    const remaining = session.status === "running"
+      ? Math.max(0, Number(session.endsAt) - now)
+      : Math.max(0, Number(session.remainingMs) || 0);
+    const status = session.status === "running" && remaining <= 0 ? "completed" : session.status;
+    const old = db.computerReadingSession;
+    const id = "meditation-" + session.id;
+    // A different focus-reading session must not be ended by old meditation data.
+    if (!["running", "paused"].includes(status) && old?.id !== id) return;
+    db.computerReadingSession = {
+      id, status, source: "timed-meditation", platform: currentPlatform,
+      ref: session.ref || "", updatedAt: now, lastSeenAt: now,
+      activeMs: Math.min(duration, Math.max(0, duration - remaining)),
+      resumeGraceUntil: status === "paused" ? now + 420000 : 0
+    };
+    persist();scheduleSync();
+    clearInterval(meditationHeartbeat);meditationHeartbeat = 0;
+    if (status === "running") meditationHeartbeat = setInterval(() => {
+      if (db.meditationSession?.id === session.id) publishMeditationRest(db.meditationSession);
+      else { clearInterval(meditationHeartbeat);meditationHeartbeat = 0; }
+    }, 30000);
+  }
+  const originalSaveMeditationSession = saveMeditationSession;
+  saveMeditationSession = function (status) {
+    originalSaveMeditationSession(status);
+    publishMeditationRest(db.meditationSession);
+  };
+  const originalActivateSyncedMeditation = activateSyncedMeditation;
+  activateSyncedMeditation = function (session) {
+    originalActivateSyncedMeditation(session);
+    publishMeditationRest(session);
+  };
+  window.addEventListener("selah-data-updated", () => {
+    const session = db.meditationSession;
+    if (currentPlatform && session?.status === "running" && Number(session.endsAt) > Date.now()
+        && (!meditationHeartbeat || db.computerReadingSession?.id !== "meditation-" + session.id)) {
+      activateSyncedMeditation(session);
+    }
+  });
+
   renderStatus();
   setInterval(() => void pollResult(), 5000);
-  const params = new URLSearchParams(location.search);
-  if (params.get("openReading") === "1" || params.get("homeAction") === "read") setReaderFocus(true);
+  if (routeParams.get("openReading") === "1" || routeParams.get("homeAction") === "read") setReaderFocus(true);
 })();

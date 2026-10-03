@@ -14,7 +14,7 @@
     #selahWindowsToolbar button:hover:not(:disabled){background:#ffffff25}
     #selahWindowsToolbar button:disabled{opacity:.4;cursor:default}
     #selahWindowsToolbar button:focus-visible{outline:2px solid #e0bd79;outline-offset:2px}
-    #selahWindowsZoom{min-width:48px;text-align:center;font-variant-numeric:tabular-nums}
+    #selahWindowsZoomReset{min-width:48px;text-align:center;font-variant-numeric:tabular-nums}
     @media(max-width:520px){#selahWindowsToolbar{gap:5px;padding-inline:7px}#selahWindowsToolbar .selah-shell-brand{font-size:11px}#selahWindowsToolbar button{min-width:32px;padding-inline:5px}}
   `;
   document.head.append(style);
@@ -28,7 +28,7 @@
     <button type="button" id="selahWindowsForward" aria-label="Forward" title="Forward">→</button>
     <span class="selah-shell-brand" aria-hidden="true">SELAH</span>
     <button type="button" id="selahWindowsZoomOut" aria-label="Zoom out" title="Zoom out (Ctrl+Alt+-)">−</button>
-    <output id="selahWindowsZoom" aria-live="polite"></output>
+    <button type="button" id="selahWindowsZoomReset" aria-label="Reset text size" title="Reset text size (Ctrl+Alt+0)" aria-live="polite">100%</button>
     <button type="button" id="selahWindowsZoomIn" aria-label="Zoom in" title="Zoom in (Ctrl+Alt++)">+</button>
     <button type="button" id="selahWindowsFocus" aria-label="Focus reading" title="Focus reading (Ctrl+Shift+F)">⛶</button>
   `;
@@ -36,14 +36,13 @@
 
   const back = toolbar.querySelector('#selahWindowsBack');
   const forward = toolbar.querySelector('#selahWindowsForward');
-  const zoomLabel = toolbar.querySelector('#selahWindowsZoom');
+  const zoomReset = toolbar.querySelector('#selahWindowsZoomReset');
   const focusButton = toolbar.querySelector('#selahWindowsFocus');
   const focusToggle = document.getElementById('readerFocusToggle');
 
   function applyZoom() {
     document.documentElement.style.zoom = `${zoom}%`;
-    zoomLabel.value = `${zoom}%`;
-    zoomLabel.textContent = `${zoom}%`;
+    zoomReset.textContent = `${zoom}%`;
     toolbar.querySelector('#selahWindowsZoomOut').disabled = zoom <= 80;
     toolbar.querySelector('#selahWindowsZoomIn').disabled = zoom >= 150;
     localStorage.setItem(zoomKey, String(zoom));
@@ -67,6 +66,7 @@
   forward.addEventListener('click', () => history.forward());
   toolbar.querySelector('#selahWindowsZoomOut').addEventListener('click', () => { zoom = clampZoom(zoom - 10); applyZoom(); });
   toolbar.querySelector('#selahWindowsZoomIn').addEventListener('click', () => { zoom = clampZoom(zoom + 10); applyZoom(); });
+  zoomReset.addEventListener('click', () => { zoom = 100; applyZoom(); });
   focusButton.addEventListener('click', () => focusToggle?.click());
   window.addEventListener('popstate', updateNavigation);
   if (window.navigation) window.navigation.addEventListener('currententrychange', updateNavigation);
