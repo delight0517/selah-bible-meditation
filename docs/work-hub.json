@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:06:14.006Z",
+  "updatedAt": "2026-10-03T15:18:11.976Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -282,9 +282,10 @@
         "Claimed on codex/selah-windows-feature-runtime-20261003 from origin/main c95542d; Windows launcher 1.0.10/build25 and hosted shared UI 1.0.10/build29 are deployed, but installed UI/feature acceptance and authenticated cross-device sync remain unverified.",
         "2026-10-03: isolated credential-free headless Edge runtime against production windowsShell=1 passed toolbar, zoom reset/increase, reading-focus toggle, and visitor explanation open/close/content checks (anonymous IDs, duplicate browser examples, UTC period, privacy); blocked one telemetry write. This is the browser shell runtime, not the installed Start-menu PWA. Authenticated GET/PUT/GET account round trip remains unverified.",
         "2026-10-03: repeated credential-free headless Edge interaction against current production shared UI 1.0.10/build30. Windows shell toolbar, zoom reset/increase, focus reading toggle and all visitor explanation acceptance text/expand-collapse checks passed; one telemetry write was blocked. Installed Start-menu PWA and authenticated account GET/PUT/GET remain unverified.",
-        "2026-10-04: installed launcher build 25 SHA-256 matches the repository launcher (1F2B6CD10047E2BCBA46161745F61EB150DF1859CD558B7C2891189E08C16705); installed launcher's read-only --dry-run resolves to Edge app-window mode and the Windows shell URL. This verifies package-to-source command wiring only, not a full launch from the Start menu."
+        "2026-10-04: installed launcher build 25 SHA-256 matches the repository launcher (1F2B6CD10047E2BCBA46161745F61EB150DF1859CD558B7C2891189E08C16705); installed launcher's read-only --dry-run resolves to Edge app-window mode and the Windows shell URL. This verifies package-to-source command wiring only, not a full launch from the Start menu.",
+        "2026-10-04: repeated credential-free isolated headless Edge interaction against live 1.0.10/build32 with windowsShell=1. Toolbar, zoom 100%→110%→100%, focus reading on/off, and visitor explanation open/close plus anonymous-ID, duplicate-browser, UTC-period, and privacy acceptance copy all passed; one telemetry write was blocked. This does not prove Start-menu app launch or authenticated BlueCloud round trip."
       ],
-      "nextAction": "Run the installed Start-menu launcher in an isolated Edge profile to verify the app-window shell without touching personal records; then prove same-account GET/PUT/GET with synthetic records on an authorized test account. Keep Mac/iPhone parity pending until implementation and device runtime evidence arrive."
+      "nextAction": "Verify the installed Start-menu app shell in a profile that preserves the managed Edge route and does not access personal records; then prove same-account GET/PUT/GET with synthetic records on an authorized test account. Keep Mac/iPhone parity pending until implementation and device runtime evidence arrive."
     },
     {
       "id": "selah-work-hub-claim-integrity-20261003",
