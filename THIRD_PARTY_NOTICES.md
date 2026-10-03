@@ -6,6 +6,7 @@ The root [MIT license](LICENSE) applies to original Selah application source cod
 
 | Material | Notice and source |
 | --- | --- |
+| `matthew-kor-old.json` | Korean Bible 1910 (`KOROLD`), public domain according to [eBible edition details](https://ebible.org/find/details.php?id=kor); contributors: 레널즈, 이승두, 김정삼. The source distribution omits 1 Peter 4:15 through the end of the book; Selah does not reconstruct the missing text. |
 | `matthew-krv.json` | The file identifies the Korean Revised Version (1961), 대한성서공회, and its source at [crizin/bible-db](https://github.com/crizin/bible-db/blob/main/data/krv/krv_holybible.jsonl). Its existing metadata claims public domain and points to 대한성서공회's copyright FAQ. That claim has not been independently verified for a worldwide Store release; the root MIT license does not apply to this text. |
 | `matthew-web.json` | World English Bible; eBible describes its text as public domain, while the name World English Bible is a trademark. See [eBible copyright notice](https://ebible.org/eng-web/copyright.htm). |
 | `matthew-jpn1965.json` | New Japanese NT (1965); eBible labels this edition public domain. See [edition details](https://ebible.org/Scriptures/details.php?id=jpn1965). No MIT relicensing is claimed. |

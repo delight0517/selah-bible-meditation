@@ -1,0 +1,24 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const root = path.resolve(__dirname, '..');
+const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const bible = JSON.parse(fs.readFileSync(path.join(root, 'matthew-kor-old.json'), 'utf8'));
+const catalog = JSON.parse(fs.readFileSync(path.join(root, 'bible-translations.json'), 'utf8'));
+const korOld = catalog.translations.find(item => item.id === 'kor_old');
+
+assert.match(html, /ko:\{file:"matthew-kor-old\.json",label:"한국어 성경 1910판",id:"kor_old"\}/);
+assert.equal(bible.translation, '한국어 성경 (1910)');
+assert.equal(bible.source, 'https://ebible.org/find/details.php?id=kor');
+assert.equal(bible.chapters.length, 28);
+assert.equal(bible.chapters[0].verses[0].text, '아브라함과 다윗의 자손 예수 그리스도의 세계라');
+assert.match(html, /selah\.bible\.annotations\.v1/);
+assert.match(html, /localStorage\.setItem\(bibleAnnotationStorageKey/);
+assert.match(html, /1 Peter 4:15 through the end of the book/);
+assert.match(html, /하이라이트·북마크·개인 메모/);
+assert.match(fs.readFileSync(path.join(root, 'privacy.html'), 'utf8'), /계정에 동기화하지 않고 이 브라우저 기기에만 저장/);
+assert.equal(korOld.attribution, '한국어 성경 · Korean Bible 1910 · 레널즈, 이승두, 김정삼');
+assert.equal(korOld.coverageNote, '베드로전서 4:15부터 끝까지 원문 배포본에 없음');
+assert.match(fs.readFileSync(path.join(root, 'mobile/scripts/copy-web.mjs'), 'utf8'), /matthew-kor-old\.json/);
+assert.doesNotMatch(fs.readFileSync(path.join(root, 'scripts/unified-data.js'), 'utf8'), /selah\.bible\.annotations\.v1/);
+console.log('Korean Bible reader source and attribution checks passed');
