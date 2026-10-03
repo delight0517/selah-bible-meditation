@@ -1,3 +1,13 @@
+## 2026-10-03 · 사용자가 정정한 실시간 함께 읽기 — 1.0.10/build30
+- 말씀 읽기 내부 함께 읽기에서 URL 생성, 상대가 같은 페이지로 입장, 상대 읽는 위치를 옅게 표시, 시간 묵상 종료 시각 공유를 요청.
+- 독립 실시간 Worker + 방별 상태, 24시간 만료, 서버 시각 타이머, 진행자 본문 변경, 익명 절/위치 표시 구현. 플랫폼 공통 기능 ID SELAH-LIVE-TOGETHER-READING revision1.
+- Mac/iPhone 실제 반영·설치 확인은 별도 담당 대기. 합성 backend 검사와 실제 두 참가자 HTTP 검사는 통과; 브라우저 UI 시험 진행.
+
+## 2026-10-03 · 사용자 요청: 작업 시스템 실제 시험
+- 피드백: 완성된 플랫폼 작업 시스템이 실제로 작동하는지 테스트 요청.
+- PR #167에서 원장 누락을 재현해 contract 실패와 ready PR mergeState=BLOCKED 확인 후 미병합 종료. 로컬 fixture로 오래된 revision, pending 전체 완료, 모바일 누락, 중복 작업 차단 검증.
+- 전체 결과는 docs/PLATFORM_SYSTEM_TEST_20261003.md. Mac 요청은 조회 가능하지만 수신·완료 false이므로 기기 전체 반영 완료는 미검증. 앱 UI build29 유지.
+
 ## 2026-10-03 · 플랫폼별 구현의 기능 동등성 관리로 요구 정정
 - 사용자 피드백: 같은 웹 원본을 강제하려는 것이 아니라 Windows 변경이 macOS/iOS/웹에서 누락되지 않는 작업 시스템을 요구함.
 - 공통 기능 ID/revision·합격 기준·플랫폼별 담당·반영 상태·소스/빌드/검증 증거 원장과 CI 검사 추가. 미반영 플랫폼은 pending으로 보존하며 통합 완료 검사에서 차단.
@@ -432,3 +442,27 @@
 - [x] PR #163 merge commit `c2a93354`; Pages run `37129017878` 성공. GitHub raw의 공개 `docs/work-hub.json` HTTP 200에서 3개 task/4개 data source ledger readback.
 
 - 플랫폼 동등성 Mac 요구 전송 근거: releasepilot-hub commit d0eb1304a32d2271916c174172d81e9989778278, request_id selah-apple-feature-parity-20261003. Git push 경쟁으로 기존 스크립트 전송이 실패해 같은 요청을 GitHub Contents API로 1건 게시했고 읽기 확인을 진행함. Mac 수신·구현 완료는 아직 증거 없음.
+
+## 2026-10-03 · Mac/Windows 중복 방지 허브 강화
+- [x] Mac GPT에 GA4 작업 중복 및 현재 파일 변경 여부 확인 요청. 직접 dispatch 응답 아티팩트 SHA-256 `d6eb5b99005b42c2759921b1c58a0914ec614c40afb1a4cbe194310e84771ac2`를 검증하고 GA4 task handoff에 회신·수신 근거 기록.
+- [x] Mac 확인 범위: 검사한 Mac checkout에서 GA4 구현 겹침 없음. 인증·GA4 property/measurement ID 읽기 전 구현 금지. GSC/first-party baseline 재수행 금지. 오래된 `selah-admin-analytics` dirty 파일은 변경 금지. Mac 원격 main 근거는 stale cached 상태였으므로 checkout 관찰 범위로 한정.
+- [x] Work Hub schema v2: 신규 claim에 repo/task/thread/base commit/exact file path 요구, scope 외 동일 자원·동일 저장소 파일/상위-하위 경로 충돌 및 증거 없는 완료 거부, handoff request/receipt/response/owner decision 분리.
+- [x] PR #170 merge commit `a5bfc6476e712ed4264a20ae45c9cf66de19d455`; `branch-current`, `validate`, `contract`, `windows-protocol` 성공. Pages run `37130418662` 성공, 공개 `/docs/work-hub.json` HTTP 200에서 schema v2/6개 task/Mac 회신 hash readback.
+- [ ] GA4 Analytics OAuth 연결과 정확한 property 확인은 외부 계정 작업 대기.
+
+## 2026-10-03 · 사용자 요청: 허브 실제 테스트 후 goal 일시 중지
+- [x] 실제 CLI를 임시 원장에 실행하는 13개 시나리오 작성. 첫 시험 7/13 통과, 6개 실패를 재현: scope 간 동일 자원, repo URL alias, 완료 작업 재개, 동일 task 내부 경로 오탐, 신규 메타데이터 누락, handoff 손상.
+- [x] 모든 저장 전 원장 검증, repo URL 정규화, 동일 task 경로 오탐 제거, 기존 claim 예외 목록 명시, handoff 검증으로 수정. Windows CLI 13/13 통과 및 모든 거부 입력의 원장 바이트 보존 확인.
+- [x] PR #175 merged `2bb382822191cb1dd0a568a7910a28afaefefc6a`; 필수 validate CI run `37131152234`에서도 13/13 성공. Pages run `37131208988` 성공, 공개 CLI HTTP 200 및 검사 소스와 일치 확인. 공개 원장 schema2/기존 claim 예외 목록 readback.
+- [x] 허브 검증 완료. 사용자 요청은 검증 성공 후 analytics goal 일시 중지이며 이 결과 기록 병합 후 paused 처리. GA4 OAuth 미완료는 waiting_external로 보존; Mac 신규 실기기 수신을 이번 fixture 시험으로 확인한 것으로 간주하지 않음. 앱 build30 유지.
+
+## 2026-10-04 함께 읽기 사용자 요구 및 검증
+- 말씀 읽기에서 함께 읽기 초대 URL 생성, 상대 동일 번역본/책/장, 상대 읽는 위치 옅은 UI, 서버 기준 동일 타이머.
+- build31: 접힌 번역본 메뉴에서 초대 버튼을 읽기 상단으로 이동.
+- 서버 두 참여자 검증 통과. 브라우저 로딩/CDP 응답 멈춤으로 실제 클릭 E2E는 미완료; 완료로 표시하지 않는다.
+- Mac/iOS 요청 selah-live-together-20261004 전달됨; 수신 및 실기기 증거 pending. 최종 계약 revision2를 반영할 것.
+
+## 2026-10-04 · 친구와 동시에 성경 읽기 홍보
+- 홈에 5개 언어로 친구와 같은 말씀을 동시에 읽는 안내와 말씀 읽기 진입 버튼을 추가.
+- 초대 창의 제목도 친구 초대 목적이 분명하도록 수정.
+- revision3 / build32. 서버·클라이언트 통합 검증은 이전 변경에서 통과; 실제 브라우저·실기기 검증은 pending.

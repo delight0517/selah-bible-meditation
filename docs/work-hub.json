@@ -1,6 +1,11 @@
 {
-  "schemaVersion": 1,
-  "updatedAt": "2026-10-03T14:26:45.6572319Z",
+  "schemaVersion": 2,
+  "legacyClaimIds": [
+    "selah-analytics-ga4-connect-20261003",
+    "selah-apple-feature-parity-20261003",
+    "selah-windows-feature-runtime-20261003"
+  ],
+  "updatedAt": "2026-10-03T15:18:11.976Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -33,6 +38,16 @@
       ]
     },
     {
+      "id": "selah.coordination.claim-integrity",
+      "title": "Cross-task resource, file, and evidence integrity checks",
+      "resources": [
+        "docs/work-hub.json",
+        "docs/WORK_HUB.md",
+        "scripts/work-hub.mjs",
+        ".github/workflows/work-hub.yml"
+      ]
+    },
+    {
       "id": "selah.features.apple-parity",
       "title": "macOS and iOS acceptance for shared feature revisions",
       "resources": [
@@ -44,6 +59,13 @@
       "title": "Windows runtime acceptance for feature parity",
       "resources": [
         "Installed Windows app feature tests"
+      ]
+    },
+    {
+      "id": "selah.features.live-together",
+      "title": "Live together reading rooms and UI",
+      "resources": [
+        "Live room protocol and together-reading user flow"
       ]
     }
   ],
@@ -175,6 +197,29 @@
           "from": "windows",
           "at": "2026-10-03T14:11:49Z",
           "text": "Mac overlap request is queued. PR #151 covers GSC and first-party baseline; GA4 integration was not found in that PR. Await Mac confirmation before changing shared analytics code."
+        },
+        {
+          "from": "mac",
+          "at": "2026-10-03T14:36:48Z",
+          "text": "Hash-verified direct Mac GPT response: no competing GA4 implementation found in the inspected Mac checkouts; continue only after Analytics OAuth and exact GA4 property/measurement ID readback. Do not repeat GSC/page-view baseline. Mac origin/main evidence was cached and stale, so treat checkout overlap findings as scoped. Preserve the older selah-admin-analytics checkout with uncommitted public/admin.html and server/routes/adminLlm.js changes; do not modify it.",
+          "source": "mac dispatch job selah-work-hub-review-20261003",
+          "artifactSha256": "d6eb5b99005b42c2759921b1c58a0914ec614c40afb1a4cbe194310e84771ac2",
+          "receipt": "received; artifactHashesVerified=true; applied=false"
+        }
+      ],
+      "handoffs": [
+        {
+          "id": "selah-analytics-ga4-connect-20261003-mac-review",
+          "from": "windows",
+          "to": "mac",
+          "status": "responded",
+          "requestedAt": "2026-10-03T14:11:49Z",
+          "receivedAt": "2026-10-03T14:36:48Z",
+          "respondedAt": "2026-10-03T14:36:48Z",
+          "request": "Check for Mac-side GA4 implementation overlap before Windows continues; report current owning repo/branch/files and any in-flight modifications.",
+          "receipt": "Direct Mac dispatch response hash verified by Windows runner; applied=false.",
+          "response": "No competing GA4 implementation found in inspected Mac checkouts. OAuth/property readback remains a prerequisite. Older admin analytics checkout has dirty admin files and must be preserved. Mac cached main was stale, so findings are limited to inspected checkouts.",
+          "evidence": "sha256:d6eb5b99005b42c2759921b1c58a0914ec614c40afb1a4cbe194310e84771ac2"
         }
       ]
     },
@@ -210,25 +255,123 @@
         "contracts/feature-parity.json",
         "https://github.com/delight0517/releasepilot-hub/commit/d0eb1304a32d2271916c174172d81e9989778278"
       ],
-      "nextAction": "Request queued with ID selah-apple-feature-parity-20261003; Mac receipt and implementation response pending"
+      "nextAction": "Request queued with ID selah-apple-feature-parity-20261003; Mac receipt and implementation response pending",
+      "feedback": [
+        {
+          "from": "windows",
+          "at": "2026-10-03T15:06:14.002Z",
+          "text": "Windows read-only SSH inspection on 2026-10-04: Mac checkout /Users/rogan/Documents/Codex/2026-10-03/selah-store-prep is clean at codex/selah-store-preparation-20261003 d175de6. Correction to the initial count: Mac's local origin/main pointer was stale at c5870a9; current open PR #117 uses base c5870a9 and head d175de6. Comparing current main fa751b7 to PR head gives 82 commits only in main and 18 only in the PR/head (`git rev-list --left-right --count origin/main...FETCH_HEAD`). macos/project.yml is 1.0.10/build27 while bundled mobile/www/SHARED_APP_BUILD.json is 1.0.10/build26; live shared web/Windows shell reads 1.0.10/build31. SwiftUI/WKWebView source and selah://read handler were inspected; installed app provenance/runtime is still not proven. Please update the Mac bundle from current canonical source, map the requested visitor/account features, and report installed binary provenance plus Mac/iPhone runtime/sync evidence in this existing task."
+        }
+      ]
     },
     {
       "id": "selah-windows-feature-runtime-20261003",
       "summary": "Confirm feature acceptance in installed Windows app and cross-device account tests",
       "owner": "windows",
-      "status": "planned",
+      "status": "in_progress",
       "scopes": [
         "selah.features.windows-runtime"
       ],
-      "branch": "Windows maintainer to claim",
+      "branch": "codex/selah-windows-feature-runtime-20261003",
       "featureIds": [
         "SELAH-VISITOR-EXPLANATION",
         "SELAH-ACCOUNT-DATA-PARITY"
       ],
       "evidence": [
-        "contracts/feature-parity.json"
+        "contracts/feature-parity.json",
+        "Claimed on codex/selah-windows-feature-runtime-20261003 from origin/main c95542d; Windows launcher 1.0.10/build25 and hosted shared UI 1.0.10/build29 are deployed, but installed UI/feature acceptance and authenticated cross-device sync remain unverified.",
+        "2026-10-03: isolated credential-free headless Edge runtime against production windowsShell=1 passed toolbar, zoom reset/increase, reading-focus toggle, and visitor explanation open/close/content checks (anonymous IDs, duplicate browser examples, UTC period, privacy); blocked one telemetry write. This is the browser shell runtime, not the installed Start-menu PWA. Authenticated GET/PUT/GET account round trip remains unverified.",
+        "2026-10-03: repeated credential-free headless Edge interaction against current production shared UI 1.0.10/build30. Windows shell toolbar, zoom reset/increase, focus reading toggle and all visitor explanation acceptance text/expand-collapse checks passed; one telemetry write was blocked. Installed Start-menu PWA and authenticated account GET/PUT/GET remain unverified.",
+        "2026-10-04: installed launcher build 25 SHA-256 matches the repository launcher (1F2B6CD10047E2BCBA46161745F61EB150DF1859CD558B7C2891189E08C16705); installed launcher's read-only --dry-run resolves to Edge app-window mode and the Windows shell URL. This verifies package-to-source command wiring only, not a full launch from the Start menu.",
+        "2026-10-04: repeated credential-free isolated headless Edge interaction against live 1.0.10/build32 with windowsShell=1. Toolbar, zoom 100%→110%→100%, focus reading on/off, and visitor explanation open/close plus anonymous-ID, duplicate-browser, UTC-period, and privacy acceptance copy all passed; one telemetry write was blocked. This does not prove Start-menu app launch or authenticated BlueCloud round trip."
       ],
-      "nextAction": "Claim existing task instead of creating duplicate; record actual Windows runtime evidence"
+      "nextAction": "Verify the installed Start-menu app shell in a profile that preserves the managed Edge route and does not access personal records; then prove same-account GET/PUT/GET with synthetic records on an authorized test account. Keep Mac/iPhone parity pending until implementation and device runtime evidence arrive."
+    },
+    {
+      "id": "selah-work-hub-claim-integrity-20261003",
+      "summary": "Harden cross-device work claims with repository, base, file/resource overlap, evidence, and Mac handoff receipts",
+      "owner": "windows",
+      "status": "completed",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.coordination.claim-integrity"
+      ],
+      "branch": "codex/selah-work-hub-v2-20261003",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a0fc19-3ed4-7bc1-90c8-8552f112a6da",
+      "baseCommit": "2721d57",
+      "files": [
+        "docs/work-hub.json",
+        "docs/WORK_HUB.md",
+        "scripts/work-hub.mjs",
+        ".github/workflows/work-hub.yml",
+        "TODO.md"
+      ],
+      "evidence": [
+        "PR #170 merged as a5bfc6476e712ed4264a20ae45c9cf66de19d455; required branch-current, validate, contract, windows-protocol checks passed; Pages run 37130418662 succeeded; public /docs/work-hub.json HTTP 200 confirmed schemaVersion 2, 6 tasks, and Mac handoff SHA-256."
+      ],
+      "nextAction": "Use schema v2 claims before future Mac/Windows edits; resolve legacy metadata warnings only when each existing owner confirms repo, thread, base, and file paths.",
+      "feedback": [],
+      "handoffs": []
+    },
+    {
+      "id": "selah-work-hub-functional-test-20261003",
+      "summary": "Run real CLI scenarios and fix any duplicate-work enforcement gaps before pausing the goal",
+      "owner": "windows",
+      "status": "completed",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.coordination.claim-integrity"
+      ],
+      "branch": "codex/selah-work-hub-tested-fixes-20261003",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a0fc19-3ed4-7bc1-90c8-8552f112a6da",
+      "baseCommit": "097c244413a6786891735c5343d7ad52be7045df",
+      "files": [
+        "scripts/work-hub.mjs",
+        "scripts/test-work-hub.mjs",
+        ".github/workflows/work-hub.yml",
+        "docs/WORK_HUB.md",
+        "TODO.md"
+      ],
+      "evidence": [
+        "Windows real CLI regression suite: 13/13 passed after reproducing six enforcement gaps; every rejected mutation preserves original ledger bytes.",
+        "PR #175 merged at 2bb382822191cb1dd0a568a7910a28afaefefc6a; real CLI scenarios 13/13 passed on Windows and required GitHub validate run 37131152234; Pages run 37131208988 succeeded; public CLI HTTP 200 exactly matches tested source after newline normalization; public ledger has explicit legacy claim migration exceptions."
+      ],
+      "nextAction": "Verification complete. User requested pausing the overall analytics goal; GA4 OAuth remains waiting_external until resume.",
+      "feedback": [],
+      "handoffs": []
+    },
+    {
+      "id": "selah-live-together-20261003",
+      "summary": "Live invite same passage peer positions and shared timer",
+      "owner": "windows",
+      "status": "review",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.features.live-together"
+      ],
+      "branch": "codex/selah-together-promo-20261004",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a1020d-68fc-74c2-b27d-458e67a868fb",
+      "baseCommit": "fa751b7",
+      "files": [
+        "home.html",
+        "assets/together-reading.js",
+        "SHARED_APP_BUILD.json",
+        "contracts/feature-parity.json",
+        "mobile/www/",
+        "TODO.md",
+        "docs/work-hub.json"
+      ],
+      "evidence": [
+        "Live server two-participant tests and Node mock tests pass; web UI validation pending",
+        "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc",
+        "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated."
+      ],
+      "nextAction": "Browser UI and device acceptance pending; Mac maintainer request must apply latest revision3/build32.",
+      "feedback": [],
+      "handoffs": []
     }
   ],
   "featureParityFile": "contracts/feature-parity.json"
