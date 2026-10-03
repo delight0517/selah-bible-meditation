@@ -1,4 +1,44 @@
+## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
+- Google can crawl and has indexed the Selah root and Filipino page, but the latest settled Selah-only Search Console window (2026-09-03–2026-09-30; data through 2026-09-29) has zero page/query rows and zero sitemap-URL impressions. The parent GitHub Pages property has other projects; do not count its 88 impressions / 3 clicks as Selah traffic.
+- Live first-party summary for 2026-10-01–03 reports 46 page-view events / 31 anonymous browser IDs (KR and US); source, medium and campaign are empty. This is not verified human count or attributable acquisition. Current Korean copy test: 7 exposures (A=3/B=4), 4 CTA clicks, 2 reading starts, 0 30-second reads, 0 saved reflections, 0 recorded signup events; sample is too small and may include QA.
+- Corrected an accidental `.signup-cta { display:none }` in the shared root reader/landing CSS; the free account button had no visible signup path. Shared source is 1.0.9/build 21 and mobile bundle is generated from the root.
+- Paid ad decision: hold the authorized ₩20,000 for now. Search Console has not yet measured post-Oct-2 crawl visibility, and acquisition source attribution is empty. Reassess after post-crawl query/page data and a clean tagged campaign path exist; do not buy unmeasurable visits.
+- [x] Open PR #115, merge through the canonical `main` workflow, and verify Pages run `37096278336` plus the live visible-CTA stylesheet; readback is recorded below.
+- [ ] After Google’s settled-through date passes the Oct-2 crawl, compare Selah-only page/query/country impressions and clicks with tagged first-party arrivals, signup, focused reading and reflection saves. Keep the existing 28-day / minimum-sample rules; no copy winner selected.
+- Long-range owner-stated outcomes, not forecasts: 100,000 simultaneous users; 1,000,000 cumulative users; 300,000 registrations; 10,000 premium customers. Keep the active 1,000 verified-active-user goal as the first proof milestone. Count each stage separately and only from auditable measurements.
+
+## 2026-10-03 · iOS reader startup and source identity — 1.0.8 / build 20
+- Remove unrelated Matthew snippets during startup. Bundle actual book metadata for each default translation, restore the selected book without network-first catalog fallback, serialize book selection, and preserve verse DOM/scroll on unchanged renders.
+- Root HTML remains authoritative; mobile runtime is copied/hashed. Native iOS bundle version now follows SHARED_APP_BUILD.json. Regression checks and device build/install evidence recorded in the PR; physical UI proof remains separate if Mirroring cannot connect.
+
+## 2026-10-03 · Chapter keyboard shortcuts
+- Reader uses Ctrl/Command+Z for the previous chapter and Ctrl/Command+Shift+Z for the next chapter, through existing cross-book navigation. Editable controls, open dialogs, IME composition and held-key repeats are guarded. Shared mobile source mirrored.
+- Syntax/whitespace checks only; installed-app keypress behavior remains unverified.
+
+## 2026-10-03 · App offline Scripture and local-first navigation
+- Automatically download the selected translation in native/installed apps, reuse complete saved metadata and chapters before network access, hydrate a book into memory, deduplicate downloads, and retain saved Scripture. Added manual download/retry control.
+- Web/mobile source mirrored; first complete download needs internet. Native rebuild/install and physical-device offline behavior remain separate verification stages.
+
+## 2026-10-03 · Friend add entry and invitation links
+- Added friend entry buttons in the header and shared-reading dialog, localized search by username/invitation URL, and personal invite-link sharing. Existing BlueCloud follow API is reused; no automatic follow or messaging.
+- Root and mobile runtime mirrored. Syntax/whitespace checks passed; authenticated friend mutation and native installation have not been exercised. Deployment recorded in the pull request.
+
 # TODO — Selah Windows/macOS parity
+
+## 2026-10-02 · 모든 기기의 공통 UI와 데이터 계약 — 공유 앱 1.0.7 / 빌드 19
+- 사용자 피드백: “이 앱이 만들어졌잖아 근데 이 성경 앱의 방식 ui 부터 시작해서 모든게 맥의 ios 웹사이트와 간극이 벌어져서 따로따로 서로 다른 데이터를 관리해야 하는 위험으로부터 이 데이터를 통합으로ㅓ 만들수 있는 그러한 시스템 만어줄래 ?”
+- 공통 데이터 코어에 기록별 결정적 병합, 삭제 이력과 복구본, 필드별 변경 시계, 계정별 오프라인 보관, 기기/작성창별 공유 초안과 추가형 백업 가져오기를 구현했다. 전체 기록을 자동 갱신하고 무변경 PUT 루프를 막으며 인증/계정 병합 오류에는 로컬 기록을 보존한다.
+- iOS 번들은 원본 index/스타일/이미지/스크립트에서 생성하고 SHA-256 검사로 오래된 UI 복사본을 차단한다. CI와 mobile sync 명령에 같은 검사를 연결했다.
+- 공통 코어 13개 및 합성 Windows/Mac/iOS 브라우저 동기화 시험, 기존 폰트/출석 검사를 통과했다. 사용자 실제 계정 토큰/노트를 읽거나 쓰지 않았다.
+- [x] PR #91 병합 및 Pages 배포 성공. 공개 공유 버전 1.0.7/19, 원본 6개 SHA-256 일치 및 새 익명 Windows/모바일 공통 계정 화면(오류 0)을 확인했다. 최신 main의 peer 변경을 모두 보존했다.
+- [ ] 생산 BlueCloud 인증 왕복과 설치된 Mac/iOS 업데이트 후 실제 기기간 동기화·로컬 기록 유지 확인. Mac 요청은 releasepilot-hub main의 `20261002T111052Z_windows_selah_unified_build19`로 전달했으나 수신 회신은 없다. SSH는 신뢰한 Mac 탐색에 실패했다.
+- 설계·증거: docs/UNIFIED_DATA.md; Mac 지시서: docs/handoffs/20261002-selah-unified-data-mac.md.
+
+## 2026-10-02 · First exact-property Google index readback — 1.0.6 / build 18
+- GSC Wizard's URL Inspection API checked the four tracked pages (4 of 2,000 daily inspections used): the Selah root is **Submitted and indexed**; `/download/`, `/en/download/`, and `/windows/download.html` are still **URL is unknown to Google** with no crawl time. The hub requests were already accepted earlier; don't repeat them. Let the pending sitemap and hourly tracker progress, then inspect on the next scheduled checkpoint.
+- Search Analytics for 2026-09-02 through 2026-09-29 still returns no query or page rows, and Google gave no settled-through boundary. Treat this as “no data returned,” not as impressions, rankings, or a confirmed indexing cause.
+- Re-audited all 14 sitemap pages after the favicon deployment: 14/14 HTTP 200, indexable, and favicon present; Windows guide remains at zero on-page issues. The remaining three medium flags are CJK word-count heuristics on substantive Japanese and Chinese pages.
+- General web search also surfaced a separate App Store product named “SELAH Bible Meditation.” Keep Selah's Windows/Mac/iPhone distribution clear in search and social metadata so users can distinguish the web app; do not imply association with that publisher.
 
 ## 2026-10-02 · Localized page favicon coverage after 14-page audit — 1.0.6 / build 18
 - PR #90 merged. GitHub Pages run `36998929617` succeeded; live `sitemap.xml` returns HTTP 200, parses as XML, and contains 14 URLs including `/windows/download.html`.
@@ -212,12 +252,43 @@
 - The parallel-work setup is live on `main`: `docs/WORKTREE_WORKFLOW.md` and `scripts/Start-WorktreeTask.ps1` create isolated `origin/main` task branches/worktrees and share changes through PRs with ownership and evidence in `TODO.md`/task notes. Each chat must preserve existing dirty trees and inspect new `main` commits before integration. Root governance PR #63 remains open for repository instruction/workflow files. GitHub branch protection was enabled separately: PR required, zero approvals required for solo work, admins included, force pushes and deletion disabled; no required status check is configured yet.
 - Scope/evidence limit: this is a hosted web-source style change, not a new Windows launcher binary. BlueCloud cloud sync and final saved-note creation were not exercised.
 
-## 2026-10-02 · Reject invalid Selah handoff session URLs — 1.0.6 / build 19- Read the Windows Pomodoro consumer's actual handoff URL, which includes `requestId` and `sessionId`. Build 16 allowed an unmatched URL session ID to bypass the target and expiration guard.
+## 2026-10-02 · Reject invalid Selah handoff session URLs — 1.0.6 / build 19
+- Read the Windows Pomodoro consumer's actual handoff URL, which includes `requestId` and `sessionId`. Build 16 allowed an unmatched URL session ID to bypass the target and expiration guard.
 - Build 19 only uses a bare URL session ID when no request ID is present. If a request ID exists, require the cloud request to match it, target this platform, and have an age from zero through 120 seconds before adopting its session ID.
 - PR #81 had already published launcher build 18 for Google-login recovery, so the target-validation change was rebased and assigned build 19. The Korean/English download hubs and detail page now point to build 19. Regression coverage includes matching request, missing request, wrong platform, expired/future/missing timestamp, and legacy no-request session URL. Actual authenticated cross-device sync and installed Mac URL dispatch remain pending.
 
 ## 2026-10-02 · Selah build 19 handoff validation and Mac follow-up
 - Build 19 was generated with `windows/Build-Selah-Release.ps1` after PR #81 assigned build 18 to Google-login recovery. Launcher ZIP SHA-256: `a74960674a975ff3e49c5e834355af58489b623dadae8a60b4b22b49132da1ae`; release manifest reports version 1.0.6/build 19 and all 7 payload hashes verify.
 - Added `scripts/test-computer-reading-handoff.cjs`; Node syntax and six request/session scenarios pass. A matching Windows request uses its shared session ID; missing, wrong-target, expired, future-dated, or timestamp-less requests do not use the URL session fallback; legacy session-only links remain compatible.
-- Sent Mac follow-up `20261002T105406Z_windows_94ea382b` through releasepilot-hub `origin/main`: verify current Mac source and installed bundle URI registration, align the request/session contract, preserve dirty work, then safely build/install and synthetic-readback if build policy and live process state allow. Mac receipt and response remain pending until the queue status is read back.
-- GitHub PR #83 is the build-19 replacement for the superseded build-17 attempt. Merge and Pages deployment/readback remain pending; authenticated Mac/Windows round-trip and Mac installed `selah://` launch are not yet proven.
+- Sent Mac follow-up `20261002T105406Z_windows_94ea382b` through releasepilot-hub `origin/main`: verify current Mac source and installed bundle URI registration, align the request/session contract, preserve dirty work, then safely build/install and synthetic-readback if build policy and live process state allow. Official queue readback at 2026-10-02 20:06 KST: status `open`, `received=false`, `completed=false`; Mac receipt and response are still pending.
+- GitHub PR #83 merged as `e9e62f65f5bda563492d841f113ae18e90d182ea`; Pages run `36998929617` succeeded. Deployment and public ZIP readback are recorded below. Authenticated Mac/Windows round-trip and Mac installed `selah://` launch remain unverified.
+
+## 2026-10-02 · Build 19 deployment and Windows public artifact readback
+- PR #83 merged to `main` as `e9e62f65f5bda563492d841f113ae18e90d182ea`; Pages workflow `36998929617` completed successfully.
+- Public `windows/BUILD_INFO.json` reads version 1.0.6/build 19. Public JS contains the 0–120 second request-age guard; Korean/English download hubs and the detail guide resolve to the build-19 ZIP and matching checksum.
+- Downloaded the public ZIP in memory; SHA-256 matches `a74960674a975ff3e49c5e834355af58489b623dadae8a60b4b22b49132da1ae`. GitHub Release `v1.0.6-build19` contains the ZIP and sidecar checksum.
+- This Windows package remains an Edge app-window launcher, not a standalone EXE/MSIX. Mac installed scheme/provenance and authenticated cross-device data convergence remain open.
+
+## 2026-10-03 · Growth baseline and free-signup CTA deployment
+- [x] Fixed the hidden free BlueCloud signup CTA on the normal homepage; it wraps at narrow widths and remains hidden in immersive reading mode.
+- [x] PR #115 merged as `3c42697d2e0822ff95b834be11cea567480edbab`; Pages run `37096278336` succeeded for that commit.
+- [x] Live HTTP readback confirms the CTA CSS and shared app version 1.0.9/build 21. The signup flow itself was not completed or verified.
+- [ ] Wait until Search Console's settled-through date passes the Oct 2 crawls; compare Selah-only impressions/clicks and queries with tagged first-party visits, reading/reflection events and verified signups. No current data identifies 100,000 concurrent users, 1,000,000 cumulative users, 300,000 registrations or 10,000 premium customers; those remain owner-stated aspirations, not forecasts.
+- [ ] Keep the ₩20,000 ad allowance unspent until campaign attribution can connect an acquired visit to reading/reflection and verified signup. Continue excluding personal Instagram.
+
+## 2026-10-03 · Configure free change notification for supported search engines
+- [x] Publish `selah-indexnow-key.txt` under the Selah URL prefix, compare its live content to the generated project key without echoing the key, and submit only the changed Korean homepage through the IndexNow protocol.
+- [x] Record protocol acceptance separately from search indexing. PR #118 / Pages run `37097961779` published the key file; live byte comparison passed; the global IndexNow endpoint returned HTTP 200 for the Korean homepage only.
+- [ ] Check later Bing/Naver result and crawl status; Google Search Console still has zero settled Selah impressions through Sep 29 and some locale guides report `Crawled - currently not indexed`. IndexNow does not notify Google or guarantee indexing.
+
+## 2026-10-03 · Localized SERP and preview checkpoint
+- [x] Reviewed current GSC page/query evidence, direct mobile inspections of the Tagalog and Brazilian Portuguese guides, and on-page SEO for the Korean and English landing pages. The sample remains pre-change for the main CTA and contains no settled Selah search row.
+- [x] Visually checked the configured Korean, Tagalog, and Brazilian Portuguese preview cards. Their content matches the local Bible-reading promise; the actual Google-rendered title, description, and image are still unknown.
+- [ ] Wait for the post-Oct-2 crawl dates to settle in GSC; decide whether to improve the two crawled-but-not-indexed guide pages only after comparing actual search queries and downstream local-market activity. Do not infer the cause from low-severity audit heuristics.
+
+## 2026-10-03 · North Star growth plan and execution gates
+- [x] Recorded the owner's four long-range aspirations separately from current performance and retained 1,000 verified active users as the first evidence milestone.
+- [x] Wrote a staged plan covering metric definitions, Korea-first validation, locale selection, search-result/landing promise match, one-variable experiments, the ₩20,000 spend cap, premium evidence and concurrent-load readiness: `docs/GROWTH_PLAN_NORTHSTAR.md`.
+- [ ] Complete Gate 0: connect tagged arrivals through focused reading, saved reflection and confirmed signup; exclude QA and verify the live aggregate readback.
+- [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
+- [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”

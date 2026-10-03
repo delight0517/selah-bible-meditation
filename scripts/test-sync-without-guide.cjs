@@ -7,6 +7,9 @@ const end = html.indexOf('function hideDeveloperControls()', start);
 assert(start > 0 && end > start);
 const statuses = [], requests = [], storage = new Map();
 const context = {
+  SelahData: require('./unified-data.js'),
+  selectUnifiedAccount: async () => {}, mergeSharedProgress: () => ({}), applyUnifiedAppearance() {},
+  unifiedBaseline: {}, unifiedLastSyncAt: 0, window: {dispatchEvent() {}}, Event: class {},
   token: 'test', accountId: 'test-account', username: 'test', accountStateReady: false,
   db: { owner: 'test-account', _rev: 0, reflections: [], cards: [], qtLibrary: [], meditationFeedback: [], attendanceDays: [], meditationPlaces: [], bibleChats: [] },
   $: id => id === 'guideStart' ? null : { hidden: true },

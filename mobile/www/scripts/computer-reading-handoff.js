@@ -44,6 +44,44 @@
     return Number.isFinite(number) && number > 0 ? number : 0;
   };
   const isRecord = (value) => value && typeof value === "object" && !Array.isArray(value);
+  const readingIdle = window.SelahFocusSession;
+  let focusIdleTimer = 0;
+  const routeParams = new URLSearchParams(location.search);
+  const handoffRequestId = routeParams.get("requestId") || routeParams.get("request");
+  const isWindowsShell = routeParams.get("windowsShell") === "1";
+  const platformName = navigator.platform || "";
+  const isMac = /Mac|iPhone|iPad/.test(platformName);
+  const currentPlatform = isWindowsShell || /Win/.test(platformName)
+    ? "windows"
+    : /^Mac/.test(platformName) && Number(navigator.maxTouchPoints || 0) <= 1 ? "macOS" : "";
+
+  function linkedHandoffSessionId() {
+    const request = db.computerReadingRequest;
+    if (!handoffRequestId || !isRecord(request) || request.id !== handoffRequestId || request.targetPlatform !== currentPlatform) return "";
+    const age = Date.now() - timestamp(request, "createdAt");
+    if (age < 0 || age > 120000) return "";
+    return typeof request.sessionId === "string" && request.sessionId ? request.sessionId : "";
+  }
+
+  function adoptLinkedHandoffSession() {
+    if (!document.body.classList.contains("mobile-reading-focus")) return;
+    const sessionId = linkedHandoffSessionId();
+    if (!sessionId || db.computerReadingSession?.id === sessionId) return;
+    const now = Date.now();
+    db.computerReadingSession = {
+      ...(isRecord(db.computerReadingSession) ? db.computerReadingSession : {}),
+      id: sessionId,
+      mode: "focus-reading",
+      status: "running",
+      ref: typeof currentPassage === "function" ? currentPassage().ref : "",
+      updatedAt: now,
+      lastSeenAt: now,
+      resumeGraceUntil: 0
+    };
+    persist();
+    scheduleSync();
+    scheduleFocusIdleExpiry();
+  }
 
   db.computerReadingRequest ??= null;
   db.computerReadingResult ??= null;
@@ -54,7 +92,9 @@
     const localRequest = db.computerReadingRequest;
     const remoteRequest = remote.computerReadingRequest;
     if (isRecord(remoteRequest)) {
-      db.computerReadingRequest = isRecord(localRequest) && timestamp(localRequest, "createdAt") > timestamp(remoteRequest, "createdAt")
+      db.computerReadingRequest = handoffRequestId && remoteRequest.id === handoffRequestId
+        ? remoteRequest
+        : isRecord(localRequest) && timestamp(localRequest, "createdAt") > timestamp(remoteRequest, "createdAt")
         ? localRequest : remoteRequest;
     }
 
@@ -70,6 +110,7 @@
     if (isRecord(remoteSession) && (!isRecord(localSession) || timestamp(remoteSession, "updatedAt") > timestamp(localSession, "updatedAt"))) {
       db.computerReadingSession = remoteSession;
     }
+    adoptLinkedHandoffSession();
   }
 
   const originalMergeSharedProgress = mergeSharedProgress;
@@ -100,8 +141,6 @@
   const targetLabel = document.getElementById("computerReadingTargetLabel");
   if (!button || !target || !status) return;
 
-  const isWindowsShell = new URLSearchParams(location.search).get("windowsShell") === "1";
-  const isMac = /Mac|iPhone|iPad/.test(navigator.platform || "");
   const savedTarget = localStorage.getItem("selah.computerReadingTarget");
   target.value = ["macOS", "windows"].includes(savedTarget) ? savedTarget : (isWindowsShell || !isMac ? "macOS" : "windows");
   target.setAttribute("aria-label", text("target"));
@@ -154,10 +193,10 @@
     }
     const now = Date.now();
     const session = db.computerReadingSession;
-    const activeSession = isRecord(session) && (
-      (session.status === "running" && now - timestamp(session, "lastSeenAt") < 420000) ||
-      (session.status === "paused" && timestamp(session, "resumeGraceUntil") > now)
-    );
+    const activeSession = isRecord(session) && (readingIdle
+      ? readingIdle.isActive(session, now)
+      : (session.status === "running" && now - timestamp(session, "lastSeenAt") < 600000) ||
+        (session.status === "paused" && timestamp(session, "resumeGraceUntil") > now));
     const nextRequest = {
       id: crypto.randomUUID(),
       sessionId: activeSession ? session.id : crypto.randomUUID(),
@@ -187,32 +226,82 @@
 
   let heartbeat = 0;
   let focusWasActive = document.body.classList.contains("mobile-reading-focus");
-  function saveSession(sessionStatus, now = Date.now()) {
+  function isTimedMeditationSession(session) {
+    return session?.source === "timed-meditation" || String(session?.id || "").startsWith("meditation-");
+  }
+  function expireIdleFocusSession(now = Date.now()) {
+    const old = db.computerReadingSession;
+    if (!readingIdle || !isRecord(old) || isTimedMeditationSession(old) || old.endedReason === "idle-timeout") return false;
+    const expired = readingIdle.expire(old, now);
+    if (!expired) return false;
+    db.computerReadingSession = { ...old, ...expired, status: "paused", updatedAt: now, resumeGraceUntil: 0, endedReason: "idle-timeout" };
+    persist();
+    scheduleSync();
+    clearTimeout(focusIdleTimer);
+    focusIdleTimer = 0;
+    clearInterval(heartbeat);
+    heartbeat = 0;
+    return true;
+  }
+  function scheduleFocusIdleExpiry() {
+    clearTimeout(focusIdleTimer);
+    focusIdleTimer = 0;
+    const session = db.computerReadingSession;
+    if (!readingIdle || !isRecord(session) || !readingIdle.normalize(session) || isTimedMeditationSession(session) || session.endedReason === "idle-timeout" || !["running", "paused"].includes(session.status)) return;
+    const lastSeenAt = timestamp(session, "lastSeenAt");
+    if (!lastSeenAt) return;
+    focusIdleTimer = setTimeout(() => {
+      if (!expireIdleFocusSession()) scheduleFocusIdleExpiry();
+    }, Math.max(0, lastSeenAt + readingIdle.IDLE_TIMEOUT_MS - Date.now()));
+  }
+  function saveSession(sessionStatus, now = Date.now(), userActivity = false) {
+    if (currentPlatform && db.meditationSession?.status === "running"
+        && Number(db.meditationSession.endsAt) > now && meditationView.classList.contains("active")) {
+      publishMeditationRest(db.meditationSession);return true;
+    }
+    if (sessionStatus === "running" && expireIdleFocusSession(now) && !userActivity) return false;
     const old = db.computerReadingSession || {};
-    const withinGrace = old.status === "paused" && timestamp(old, "resumeGraceUntil") > now;
-    const stillRunning = old.status === "running" && now - timestamp(old, "lastSeenAt") < 420000;
-    const deepLinkSession = new URLSearchParams(location.search).get("sessionId");
+    if (isTimedMeditationSession(old)) return false;
+    const expiredByIdle = old.endedReason === "idle-timeout";
+    const withinGrace = !expiredByIdle && old.status === "paused" && timestamp(old, "resumeGraceUntil") > now;
+    const stillRunning = !expiredByIdle && old.status === "running" && now - timestamp(old, "lastSeenAt") < (readingIdle?.IDLE_TIMEOUT_MS || 600000);
+    const deepLinkSession = handoffRequestId
+      ? linkedHandoffSessionId()
+      : routeParams.get("sessionId");
     db.computerReadingSession = {
-      id: withinGrace ? old.id : (deepLinkSession || (stillRunning ? old.id : crypto.randomUUID())),
+      id: withinGrace ? old.id : (!expiredByIdle && (deepLinkSession || (stillRunning && old.id)) || crypto.randomUUID()),
+      mode: "focus-reading",
       status: sessionStatus,
       ref: typeof currentPassage === "function" ? currentPassage().ref : "",
       updatedAt: now,
-      lastSeenAt: sessionStatus === "running" ? now : (timestamp(old, "lastSeenAt") || now),
-      resumeGraceUntil: sessionStatus === "running" ? 0 : (withinGrace ? timestamp(old, "resumeGraceUntil") : now + 420000)
+      lastSeenAt: sessionStatus === "running" && userActivity ? now : (timestamp(old, "lastSeenAt") || now),
+      resumeGraceUntil: sessionStatus === "running" ? 0 : (withinGrace ? timestamp(old, "resumeGraceUntil") : now + 420000),
+      endedReason: ""
     };
     persist();
     scheduleSync();
+    scheduleFocusIdleExpiry();
+    return true;
+  }
+  function startReadingHeartbeat() {
+    clearInterval(heartbeat);
+    heartbeat = setInterval(() => {
+      if (document.visibilityState === "visible" && document.hasFocus() && !saveSession("running")) {
+        clearInterval(heartbeat);
+        heartbeat = 0;
+      }
+    }, 20000);
+  }
+  function recordFocusReadingActivity() {
+    if (!document.body.classList.contains("mobile-reading-focus") || document.visibilityState !== "visible" || !document.hasFocus()) return;
+    if (saveSession("running", Date.now(), true)) startReadingHeartbeat();
   }
   const originalSetReaderFocus = setReaderFocus;
   setReaderFocus = function (active) {
     originalSetReaderFocus(active);
     focusWasActive = !!active;
     if (active) {
-      saveSession("running");
-      clearInterval(heartbeat);
-      heartbeat = setInterval(() => {
-        if (document.visibilityState === "visible") saveSession("running");
-      }, 20000);
+      if (saveSession("running", Date.now(), true)) startReadingHeartbeat();
     } else {
       clearInterval(heartbeat);
       heartbeat = 0;
@@ -222,6 +311,9 @@
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && focusWasActive) setReaderFocus(false);
   });
+  for (const eventName of ["pointerdown", "keydown", "touchstart", "wheel", "scroll"]) {
+    document.addEventListener(eventName, recordFocusReadingActivity, { capture: true, passive: true });
+  }
   document.addEventListener("visibilitychange", () => {
     if (!document.body.classList.contains("mobile-reading-focus")) return;
     if (document.visibilityState === "hidden") {
@@ -229,16 +321,68 @@
       heartbeat = 0;
       saveSession("paused");
     } else {
-      saveSession("running");
-      clearInterval(heartbeat);
-      heartbeat = setInterval(() => {
-        if (document.visibilityState === "visible") saveSession("running");
-      }, 20000);
+      if (expireIdleFocusSession()) return;
+      if (saveSession("running")) startReadingHeartbeat();
     }
   });
 
+  // Timed meditation and focus reading use the same desktop rest contract.
+  let meditationHeartbeat = 0;
+  function publishMeditationRest(session) {
+    if (!currentPlatform || !session?.id) return;
+    const now = Date.now(), duration = Math.max(0, Number(session.durationMs) || 0);
+    const remaining = session.status === "running"
+      ? Math.max(0, Number(session.endsAt) - now)
+      : Math.max(0, Number(session.remainingMs) || 0);
+    const foreground = document.visibilityState === "visible" && document.hasFocus()
+      && meditationView.classList.contains("active");
+    const timedStatus = session.status === "running" && remaining <= 0 ? "completed" : session.status;
+    // The meditation timer may continue, but a background page is not reading.
+    const status = ["running", "paused"].includes(timedStatus) && !foreground ? "ended" : timedStatus;
+    const old = db.computerReadingSession;
+    const id = "meditation-" + session.id;
+    // A different focus-reading session must not be ended by old meditation data.
+    if (!["running", "paused"].includes(status) && old?.id !== id) return;
+    db.computerReadingSession = {
+      id, status, source: "timed-meditation", platform: currentPlatform,
+      ref: session.ref || "", updatedAt: now, lastSeenAt: now,
+      activeMs: Math.min(duration, Math.max(0, duration - remaining)),
+      resumeGraceUntil: status === "paused" ? now + 420000 : 0
+    };
+    persist();scheduleSync();
+    clearInterval(meditationHeartbeat);meditationHeartbeat = 0;
+    if (status === "running" && foreground) meditationHeartbeat = setInterval(() => {
+      if (db.meditationSession?.id === session.id) publishMeditationRest(db.meditationSession);
+      else { clearInterval(meditationHeartbeat);meditationHeartbeat = 0; }
+    }, 30000);
+  }
+  function refreshMeditationForeground() {
+    const session = db.meditationSession;
+    if (session?.id && meditationView.classList.contains("active")) publishMeditationRest(session);
+  }
+  document.addEventListener("visibilitychange", refreshMeditationForeground);
+  window.addEventListener("blur", refreshMeditationForeground);
+  window.addEventListener("focus", refreshMeditationForeground);
+  const originalSaveMeditationSession = saveMeditationSession;
+  saveMeditationSession = function (status) {
+    originalSaveMeditationSession(status);
+    publishMeditationRest(db.meditationSession);
+  };
+  const originalActivateSyncedMeditation = activateSyncedMeditation;
+  activateSyncedMeditation = function (session) {
+    originalActivateSyncedMeditation(session);
+    publishMeditationRest(session);
+  };
+  window.addEventListener("selah-data-updated", () => {
+    const session = db.meditationSession;
+    if (currentPlatform && session?.status === "running" && Number(session.endsAt) > Date.now()
+        && (!meditationHeartbeat || db.computerReadingSession?.id !== "meditation-" + session.id)) {
+      activateSyncedMeditation(session);
+    }
+  });
+
+  scheduleFocusIdleExpiry();
   renderStatus();
   setInterval(() => void pollResult(), 5000);
-  const params = new URLSearchParams(location.search);
-  if (params.get("openReading") === "1" || params.get("homeAction") === "read") setReaderFocus(true);
+  if (routeParams.get("openReading") === "1" || routeParams.get("homeAction") === "read") setReaderFocus(true);
 })();

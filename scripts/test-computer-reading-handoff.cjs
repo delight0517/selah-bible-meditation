@@ -30,6 +30,7 @@ function openFrom(query, request) {
     URLSearchParams,
     location: { search: query },
     navigator: { platform: "Win32", maxTouchPoints: 0 },
+    window: { SelahFocusSession: require("../assets/selah-focus-session.js"), addEventListener() {} },
     document,
     db,
     preferredLocale: () => "en",
@@ -47,9 +48,13 @@ function openFrom(query, request) {
       if (active) classes.add("mobile-reading-focus");
       else classes.delete("mobile-reading-focus");
     },
+    saveMeditationSession() {},
+    activateSyncedMeditation() {},
     crypto: { randomUUID: () => "generated-session" },
     setInterval: () => 1,
     clearInterval() {},
+    setTimeout: () => 1,
+    clearTimeout() {},
     console
   };
   vm.runInNewContext(source, sandbox, { filename: "computer-reading-handoff.js" });
