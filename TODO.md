@@ -498,3 +498,8 @@
 - [x] Cloudflare 10/01–10/03: 59 page-view events/36 monthly anonymous browser IDs, KR49·US10, 10 browser IDs multi-day. 기능 API는 KR meditation_started 5/scripture_read 2; 한국 copy A/B 노출5/5, CTA4/2, read-start2/1, 30초읽기·노트·가입 0. 사람 수나 시장 선호 결론으로 해석하지 않음.
 - [x] Metricool 브랜드 목록 재확인: 연결 브랜드 1개 `vivid_wave` Instagram. 개인 계정 비공개 요청에 따라 홍보 게시/예약에 사용하지 않음. 별도 Selah 전용 채널이 연결됐다는 증거 없음.
 - [ ] 10/05 이후 첫 settled window가 10/02 색인 이후를 포함하는지 확인. 실행 대기 동안 Search Console 재요청 반복·신규 콘텐츠 양산 금지; Google/Bing 실제 유입과 읽기·노트 행동을 확인한 뒤 다음 시장·채널을 선택.
+
+## 2026-10-04 · 브라질 성경 독서 필요 검증
+- [x] 2024 *Retratos da Leitura no Brasil* 원문을 대조: 최근 1년 성경 독서 응답은 독서자 표본 2,547명 중 38% (비재학생 46%, 재학생 25%). 전체 5,504명 조사와 장르 질문의 분모·기간을 구분해 `GROWTH_RESEARCH.md`에 기록.
+- [x] 이 결과는 성경 독서 관련성 신호일 뿐 앱 수요나 미충족 필요가 아님을 명시했다. “시간 부족”·“짧은 묵상 필요” 문구의 사실 근거로 쓰지 않는다.
+- [ ] 브라질 변형/홍보는 보류. 10/05 이후 GSC settled-through와 Selah 검색 행, 비한국어 landing→reading→reflection 이벤트를 재확인하고, 검색 의도나 현지 독자의 직접 응답으로 구체적인 필요가 확인된 뒤에만 다음 실험을 등록한다.
