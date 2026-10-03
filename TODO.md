@@ -1,3 +1,7 @@
+## 2026-10-03 · App offline Scripture and local-first navigation
+- Automatically download the selected translation in native/installed apps, reuse complete saved metadata and chapters before network access, hydrate a book into memory, deduplicate downloads, and retain saved Scripture. Added manual download/retry control.
+- Web/mobile source mirrored; first complete download needs internet. Native rebuild/install and physical-device offline behavior remain separate verification stages.
+
 ## 2026-10-03 · Friend add entry and invitation links
 - Added friend entry buttons in the header and shared-reading dialog, localized search by username/invitation URL, and personal invite-link sharing. Existing BlueCloud follow API is reused; no automatic follow or messaging.
 - Root and mobile runtime mirrored. Syntax/whitespace checks passed; authenticated friend mutation and native installation have not been exercised. Deployment recorded in the pull request.
