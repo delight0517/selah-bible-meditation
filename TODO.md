@@ -326,11 +326,14 @@
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
 
-## 2026-10-03 · Selah ad-free iOS and Mac release — user paused
+## 2026-10-03 · Selah ad-free iOS and Mac release — resumed
 
-- [ ] Resume only when the user says ready: finish ASC app records for `com.delight0517.selah` and `com.delight0517.selah.mac`, read back numeric app IDs, finish metadata/privacy/authentic screenshots, upload exact packages and submit review. The user requested deferring this work; no automatic submission or recurring polling.
+- [ ] User resumed on 2026-10-03 at 19:22 KST. Finish remaining store metadata after ASC records for `com.delight0517.selah` and `com.delight0517.selah.mac`, read back numeric app IDs, finish metadata/privacy/authentic screenshots, upload exact packages and submit review. iOS app ID 6818769383 and Mac app ID 6818769432 independently read back via ASC API; both PREPARE_FOR_SUBMISSION. No recurring human-action polling.
 - [x] Prepared ad-free iOS IPA and signed Mac package for 1.0.10 / 22. Mac icon and eight native locales included in `mac-assets-store-22/Selah.pkg`; exact artifact paths/hashes are in `store/release-manifest.json`. PR #117 retains the release work; ad PR #121 stays deferred.
 - [ ] Resolve worldwide redistribution rights for bundled Korean Revised Version 1961 or explicitly select a verified permitted replacement before distribution.
-- [ ] Verify native sign-in, sync, offline reading and 30-day download behavior. Existing iPhone Mirroring authentication remains unverified.
+- [ ] Verify native sign-in, sync, offline reading and 30-day download behavior. Use Simulator per latest user instruction; physical-device evidence is not claimed.
 - [ ] Preserve shared correlation ID backlog `474637700f55` for Selah/Pomodoro/RiseSync; Windows validation remains pending under user device context.
 - [ ] On resume inspect the generated, uncommitted `macos/SelahMac.xcodeproj/project.pbxproj` asset/localization changes before integrating. Store records and review submission are not complete.
+
+- [x] Reconciled 21 additional main commits, preserved migration/foreground guard/icon changes, and set shared release candidate to 1.0.10 / 25. Previous build 22 packages retained, not uploaded.
+- [x] Official Korean Bible Society FAQ confirms royalty-free use of 개역한글 subject to attribution and text integrity; worldwide scope remains unstated in this FAQ.
