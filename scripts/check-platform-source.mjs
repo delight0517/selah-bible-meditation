@@ -1,0 +1,25 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const read = path => readFile(resolve(root, path), 'utf8');
+const build = JSON.parse(await read('SHARED_APP_BUILD.json'));
+const canonical = 'https://delight0517.github.io/selah-bible-meditation/';
+assert.equal(build.canonicalUrl, canonical, 'Shared source URL changed');
+const launcher = await read('windows/Launch-Selah-App.vbs');
+assert.match(launcher, /Const SELAH_URL = "https:\/\/delight0517\.github\.io\/selah-bible-meditation\/\?windowsShell=1"/, 'Windows must use shared hosted source');
+const store = JSON.parse(await read('windows/store-listing.json'));
+assert.equal(store.websiteUrl, canonical, 'Store draft must point at shared source');
+assert.equal(store.pwaManifestUrl, canonical + 'manifest.webmanifest');
+const manifest = JSON.parse(await read('manifest.webmanifest'));
+assert.equal(manifest.start_url, './?windowsShell=1');
+const mobile = JSON.parse(await read('mobile/capacitor.config.json'));
+assert.equal(mobile.webDir, 'www', 'iPhone must use generated shared bundle');
+assert.ok(!mobile.server?.url, 'Native remote-source override requires an explicit parity review');
+execFileSync(process.execPath, ['mobile/scripts/copy-web.mjs', '--check'], { cwd: root, stdio: 'inherit' });
+console.log(`Platform source parity OK: ${build.version} / build ${build.build}`);
+console.log('Web + Windows: canonical hosted source; iOS/iPhone: identical checked bundle.');
+console.log(`Store submission: ${store.status}. Native installation and runtime are separate release evidence.`);
