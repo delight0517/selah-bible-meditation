@@ -1,3 +1,10 @@
+## 2026-10-03 · Mac-delivered Korean Bible 1910 reader
+- Corrected the Korean default edition: `kor_old` now bundles actual eBible Korean Bible 1910 Matthew instead of Korean Revised Version (1961) text stored under the wrong translation ID. Existing local default caches from that mismatch are refreshed from the corrected bundled text.
+- Kept the 66-book/chapter API reader and complete offline download path; added verse selection with local-only highlights, bookmarks, private notes, and copy. Annotation storage is outside the account sync payload.
+- Added attribution for 레널즈, 이승두, 김정삼 and disclosed the source distribution gap: 1 Peter 4:15 through the end of the book is not provided. The reader shows the notice in the affected chapter and does not reconstruct the missing text.
+- Verified eBible's edition listing reports Korean Bible 1910 as public domain and confirms the contributor/source metadata. Source and app bundle checks are local; no hosted Pages deployment, signed native app, or Windows readback is claimed.
+- [ ] Commit/push through the canonical PR workflow and verify the Pages deployment and visible Mac/iOS UI after account permission is available.
+
 ## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
 - Google can crawl and has indexed the Selah root and Filipino page, but the latest settled Selah-only Search Console window (2026-09-03–2026-09-30; data through 2026-09-29) has zero page/query rows and zero sitemap-URL impressions. The parent GitHub Pages property has other projects; do not count its 88 impressions / 3 clicks as Selah traffic.
 - Live first-party summary for 2026-10-01–03 reports 46 page-view events / 31 anonymous browser IDs (KR and US); source, medium and campaign are empty. This is not verified human count or attributable acquisition. Current Korean copy test: 7 exposures (A=3/B=4), 4 CTA clicks, 2 reading starts, 0 30-second reads, 0 saved reflections, 0 recorded signup events; sample is too small and may include QA.
