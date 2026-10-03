@@ -564,5 +564,6 @@ Copy this block for each study; replace every unknown with an observation or `no
 
 - **관찰 사실:** Instituto Pró-Livro·Fundação Itaú·브라질 문화부가 협력한 *Retratos da Leitura no Brasil* 6판은 2024년 4–7월 208개 지자체에서 만 5세 이상 5,504명을 가구 방문 조사했다 ([조사 설명](https://www.fundacaoitau.org.br/observatorio/biblioteca/retratos-da-leitura-no-brasil-6-edicao), [원문 PDF](https://cbl.org.br/wp-content/uploads/2024/11/Apresentac%CC%A7a%CC%83o_Retratos_da_Leitura_2024_13-11_SITE.pdf)). 장르별 질문 P.37은 2024년 독서자 표본 2,547명 중 38%가 최근 1년 동안 성경을 읽었다고 응답했고, 재학 중이 아닌 독서자 46%, 재학 중인 독서자 25%였다.
 - **분모·기간 주의:** 38%는 전체 브라질 인구가 아니라 조사에서 정의한 독서자 표본의 응답이며, 질문 기간은 최근 1년이다. 최근 3개월의 성경 독서율, 묵상 빈도, 성경 앱 검색량, Selah 수요나 구체적인 독자 불편을 뜻하지 않는다. 이 자료만으로 “시간이 부족하다”거나 “짧은 묵상 앱을 원한다”고 광고하지 않는다.
+- **지역 세분화 한계:** 보고서에는 일반 도서 독서율의 지역/UF 비교가 있지만 공개된 성경 장르 표는 전국 및 재학 여부 기준이다. 이 38%만으로 성경 독자나 앱 필요가 높은 브라질 주·지역을 고를 수 없다. 지역별 앱 경험은 Selah의 현지 행동 데이터나 직접 독자 응답이 생길 때까지 정하지 않는다.
 - **제품 판단:** 포르투갈어 독서 시장의 관련 신호로는 기록하되, 브라질의 해결되지 않은 필요는 아직 확인되지 않았다. PT-BR 성경판·랜딩 페이지가 있다는 사실도 수요 증거가 아니다. 추가 UI 변형·국가별 승자 선정·캠페인은 보류한다.
 - **다음 확인:** 10/05 KST에 Search Console의 settled-through, Selah URL/query/country 결과, 그리고 비한국어 funnel의 실제 landing→reading→reflection 집계를 다시 확인한다. 검색 행이 계속 없으면 공개 앱 기능을 과장하지 않고, 현지 독자에게 어떤 읽기 상황·불편이 있는지 확인할 수 있는 허가된 채널과 직접 응답을 확보한 뒤에만 가설을 구체화한다. 이번 조사로 추가된 검증 활성 사용자는 0명.
