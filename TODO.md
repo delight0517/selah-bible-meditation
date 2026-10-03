@@ -382,3 +382,8 @@
 - [ ] PWABuilder assessment could not start: after entering the public app URL, its Start control remained disabled. Retry only after diagnosing the builder form; do not record a pass without a report card.
 - [ ] Continue with live PWABuilder findings, reserved Partner Center product identity, Windows package generation/validation, real listing assets and age rating, certification, and installed Store build verification.
 - [ ] Verify worldwide distribution rights for every bundled Bible edition before packaging any Scripture dataset.
+## 2026-10-03 · Windows Selah desktop link parity — launcher 1.0.10/build 25
+
+- [x] Added a per-user `selah://read?request=<id>` handler to the packaged Edge app-window launcher. It rejects unsupported/ambiguous URLs and keeps the managed SixVPN Edge route.
+- [x] Packaged and locally installed Windows launcher build 25; verified Start menu app entry, registry handler, valid deep-link request forwarding, invalid-link rejection, handler removal, and reinstall recovery.
+- [ ] Obtain Mac response to the open source/handoff request and verify authenticated Mac↔Windows BlueCloud request/result/session round trip. The inspected Mac checkout is dirty and the installed Mac app still lacks URL-scheme registration.

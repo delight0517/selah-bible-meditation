@@ -1,6 +1,6 @@
 # Selah Windows Store and open-source release readiness
 
-Tracking versions: **Windows launcher 1.0.9 / build 23** and **hosted Selah app 1.0.10 / build 26** (Store preparation; not a Store binary release).
+Tracking versions: **Windows launcher 1.0.10 / build 25** and **hosted Selah app 1.0.10 / build 26** (Store preparation; not a Store binary release).
 
 ## Current state
 

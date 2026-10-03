@@ -5,8 +5,32 @@ Const SELAH_URL = "https://delight0517.github.io/selah-bible-meditation/?windows
 
 Dim shell, files, edgePath, localAppData, guardRoot, guardLauncher, extensionPath
 Dim allowedExtensions, pacPath, netFlags, launcherSource, commandLine, dryRun
+Dim argumentIndex, argument, deepLink, requestedUrl, launchUrl
 Set shell = CreateObject("WScript.Shell")
 Set files = CreateObject("Scripting.FileSystemObject")
+
+' The protocol handler passes one complete URI. Accept only the documented
+' read request shape and a restricted request ID; never forward arbitrary URLs.
+dryRun = False
+deepLink = ""
+For argumentIndex = 0 To WScript.Arguments.Count - 1
+  argument = CStr(WScript.Arguments(argumentIndex))
+  If LCase(argument) = "--dry-run" Then
+    dryRun = True
+  ElseIf LCase(Left(argument, 8)) = "selah://" Then
+    If Len(deepLink) > 0 Then FailClosed "Only one Selah reading link can be opened at a time."
+    deepLink = argument
+  Else
+    FailClosed "Unsupported launcher argument."
+  End If
+Next
+
+launchUrl = SELAH_URL
+If Len(deepLink) > 0 Then
+  requestedUrl = ParseReadingLink(deepLink)
+  If Len(requestedUrl) = 0 Then FailClosed "The Selah reading link is invalid."
+  launchUrl = requestedUrl
+End If
 
 localAppData = shell.ExpandEnvironmentStrings("%LOCALAPPDATA%")
 guardRoot = files.BuildPath(localAppData, "SixVPNBlocker")
@@ -34,27 +58,23 @@ If files.FolderExists(guardRoot) Then
   allowedExtensions = extensionPath
   commandLine = Quote(edgePath) & " --disable-extensions-except=" & Quote(allowedExtensions) & _
       " --load-extension=" & Quote(extensionPath) & " --disable-quic --proxy-pac-url=" & Quote(ToFileUri(pacPath)) & _
-      " --app=" & Quote(SELAH_URL)
+      " --app=" & Quote(launchUrl)
 Else
   edgePath = FindEdge()
   If Len(edgePath) > 0 Then
-    commandLine = Quote(edgePath) & " --app=" & Quote(SELAH_URL)
+    commandLine = Quote(edgePath) & " --app=" & Quote(launchUrl)
   Else
     commandLine = ""
   End If
 End If
 
-dryRun = False
-If WScript.Arguments.Count > 0 Then
-  dryRun = (LCase(WScript.Arguments(0)) = "--dry-run")
-End If
 If dryRun Then
   WScript.StdOut.WriteLine commandLine
   WScript.Quit 0
 End If
 
 If Len(commandLine) = 0 Then
-  shell.Run Quote(SELAH_URL), 1, False
+  shell.Run Quote(launchUrl), 1, False
 Else
   shell.Run commandLine, 1, False
 End If
@@ -68,6 +88,20 @@ Function FindEdge()
   candidate = shell.ExpandEnvironmentStrings("%LOCALAPPDATA%\Microsoft\Edge\Application\msedge.exe")
   If files.FileExists(candidate) Then FindEdge = candidate: Exit Function
   FindEdge = ""
+End Function
+
+Function ParseReadingLink(value)
+  Dim expression, matches
+  Set expression = CreateObject("VBScript.RegExp")
+  expression.Global = False
+  expression.IgnoreCase = True
+  expression.Pattern = "^selah://read\?request=([A-Za-z0-9._-]{1,128})$"
+  If Not expression.Test(value) Then
+    ParseReadingLink = ""
+    Exit Function
+  End If
+  Set matches = expression.Execute(value)
+  ParseReadingLink = SELAH_URL & "&homeAction=read&requestId=" & matches(0).SubMatches(0)
 End Function
 
 Function ReadUtf8(path)
@@ -115,6 +149,10 @@ Function Quote(value)
 End Function
 
 Sub FailClosed(message)
-  MsgBox message & vbCrLf & vbCrLf & "Selah did not launch so the managed browser protection stays in effect.", vbExclamation, "Selah"
+  If dryRun Then
+    WScript.StdErr.WriteLine "ERROR: " & message
+  Else
+    MsgBox message & vbCrLf & vbCrLf & "Selah did not launch so the managed browser protection stays in effect.", vbExclamation, "Selah"
+  End If
   WScript.Quit 1
 End Sub
