@@ -20,6 +20,13 @@
         "readerMatchesFinalSource": true,
         "signing": "development_signature_verified",
         "nativeRuntime": "not_tested"
+      },
+      "registeredBundleId": "587L379GH9",
+      "export": {
+        "status": "succeeded",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/ios-store-22/App.ipa",
+        "sha256": "8e3dbb8a1492b515ce5fca4f71e4b421a28d7f7ae77b668731fec492e517d0fc",
+        "uploaded": false
       }
     },
     "MAC_OS": {
@@ -35,12 +42,23 @@
         "readerMatchesFinalSource": true,
         "signing": "unsigned_not_launched",
         "nativeRuntime": "not_tested"
+      },
+      "registeredBundleId": "564D4H9HP5",
+      "export": {
+        "status": "succeeded",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-store-22/Selah.pkg",
+        "sha256": "13e4a6180776d6e7fda987949dc59940321ac530ee610ee7d801e40e11414283",
+        "uploaded": false
+      },
+      "signedArchive": {
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-Store-1.0.10-22.xcarchive",
+        "status": "succeeded",
+        "signing": "Apple Development automatic; distribution export succeeded"
       }
     }
   },
   "pending": [
     "ASC app registration and exact IDs",
-    "App Store signed export for each platform",
     "Mac app icon and localized native controls",
     "Authentic platform screenshots",
     "Privacy declarations based on actual account/sync and analytics behavior",
@@ -58,5 +76,10 @@
   },
   "sourceBaseCommit": "daf7f53642b66ebc0d5b7db1e978e9e8ba83952f",
   "implementationCommit": "7e7243a82b60aef6b08b9a5ff69ed7e1de14b583",
-  "pullRequest": "https://github.com/delight0517/selah-bible-meditation/pull/117"
+  "pullRequest": "https://github.com/delight0517/selah-bible-meditation/pull/117",
+  "physicalDevice": {
+    "status": "blocked_before_install",
+    "reason": "iPhone Mirroring requires local Mac login authentication",
+    "evidenceRun": "540d77ab-8027-40df-886b-b1d98df15471"
+  }
 }
