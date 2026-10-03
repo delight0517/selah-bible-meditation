@@ -279,14 +279,15 @@
     },
     {
       "id": "SELAH-ANONYMOUS-MARKET-FUNNEL",
-      "revision": 1,
+      "revision": 2,
       "title": "지원 언어 전체의 익명 유입·읽기 전환 측정",
       "acceptance": [
         "지원하는 8개 UI 언어의 웹 방문을 국가·지역·언어·기기·UTM 출처별 집계로 기록한다.",
         "노출·읽기 CTA·읽기 시작·집중 읽기 30초/2분·첫 묵상 저장·회원가입·재방문을 같은 기준선으로 집계한다.",
         "30초/2분 이벤트는 화면이 보이고 집중 읽기 모드가 활성인 동안에만 기록한다.",
         "내부 QA와 네이티브 Capacitor 앱은 제외하고, 방문자 ID나 묵상 본문은 서버에 보내지 않는다.",
-        "작은 표본은 승자나 전환율로 해석하지 않고 집계 이벤트 수로 표시한다."
+        "작은 표본은 승자나 전환율로 해석하지 않고 집계 이벤트 수로 표시한다.",
+        "기본 앱 주소로 처음 진입할 때도 퍼널 초기화와 노출 이벤트를 실행하고, 자동 읽기 CTA보다 먼저 클릭 리스너를 설치한다. 언어 변경 시 선택한 언어 기준으로 기록하며 리스너는 중복 등록하지 않는다."
       ],
       "paths": [
         "index.html",
@@ -298,35 +299,35 @@
         "web": {
           "owner": "Selah growth funnel",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9388419",
-          "build": "shared web source",
-          "evidence": "Public app HTML reads back the deployed baseline; Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed."
+          "appliedRevision": 2,
+          "source": "delight0517/selah-bible-meditation@4e21e21",
+          "build": "shared web/mobile source 1.0.10 / build 32",
+          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified."
         },
         "windows": {
           "owner": "Hosted web funnel",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9388419",
-          "build": "shared hosted UI",
-          "evidence": "Hosted web funnel code is deployed; physical Windows shell runtime remains unverified. Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed.",
+          "appliedRevision": 2,
+          "source": "delight0517/selah-bible-meditation@4e21e21",
+          "build": "shared web/mobile source 1.0.10 / build 32",
+          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified. Windows physical shell runtime remains unverified.",
           "workItem": "selah-1000"
         },
         "macos": {
           "owner": "Hosted web funnel",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9388419",
-          "build": "shared hosted UI",
-          "evidence": "Hosted Mac browser is covered; native app telemetry is outside this contract. Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed."
+          "appliedRevision": 2,
+          "source": "delight0517/selah-bible-meditation@4e21e21",
+          "build": "shared web/mobile source 1.0.10 / build 32",
+          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified. Hosted Mac browser uses this source; native telemetry remains outside this contract."
         },
         "ios": {
           "owner": "Hosted mobile web funnel",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@9388419",
-          "build": "shared hosted UI",
-          "evidence": "Hosted iPhone browser/PWA is covered; Capacitor native app skips this endpoint. Cloudflare Worker global-funnel-v1 is live; CORS preflight returns 204; real user event delivery is not yet observed."
+          "appliedRevision": 2,
+          "source": "delight0517/selah-bible-meditation@4e21e21",
+          "build": "shared web/mobile source 1.0.10 / build 32",
+          "evidence": "Startup now invokes the shared funnel initializer before any homeAction CTA. Inline JavaScript and platform source parity pass; no synthetic production events were sent. Public deployment and real visitor delivery remain unverified. Hosted browser/PWA uses this source; native Capacitor telemetry remains excluded."
         }
       }
     }

@@ -481,3 +481,14 @@ Copy this block for each study; replace every unknown with an observation or `no
 - PR #186 (`9388419c2d2df4ad87b1ecbc3449539a7248f2a9`) 병합 및 GitHub Pages 배포 workflow 성공을 확인했다. 공개 앱 HTML과 지원 언어 랜딩 8개 경로가 모두 HTTP 200이다.
 - Cloudflare Worker `selah-feature-analytics` 배포 버전 `418c8c8b-5dc0-4dc1-89b9-3dcbbdf2b8a1`; 공개 market readback에서 `global-funnel-v1` 활성 및 CORS preflight 204를 확인했다. 30일 요약에는 기존 실험 행 6개, 새 공통 퍼널 행 0개다.
 - 0행은 신규 퍼널에 실제 사용자가 아직 이벤트를 보내지 않았다는 뜻이다. 임의 이벤트는 넣지 않았다. 데이터 수집 연결은 배포됐지만, 실제 사용자가 시작하기 전까지 적용 성공이나 유입·가입 증가를 주장하지 않는다.
+
+### OPS-GLOBAL-FUNNEL-INIT-20261004-01 — 퍼널 공백 원인 확인 및 초기화 수정
+
+- **결정 질문:** 공통 퍼널 0행이 유입 부재인지, 첫 방문 계측 결함인지 구분한다.
+- **Search Console 재확인:** 소유 속성 `https://delight0517.github.io/`의 Selah 경로 `/selah-bible-meditation/`로 필터링했다. 2026-09-03–09-30의 `page`, `country`, `query` 보고는 모두 0행이고 확정 범위는 2026-09-29까지다. 상위 `github.io` 속성 전체는 같은 28일 동안 88회 노출·3회 클릭이지만 다른 프로젝트가 섞여 있어 Selah 성과로 귀속하지 않는다. Selah 사이트맵은 2026-10-03 제출 후 처리 대기이며 경고·오류는 0이다.
+- **색인 상태:** GSC 검사 기록에서 한국어·영어·일본어·간체·번체·필리핀어·스페인어·브라질 포르투갈어 기본 랜딩 8개는 `Submitted and indexed`/`PASS`였다. 필리핀어·브라질 포르투갈어 가이드는 `Crawled - currently not indexed`, 일반 `/guide/`는 `URL is unknown to Google`로 남았다. 색인 상태는 검색 노출이나 순위가 아니다.
+- **도착·행동 집계:** 2026-10-01–03 `cloud-account-storage` 월 요약은 `page:view` 59회, 익명 브라우저 ID 근사치 36개, 국가별 페이지 열기 KR 49 / US 10이었다. direct 7 / medium `none` 7 / campaign 0이다. 브라우저 ID·열기 수는 사람이나 가입자가 아니다. 별도 기능 퍼널은 기존 한국어 실험에서 event-count 기준 노출 11, CTA 7, 읽기 시작 4, 집중 읽기 30초·2분 0, 기록 저장 0, 가입 0이었다. 공통 `global-funnel-v1`은 0행이었다.
+- **원인 근거:** `index.html` 전체 호출부를 확인했을 때 `activateKoreanHomeExperiment()`은 정의되어 있었지만 처음 앱을 열 때 호출되지 않았고 언어 선택 변경 때만 호출됐다. 따라서 보통 첫 진입의 공통 퍼널 노출·CTA 리스너가 빠질 수 있었다. 이는 0행의 구체적 계측 결함이며, 지금까지의 낮은 검색 클릭이나 실제 활성 이용자 수를 설명하지는 않는다.
+- **수정:** `4e21e219afdfcd6f538f68160d9c5849739e87e9`에서 앱 초기 경로가 `homeAction`의 자동 CTA 실행보다 먼저 공통 초기화 함수를 호출하게 했다. `npm --prefix mobile run copy:web` 결과는 1.0.10/build 32이며, 플랫폼 소스 검사와 세 인라인 JavaScript 구문 검사가 통과했다. 운영 DB에 합성 이벤트는 보내지 않았다.
+- **판정:** 코드 수정은 준비됐으나 아직 PR/운영 배포되지 않아 실제 신규 이벤트 수집은 검증되지 않았다. GSC 성과 창은 여덟 기본 언어 랜딩의 색인 전 날짜까지만 확정되어 있다. 기존 가설·메시지·디자인은 유지하고 새 변형과 유료 집행을 시작하지 않는다.
+- **다음 확인:** PR 병합과 Pages 배포 후 공개 HTML에서 초기화 호출을 확인한다. 실제 사용자 유입을 기다린 뒤 `global-funnel-v1`에서 국가×언어 노출과 후행 읽기·저장 이벤트가 들어오는지 점검한다. 다음 주간 점검은 2026-10-05이며, GSC 정착일이 2026-10-02 이후까지 도달하지 않으면 해당 수치를 기다려 다음 주에 다시 확인한다. 이벤트가 생겨도 1,000명 목표에는 실제 읽기와 기록 저장을 남긴 검증된 고유 활성 사용자만 더한다.
