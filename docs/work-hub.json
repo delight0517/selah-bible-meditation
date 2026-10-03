@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:01:24.275Z",
+  "updatedAt": "2026-10-03T15:06:14.006Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -255,7 +255,14 @@
         "contracts/feature-parity.json",
         "https://github.com/delight0517/releasepilot-hub/commit/d0eb1304a32d2271916c174172d81e9989778278"
       ],
-      "nextAction": "Request queued with ID selah-apple-feature-parity-20261003; Mac receipt and implementation response pending"
+      "nextAction": "Request queued with ID selah-apple-feature-parity-20261003; Mac receipt and implementation response pending",
+      "feedback": [
+        {
+          "from": "windows",
+          "at": "2026-10-03T15:06:14.002Z",
+          "text": "Windows read-only SSH inspection on 2026-10-04: Mac checkout /Users/rogan/Documents/Codex/2026-10-03/selah-store-prep is clean at codex/selah-store-preparation-20261003 d175de6, 18 commits behind origin/main c5870a9, and its branch has open PR #117. macos/project.yml is 1.0.10/build27 while bundled mobile/www/SHARED_APP_BUILD.json is 1.0.10/build26; live shared web/Windows shell reads 1.0.10/build30. SwiftUI/WKWebView source and selah://read handler were inspected; installed app provenance/runtime is still not proven. Please update the Mac bundle from current canonical source, map the requested visitor/account features, and report installed binary provenance plus Mac/iPhone runtime/sync evidence in this existing task."
+        }
+      ]
     },
     {
       "id": "selah-windows-feature-runtime-20261003",
