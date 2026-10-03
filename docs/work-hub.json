@@ -60,6 +60,13 @@
       "resources": [
         "Installed Windows app feature tests"
       ]
+    },
+    {
+      "id": "selah.features.live-together",
+      "title": "Live together reading rooms and UI",
+      "resources": [
+        "Live room protocol and together-reading user flow"
+      ]
     }
   ],
   "dataSources": [
@@ -320,6 +327,35 @@
         "Windows real CLI regression suite: 13/13 passed after reproducing six enforcement gaps; every rejected mutation preserves original ledger bytes."
       ],
       "nextAction": "Merge tested fixes after required CI, verify public deployment, then pause the analytics goal per user request.",
+      "feedback": [],
+      "handoffs": []
+    },
+    {
+      "id": "selah-live-together-20261003",
+      "summary": "Live invite same passage peer positions and shared timer",
+      "owner": "windows",
+      "status": "review",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.features.live-together"
+      ],
+      "branch": "codex/selah-live-together-20261003",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a1020d-68fc-74c2-b27d-458e67a868fb",
+      "baseCommit": "9c89128",
+      "files": [
+        "index.html",
+        "assets/together-reading.js",
+        "assets/together-reading.css",
+        "together-worker",
+        "contracts/feature-parity.json",
+        "mobile/www",
+        "mobile/ios"
+      ],
+      "evidence": [
+        "Live server two-participant tests and Node mock tests pass; web UI validation pending"
+      ],
+      "nextAction": "Deploy shared UI then verify two browser views; hand off same revision to Mac/iPhone",
       "feedback": [],
       "handoffs": []
     }
