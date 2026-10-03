@@ -384,6 +384,49 @@
       ],
       "additionalProperties": true,
       "description": "Shared theme, UI font and custom palettes. Stored values are selected through _selahSync.fields.appearance."
+    },
+    "readerMarks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "ref",
+          "kind",
+          "locale"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ref": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "bookmark",
+              "highlight"
+            ]
+          },
+          "locale": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "legacyReaderArchives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "sourceKey",
+          "value"
+        ],
+        "additionalProperties": true
+      },
+      "description": "Original standalone reader data retained during additive migration."
     }
   },
   "$defs": {
