@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03T14:18:50.325Z",
+  "updatedAt": "2026-10-03T14:23:47.0703093Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -30,6 +30,20 @@
         "docs/work-hub.json",
         "docs/WORK_HUB.md",
         "scripts/work-hub.mjs"
+      ]
+    },
+    {
+      "id": "selah.features.apple-parity",
+      "title": "macOS and iOS acceptance for shared feature revisions",
+      "resources": [
+        "Mac and iPhone implementation/installation/runtime evidence"
+      ]
+    },
+    {
+      "id": "selah.features.windows-runtime",
+      "title": "Windows runtime acceptance for feature parity",
+      "resources": [
+        "Installed Windows app feature tests"
       ]
     }
   ],
@@ -178,6 +192,43 @@
       ],
       "nextAction": "Mac and Windows should read this ledger before new work; claim scopes here and append feedback through the CLI.",
       "feedback": []
+    },
+    {
+      "id": "selah-apple-feature-parity-20261003",
+      "summary": "Mac/iOS apply and verify visitor explanation and account data feature revisions",
+      "owner": "mac",
+      "status": "planned",
+      "scopes": [
+        "selah.features.apple-parity"
+      ],
+      "branch": "Mac maintainer to confirm",
+      "featureIds": [
+        "SELAH-VISITOR-EXPLANATION",
+        "SELAH-ACCOUNT-DATA-PARITY"
+      ],
+      "evidence": [
+        "contracts/feature-parity.json"
+      ],
+      "nextAction": "Acknowledge queue request; inspect real sources; apply and test each feature revision"
+    },
+    {
+      "id": "selah-windows-feature-runtime-20261003",
+      "summary": "Confirm feature acceptance in installed Windows app and cross-device account tests",
+      "owner": "windows",
+      "status": "planned",
+      "scopes": [
+        "selah.features.windows-runtime"
+      ],
+      "branch": "Windows maintainer to claim",
+      "featureIds": [
+        "SELAH-VISITOR-EXPLANATION",
+        "SELAH-ACCOUNT-DATA-PARITY"
+      ],
+      "evidence": [
+        "contracts/feature-parity.json"
+      ],
+      "nextAction": "Claim existing task instead of creating duplicate; record actual Windows runtime evidence"
     }
-  ]
+  ],
+  "featureParityFile": "contracts/feature-parity.json"
 }

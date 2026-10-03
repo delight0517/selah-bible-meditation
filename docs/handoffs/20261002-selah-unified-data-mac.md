@@ -1,5 +1,12 @@
 # Mac 적용 요청 — Selah 공통 UI·데이터 1.0.7 / 빌드 19
 
+> 2026-10-03 사용자 요구 정정: 아래의 '얇은 웹 래퍼로 연결' 지시는 폐기한다.
+> 플랫폼별 네이티브 구현을 유지해도 된다. 공통 기능 ID/revision, 합격 기준,
+> 데이터 계약과 플랫폼별 반영·설치·동작 증거를 맞춘다.
+> 최신 `PLATFORM_RELEASE.md`와 `contracts/feature-parity.json`을 따른다.
+> Mac/iOS 담당은 실제 소스를 확인하고 수신을 기록한 뒤, 방문자 설명과 계정
+> 데이터 동등성을 같은 기능 ID로 반영·검증하고 회신한다.
+
 사용자 요청: Windows 앱과 Mac·iOS·웹의 UI 및 데이터가 갈라져 각각 기록을 관리하게 되는 위험을 없애는 통합 시스템.
 
 공통 원본: https://github.com/delight0517/selah-bible-meditation · 작업 브랜치 `codex/selah-unified-data-20261002`. 병합 후 `main`을 원본으로 사용하세요. Windows 쪽은 공통 데이터 코어, 삭제 이력/복구본, 계정별 로컬 보관, 공통 초안, 추가형 백업 가져오기 및 iOS 번들 SHA-256 검사를 구현했습니다. `SHARED_APP_BUILD.json`을 확인하세요. 임의로 Windows/Mac용 데이터 저장소를 따로 만들지 마세요.

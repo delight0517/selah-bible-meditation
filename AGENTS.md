@@ -39,12 +39,21 @@ do not grant access to Selah.
 ## Shared feature ownership and release
 
 Follow [PLATFORM_RELEASE.md](PLATFORM_RELEASE.md) for every feature change.
-Implement shared features in the root web source once; `mobile/www` is generated.
+Coordinate behavior across independent web, Windows, macOS and iOS implementations.
+Do not force native apps to use hosted web UI. Register functional changes in
+`contracts/feature-parity.json` with a feature ID/revision, acceptance criteria,
+affected paths and all platform owners/statuses. Increment revision on behavior
+changes and reassess all platforms; stale targets stay pending. Existing generated
+`mobile/www` stays generated until its architecture is explicitly changed.
 Run `npm --prefix mobile run copy:web` and `node scripts/check-platform-source.mjs`
-before a PR. iOS and iPhone are the same target. Record source parity, web
+and `node scripts/check-feature-parity.mjs` before a PR. iOS and iPhone are the
+same target. Record source parity, web
 deployment, native packaging, installation and runtime verification separately
 in TODO.md. Never report a native install or Microsoft Store release from a web
 deployment alone. Keep Windows launcher package and shared UI versions distinct.
+Run `node scripts/check-feature-parity.mjs --release` before declaring a unified
+release complete. Sending a Mac request is not acknowledgement or implementation.
+Use the same feature ID/revision for requests and replies; do not duplicate jobs.
 
 ## Checkout inventory
 
