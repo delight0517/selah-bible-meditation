@@ -14,6 +14,7 @@ settings:
     INFOPLIST_KEY_CFBundleDisplayName: Selah
     INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
     GENERATE_INFOPLIST_FILE: YES
+    ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     ENABLE_APP_SANDBOX: YES
     CODE_SIGN_ENTITLEMENTS: Selah.entitlements
     MACOSX_DEPLOYMENT_TARGET: "14.0"
@@ -32,6 +33,8 @@ targets:
               - selah
     sources:
       - Sources
+      - path: Resources
+        buildPhase: resources
       - path: ../mobile/www
         type: folder
         buildPhase: resources

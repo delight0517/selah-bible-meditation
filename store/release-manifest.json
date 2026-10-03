@@ -54,12 +54,26 @@
         "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-Store-1.0.10-22.xcarchive",
         "status": "succeeded",
         "signing": "Apple Development automatic; distribution export succeeded"
+      },
+      "preparedAssets": {
+        "icon": "macos/Resources/Assets.xcassets/AppIcon.appiconset",
+        "nativeLocales": [
+          "en",
+          "ko",
+          "ja",
+          "zh-Hans",
+          "zh-Hant",
+          "pt-BR",
+          "es",
+          "fil"
+        ],
+        "includedInBuild22": false
       }
     }
   },
   "pending": [
     "ASC app registration and exact IDs",
-    "Mac app icon and localized native controls",
+    "Rebuild Mac distribution package with icon and native localizations",
     "Authentic platform screenshots",
     "Privacy declarations based on actual account/sync and analytics behavior",
     "Worldwide Korean Revised Version 1961 redistribution rights evidence",
@@ -87,5 +101,10 @@
     "sdkIncluded": false,
     "decision": "user requested first release without advertising on 2026-10-03",
     "deferredPullRequest": 121
+  },
+  "rightsEvidence": {
+    "checkedAt": "2026-10-03",
+    "source": "https://bible.bskorea.or.kr/copyright_notice",
+    "observation": "Korean Revised Version 1961 copyright notice; worldwide distribution permission remains unverified"
   }
 }
