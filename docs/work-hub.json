@@ -345,30 +345,30 @@
       "id": "selah-live-together-20261003",
       "summary": "Live invite same passage peer positions and shared timer",
       "owner": "windows",
-      "status": "waiting_external",
+      "status": "review",
       "claimVersion": 2,
       "scopes": [
         "selah.features.live-together"
       ],
-      "branch": "codex/selah-live-together-fix-20261004",
+      "branch": "codex/selah-together-promo-20261004",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a1020d-68fc-74c2-b27d-458e67a868fb",
-      "baseCommit": "51f0646",
+      "baseCommit": "fa751b7",
       "files": [
-        "index.html",
+        "home.html",
         "assets/together-reading.js",
-        "assets/together-reading.css",
-        "together-worker",
+        "SHARED_APP_BUILD.json",
         "contracts/feature-parity.json",
-        "mobile/www",
-        "mobile/ios",
-        "scripts/test-together-reading.mjs"
+        "mobile/www/",
+        "TODO.md",
+        "docs/work-hub.json"
       ],
       "evidence": [
         "Live server two-participant tests and Node mock tests pass; web UI validation pending",
-        "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc"
+        "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc",
+        "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated."
       ],
-      "nextAction": "Resume browser clicks once renderer available; Mac/iOS acknowledge request and apply revision2/build31 before device acceptance",
+      "nextAction": "Browser UI and device acceptance pending; Mac maintainer request must apply latest revision3/build32.",
       "feedback": [],
       "handoffs": []
     }
