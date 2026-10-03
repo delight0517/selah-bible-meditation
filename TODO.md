@@ -1,3 +1,7 @@
+## 2026-10-03 · Chapter keyboard shortcuts
+- Reader uses Ctrl/Command+Z for the previous chapter and Ctrl/Command+Shift+Z for the next chapter, through existing cross-book navigation. Editable controls, open dialogs, IME composition and held-key repeats are guarded. Shared mobile source mirrored.
+- Syntax/whitespace checks only; installed-app keypress behavior remains unverified.
+
 ## 2026-10-03 · App offline Scripture and local-first navigation
 - Automatically download the selected translation in native/installed apps, reuse complete saved metadata and chapters before network access, hydrate a book into memory, deduplicate downloads, and retain saved Scripture. Added manual download/retry control.
 - Web/mobile source mirrored; first complete download needs internet. Native rebuild/install and physical-device offline behavior remain separate verification stages.
