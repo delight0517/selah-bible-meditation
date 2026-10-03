@@ -371,11 +371,11 @@
       "platforms": {
         "web": {
           "owner": "Selah growth funnel",
-          "state": "implemented",
+          "state": "verified",
           "appliedRevision": 1,
           "source": "codex/localized-search-preview-20261004",
-          "build": "Static HTML; scripts/test-localized-search-metadata.mjs",
-          "evidence": "Five-page source regression check passes for exact locale titles, descriptions, canonical/share URLs, image alt/local files and JSON-LD. PR, Pages deployment, live metadata and later Search Console results remain pending."
+          "build": "Pages run 37151582667; commit cb2f0646e896609254afd963890a13bca50c19f7",
+          "evidence": "PR #194 merged; five localized pages and their preview images returned HTTP 200 with expected title, description, canonical, JSON-LD and image metadata. GSC inspection still reflects pre-deployment crawls; both guide pages remain crawled-not-indexed and search performance is not yet measurable."
         },
         "windows": {
           "owner": "Native platform maintainers (no native change)",
