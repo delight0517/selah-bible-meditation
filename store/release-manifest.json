@@ -13,11 +13,13 @@
       "appId": null,
       "storeRecord": "not_in_current_account_list",
       "archive": {
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS.xcarchive",
-        "status": "previous_1.0.9_build_21_superseded_rebuild_pending",
-        "version": "1.0.9",
-        "build": "21",
-        "signing": "development_signature_verified"
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-iOS-1.0.10-22.xcarchive",
+        "status": "succeeded",
+        "version": "1.0.10",
+        "build": "22",
+        "readerMatchesFinalSource": true,
+        "signing": "development_signature_verified",
+        "nativeRuntime": "not_tested"
       }
     },
     "MAC_OS": {
@@ -26,11 +28,13 @@
       "storeRecord": "not_in_current_account_list",
       "source": "snapshot of selah-language-prep/macos; not yet integrated into main",
       "archive": {
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac.xcarchive",
-        "status": "previous_1.0.9_build_21_superseded_rebuild_pending",
-        "version": "1.0.9",
-        "build": "21",
-        "signing": "unsigned_not_launched"
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-1.0.10-22.xcarchive",
+        "status": "succeeded",
+        "version": "1.0.10",
+        "build": "22",
+        "readerMatchesFinalSource": true,
+        "signing": "unsigned_not_launched",
+        "nativeRuntime": "not_tested"
       }
     }
   },
@@ -51,5 +55,8 @@
     "reader": "local chapter first; server on miss",
     "resume": "saved chapters survive interruption; online/visible/reopen retries",
     "backgroundScope": "asynchronous while app WebView can execute; no closed-app native background transfer claimed"
-  }
+  },
+  "sourceBaseCommit": "daf7f53642b66ebc0d5b7db1e978e9e8ba83952f",
+  "implementationCommit": "7e7243a82b60aef6b08b9a5ff69ed7e1de14b583",
+  "pullRequest": "https://github.com/delight0517/selah-bible-meditation/pull/117"
 }
