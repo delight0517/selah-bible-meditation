@@ -11,3 +11,10 @@ Simulator reading, font size, settings, Korean/Japanese language and mobile acti
 The Korean Bible Society FAQ permits royalty-free use after expired economic protection while requiring attribution and integrity; worldwide scope remains unstated. Japanese 1965 translation is New Testament only. Bible text must retain source attribution.
 
 First release remains ad-free. Ad PR #121 stays deferred. Shared correlation backlog 474637700f55 is pending; Windows is unavailable today.
+
+## 2026-10-03 20:15 release checkpoint
+- iOS1.0.10/build26: VALID, attached and API read back (9879c68e-d16f-4aeb-94ee-901e03d6584c).
+- Mac1.0.10/build27: VALID, attached and API read back (90acd667-87d9-47f0-b268-0598608bb68c).
+- iOS localized screenshots en-US2/ko1/ja2 uploaded; processing/checksum verified.
+- Mac Scripture status repair visibly verified after trusted notarized QA launch.
+- Review not submitted: existing Aside ASC tab is appstoreconnect.apple.com/login. App Privacy/age/review fields and Mac screenshots remain unfinished. Reuse Aside session o6Y4gNQJM83hhodE after explicit Resume. No physical iPhone required.

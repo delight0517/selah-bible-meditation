@@ -349,3 +349,10 @@
 - [x] Both build26 exports uploaded; Mac26 VALID.
 - [x] Fixed bundled WKURLSchemeHandler response status (generic URLResponse caused fetch Response.ok to fail); notarized QA and visible Matthew1 readback verified.
 - [ ] Mac build27 archive/export/upload/attach; iOS26 processing/attach; screenshots, privacy and review submission remain pending.
+
+## 2026-10-03 20:15 release checkpoint
+- iOS1.0.10/build26: VALID, attached and API read back (9879c68e-d16f-4aeb-94ee-901e03d6584c).
+- Mac1.0.10/build27: VALID, attached and API read back (90acd667-87d9-47f0-b268-0598608bb68c).
+- iOS localized screenshots en-US2/ko1/ja2 uploaded; processing/checksum verified.
+- Mac Scripture status repair visibly verified after trusted notarized QA launch.
+- Review not submitted: existing Aside ASC tab is appstoreconnect.apple.com/login. App Privacy/age/review fields and Mac screenshots remain unfinished. Reuse Aside session o6Y4gNQJM83hhodE after explicit Resume. No physical iPhone required.

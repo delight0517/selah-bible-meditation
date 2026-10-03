@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "product": "Selah",
-  "sourceCommit": "1f3856f + verified Mac scheme response repair",
+  "sourceCommit": "851a4d3",
   "version": "1.0.10",
   "build": 26,
-  "phase": "ios26_uploaded_mac27_scripture_response_repair",
+  "phase": "browser_authentication_required_for_remaining_store_fields",
   "submissionAuthorized": true,
   "appleAccess": "existing_ASC_API_key_ready",
   "apps": {
@@ -64,6 +64,19 @@
         "processingState": "VALID",
         "attached": true,
         "status": "superseded_by_localization_fix26"
+      },
+      "providerBuildId": "9879c68e-d16f-4aeb-94ee-901e03d6584c",
+      "processingState": "VALID",
+      "attached": true,
+      "screenshots": {
+        "status": "COMPLETE_checksum_verified",
+        "locales": [
+          "en-US",
+          "ko",
+          "ja"
+        ],
+        "count": 5,
+        "receipt": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/screenshots-26/ios-upload-receipt.json"
       }
     },
     "MAC_OS": {
@@ -73,7 +86,7 @@
       "source": "snapshot of selah-language-prep/macos; not yet integrated into main",
       "archive": {
         "status": "succeeded",
-        "build": "26",
+        "build": "27",
         "version": "1.0.10",
         "packagedRuntimeHashes": "43 verified against shared source manifest"
       },
@@ -81,8 +94,8 @@
       "export": {
         "status": "succeeded",
         "uploaded": true,
-        "deliveryId": "0819cf8c-a15e-4fe2-b0f7-5aa85f30b729",
-        "build": "26"
+        "deliveryId": "90acd667-87d9-47f0-b268-0598608bb68c",
+        "build": "27"
       },
       "signedArchive": {
         "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-Assets-1.0.10-22.xcarchive",
@@ -144,15 +157,21 @@
         "status": "superseded_by_localization_fix26"
       },
       "candidateBuild": "27",
-      "nativeRuntime": "Response repair notarized 5e3a2779-ada4-4f82-8eee-22f0f875f73f; codesign/spctl accepted; Matthew1 visibly rendered"
+      "nativeRuntime": "Response repair notarized 5e3a2779-ada4-4f82-8eee-22f0f875f73f; codesign/spctl accepted; Matthew1 visibly rendered",
+      "providerBuildId": "90acd667-87d9-47f0-b268-0598608bb68c",
+      "processingState": "VALID",
+      "attached": true,
+      "screenshots": {
+        "status": "pending"
+      }
     }
   },
   "pending": [
-    "Authentic platform screenshots",
-    "Privacy declarations based on actual account/sync and analytics behavior",
-    "Worldwide Korean Revised Version 1961 redistribution rights evidence",
-    "Native account sign-in, sync, offline download and reading journeys",
-    "Shared correlation ID instrumentation backlog 474637700f55 remains pending"
+    "ASC browser login (observed login page); App Privacy, age rating, review details and categories",
+    "Mac localized screenshots",
+    "Native complete download/resume/offline/30-day expiry journey",
+    "Worldwide translation-rights scope",
+    "Shared correlation ID backlog 474637700f55"
   ],
   "bibleStorage": {
     "retentionDays": 30,
@@ -196,5 +215,10 @@
     "Capacitor public resources must be copied after shared www generation; packaged hash gate added",
     "Mobile action overflow fixed and visibly verified",
     "Computer reading control refreshes translations after locale/data updates; Korean visible runtime verified"
-  ]
+  ],
+  "buildsByPlatform": {
+    "IOS": 26,
+    "MAC_OS": 27
+  },
+  "submittedForReview": false
 }
