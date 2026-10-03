@@ -743,3 +743,4 @@ const homeAction=new URLSearchParams(location.search).get("homeAction");if(homeA
 
 const incomingFriend=(new URLSearchParams(location.search).get("selahAddFriend")||"").trim().slice(0,100);if(incomingFriend){$("friendSearch").value=incomingFriend;queueMicrotask(openFriendPanel)}
 </script><script src="./assets/selah-focus-session.js"></script><script src="./windows/app-shell.js"></script><script src="./scripts/computer-reading-handoff.js"></script><script src="./scripts/unified-data-ui.js?v=24"></script><script src="./scripts/legacy-migration-ui.js?v=24"></script><script src="./assets/visitor-explanation.js"></script></body></html>
+<!-- QA only: intentionally missing feature ledger; never merge this branch. -->
