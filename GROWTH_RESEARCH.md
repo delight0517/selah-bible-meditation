@@ -392,4 +392,13 @@ Copy this block for each study; replace every unknown with an observation or `no
 - **순서와 검색 한계:** 현재 `kr-spiritual-curiosity-v2`와 같은 한국 시장이므로 그 관측을 끝내기 전에는 노출을 시작하지 않는다. Google 검색 결과의 이미지와 문구는 Google이 자동 선택하므로 이 A/B를 Google 결과에 강제로 적용할 수 없다. 검색은 GSC의 확정된 국가/검색어/기기별 노출·클릭을 별도의 전후 관찰로 본다.
 - **측정:** 기존 실험 이벤트/API를 재사용해 노출, 클릭, 유입 태그, 120초 집중 읽기, 묵상 저장, 가입 완료를 집계한다. 채널 보고서의 노출·링크 클릭도 별도로 함께 기록한다. 읽기 내용, 계정 식별자, 기도/묵상 원문, 정밀 위치는 수집하지 않는다.
 - **판정:** 최소 28일과 시안별 적격 노출 50회를 확보하기 전에는 승자를 고르지 않는다. 그 뒤에도 클릭률만으로 결정하지 않고 실제 읽기·기록·가입까지 비교한다. 표본이 부족하거나 태그가 끊기면 미결로 남기며 유료 집행은 하지 않는다.
-- **현재 데이터 한계:** 2026-10-03 프로덕션 읽기에서는 기존 v2 요약이 행 없음으로 확인됐지만, 이번 새 조회는 DNS 오류로 실패했다. 최신 표본은 확인되지 않았고, 이 시안들은 테스트가 실행 중인 것으로 간주하지 않는다.
+- **현재 데이터 한계:** 새 조회는 최초 DNS 실패 후 재시도에서 성공했다. 2026-10-03 재확인 결과 기존 v2의 30일 `marketRows`와 `rows`는 모두 비어 있었다. 실험 노출이 기록되지 않았으며 실제 방문자 0명을 뜻하지는 않는다. 썸네일 시안은 현재 테스트가 실행 중인 것으로 간주하지 않는다.
+
+### GATE0-SEARCH-ANALYTICS-20261003-02 — 검색·지역 집계 최신 대조
+
+- **Search Console:** 확인 속성은 상위 GitHub Pages URL-prefix `https://delight0517.github.io/`이며, Selah 경로(`/selah-bible-meditation/`)를 포함하는 page 필터로 조회했다. 2026-09-03–2026-09-30 구간에서 페이지+검색어와 국가+페이지 보고 모두 0행, 확정 데이터는 2026-09-29까지였다. 이는 해당 기간에 보고 가능한 Selah 검색 행이 없다는 뜻이며, 실제 방문이 없다는 뜻은 아니다.
+- **First-party 집계(10월 1–3일):** 기존 `cloud-account-storage` 요약은 `page:view` 이벤트 55회와 브라우저 월 ID 기준 `uniqueVisitors` 34를 반환했다. 국가 이벤트 수는 KR 45 / US 10, 기기 이벤트 수는 desktop 38 / mobile 17, 지역 이벤트 수는 KR-11 14 / KR-30 3 / KR-44 28 / US-OK 6 / US-AZ 4였다. 검증된 사람 수나 검색 유입으로 계산하지 않는다.
+- **출처 및 데이터 품질:** 경로 이벤트는 `/` 42회, `/selah-bible-meditation/` 5회, `/index.html` 1회와 언어 경로들로 구성됐다. 요약에 hostname/origin 차원이 없어 각 이벤트가 어느 배포본에서 발생했는지 알 수 없다. `pageViewsByCountryLocalePath` 상세 맵은 15건만 포함해 전체 55건과 맞지 않으며, `uniqueVisitorsByDevice`는 desktop 17 + mobile 8로 전체 34와 맞지 않는다. 원인 확인 전에는 경로·기기 교차 집계를 성과로 해석하지 않는다. referrer 목록은 비어 있고 `direct`는 3건, medium은 `none` 3건으로 귀속 근거가 부족하다. 공개 화면의 “오늘 방문” 카운터가 이 API의 월간 `uniqueVisitors`를 읽는 표시 오류도 함께 발견했다. 10월 3일 API 응답의 UTC 일별 고유 브라우저 ID는 14였지만 월간 값 34가 “오늘” 숫자로 나타날 수 있었다. build 25부터 UTC 오늘 날짜의 `daily[].uniqueVisitors`를 사용하도록 바로잡았으며, origin 혼합은 아직 남아 있다.
+- **실험 상태:** 같은 기간 `kr-spiritual-curiosity-v2`의 30일 실험 요약은 `marketRows`와 `rows` 모두 빈 배열이었다. 이는 기록된 실험 이벤트가 없다는 뜻이지 페이지 방문자 0명이라는 뜻이 아니다. 썸네일 실험은 계속 대기 상태이며 이 결과와 섞지 않는다.
+- **Worker 코드 출처 감사:** Selah 저장소의 웹 코드는 `/analytics/event`로 `location.pathname`을 보내지만 origin을 보내지 않는다. Selah 저장소의 `analytics-worker`는 별도 기능/실험 Worker다. GitHub 코드 검색에서는 `cloud-account-storage`의 배포 소스가 발견되지 않았고, `brainwire-app`에서 확인된 파일은 이 요약을 읽는 프록시뿐이다. 배포된 Worker를 편집할 소스 저장소와 릴리스 경로가 아직 확인되지 않았다.
+- **다음 조치:** 동일 기존 이벤트 API의 Worker 소스를 찾아 서버가 확인한 hostname/origin을 저장·요약하도록 최소 수정한다. 새 분석 API는 만들지 않는다. 소스 확인 전까지 현 API 수치는 합계의 참고치로만 보관하고, 1,000명 목표에는 어떤 숫자도 더하지 않는다.
