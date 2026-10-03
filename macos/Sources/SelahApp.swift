@@ -158,7 +158,14 @@ final class BundledScriptureAssets: NSObject, WKURLSchemeHandler {
             urlSchemeTask.didFailWithError(URLError(.fileDoesNotExist)); return
         }
         let mime = UTType(filenameExtension: file.pathExtension)?.preferredMIMEType ?? "application/octet-stream"
-        let response = URLResponse(url: url, mimeType: mime, expectedContentLength: data.count, textEncodingName: "utf-8")
+        // Fetch consumers inspect Response.ok; a generic URLResponse has no
+        // successful HTTP status and makes packaged Scripture look unavailable.
+        guard let response = HTTPURLResponse(url: url, statusCode: 200,
+                                            httpVersion: "HTTP/1.1",
+                                            headerFields: ["Content-Type": mime + "; charset=utf-8",
+                                                           "Content-Length": String(data.count)]) else {
+            urlSchemeTask.didFailWithError(URLError(.badServerResponse)); return
+        }
         urlSchemeTask.didReceive(response)
         urlSchemeTask.didReceive(data)
         urlSchemeTask.didFinish()

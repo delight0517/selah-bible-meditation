@@ -344,3 +344,8 @@
 
 - [x] Build 25 iOS and Mac uploaded, processed VALID and attached; en-US/ko/ja subtitles and privacy URL read back.
 - [ ] Replace both with build 26 after five-language meditation setup fix; finish final runtime, locale screenshots, privacy and review requirements.
+
+## 2026-10-03 Selah Mac Scripture response repair
+- [x] Both build26 exports uploaded; Mac26 VALID.
+- [x] Fixed bundled WKURLSchemeHandler response status (generic URLResponse caused fetch Response.ok to fail); notarized QA and visible Matthew1 readback verified.
+- [ ] Mac build27 archive/export/upload/attach; iOS26 processing/attach; screenshots, privacy and review submission remain pending.

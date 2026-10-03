@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "product": "Selah",
-  "sourceCommit": "3d6c75e + local locale/layout/native-resource guard changes",
+  "sourceCommit": "1f3856f + verified Mac scheme response repair",
   "version": "1.0.10",
   "build": 26,
-  "phase": "build26_localization_validation",
+  "phase": "ios26_uploaded_mac27_scripture_response_repair",
   "submissionAuthorized": true,
   "appleAccess": "existing_ASC_API_key_ready",
   "apps": {
@@ -16,12 +16,14 @@
         "status": "succeeded",
         "build": "26",
         "version": "1.0.10",
-        "packagedRuntimeHashes": "pending verification"
+        "packagedRuntimeHashes": "43 verified against shared source manifest"
       },
       "registeredBundleId": "587L379GH9",
       "export": {
-        "status": "pending",
-        "uploaded": false
+        "status": "succeeded",
+        "uploaded": true,
+        "deliveryId": "9879c68e-d16f-4aeb-94ee-901e03d6584c",
+        "build": "26"
       },
       "appStoreVersionId": "1924e71a-2952-47da-9f90-7afbe7605996",
       "historicalBuild22": {
@@ -73,12 +75,14 @@
         "status": "succeeded",
         "build": "26",
         "version": "1.0.10",
-        "packagedRuntimeHashes": "pending verification"
+        "packagedRuntimeHashes": "43 verified against shared source manifest"
       },
       "registeredBundleId": "564D4H9HP5",
       "export": {
-        "status": "pending",
-        "uploaded": false
+        "status": "succeeded",
+        "uploaded": true,
+        "deliveryId": "0819cf8c-a15e-4fe2-b0f7-5aa85f30b729",
+        "build": "26"
       },
       "signedArchive": {
         "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-Assets-1.0.10-22.xcarchive",
@@ -138,7 +142,9 @@
         "processingState": "VALID",
         "attached": true,
         "status": "superseded_by_localization_fix26"
-      }
+      },
+      "candidateBuild": "27",
+      "nativeRuntime": "Response repair notarized 5e3a2779-ada4-4f82-8eee-22f0f875f73f; codesign/spctl accepted; Matthew1 visibly rendered"
     }
   },
   "pending": [
