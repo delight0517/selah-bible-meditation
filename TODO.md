@@ -436,3 +436,10 @@
 - [x] PR #163 merge commit `c2a93354`; Pages run `37129017878` 성공. GitHub raw의 공개 `docs/work-hub.json` HTTP 200에서 3개 task/4개 data source ledger readback.
 
 - 플랫폼 동등성 Mac 요구 전송 근거: releasepilot-hub commit d0eb1304a32d2271916c174172d81e9989778278, request_id selah-apple-feature-parity-20261003. Git push 경쟁으로 기존 스크립트 전송이 실패해 같은 요청을 GitHub Contents API로 1건 게시했고 읽기 확인을 진행함. Mac 수신·구현 완료는 아직 증거 없음.
+
+## 2026-10-03 · Mac/Windows 중복 방지 허브 강화
+- [x] Mac GPT에 GA4 작업 중복 및 현재 파일 변경 여부 확인 요청. 직접 dispatch 응답 아티팩트 SHA-256 `d6eb5b99005b42c2759921b1c58a0914ec614c40afb1a4cbe194310e84771ac2`를 검증하고 GA4 task handoff에 회신·수신 근거 기록.
+- [x] Mac 확인 범위: 검사한 Mac checkout에서 GA4 구현 겹침 없음. 인증·GA4 property/measurement ID 읽기 전 구현 금지. GSC/first-party baseline 재수행 금지. 오래된 `selah-admin-analytics` dirty 파일은 변경 금지. Mac 원격 main 근거는 stale cached 상태였으므로 checkout 관찰 범위로 한정.
+- [x] Work Hub schema v2: 신규 claim에 repo/task/thread/base commit/exact file path 요구, scope 외 동일 자원·동일 저장소 파일/상위-하위 경로 충돌 및 증거 없는 완료 거부, handoff request/receipt/response/owner decision 분리.
+- [x] PR #170 merge commit `a5bfc6476e712ed4264a20ae45c9cf66de19d455`; `branch-current`, `validate`, `contract`, `windows-protocol` 성공. Pages run `37130418662` 성공, 공개 `/docs/work-hub.json` HTTP 200에서 schema v2/6개 task/Mac 회신 hash readback.
+- [ ] GA4 Analytics OAuth 연결과 정확한 property 확인은 외부 계정 작업 대기.
