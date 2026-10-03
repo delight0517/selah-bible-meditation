@@ -21,6 +21,7 @@ $releaseFiles = [ordered]@{
     'Launch-Selah-App.vbs' = Join-Path $PSScriptRoot 'Launch-Selah-App.vbs'
     'Create-Selah-Desktop-Shortcut.vbs' = Join-Path $PSScriptRoot 'Create-Selah-Desktop-Shortcut.vbs'
     'BUILD_INFO.json' = Join-Path $PSScriptRoot 'BUILD_INFO.json'
+    'selah-app.ico' = Join-Path $repoRoot 'assets\selah-app.ico'
     'README.md' = Join-Path $PSScriptRoot 'DOWNLOAD-README.md'
     'LICENSE' = Join-Path $repoRoot 'LICENSE'
     'THIRD_PARTY_NOTICES.md' = Join-Path $repoRoot 'THIRD_PARTY_NOTICES.md'
