@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "platforms": ["web", "windows", "macos", "ios"],
+  "features": [
+    {
+      "id": "SELAH-VISITOR-EXPLANATION",
+      "revision": 1,
+      "title": "월간 방문자 숫자의 상세 설명",
+      "acceptance": ["숫자를 누르면 설명을 열고 다시 닫을 수 있다", "익명 브라우저 집계와 중복 방문 예시를 설명한다", "UTC 월간 기간과 개인정보 범위를 설명한다"],
+      "paths": ["index.html", "assets/visitor-explanation.js", "mobile/www/index.html", "mobile/www/assets/visitor-explanation.js"],
+      "platforms": {
+        "web": {"owner": "Windows feature task", "state": "verified", "appliedRevision": 1, "source": "delight0517/selah-bible-meditation@5011f2e", "build": "1.0.10/29", "evidence": "Pages run 37128446369 success; production click and Enter collapse verified 2026-10-03"},
+        "windows": {"owner": "Windows app task", "state": "implemented", "appliedRevision": 1, "source": "delight0517/selah-bible-meditation@5011f2e", "build": "shared UI 1.0.10/29", "evidence": "Hosted implementation deployed; installed Edge app runtime check pending"},
+        "macos": {"owner": "Mac Selah maintainer - acknowledgement pending", "state": "pending", "appliedRevision": null, "source": "", "build": "", "evidence": "Mac implementation source and installed app must be inspected"},
+        "ios": {"owner": "Mac iOS maintainer - acknowledgement pending", "state": "implemented", "appliedRevision": 1, "source": "delight0517/selah-bible-meditation@5011f2e mobile/www", "build": "1.0.10/29 source bundle only", "evidence": "48 bundle files match; iPhone installation and UI test pending"}
+      }
+    },
+    {
+      "id": "SELAH-ACCOUNT-DATA-PARITY",
+      "revision": 1,
+      "title": "기기 간 계정 데이터와 추가형 백업의 동등한 동작",
+      "acceptance": ["같은 계정에서 지원 기록이 기기 사이에 왕복한다", "백업 가져오기는 기존 기록을 보존해 병합한다", "서로 다른 계정의 기록과 토큰을 섞지 않는다"],
+      "paths": ["scripts/unified-data.js", "scripts/unified-data-ui.js", "scripts/legacy-migration.js", "scripts/legacy-migration-ui.js", "contracts/selah-cloud-state.schema.json", "contracts/selah-portable-backup.schema.json"],
+      "platforms": {
+        "web": {"owner": "Windows data task", "state": "implemented", "appliedRevision": 1, "source": "delight0517/selah-bible-meditation main", "build": "shared UI 1.0.10/29", "evidence": "Synthetic data tests passed; authenticated cross-device round trip pending"},
+        "windows": {"owner": "Windows data task", "state": "implemented", "appliedRevision": 1, "source": "delight0517/selah-bible-meditation main", "build": "shared UI 1.0.10/29", "evidence": "Hosted data implementation; target runtime round trip pending"},
+        "macos": {"owner": "Mac Selah maintainer - acknowledgement pending", "state": "pending", "appliedRevision": null, "source": "", "build": "", "evidence": "Needs receipt, implementation mapping and runtime round trip"},
+        "ios": {"owner": "Mac iOS maintainer - acknowledgement pending", "state": "implemented", "appliedRevision": 1, "source": "delight0517/selah-bible-meditation mobile/www", "build": "shared source 1.0.10/29", "evidence": "Bundle parity only; device/account round trip pending"}
+      }
+    }
+  ]
+}

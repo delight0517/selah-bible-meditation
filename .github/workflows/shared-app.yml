@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -12,3 +14,7 @@ jobs:
       - run: node --test scripts/test-legacy-migration.mjs
       - run: node scripts/check-platform-source.mjs
       - run: node scripts/test-shared-bundle.mjs
+      - run: node scripts/check-feature-parity.mjs
+        env:
+          SELAH_PARITY_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - run: node scripts/test-feature-parity.mjs
