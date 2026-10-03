@@ -4,7 +4,7 @@
   "sourceCommit": "3c42697d2e0822ff95b834be11cea567480edbab",
   "version": "1.0.10",
   "build": 22,
-  "phase": "authorized_ad_free_release",
+  "phase": "paused_by_user_todo",
   "submissionAuthorized": true,
   "appleAccess": "existing_ASC_API_key_ready",
   "apps": {
@@ -105,5 +105,11 @@
     "checkedAt": "2026-10-03",
     "source": "https://bible.bskorea.or.kr/copyright_notice",
     "observation": "Korean Revised Version 1961 copyright notice; worldwide distribution permission remains unverified"
+  },
+  "pause": {
+    "date": "2026-10-03",
+    "source": "direct user request: save as TODO and continue when ready",
+    "resume": "explicit user ready/resume instruction",
+    "automaticSubmission": false
   }
 }

@@ -292,3 +292,12 @@
 - [ ] Complete Gate 0: connect tagged arrivals through focused reading, saved reflection and confirmed signup; exclude QA and verify the live aggregate readback.
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
+
+## 2026-10-03 · Selah ad-free iOS and Mac release — user paused
+
+- [ ] Resume only when the user says ready: finish ASC app records for `com.delight0517.selah` and `com.delight0517.selah.mac`, read back numeric app IDs, finish metadata/privacy/authentic screenshots, upload exact packages and submit review. The user requested deferring this work; no automatic submission or recurring polling.
+- [x] Prepared ad-free iOS IPA and signed Mac package for 1.0.10 / 22. Mac icon and eight native locales included in `mac-assets-store-22/Selah.pkg`; exact artifact paths/hashes are in `store/release-manifest.json`. PR #117 retains the release work; ad PR #121 stays deferred.
+- [ ] Resolve worldwide redistribution rights for bundled Korean Revised Version 1961 or explicitly select a verified permitted replacement before distribution.
+- [ ] Verify native sign-in, sync, offline reading and 30-day download behavior. Existing iPhone Mirroring authentication remains unverified.
+- [ ] Preserve shared correlation ID backlog `474637700f55` for Selah/Pomodoro/RiseSync; Windows validation remains pending under user device context.
+- [ ] On resume inspect the generated, uncommitted `macos/SelahMac.xcodeproj/project.pbxproj` asset/localization changes before integrating. Store records and review submission are not complete.
