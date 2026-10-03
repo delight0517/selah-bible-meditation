@@ -5,7 +5,7 @@ const features = new Set([
 ]);
 const locales = new Set(["ko", "en", "ja", "zh-CN", "zh-TW", "fil", "es", "pt-BR"]);
 const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "reader_30s", "reader_120s", "reflection_saved", "signup_complete", "return_visit"]);
-const experiments = new Set(["kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2"]);
+const experiments = new Set(["kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"]);
 const experimentClients = new Set(["app", "web", "unknown"]);
 const experimentDevices = new Set(["phone", "tablet", "computer", "unknown"]);
 const validTag = value => typeof value === "string" && /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? value.toLowerCase() : "";
@@ -104,7 +104,7 @@ export default {
       if (!/^[A-Z]{2}$/.test(country || "")) return json({ country: null, regionCode: null, topFeature: null }, 200, headers);
       const row = await env.DB.prepare("SELECT feature, SUM(count) AS total FROM feature_daily WHERE country = ? AND day >= date('now', '-29 days') GROUP BY feature ORDER BY total DESC LIMIT 1").bind(country).first();
       // Require a meaningful aggregate before changing the visual emphasis.
-      return json({ country, regionCode: /^[A-Z0-9-]{1,8}$/.test(regionCode) ? regionCode : null, topFeature: row && Number(row.total) >= 50 ? row.feature : null, sampleCount: row ? Number(row.total) : 0 }, 200, headers);
+      return json({ country, regionCode: /^[A-Z0-9-]{1,8}$/.test(regionCode) ? regionCode : null, topFeature: row && Number(row.total) >= 50 ? row.feature : null, sampleCount: row ? Number(row.total) : 0, experiments: [...experiments] }, 200, headers);
     }
     return json({ error: "not_found" }, 404, headers);
   }
