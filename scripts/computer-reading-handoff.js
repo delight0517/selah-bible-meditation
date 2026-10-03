@@ -286,14 +286,14 @@
   function startReadingHeartbeat() {
     clearInterval(heartbeat);
     heartbeat = setInterval(() => {
-      if (document.visibilityState === "visible" && !saveSession("running")) {
+      if (document.visibilityState === "visible" && document.hasFocus() && !saveSession("running")) {
         clearInterval(heartbeat);
         heartbeat = 0;
       }
     }, 20000);
   }
   function recordFocusReadingActivity() {
-    if (!document.body.classList.contains("mobile-reading-focus") || document.visibilityState !== "visible") return;
+    if (!document.body.classList.contains("mobile-reading-focus") || document.visibilityState !== "visible" || !document.hasFocus()) return;
     if (saveSession("running", Date.now(), true)) startReadingHeartbeat();
   }
   const originalSetReaderFocus = setReaderFocus;
@@ -334,7 +334,11 @@
     const remaining = session.status === "running"
       ? Math.max(0, Number(session.endsAt) - now)
       : Math.max(0, Number(session.remainingMs) || 0);
-    const status = session.status === "running" && remaining <= 0 ? "completed" : session.status;
+    const foreground = document.visibilityState === "visible" && document.hasFocus()
+      && meditationView.classList.contains("active");
+    const timedStatus = session.status === "running" && remaining <= 0 ? "completed" : session.status;
+    // The meditation timer may continue, but a background page is not reading.
+    const status = ["running", "paused"].includes(timedStatus) && !foreground ? "ended" : timedStatus;
     const old = db.computerReadingSession;
     const id = "meditation-" + session.id;
     // A different focus-reading session must not be ended by old meditation data.
@@ -347,11 +351,18 @@
     };
     persist();scheduleSync();
     clearInterval(meditationHeartbeat);meditationHeartbeat = 0;
-    if (status === "running") meditationHeartbeat = setInterval(() => {
+    if (status === "running" && foreground) meditationHeartbeat = setInterval(() => {
       if (db.meditationSession?.id === session.id) publishMeditationRest(db.meditationSession);
       else { clearInterval(meditationHeartbeat);meditationHeartbeat = 0; }
     }, 30000);
   }
+  function refreshMeditationForeground() {
+    const session = db.meditationSession;
+    if (session?.id && meditationView.classList.contains("active")) publishMeditationRest(session);
+  }
+  document.addEventListener("visibilitychange", refreshMeditationForeground);
+  window.addEventListener("blur", refreshMeditationForeground);
+  window.addEventListener("focus", refreshMeditationForeground);
   const originalSaveMeditationSession = saveMeditationSession;
   saveMeditationSession = function (status) {
     originalSaveMeditationSession(status);
