@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:01:24.275Z",
+  "updatedAt": "2026-10-03T15:06:04.899Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -338,7 +338,7 @@
       "id": "selah-live-together-20261003",
       "summary": "Live invite same passage peer positions and shared timer",
       "owner": "windows",
-      "status": "review",
+      "status": "waiting_external",
       "claimVersion": 2,
       "scopes": [
         "selah.features.live-together"
@@ -358,9 +358,10 @@
         "scripts/test-together-reading.mjs"
       ],
       "evidence": [
-        "Live server two-participant tests and Node mock tests pass; web UI validation pending"
+        "Live server two-participant tests and Node mock tests pass; web UI validation pending",
+        "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc"
       ],
-      "nextAction": "Browser UI verification, then Mac/iOS receipt and device acceptance; request selah-live-together-20261004 queued",
+      "nextAction": "Resume browser clicks once renderer available; Mac/iOS acknowledge request and apply revision2/build31 before device acceptance",
       "feedback": [],
       "handoffs": []
     }
