@@ -3,7 +3,7 @@
 - Kept the 66-book/chapter API reader and complete offline download path; added verse selection with local-only highlights, bookmarks, private notes, and copy. Annotation storage is outside the account sync payload.
 - Added attribution for 레널즈, 이승두, 김정삼 and disclosed the source distribution gap: 1 Peter 4:15 through the end of the book is not provided. The reader shows the notice in the affected chapter and does not reconstruct the missing text.
 - Verified eBible's edition listing reports Korean Bible 1910 as public domain and confirms the contributor/source metadata. Source and app bundle checks are local; no hosted Pages deployment, signed native app, or Windows readback is claimed.
-- [ ] Commit/push through the canonical PR workflow and verify the Pages deployment and visible Mac/iOS UI after account permission is available.
+- PR #122 (`codex/selah-korean-bible-reader`) is open and mergeable. Pages deployment and a visible Mac/iOS UI remain unverified until merge and runtime review.
 
 ## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
 - Google can crawl and has indexed the Selah root and Filipino page, but the latest settled Selah-only Search Console window (2026-09-03–2026-09-30; data through 2026-09-29) has zero page/query rows and zero sitemap-URL impressions. The parent GitHub Pages property has other projects; do not count its 88 impressions / 3 clicks as Selah traffic.

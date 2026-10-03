@@ -16,6 +16,7 @@ assert.match(html, /selah\.bible\.annotations\.v1/);
 assert.match(html, /localStorage\.setItem\(bibleAnnotationStorageKey/);
 assert.match(html, /1 Peter 4:15 through the end of the book/);
 assert.match(html, /하이라이트·북마크·개인 메모/);
+assert.match(fs.readFileSync(path.join(root, 'privacy.html'), 'utf8'), /계정에 동기화하지 않고 이 브라우저 기기에만 저장/);
 assert.equal(korOld.attribution, '한국어 성경 · Korean Bible 1910 · 레널즈, 이승두, 김정삼');
 assert.equal(korOld.coverageNote, '베드로전서 4:15부터 끝까지 원문 배포본에 없음');
 assert.match(fs.readFileSync(path.join(root, 'mobile/scripts/copy-web.mjs'), 'utf8'), /matthew-kor-old\.json/);
