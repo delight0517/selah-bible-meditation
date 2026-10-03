@@ -457,3 +457,12 @@ Copy this block for each study; replace every unknown with an observation or `no
 - QA: 같은 링크에 `&selah_qa=1&invitation_variant=a` 또는 `b`를 추가하면 위치와 관계없이 웹 시안을 점검한다. QA 이벤트는 전송하지 않는다.
 
 측정 서버가 v3 지원을 응답해야 실제 실험이 활성화된다. 서버 배포가 미완료된 동안 기존 화면을 유지하며 QA 시안만 열 수 있다.
+
+### OPS-ACQUISITION-20261004-01 — 유입·읽기 전환 단절과 귀속 수정
+
+- **Search Console (2026-10-04 재확인):** `https://delight0517.github.io/`에서 Selah 경로를 대상으로 2026-09-05–10-01 Web 검색의 `page,country`와 `query,page` 요청 모두 0행. 확정 데이터는 2026-09-29까지다. 색인 트래커는 15 URL 중 indexed 8, not indexed 4, pending 3, error/warning 0. 여덟 주 언어 랜딩은 모두 HTTP 200·자기 canonical·indexable로 확인됨. 이번 결과는 색인 문제보다는 아직 보고된 노출이 없음을 보여 주며, Google이 실제로 노출하지 않았다는 미래 예측은 아니다.
+- **첫-party 도착 (2026-10-04):** 최근 3 UTC 날짜(10-01–10-03) `/analytics/summary?appId=selah&period=month`는 page:view 58건, 익명 브라우저 ID 36개, 국가 이벤트 합계 KR 48 / US 10. 두 값 모두 확인된 사람 수가 아니다. referrer 집계는 비었고 source=direct 6, medium=none 6, campaign 0. 전체 이벤트가 page:view뿐이어서 이 엔드포인트만으로는 읽기·기록 전환을 판단할 수 없다.
+- **제품 행동 분리 집계:** 기능 Worker의 30일 합계는 KR meditation_started 5, scripture_read 2. 실험 요약은 기록된 행 전체에서 exposures 10, CTA clicks 7, reading starts 4, 30초/120초 독자 0, 저장 0, 가입 0. 작은 표본이고 owner/QA 여부가 판별되지 않아 공개 방문자의 전환율로 해석하지 않는다.
+- **확인된 유입 결함 및 수정:** 현지 랜딩의 analytics 코드는 유입 referrer/UTM을 받았지만, 같은 도메인 reader 링크가 이를 이어가지 않아 앱에서 원래 검색·소셜 출처가 direct/empty로 바뀔 수 있었다. `fil/analytics.js`에서 Google 등 검색 referrer와 지원 소셜 referrer를 분류하고 검증된 source/medium/campaign UTM을 같은 도메인의 다음 링크에 전달하도록 수정했다. 캠페인별 page → reader → reflection funnel을 한 익명 브라우저에서 비교할 기반이며, 기존 데이터는 소급 복구하지 않는다.
+- **검색 결과와 첫 화면 일치:** 영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어에서 읽기 CTA를 설명이나 큰 미리보기 이미지보다 앞에 배치해 방문 직후 읽기를 시작할 수 있게 했다. 일본어는 일본어 UI와 영어 WEB 전권/추가 가능한 일본어 신약판의 차이를 먼저 설명한다. 간체/번체는 정확한 1919년 화합본과 마태복음을, 필리핀어는 Ang Biblia 1905가 현대 Filipino 개정판이 아닌 옛 Tagalog 번역임을 첫 화면에서 밝힌다. 각 페이지는 무가입 여부와 기록 저장·동기화 범위를 시작 전에 알린다. 이는 정확한 약속과 빠른 진입을 위한 현지 카피/배치 수정이지 Google 노출 증가의 증거가 아니다.
+- **다음 판정:** 배포 후 변경한 세 URL을 공개 페이지/metadata에서 읽어 확인하고 URL 검사 요청을 1회 제출한다. 이후 안정된 GSC 기간의 언어별 검색어·노출·클릭과 같은 캠페인의 랜딩·reader·30초·reflection-save·signup을 비교한다. 공개 Instagram 브랜드는 현재 `vivid_wave`뿐이며 Selah 전용인지 검증되지 않았다. 개인 계정 제한에 따라 게시/예약하지 않고, 유료 캠페인도 집행하지 않는다.

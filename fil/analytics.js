@@ -51,10 +51,41 @@
 
   function attribution() {
     const params = new URLSearchParams(location.search);
-    return Object.fromEntries(["source", "medium", "campaign"].flatMap(name => {
+    const tagged = Object.fromEntries(["source", "medium", "campaign"].flatMap(name => {
       const value = params.get("utm_" + name) || "";
       return /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? [[name, value]] : [];
     }));
+    if (Object.keys(tagged).length) return tagged;
+    if (!referrer || referrer === location.hostname) return {};
+    const sources = [
+      ["google", /(^|\.)google\./, "organic"], ["naver", /(^|\.)naver\./, "organic"],
+      ["bing", /(^|\.)bing\.com$/, "organic"], ["yahoo", /(^|\.)yahoo\./, "organic"],
+      ["duckduckgo", /(^|\.)duckduckgo\.com$/, "organic"], ["daum", /(^|\.)daum\.net$/, "organic"],
+      ["baidu", /(^|\.)baidu\.com$/, "organic"], ["yandex", /(^|\.)yandex\./, "organic"],
+      ["instagram", /(^|\.)instagram\.com$/, "social"], ["facebook", /(^|\.)facebook\.com$|(^|\.)fb\.me$/, "social"],
+      ["x", /(^|\.)x\.com$|(^|\.)t\.co$/, "social"], ["threads", /(^|\.)threads\.net$/, "social"],
+      ["tiktok", /(^|\.)tiktok\.com$/, "social"], ["reddit", /(^|\.)reddit\.com$/, "social"],
+      ["youtube", /(^|\.)youtube\.com$|(^|\.)youtu\.be$/, "social"], ["pinterest", /(^|\.)pinterest\.com$/, "social"],
+      ["telegram", /(^|\.)t\.me$|(^|\.)telegram\.org$/, "social"], ["whatsapp", /(^|\.)whatsapp\.com$|(^|\.)wa\.me$/, "social"],
+      ["messenger", /(^|\.)messenger\.com$|(^|\.)m\.me$/, "social"], ["line", /(^|\.)line\.me$|(^|\.)line\.naver\.jp$/, "social"],
+      ["kakao", /(^|\.)kakao\.com$|(^|\.)kakao\.co\.kr$/, "social"], ["wechat", /(^|\.)wechat\.com$|(^|\.)weixin\.qq\.com$/, "social"]
+    ];
+    const match = sources.find(([, pattern]) => pattern.test(referrer));
+    return match ? { source: match[0], medium: match[2] } : { source: "referral", medium: "referral" };
+  }
+
+  // Keep the original discovery source on internal links, including the handoff into the reader.
+  if (Object.keys(campaign).length) {
+    document.querySelectorAll("a[href]").forEach(link => {
+      try {
+        const target = new URL(link.href, location.href);
+        if (target.origin !== location.origin) return;
+        for (const [name, value] of Object.entries(campaign)) {
+          if (!target.searchParams.has("utm_" + name)) target.searchParams.set("utm_" + name, value);
+        }
+        link.href = target.href;
+      } catch { }
+    });
   }
 
   function wasTracked(key) {
