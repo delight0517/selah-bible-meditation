@@ -51,6 +51,12 @@
         localStorage.setItem('selah.migration.lastBackup.' + (db.owner || '@local'), id);
         report = result.report; scheduleSync(); renderNotes(); renderQuiz(); renderQtLibrary();
       } else if (result.report.errors.length || result.report.skipped.length) report = result.report;
+      const owner = db.owner || '@local', oldClaims = JSON.parse(localStorage.getItem('selah.migration.claims.v1') || '{}');
+      const adopted = Object.keys(result.claims).some(source => oldClaims[source]?.owner === '@local' && result.claims[source].owner === owner && owner !== '@local');
+      if (adopted && !localStorage.getItem('selah.migration.lastBackup.' + owner)) {
+        const anonymousBackup = localStorage.getItem('selah.migration.lastBackup.@local');
+        if (anonymousBackup) localStorage.setItem('selah.migration.lastBackup.' + owner, anonymousBackup);
+      }
       localStorage.setItem('selah.migration.claims.v1', JSON.stringify(result.claims));
       backupKey = backupKey || localStorage.getItem('selah.migration.lastBackup.' + (db.owner || '@local')) || '';
     } catch (error) {

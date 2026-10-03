@@ -41,7 +41,7 @@
     "privacy.html": "e0d2c1b8526d9f34be4e0ebd34ede53c2ad150e7d14d61b683ee189762d6b85a",
     "scripts/computer-reading-handoff.js": "f8f63ebf6a845e82b2561a39e3a4ddb6bb29d3fa418dfa9aa3287b26bfeac55e",
     "scripts/google-login-recovery.js": "bb782156325b62ab076d7d83e70dcc4e609180b53554cf97cc4369dc0f3096d0",
-    "scripts/legacy-migration-ui.js": "f48ec6e1879cce6bb851efc09572c0502bae90ca39f061ceac05d8465af8429b",
+    "scripts/legacy-migration-ui.js": "3657e6e92d97d515a339efa948b8dc97617f051451849eb4005ac1b735d3a88c",
     "scripts/legacy-migration.js": "31ad848a2f8faa93b58cc62d1eaa981c80de11df3a4423b1e406060ffb0e6cfe",
     "scripts/unified-data-ui.js": "d2a6ff960d90cfd7f6716cbf68bf53024beab38b8b33d6ac9337513b0022db53",
     "scripts/unified-data.js": "252fc30ef5e1061f05717f7e01a4d21a4eeeac6554c0265c839c69ebe5526b0f",
