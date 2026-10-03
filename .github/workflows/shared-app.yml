@@ -9,4 +9,7 @@ jobs:
         with:
           node-version: 22
       - run: node --test scripts/test-unified-data.mjs
+      - run: node scripts/test-sync-without-guide.cjs
+      - run: node scripts/test-reader-startup.cjs
+      - run: node scripts/test-korean-bible-reader.cjs
       - run: node mobile/scripts/copy-web.mjs --check

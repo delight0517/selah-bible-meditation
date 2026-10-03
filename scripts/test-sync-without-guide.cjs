@@ -15,6 +15,7 @@ const context = {
   $: id => id === 'guideStart' ? null : { hidden: true },
   localStorage: { getItem: key => storage.get(key) || null, setItem: (key, value) => storage.set(key, value) },
   guidePanel: { hidden: true }, guideExpired: () => true,
+  clearTimeout() {}, cloudRetryTimer: 0, recoverCloud() {},
   setStatus: value => statuses.push(value),
   request: async (path, options) => { requests.push(options?.method || 'GET'); return options?.method === 'PUT' ? { rev: 1 } : { state: null }; },
   normalize() {}, persist() {}, applyReaderPrefs() {}, applyLocale() {},
