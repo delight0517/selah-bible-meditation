@@ -475,8 +475,14 @@
 
 
 ## 2026-10-04 · 현지 검색 결과 미리보기 정합성
-- [ ] Fil/ES/PT-BR 현지 SEO metadata와 JSON-LD 변경 PR을 검사·병합·배포하고 공개 title/meta/og/schema/image 읽기를 확인한다.
-- [ ] 변경 URL의 Google index/crawl 상태는 배포 이후 한 번 검사한다. GSC에 색인 요청을 제출한 것처럼 표현하지 않는다.
+- [x] Fil/ES/PT-BR 현지 SEO metadata와 JSON-LD 변경 PR #194 병합 (`cb2f0646e896609254afd963890a13bca50c19f7`), Pages run `37151582667` 성공. 공개 5개 페이지와 미리보기 이미지가 HTTP 200이며 예상 title/meta/OG/schema/canonical/image 값을 반환.
+- [x] 변경 URL 5개를 GSC에서 검사했다. 홈페이지 3개는 indexed, 안내 페이지 2개는 crawled-not-indexed이며 모든 last crawl 시각이 이번 배포보다 앞선다. 이번 작업에서는 sitemap 재제출이나 색인 요청을 하지 않았다.
 - [ ] 다음 정착 Search Console 구간에서 Web/Image 노출, query/page, 국가, CTR을 확인한다. 노출 0이면 기다리고 복수 카피/시장 승자를 선택하지 않는다.
-- [ ] 필리핀어 페이지 검색 제목·이미지 대체문구·구조화 이름의 영어 혼용 수정과 locale-specific metadata regression 검사를 PR에 포함한다.
+- [x] 필리핀어 페이지 검색 제목·이미지 대체문구·구조화 이름의 영어 혼용을 현지어로 고치고 locale-specific metadata regression 검사를 PR #194에 포함했다.
 - [ ] CJK 페이지의 word count는 스페이스 토큰 수의 false positive 가능성을 반영한다. 실제 현지 언어 본문과 검색 노출 전에는 페이지를 억지로 늘리지 않는다.
+
+## 2026-10-04 · 검색 및 행동 데이터 읽기
+- [x] Google Search Console 성과 데이터 정착은 2026-09-29까지다. Selah web page/country, query/page, image page/country 결과는 모두 0행이며 이번 10/04 배포 후 검색 효과는 아직 판단 불가.
+- [x] Worker의 30일 집계는 허용된 사이트 Origin으로 읽었다. `kr-home-copy-v1` variant A/B는 각 exposure 이벤트 5건, CTA 4/2, reader start 2/1이었다. 30초·120초, reflection save, signup은 0; return-visit 이벤트는 2/4. `kr-spiritual-curiosity-v2`는 exposure/CTA/start가 각 1건이었다. 모든 수치는 이벤트 집계이며 사람 수가 아니다.
+- [x] 지역은 KR-11 서울, KR-30 대전, KR-44 충남만 관측됐다. 표본이 variant당 5건 이하여서 승자 판정 기준 50 exposure에 크게 못 미친다. 비한국 시장이나 1,000 verified active users 달성으로 계산할 데이터는 없다.
+- [ ] 10/05 다음 점검에서 GSC settled-through 날짜와 검색 유입, Worker의 global-funnel-v1 전달·비한국 locale/국가 분포를 재확인한다. 브라우저 허용 Origin과 함께 읽고, 403 단발 응답을 이벤트 미도착으로 단정하지 않는다.
