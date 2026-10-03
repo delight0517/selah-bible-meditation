@@ -30,7 +30,7 @@ const base = process.env.SELAH_PARITY_BASE;
 if (base && !/^0+$/.test(base)) {
   const git = args => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim();
   const changed = git(['diff', '--name-only', base, 'HEAD']).split('\n');
-  const product = changed.filter(path => /^(?:index\.html|home\.html|privacy\.html|manifest\.webmanifest|bible-translations\.json|matthew-.*\.json|assets\/|styles\/|scripts\/.*\.(?:js|css)$|mobile\/(?:www\/|ios\/)|windows\/.*\.(?:js|vbs|cmd|ps1)$|analytics-worker\/src\/|contracts\/selah-)/.test(path));
+  const product = changed.filter(path => /^(?:index\.html|home\.html|privacy\.html|manifest\.webmanifest|bible-translations\.json|matthew-.*\.json|assets\/|styles\/|fil\/analytics\.js|scripts\/.*\.(?:js|css)$|mobile\/(?:www\/|ios\/)|windows\/.*\.(?:js|vbs|cmd|ps1)$|analytics-worker\/src\/|contracts\/selah-)/.test(path));
   if (product.length) {
     assert.ok(changed.includes(ledgerPath), 'Product changed without feature-parity ledger update');
     let previous;
