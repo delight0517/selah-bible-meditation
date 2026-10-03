@@ -114,6 +114,61 @@
           "workItem": "selah-apple-feature-parity-20261003"
         }
       }
+    },
+    {
+      "id": "SELAH-LIVE-TOGETHER-READING",
+      "revision": 1,
+      "title": "초대 URL로 같은 말씀·상대 읽는 위치·같은 타이머 공유",
+      "acceptance": [
+        "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
+        "상대 URL 입장 시 같은 번역본·책·장으로 열린다",
+        "상대가 읽는 절을 옅은 표시로 보여준다",
+        "시간 묵상은 서버 종료 시각 기준 타이머를 공유한다",
+        "묵상·기도·계정 정보는 전송하지 않는다"
+      ],
+      "paths": [
+        "index.html",
+        "assets/together-reading.js",
+        "assets/together-reading.css",
+        "privacy.html",
+        "mobile/www/",
+        "mobile/ios/",
+        "together-worker/"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Windows together-reading task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-live-together-20261003",
+          "build": "shared UI 1.0.10/30",
+          "evidence": "Implementation complete; two-browser UI test pending"
+        },
+        "windows": {
+          "owner": "Windows together-reading task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-live-together-20261003",
+          "build": "shared UI 1.0.10/30",
+          "evidence": "Implementation complete; two-browser UI test pending"
+        },
+        "macos": {
+          "owner": "Mac maintainer - request pending",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Native source and device acceptance pending"
+        },
+        "ios": {
+          "owner": "Mac maintainer - request pending",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-live-together-20261003",
+          "build": "shared UI 1.0.10/30",
+          "evidence": "Implementation complete; two-browser UI test pending"
+        }
+      }
     }
   ]
 }
