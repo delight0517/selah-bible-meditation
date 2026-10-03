@@ -1,26 +1,50 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03T14:11:49Z",
+  "updatedAt": "2026-10-03T14:23:01.9901471Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
       "title": "Search Console performance readbacks for Selah",
-      "resources": ["GSC property /selah-bible-meditation/ and saved GSC evidence"]
+      "resources": [
+        "GSC property /selah-bible-meditation/ and saved GSC evidence"
+      ]
     },
     {
       "id": "selah.analytics.first-party-pageviews",
       "title": "Selah first-party page-view attribution and aggregate reports",
-      "resources": ["page:view event contract and cloud-account-storage analytics summary"]
+      "resources": [
+        "page:view event contract and cloud-account-storage analytics summary"
+      ]
     },
     {
       "id": "selah.analytics.ga4-integration",
       "title": "GA4 account/property linking, site tag, and country/device reports",
-      "resources": ["Google Analytics OAuth scope, measurement ID, site tag, GA4 reports"]
+      "resources": [
+        "Google Analytics OAuth scope, measurement ID, site tag, GA4 reports"
+      ]
     },
     {
       "id": "selah.coordination.work-hub",
       "title": "Shared work ownership, overlap checks, and feedback ledger",
-      "resources": ["docs/work-hub.json", "docs/WORK_HUB.md", "scripts/work-hub.mjs"]
+      "resources": [
+        "docs/work-hub.json",
+        "docs/WORK_HUB.md",
+        "scripts/work-hub.mjs"
+      ]
+    },
+    {
+      "id": "selah.features.apple-parity",
+      "title": "macOS and iOS acceptance for shared feature revisions",
+      "resources": [
+        "Mac and iPhone implementation/installation/runtime evidence"
+      ]
+    },
+    {
+      "id": "selah.features.windows-runtime",
+      "title": "Windows runtime acceptance for feature parity",
+      "resources": [
+        "Installed Windows app feature tests"
+      ]
     }
   ],
   "dataSources": [
@@ -28,43 +52,91 @@
       "id": "google-search-console-selah",
       "name": "Google Search Console performance",
       "systemOfRecord": "Search Console URL-prefix property https://delight0517.github.io/selah-bible-meditation/ queried through the GSC Wizard API",
-      "datasets": ["clicks", "impressions", "ctr", "average position", "country", "device", "page", "query"],
+      "datasets": [
+        "clicks",
+        "impressions",
+        "ctr",
+        "average position",
+        "country",
+        "device",
+        "page",
+        "query"
+      ],
       "refresh": "On request; Search Console reports lag by roughly 2–3 days",
       "lastVerified": "2026-10-03",
       "coverage": "2026-09-03 through 2026-09-30; settled through 2026-09-29",
-      "limitations": ["0 clicks and 0 impressions means CTR is not calculable", "Zero rows do not establish that a page has no visits", "Search Console aggregates are not copied into the repository"],
-      "evidence": ["https://github.com/delight0517/selah-bible-meditation/pull/151", "https://github.com/delight0517/selah-bible-meditation/pull/154"]
+      "limitations": [
+        "0 clicks and 0 impressions means CTR is not calculable",
+        "Zero rows do not establish that a page has no visits",
+        "Search Console aggregates are not copied into the repository"
+      ],
+      "evidence": [
+        "https://github.com/delight0517/selah-bible-meditation/pull/151",
+        "https://github.com/delight0517/selah-bible-meditation/pull/154"
+      ]
     },
     {
       "id": "selah-first-party-pageviews",
       "name": "First-party Selah page-view aggregates",
       "systemOfRecord": "cloud-account-storage Worker analytics summary for appId=selah",
-      "datasets": ["page-view event count", "approximate browser IDs", "country/device/locale/path buckets when source fields exist"],
+      "datasets": [
+        "page-view event count",
+        "approximate browser IDs",
+        "country/device/locale/path buckets when source fields exist"
+      ],
       "refresh": "Live aggregate API readback",
       "lastVerified": "2026-10-03",
-      "limitations": ["Event counts are not people", "Some historical rows have unresolved origin mixing", "Do not assign an unknown-origin path to Selah", "This is separate from feature experiment counts in analytics-worker"],
-      "evidence": ["GROWTH_RESEARCH.md", "https://github.com/delight0517/selah-bible-meditation/pull/151", "https://github.com/delight0517/selah-bible-meditation/pull/152"]
+      "limitations": [
+        "Event counts are not people",
+        "Some historical rows have unresolved origin mixing",
+        "Do not assign an unknown-origin path to Selah",
+        "This is separate from feature experiment counts in analytics-worker"
+      ],
+      "evidence": [
+        "GROWTH_RESEARCH.md",
+        "https://github.com/delight0517/selah-bible-meditation/pull/151",
+        "https://github.com/delight0517/selah-bible-meditation/pull/152"
+      ]
     },
     {
       "id": "selah-feature-experiments",
       "name": "Selah feature and acquisition experiment aggregates",
       "systemOfRecord": "analytics-worker Cloudflare Worker and its D1 aggregate database",
-      "datasets": ["feature exposures and actions", "experiment exposures and conversions"],
+      "datasets": [
+        "feature exposures and actions",
+        "experiment exposures and conversions"
+      ],
       "refresh": "Live aggregate API readback",
       "lastVerified": "2026-10-03",
-      "limitations": ["Separate from page-view reporting", "Approximate event/browser counts, not verified people", "Do not infer causality or a winner below the documented sample rule"],
-      "evidence": ["analytics-worker/README.md", "GROWTH_RESEARCH.md"]
+      "limitations": [
+        "Separate from page-view reporting",
+        "Approximate event/browser counts, not verified people",
+        "Do not infer causality or a winner below the documented sample rule"
+      ],
+      "evidence": [
+        "analytics-worker/README.md",
+        "GROWTH_RESEARCH.md"
+      ]
     },
     {
       "id": "selah-ga4",
       "name": "Google Analytics 4 website and country/device reports",
       "systemOfRecord": "GA4 property to be confirmed after Analytics OAuth authorization",
-      "datasets": ["users/sessions/page views by country, device, landing page"],
+      "datasets": [
+        "users/sessions/page views by country, device, landing page"
+      ],
       "refresh": "Unavailable until a GA4 property is linked and site collection is verified",
       "lastVerified": "2026-10-03",
       "coverage": "No GA4 property connected; no site measurement ID verified",
-      "limitations": ["Google account currently lacks Analytics OAuth scope", "Do not guess a measurement ID or claim GA4 tracking before readback", "Consent and privacy disclosure must match the approved collection"],
-      "evidence": ["GROWTH_RESEARCH.md", "TODO.md"]
+      "limitations": [
+        "Google account currently lacks Analytics OAuth scope",
+        "Do not guess a measurement ID or claim GA4 tracking before readback",
+        "Consent and privacy disclosure must match the approved collection"
+      ],
+      "evidence": [
+        "GROWTH_RESEARCH.md",
+        "TODO.md"
+      ]
     }
   ],
   "tasks": [
@@ -73,9 +145,15 @@
       "summary": "Record the current Selah GSC baseline and first-party analytics limitations",
       "owner": "shared",
       "status": "completed",
-      "scopes": ["selah.analytics.gsc-baseline", "selah.analytics.first-party-pageviews"],
+      "scopes": [
+        "selah.analytics.gsc-baseline",
+        "selah.analytics.first-party-pageviews"
+      ],
       "branch": "main",
-      "evidence": ["https://github.com/delight0517/selah-bible-meditation/pull/151", "https://github.com/delight0517/selah-bible-meditation/pull/154"],
+      "evidence": [
+        "https://github.com/delight0517/selah-bible-meditation/pull/151",
+        "https://github.com/delight0517/selah-bible-meditation/pull/154"
+      ],
       "nextAction": "Refresh only after a new settled reporting window or a specific decision requires it.",
       "feedback": []
     },
@@ -84,9 +162,13 @@
       "summary": "Link GA4, verify country/device reporting, and add consent-aware tags to all public pages",
       "owner": "windows",
       "status": "waiting_external",
-      "scopes": ["selah.analytics.ga4-integration"],
+      "scopes": [
+        "selah.analytics.ga4-integration"
+      ],
       "branch": "codex/selah-analytics-3h-checkpoint-20261003",
-      "evidence": ["GSC Wizard reports connected=false and no Analytics OAuth scope on 2026-10-03"],
+      "evidence": [
+        "GSC Wizard reports connected=false and no Analytics OAuth scope on 2026-10-03"
+      ],
       "nextAction": "Account owner connects Google Analytics in GSC Wizard; then verify the exact GA4 property and measurement ID before implementation.",
       "feedback": [
         {
@@ -101,11 +183,50 @@
       "summary": "Add a shared scope-claim ledger, overlap validation, and analytics data catalog",
       "owner": "windows",
       "status": "in_progress",
-      "scopes": ["selah.coordination.work-hub"],
+      "scopes": [
+        "selah.coordination.work-hub"
+      ],
       "branch": "codex/selah-work-hub-20261003",
       "evidence": [],
       "nextAction": "Complete the validator and require its check on protected main.",
       "feedback": []
+    },
+    {
+      "id": "selah-apple-feature-parity-20261003",
+      "summary": "Mac/iOS apply and verify visitor explanation and account data feature revisions",
+      "owner": "mac",
+      "status": "planned",
+      "scopes": [
+        "selah.features.apple-parity"
+      ],
+      "branch": "Mac maintainer to confirm",
+      "featureIds": [
+        "SELAH-VISITOR-EXPLANATION",
+        "SELAH-ACCOUNT-DATA-PARITY"
+      ],
+      "evidence": [
+        "contracts/feature-parity.json"
+      ],
+      "nextAction": "Acknowledge queue request; inspect real sources; apply and test each feature revision"
+    },
+    {
+      "id": "selah-windows-feature-runtime-20261003",
+      "summary": "Confirm feature acceptance in installed Windows app and cross-device account tests",
+      "owner": "windows",
+      "status": "planned",
+      "scopes": [
+        "selah.features.windows-runtime"
+      ],
+      "branch": "Windows maintainer to claim",
+      "featureIds": [
+        "SELAH-VISITOR-EXPLANATION",
+        "SELAH-ACCOUNT-DATA-PARITY"
+      ],
+      "evidence": [
+        "contracts/feature-parity.json"
+      ],
+      "nextAction": "Claim existing task instead of creating duplicate; record actual Windows runtime evidence"
     }
-  ]
+  ],
+  "featureParityFile": "contracts/feature-parity.json"
 }

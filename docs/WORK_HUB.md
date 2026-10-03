@@ -31,3 +31,6 @@ Google Search Console, the first-party Cloudflare Worker, and GA4 remain separat
 - `node scripts/work-hub.mjs feedback ...` — append cross-device feedback to a task.
 
 The CLI edits only `docs/work-hub.json`; it never commits, pushes, merges, changes account settings, or copies analytics rows.
+
+## 플랫폼 기능 동등성
+기능별 합격 기준과 revision은 contracts/feature-parity.json에서 관리한다. 작업 담당·중복 범위·수신 대기는 이 work-hub 원장을 사용한다. 기능 원장의 workItem으로 기존 작업을 이어가고 같은 요청을 새로 만들지 않는다. 플랫폼별 구현 기술은 강제하지 않는다. 자세한 규칙은 PLATFORM_RELEASE.md를 따른다.

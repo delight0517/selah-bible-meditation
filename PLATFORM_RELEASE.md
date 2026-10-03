@@ -35,3 +35,5 @@
 - `node scripts/check-feature-parity.mjs --release`: 미완료 플랫폼이 있으면 통합 완료 차단.
 
 방문자 설명과 계정 데이터 계약을 등록했다. Mac 설치 소스 확인, iPhone 설치·실행, 계정 왕복 시험은 남아 있다. Microsoft Store는 Windows 배포 채널이며 현재 미제출이다. 플랫폼 빌드 번호가 달라도 같은 기능 revision으로 동등성을 관리한다.
+
+작업 담당과 중복 방지는 기존 docs/work-hub.json을 사용한다. 기능 원장의 workItem은 그 작업 ID를 가리킨다. 기능 명세 원장과 작업 원장을 같은 작업 흐름으로 연결하며 작업 큐를 별도로 중복 생성하지 않는다.
