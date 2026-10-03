@@ -1,5 +1,5 @@
 {
-  "description": "Validate cross-platform reading handoff before session reuse",
-  "version": "1.0.6",
-  "build": 19
+  "description": "Refresh Selah app icons across web, iOS, and Windows",
+  "version": "1.0.9",
+  "build": 23
 }

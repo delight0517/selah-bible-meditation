@@ -4,6 +4,7 @@ Const SHORTCUT_NAME = "Selah App Window"
 
 Dim shell, files, edgePath, sourceLauncher, launcherPath, installDir, wscriptPath
 Dim desktopPath, startMenuPath, programsPath, desktopShortcutPath, startShortcutPath
+Dim sourceIcon, iconPath
 Set shell = CreateObject("WScript.Shell")
 Set files = CreateObject("Scripting.FileSystemObject")
 
@@ -37,6 +38,13 @@ If files.FileExists(launcherPath) Then
   End If
 End If
 files.CopyFile sourceLauncher, launcherPath, True
+sourceIcon = files.BuildPath(files.GetParentFolderName(WScript.ScriptFullName), "selah-app.ico")
+If Not files.FileExists(sourceIcon) Then
+  MsgBox "The Selah app icon was not found: " & sourceIcon, vbExclamation, "Selah"
+  WScript.Quit 1
+End If
+iconPath = files.BuildPath(installDir, "selah-app.ico")
+files.CopyFile sourceIcon, iconPath, True
 
 wscriptPath = shell.ExpandEnvironmentStrings("%WINDIR%\System32\wscript.exe")
 If Not files.FileExists(wscriptPath) Then
@@ -66,7 +74,7 @@ Sub EnsureShortcut(path)
       shortcut.Arguments = expectedArgs
       shortcut.WorkingDirectory = installDir
       shortcut.Description = "Selah Bible Meditation"
-      shortcut.IconLocation = edgePath & ",0"
+      shortcut.IconLocation = iconPath & ",0"
       shortcut.Save
       Exit Sub
     End If
@@ -79,7 +87,7 @@ Sub EnsureShortcut(path)
   shortcut.Arguments = expectedArgs
   shortcut.WorkingDirectory = files.GetParentFolderName(launcherPath)
   shortcut.Description = "Selah Bible Meditation"
-  shortcut.IconLocation = edgePath & ",0"
+  shortcut.IconLocation = iconPath & ",0"
   shortcut.Save
 End Sub
 
