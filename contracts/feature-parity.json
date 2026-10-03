@@ -117,7 +117,7 @@
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 2,
+      "revision": 3,
       "title": "초대 URL로 같은 말씀·상대 읽는 위치·같은 타이머 공유",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
@@ -139,20 +139,20 @@
         "web": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-live-together-fix-20261004",
-          "build": "shared UI 1.0.10/31",
-          "evidence": "DOM and server verification; actual browser click test blocked by unresponsive browser renderer",
-          "workItem": "selah-live-together-20261004"
+          "appliedRevision": 3,
+          "source": "codex/selah-together-promo-20261004",
+          "build": "shared UI 1.0.10/32",
+          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "workItem": "selah-live-together-20261003"
         },
         "windows": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-live-together-fix-20261004",
-          "build": "shared UI 1.0.10/31",
-          "evidence": "DOM and server verification; actual browser click test blocked by unresponsive browser renderer",
-          "workItem": "selah-live-together-20261004"
+          "appliedRevision": 3,
+          "source": "codex/selah-together-promo-20261004",
+          "build": "shared UI 1.0.10/32",
+          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "workItem": "selah-live-together-20261003"
         },
         "macos": {
           "owner": "Mac maintainer - request pending",
@@ -161,16 +161,16 @@
           "source": "",
           "build": "",
           "evidence": "Native source and device acceptance pending",
-          "workItem": "selah-live-together-20261004"
+          "workItem": "selah-live-together-20261003"
         },
         "ios": {
           "owner": "Mac maintainer - request pending",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-live-together-fix-20261004",
-          "build": "shared UI 1.0.10/31",
-          "evidence": "DOM and server verification; actual browser click test blocked by unresponsive browser renderer",
-          "workItem": "selah-live-together-20261004"
+          "appliedRevision": 3,
+          "source": "codex/selah-together-promo-20261004",
+          "build": "shared UI 1.0.10/32",
+          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "workItem": "selah-live-together-20261003"
         }
       }
     }
