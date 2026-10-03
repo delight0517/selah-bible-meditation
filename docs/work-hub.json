@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-03T14:23:01.9901471Z",
+  "updatedAt": "2026-10-03T14:23:47.0703093Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -182,13 +182,15 @@
       "id": "selah-cross-device-work-hub-20261003",
       "summary": "Add a shared scope-claim ledger, overlap validation, and analytics data catalog",
       "owner": "windows",
-      "status": "in_progress",
+      "status": "completed",
       "scopes": [
         "selah.coordination.work-hub"
       ],
       "branch": "codex/selah-work-hub-20261003",
-      "evidence": [],
-      "nextAction": "Complete the validator and require its check on protected main.",
+      "evidence": [
+        "PR #163 merged at c2a93354a004b5dbd4be88e633bad78df2023647; CI validate, contract, and branch-current passed; protected main now requires validate; Pages run 37129017878 succeeded; public docs/work-hub.json returned HTTP 200."
+      ],
+      "nextAction": "Mac and Windows should read this ledger before new work; claim scopes here and append feedback through the CLI.",
       "feedback": []
     },
     {
