@@ -89,10 +89,13 @@ assert.equal(writes[2].values.at(-3), 'kr-gentle-invitation-v1');
 assert.equal(writes[2].values.at(-2), 'b');
 
 const market = await worker.fetch(request('https://worker.test/analytics/market'), env);
-assert.deepEqual(await market.json(), { country: 'KR', regionCode: '11', topFeature: null, sampleCount: 1 });
+assert.deepEqual(await market.json(), { country: 'KR', regionCode: '11', topFeature: null, sampleCount: 1, experiments: ["kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"] });
 
 const denied = request('https://worker.test/analytics/experiment/event', {
   method: 'POST', headers: { origin: 'https://wrong.example' }, body: '{}'
 });
 assert.equal((await worker.fetch(denied, env)).status, 403);
 console.log('Market experiment worker: validation, anonymous regional aggregation, summaries, and CORS passed');
+
+const acquisition = request('https://worker.test/analytics/experiment/event', {method:'POST',headers:{origin:env.ALLOWED_ORIGIN,'content-type':'application/json'},body:JSON.stringify({appId:'selah',experiment:'kr-spiritual-curiosity-v3',variant:'a',event:'exposure',locale:'ko',client:'web',deviceClass:'computer',campaign:'kr-god-curiosity-v3'})});
+assert.equal((await worker.fetch(acquisition,env)).status,202);
