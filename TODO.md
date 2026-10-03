@@ -1,3 +1,7 @@
+## 2026-10-03 · Selah 화면 브랜드 아이콘 통일 — 1.0.9 / build 23
+- 배포 앱을 직접 열어 보니 본문 화면 상단에는 기존 별표 표식이 남아 있어 새 앱 아이콘과 브랜드가 달랐음. 본문/홈 상단에 동일한 Selah 성경책·십자가 SVG를 적용.
+- 웹/PWA와 모바일 공유 번들을 다시 생성하고 Windows 배포판 버전을 1.0.9/build 23으로 올림. 배포 후 실제 화면의 아이콘 및 동작을 확인할 것.
+
 ## 2026-10-03 · Country/device analytics live check and Selah GSC filter — 1.0.9 / build 22
 - Current first-party `/analytics/summary?appId=selah&period=month` readback: 49 page-view events over 3 UTC dates, 31 approximate anonymous browser IDs, country KR 39 / US 10, page-view device classes desktop 36 / mobile 13. Referrers, source, medium and campaign are empty; this is not confirmed human traffic or campaign attribution.
 - The 30-day Korea hero-copy experiment currently has 7 exposures (A=3, B=4), 5 CTA clicks, 2 reading starts, 0 30-second focused reads, 0 reflection saves, and 0 signups. The observed CTA ratio is 5/7 (71%), but this sample is tiny and may include QA; do not select a variant or call it a stable conversion rate.
@@ -311,9 +315,3 @@
 - [ ] Complete Gate 0: connect tagged arrivals through focused reading, saved reflection and confirmed signup; exclude QA and verify the live aggregate readback.
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
-
-## 2026-10-03 · 기존 기록 통합 이관 — 공유 1.0.10 / 빌드 23
-- 사용자 피드백: “그러면 그걸 적용하고 이전의 것들을 이제 여기 시스템에 다 옮겨ㅈ줘 효율적이고 빠르게!”
-- 기존 주 앱 selah.v1 IDs와 현재 초안은 보존한다. 스페인어/포르투갈어/타갈로그 독립 읽기 저장소를 원본 백업 후 공통 묵상/북마크/표시/원본 아카이브로 추가 이관하며, 반복 실행 중복과 계정 간 자동 복사를 막는다.
-- [ ] 코드 배포 및 실제 Windows 이관 개수 확인. 현재 두 Windows 앱 창은 로그아웃 상태이며 Mac SSH 탐색/회신은 없다. 사용자는 목적 계정 로그인이 필요하다. 게임 화면이 앞에 있어 현재 마우스/키보드 입력은 멈췄다.
-- 이관 코어 9개, 공통 코어 14개, 실제 페이지 합성 이관 시험(옛 저장소 3개→메모 4개/표시 6개, 원본/백업 유지, 재실행 중복 없음, 합성 계정 왕복, 다른 계정 격리, 백업 quota 실패 시 중단), 기존 공통 동기화 및 Google/guide 회귀 검사를 통과했다. 실제 사용자 기록/생산 토큰은 시험에 사용하지 않았다.

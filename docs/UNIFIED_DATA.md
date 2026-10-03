@@ -26,7 +26,7 @@ Windows·Mac·iOS·웹은 같은 `index.html`, `scripts/unified-data.js`와 Blue
 
 `node mobile/scripts/copy-web.mjs`는 화면, 스타일, 공통 스크립트, 개인정보 안내와 이미지 등을 복사하고 `mobile/www/SHARED_SOURCE_MANIFEST.json`에 정규화한 SHA-256을 기록합니다. `--check`는 원본과 번들이 다르면 실패합니다. iOS/Android sync 명령과 GitHub CI가 이 검사를 실행합니다. 실제 iOS 설치본에 새 코드가 들어가려면 Mac에서 같은 원본을 동기화하고 새 빌드를 설치해야 합니다. 원래 WebView 저장소를 삭제하거나 앱을 제거하는 방식으로 업데이트하지 마세요.
 
-스페인어·포르투갈어·타갈로그 전용 읽기 페이지의 기존 메모·북마크·형광 표시는 공유 앱 1.0.10/build23에서 자동 이관합니다. 같은 브라우저/프로필/웹 origin에 있는 `selah.reader.es.v1`, `selah.reader.pt-br.v1`, `selah.fil.reader.v1`이 대상입니다. 주 앱의 selah.v1은 기존 IDs 그대로 사용합니다. 다른 브라우저/기기/서버 origin의 로컬 기록은 그곳에서 내보낸 Selah 백업을 통합 앱의 백업 가져오기로 추가해야 합니다.
+스페인어·포르투갈어·타갈로그 전용 읽기 페이지의 기존 메모·북마크·형광 표시는 공유 앱 1.0.10/build24에서 자동 이관합니다. 같은 브라우저/프로필/웹 origin에 있는 `selah.reader.es.v1`, `selah.reader.pt-br.v1`, `selah.fil.reader.v1`이 대상입니다. 주 앱의 selah.v1은 기존 IDs 그대로 사용합니다. 다른 브라우저/기기/서버 origin의 로컬 기록은 그곳에서 내보낸 Selah 백업을 통합 앱의 백업 가져오기로 추가해야 합니다.
 
 ## 확인된 증거와 남은 검증
 
@@ -45,7 +45,7 @@ PR [#91](https://github.com/delight0517/selah-bible-meditation/pull/91)이 `4625
 
 Mac 적용 요청 `20261002T111052Z_windows_selah_unified_build19`가 releasepilot-hub GitHub main의 mac_inbox에 올라간 것을 다시 읽어 확인했습니다. SSH는 고정된 신뢰 키와 일치하는 Mac을 찾지 못했고, 큐의 Response는 비어 있어 수신/설치가 확인되지 않았습니다. 서버 인증 왕복, 설치된 Mac/iOS 앱 업데이트 및 개인 기록 이관은 남아 있습니다.
 
-## 기존 기록 이관 — 1.0.10 / build23
+## 기존 기록 이관 — 1.0.10 / build24
 
 - 자동 이관은 로컬 원본 백업 저장이 성공한 뒤에만 시작합니다. 원본 키는 삭제/교체하지 않습니다. 원본과 당시 주 앱 백업은 계정 화면에서 내려받을 수 있습니다. 손상된 JSON은 자동 이관하지 않으며 원본을 남깁니다.
 - 원본 메모는 일반 묵상으로, 북마크/형광 표시는 readerMarks로, 해석하지 않은 필드는 legacyReaderArchives로 보관합니다. 원본에 작성 일자가 없으면 임의의 출석일을 만들지 않습니다.
