@@ -223,6 +223,10 @@
   let heartbeat = 0;
   let focusWasActive = document.body.classList.contains("mobile-reading-focus");
   function saveSession(sessionStatus, now = Date.now()) {
+    if (currentPlatform && db.meditationSession?.status === "running"
+        && Number(db.meditationSession.endsAt) > now && meditationView.classList.contains("active")) {
+      publishMeditationRest(db.meditationSession);return;
+    }
     const old = db.computerReadingSession || {};
     const withinGrace = old.status === "paused" && timestamp(old, "resumeGraceUntil") > now;
     const stillRunning = old.status === "running" && now - timestamp(old, "lastSeenAt") < 420000;
@@ -271,6 +275,50 @@
       heartbeat = setInterval(() => {
         if (document.visibilityState === "visible") saveSession("running");
       }, 20000);
+    }
+  });
+
+  // Timed meditation and focus reading use the same desktop rest contract.
+  let meditationHeartbeat = 0;
+  function publishMeditationRest(session) {
+    if (!currentPlatform || !session?.id) return;
+    const now = Date.now(), duration = Math.max(0, Number(session.durationMs) || 0);
+    const remaining = session.status === "running"
+      ? Math.max(0, Number(session.endsAt) - now)
+      : Math.max(0, Number(session.remainingMs) || 0);
+    const status = session.status === "running" && remaining <= 0 ? "completed" : session.status;
+    const old = db.computerReadingSession;
+    const id = "meditation-" + session.id;
+    // A different focus-reading session must not be ended by old meditation data.
+    if (!["running", "paused"].includes(status) && old?.id !== id) return;
+    db.computerReadingSession = {
+      id, status, source: "timed-meditation", platform: currentPlatform,
+      ref: session.ref || "", updatedAt: now, lastSeenAt: now,
+      activeMs: Math.min(duration, Math.max(0, duration - remaining)),
+      resumeGraceUntil: status === "paused" ? now + 420000 : 0
+    };
+    persist();scheduleSync();
+    clearInterval(meditationHeartbeat);meditationHeartbeat = 0;
+    if (status === "running") meditationHeartbeat = setInterval(() => {
+      if (db.meditationSession?.id === session.id) publishMeditationRest(db.meditationSession);
+      else { clearInterval(meditationHeartbeat);meditationHeartbeat = 0; }
+    }, 30000);
+  }
+  const originalSaveMeditationSession = saveMeditationSession;
+  saveMeditationSession = function (status) {
+    originalSaveMeditationSession(status);
+    publishMeditationRest(db.meditationSession);
+  };
+  const originalActivateSyncedMeditation = activateSyncedMeditation;
+  activateSyncedMeditation = function (session) {
+    originalActivateSyncedMeditation(session);
+    publishMeditationRest(session);
+  };
+  window.addEventListener("selah-data-updated", () => {
+    const session = db.meditationSession;
+    if (currentPlatform && session?.status === "running" && Number(session.endsAt) > Date.now()
+        && (!meditationHeartbeat || db.computerReadingSession?.id !== "meditation-" + session.id)) {
+      activateSyncedMeditation(session);
     }
   });
 
