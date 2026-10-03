@@ -46,14 +46,14 @@
       "registeredBundleId": "564D4H9HP5",
       "export": {
         "status": "succeeded",
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-store-22/Selah.pkg",
-        "sha256": "13e4a6180776d6e7fda987949dc59940321ac530ee610ee7d801e40e11414283",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/mac-assets-store-22/Selah.pkg",
+        "sha256": "4b0c6a9c59a4cd76c9570915727833625131e22ead8b4b132bd92a43935d6381",
         "uploaded": false
       },
       "signedArchive": {
-        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-Store-1.0.10-22.xcarchive",
+        "path": "/Users/rogan/Documents/Codex/2026-10-03/selah-store-artifacts/Selah-Mac-Assets-1.0.10-22.xcarchive",
         "status": "succeeded",
-        "signing": "Apple Development automatic; distribution export succeeded"
+        "signing": "codesign deep strict verified; distribution export succeeded"
       },
       "preparedAssets": {
         "icon": "macos/Resources/Assets.xcassets/AppIcon.appiconset",
@@ -67,13 +67,12 @@
           "es",
           "fil"
         ],
-        "includedInBuild22": false
+        "includedInBuild22": true
       }
     }
   },
   "pending": [
     "ASC app registration and exact IDs",
-    "Rebuild Mac distribution package with icon and native localizations",
     "Authentic platform screenshots",
     "Privacy declarations based on actual account/sync and analytics behavior",
     "Worldwide Korean Revised Version 1961 redistribution rights evidence",
