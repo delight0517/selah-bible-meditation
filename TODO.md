@@ -3,7 +3,16 @@
 - 기존 주 앱 selah.v1 IDs와 현재 초안은 보존한다. 스페인어/포르투갈어/타갈로그 독립 읽기 저장소를 원본 백업 후 공통 묵상/북마크/표시/원본 아카이브로 추가 이관하며, 반복 실행 중복과 계정 간 자동 복사를 막는다.
 - [ ] 코드 배포 및 실제 Windows 이관 개수 확인. 현재 두 Windows 앱 창은 로그아웃 상태이며 Mac SSH 탐색/회신은 없다. 사용자는 목적 계정 로그인이 필요하다. 게임 화면이 앞에 있어 현재 마우스/키보드 입력은 멈췄다.
 
-## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
+## 2026-10-03 · Selah 앱 아이콘 및 Windows 런처 — 1.0.9 / build 22
+- 사용자 피드백: Windows 무료 성경 앱의 화면 디자인을 세련되게 정리하고 앱 아이콘도 제대로 만들어 달라고 요청함.
+- 공통 앱 아이콘을 새 Selah 성경책과 십자가 디자인으로 적용하고 웹/PWA, iOS 앱 아이콘 카탈로그, Windows 다중 크기 바로가기 아이콘을 맞춤. Windows 런처 ZIP에도 전용 아이콘을 포함하고 바탕 화면/시작 메뉴 바로가기가 이 아이콘을 사용하도록 연결.
+- 버전 메타데이터를 1.0.9/build 22로 갱신. Windows 런처 패키지 생성 성공; SHA-256 49ce8408127ded3b2f10f553dd5b928f91a5ed60cf6c1a55e23d1483dcbcfa85. ZIP 내부 아이콘/체크섬과 공개 배포 readback 결과를 계속 기록할 것. iPhone 실기기 및 Xcode 빌드는 이 작업에서 수행하지 않음.
+
+## 2026-10-03 · CTR / 국가별 분석 연결 점검 — 1.0.9 / build 21
+- Search Console query를 country, device, country+device, query+country, page+country dimensions로 조회했지만 모두 0행이었다. CTR/국가별 검색 리포트는 API 차원에서 지원되며, Selah 검색 노출 데이터가 아직 없어 수치를 표시할 수 없다. 기존 색인/노출 점검은 계속한다.
+- 기존 first-party 이벤트 요약(10/01–10/03)은 page_view 46건, 익명 브라우저 ID 31개, 국가 KR/US를 기록했다. 이 값은 Search Console 클릭/CTR이나 검증된 인간 방문자 수와 구분한다.
+- GSC Wizard 연결 계정 `rogan2534@gmail.com`에는 Google Analytics 권한(scope)이 없어 GA4 속성 조회 불가. 저장소 소스에서 GA4 `G-...`/gtag 측정 태그를 찾지 못했다. GA4 국가·기기 보고를 활성화하려면 사이트 소유 계정으로 Google Analytics 권한을 GSC Wizard에 연결하고 측정 ID를 사이트에 설정해야 한다. 비밀 키나 소유자 계정 권한은 추측하지 않는다.
+- 사용자 요청: CTR 및 국가별 조회까지 작동시킬 것. 진행 다음 단계는 GSC Wizard에서 동일 소유 계정으로 Google Analytics 연결 승인 후 GA4 속성 연결 여부 확인; 그 후 적절하면 측정 ID 추가, 배포, GA4 실시간 이벤트 및 국가/기기 리포트 readback. GSC 검색 CTR은 Google 검색 노출이 발생한 뒤 재조회한다.## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
 - Google can crawl and has indexed the Selah root and Filipino page, but the latest settled Selah-only Search Console window (2026-09-03–2026-09-30; data through 2026-09-29) has zero page/query rows and zero sitemap-URL impressions. The parent GitHub Pages property has other projects; do not count its 88 impressions / 3 clicks as Selah traffic.
 - Live first-party summary for 2026-10-01–03 reports 46 page-view events / 31 anonymous browser IDs (KR and US); source, medium and campaign are empty. This is not verified human count or attributable acquisition. Current Korean copy test: 7 exposures (A=3/B=4), 4 CTA clicks, 2 reading starts, 0 30-second reads, 0 saved reflections, 0 recorded signup events; sample is too small and may include QA.
 - Corrected an accidental `.signup-cta { display:none }` in the shared root reader/landing CSS; the free account button had no visible signup path. Shared source is 1.0.9/build 21 and mobile bundle is generated from the root.
@@ -29,6 +38,11 @@
 - Root and mobile runtime mirrored. Syntax/whitespace checks passed; authenticated friend mutation and native installation have not been exercised. Deployment recorded in the pull request.
 
 # TODO — Selah Windows/macOS parity
+
+## 2026-10-03 · Scheduled GSC indexing checkpoint — 1.0.6 / build 19
+- The GSC Wizard tracker ran at `2026-10-03T07:39:22Z`: 1/4 tracked URLs indexed (home page); the Korean download hub, English download hub, and Windows install page still report “URL is unknown to Google,” with no crawl time. All four inspections completed with zero warnings/errors.
+- Search Analytics now reports settled data through 2026-09-29 (first incomplete date 2026-09-30), but still returns no query or page rows. No Google impressions or ranking positions are available yet.
+- Sitemap report still shows the submitted sitemap pending with 0 warnings and 0 errors. The published 14-URL sitemap is live and valid; do not resubmit it repeatedly or claim the other pages are indexed. Continue at the next hourly checkpoint.
 
 ## 2026-10-02 · 모든 기기의 공통 UI와 데이터 계약 — 공유 앱 1.0.7 / 빌드 19
 - 사용자 피드백: “이 앱이 만들어졌잖아 근데 이 성경 앱의 방식 ui 부터 시작해서 모든게 맥의 ios 웹사이트와 간극이 벌어져서 따로따로 서로 다른 데이터를 관리해야 하는 위험으로부터 이 데이터를 통합으로ㅓ 만들수 있는 그러한 시스템 만어줄래 ?”

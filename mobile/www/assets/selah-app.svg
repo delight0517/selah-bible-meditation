@@ -1,7 +1,68 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#263f36"/>
-  <path d="M92 150c62-18 118-8 164 27v202c-46-35-102-45-164-27V150Z" fill="#f5f2eb"/>
-  <path d="M420 150c-62-18-118-8-164 27v202c46-35 102-45 164-27V150Z" fill="#e9e1cf"/>
-  <path d="M256 177v202" fill="none" stroke="#82977c" stroke-width="9"/>
-  <path d="M256 74v79m-29-50h58" fill="none" stroke="#d6b978" stroke-linecap="round" stroke-width="13"/>
+  <defs>
+    <linearGradient id="forest" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#344f43"/>
+      <stop offset="1" stop-color="#1d382f"/>
+    </linearGradient>
+    <radialGradient id="quiet-glow" cx="50%" cy="34%" r="47%">
+      <stop offset="0" stop-color="#d6b978" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#d6b978" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="left-page" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffdf7"/>
+      <stop offset="1" stop-color="#e9e5d9"/>
+    </linearGradient>
+    <linearGradient id="right-page" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eee8d9"/>
+      <stop offset="1" stop-color="#d9cfb7"/>
+    </linearGradient>
+    <filter id="book-shadow" x="-15%" y="-15%" width="130%" height="145%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dy="9"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope=".24"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="left-page-clip">
+      <path d="M84 204c60-19 116-4 168 35v145c-52-35-108-45-168-25V204Z"/>
+    </clipPath>
+    <clipPath id="right-page-clip">
+      <path d="M428 204c-60-19-116-4-168 35v145c52-35 108-45 168-25V204Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Full-bleed color keeps the mark intact under Windows and PWA icon masks. -->
+  <rect width="512" height="512" fill="url(#forest)"/>
+  <circle cx="256" cy="207" r="206" fill="url(#quiet-glow)"/>
+
+  <!-- A small, warm cross rises from the open-book gutter. -->
+  <path d="M256 87v133M219 124h74" fill="none" stroke="#d6b978" stroke-linecap="round" stroke-width="14"/>
+  <circle cx="256" cy="124" r="5" fill="#f3dfad"/>
+
+  <g filter="url(#book-shadow)">
+    <!-- Subtle page edges give the book a finished, layered silhouette. -->
+    <path d="M84 204c61-19 116-4 172 36 56-40 111-55 172-36v173c-62-17-117-7-172 29-55-36-110-46-172-29V204Z" fill="#cabb98"/>
+    <path d="M84 194c60-19 116-4 168 35v155c-52-35-108-45-168-25V194Z" fill="url(#left-page)"/>
+    <path d="M428 194c-60-19-116-4-168 35v155c52-35 108-45 168-25V194Z" fill="url(#right-page)"/>
+
+    <!-- Quiet page lines stay broad enough to read at small icon sizes. -->
+    <g clip-path="url(#left-page-clip)" fill="none" stroke="#a4ae98" stroke-linecap="round" stroke-width="7" opacity=".78">
+      <path d="M119 269c34-10 68-7 101 10"/>
+      <path d="M116 297c36-9 70-4 105 13"/>
+      <path d="M114 325c37-8 72-3 107 14"/>
+    </g>
+    <g clip-path="url(#right-page-clip)" fill="none" stroke="#a99d7d" stroke-linecap="round" stroke-width="7" opacity=".72">
+      <path d="M393 269c-34-10-68-7-101 10"/>
+      <path d="M396 297c-36-9-70-4-105 13"/>
+      <path d="M398 325c-37-8-72-3-107 14"/>
+    </g>
+
+    <!-- The center fold visually joins the two pages. -->
+    <path d="M252 231v152c3 1 5 3 8 4 3-1 5-3 8-4V231c-5 2-11 2-16 0Z" fill="#859783"/>
+    <path d="M256 238v141" fill="none" stroke="#d7ddca" stroke-linecap="round" stroke-width="3" opacity=".82"/>
+  </g>
 </svg>
