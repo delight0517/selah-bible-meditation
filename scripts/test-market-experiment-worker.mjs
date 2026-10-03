@@ -79,6 +79,15 @@ const invalidDevice = request('https://worker.test/analytics/experiment/event', 
 });
 assert.equal((await worker.fetch(invalidDevice, env)).status, 400);
 
+const invitation = request('https://worker.test/analytics/experiment/event', {
+  method: 'POST',
+  headers: { origin: env.ALLOWED_ORIGIN, 'content-type': 'application/json' },
+  body: JSON.stringify({ appId: 'selah', experiment: 'kr-gentle-invitation-v1', variant: 'b', event: 'exposure', locale: 'ko', client: 'web', deviceClass: 'phone' })
+});
+assert.equal((await worker.fetch(invitation, env)).status, 202);
+assert.equal(writes[2].values.at(-3), 'kr-gentle-invitation-v1');
+assert.equal(writes[2].values.at(-2), 'b');
+
 const market = await worker.fetch(request('https://worker.test/analytics/market'), env);
 assert.deepEqual(await market.json(), { country: 'KR', regionCode: '11', topFeature: null, sampleCount: 1 });
 

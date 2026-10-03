@@ -5,7 +5,7 @@ const features = new Set([
 ]);
 const locales = new Set(["ko", "en", "ja", "zh-CN", "zh-TW", "fil", "es", "pt-BR"]);
 const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "reader_30s", "reader_120s", "reflection_saved", "signup_complete", "return_visit"]);
-const experiments = new Set(["kr-home-copy-v1"]);
+const experiments = new Set(["kr-home-copy-v1", "kr-gentle-invitation-v1"]);
 const experimentClients = new Set(["app", "web", "unknown"]);
 const experimentDevices = new Set(["phone", "tablet", "computer", "unknown"]);
 const validTag = value => typeof value === "string" && /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? value.toLowerCase() : "";
