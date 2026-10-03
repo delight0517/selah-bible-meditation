@@ -27,7 +27,7 @@
     "assets/settings-icon.png": "cf180299ef24a311aff2483e3da56c31000b1dc2d09609881f3e81ea3ba62bb3",
     "bible-translations.json": "66c8e34c3d43bc464869d49303308cf394d8c8feaa744ef7b65fb806dd95f2c2",
     "home.html": "13a945a436e544cd275c4c95d8995e21d0ec1971464a70de62695fef8852d2c3",
-    "index.html": "5e846fe8dcff986a52427e58e0409dc292f26db46ab5ab9053fdf9e50de7edbc",
+    "index.html": "6f935e270dc76dd1520cf2bae8f0375be1dcb682fb4a10a690429e4b9494a34e",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -39,7 +39,7 @@
     "scripts/computer-reading-handoff.js": "26b1e686aef9a2baaca2723f1ea89d26020e44076c1fda9742677c9c0fee9d31",
     "scripts/google-login-recovery.js": "bb782156325b62ab076d7d83e70dcc4e609180b53554cf97cc4369dc0f3096d0",
     "scripts/unified-data-ui.js": "d2a6ff960d90cfd7f6716cbf68bf53024beab38b8b33d6ac9337513b0022db53",
-    "scripts/unified-data.js": "ce7706a9a04545a9a21a3da392df597a3e87a2d287e2f15f2fc68a7816b935a3",
+    "scripts/unified-data.js": "3d71c13012cf6e5f1f6a7d0e4133c116ed71ad0f93c317fb96c5bbd9601398a9",
     "styles/computer-reading-handoff.css": "c7f0e639a6c3aaa30b94d9149077b79646558b02629b8ac6c395ded07cfd6d78",
     "styles/desktop-polish.css": "abc2f865eaeabc7a7f451059491dd6d059b8455f30d2cc179a76fb8465f66e8b",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
