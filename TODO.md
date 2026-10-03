@@ -326,3 +326,8 @@
 - [ ] Complete Gate 0: source-preserving attribution and successful username/password signup event are implemented locally; deploy the Cloudflare Worker and Pages app, then verify non-QA aggregate readback connecting tagged arrivals through focused reading, saved reflection and signup. Search Console query/country metrics can only be compared at aggregate date/market level, not joined to individual visitors.
 - [ ] Hold spend at ₩0 until Gate 0 and the Korean need/intent check pass; then cap the first high-intent paid probe at ₩5,000 and keep ₩15,000 reserved pending activation evidence.
 - [ ] Keep weekly research checkpoints; if sample is below the stated floor, continue observing rather than forcing a country, variant or “winner.”
+## 2026-10-03 · Mac 원본 SwiftUI와 Windows 셸 대조
+- SSH 읽기 전용 확인에서 Mac 로컬 `codex/selah-mac-app`의 SwiftUI/WebKit 소스 스냅샷(commit `2fccdd7d09077404e631f4ef86ee4c8ed4973c55`)을 확인. 체크아웃은 `origin/main`보다 168커밋 뒤이고 dirty/untracked 10개 항목이 있어 수정·빌드하지 않음. 원격 Mac 브랜치 tip은 별도의 iOS Capacitor 코드라 설치 바이너리의 producing source는 아직 불명확.
+- Mac 소스의 hosted-site/WebKit 창, 내비게이션, 80–150% 확대, 집중 읽기, 키보드 명령을 Windows `windows/app-shell.js`와 대조. 공유 콘텐츠/로그인 데이터 경로는 BlueCloud이며, 웹 콘텐츠 UI와 셸 조작은 구분해 기록.
+- 설치된 Mac 앱의 bundle ID는 확인했으나 버전·빌드 및 `selah://` URL scheme 등록은 없음. dirty Mac 소스에 있는 URL handler를 설치 기능으로 간주하지 않음.
+- 갱신 자료: `windows/PLATFORM-PARITY.md`. 남은 검증은 Mac 설치본의 소스/버전 provenance, scheme 실기기 실행, 인증된 양방향 BlueCloud read/write/read와 설정·익명 기록 수렴. 합성 브라우저 테스트는 실제 기기 동기화 증거가 아님.
