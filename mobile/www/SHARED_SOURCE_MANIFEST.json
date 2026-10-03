@@ -50,7 +50,7 @@
     "scripts/legacy-migration.js": "75b0b01084bd94ff8b9979b8dd4199133b4c14486416e7b1b2f09456108d415c",
     "scripts/unified-data-ui.js": "d2a6ff960d90cfd7f6716cbf68bf53024beab38b8b33d6ac9337513b0022db53",
     "scripts/unified-data.js": "252fc30ef5e1061f05717f7e01a4d21a4eeeac6554c0265c839c69ebe5526b0f",
-    "styles/computer-reading-handoff.css": "c7f0e639a6c3aaa30b94d9149077b79646558b02629b8ac6c395ded07cfd6d78",
+    "styles/computer-reading-handoff.css": "d90aa963187b4b9d1fa894f0146aed54a15984d35127eeca0f99f0c9704d26c6",
     "styles/desktop-polish.css": "abc2f865eaeabc7a7f451059491dd6d059b8455f30d2cc179a76fb8465f66e8b",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
   }
