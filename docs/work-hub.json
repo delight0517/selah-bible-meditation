@@ -1,6 +1,6 @@
 {
-  "schemaVersion": 1,
-  "updatedAt": "2026-10-03T14:31:30.252Z",
+  "schemaVersion": 2,
+  "updatedAt": "2026-10-03T14:36:48.000Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -30,6 +30,16 @@
         "docs/work-hub.json",
         "docs/WORK_HUB.md",
         "scripts/work-hub.mjs"
+      ]
+    },
+    {
+      "id": "selah.coordination.claim-integrity",
+      "title": "Cross-task resource, file, and evidence integrity checks",
+      "resources": [
+        "docs/work-hub.json",
+        "docs/WORK_HUB.md",
+        "scripts/work-hub.mjs",
+        ".github/workflows/work-hub.yml"
       ]
     },
     {
@@ -175,6 +185,29 @@
           "from": "windows",
           "at": "2026-10-03T14:11:49Z",
           "text": "Mac overlap request is queued. PR #151 covers GSC and first-party baseline; GA4 integration was not found in that PR. Await Mac confirmation before changing shared analytics code."
+        },
+        {
+          "from": "mac",
+          "at": "2026-10-03T14:36:48Z",
+          "text": "Hash-verified direct Mac GPT response: no competing GA4 implementation found in the inspected Mac checkouts; continue only after Analytics OAuth and exact GA4 property/measurement ID readback. Do not repeat GSC/page-view baseline. Mac origin/main evidence was cached and stale, so treat checkout overlap findings as scoped. Preserve the older selah-admin-analytics checkout with uncommitted public/admin.html and server/routes/adminLlm.js changes; do not modify it.",
+          "source": "mac dispatch job selah-work-hub-review-20261003",
+          "artifactSha256": "d6eb5b99005b42c2759921b1c58a0914ec614c40afb1a4cbe194310e84771ac2",
+          "receipt": "received; artifactHashesVerified=true; applied=false"
+        }
+      ],
+      "handoffs": [
+        {
+          "id": "selah-analytics-ga4-connect-20261003-mac-review",
+          "from": "windows",
+          "to": "mac",
+          "status": "responded",
+          "requestedAt": "2026-10-03T14:11:49Z",
+          "receivedAt": "2026-10-03T14:36:48Z",
+          "respondedAt": "2026-10-03T14:36:48Z",
+          "request": "Check for Mac-side GA4 implementation overlap before Windows continues; report current owning repo/branch/files and any in-flight modifications.",
+          "receipt": "Direct Mac dispatch response hash verified by Windows runner; applied=false.",
+          "response": "No competing GA4 implementation found in inspected Mac checkouts. OAuth/property readback remains a prerequisite. Older admin analytics checkout has dirty admin files and must be preserved. Mac cached main was stale, so findings are limited to inspected checkouts.",
+          "evidence": "sha256:d6eb5b99005b42c2759921b1c58a0914ec614c40afb1a4cbe194310e84771ac2"
         }
       ]
     },
@@ -230,6 +263,23 @@
         "Claimed on codex/selah-windows-feature-runtime-20261003 from origin/main c95542d; Windows launcher 1.0.10/build25 and hosted shared UI 1.0.10/build29 are deployed, but installed UI/feature acceptance and authenticated cross-device sync remain unverified."
       ],
       "nextAction": "Verify installed Windows Edge app acceptance with non-personal fixtures; then record remaining account/Mac/iOS runtime dependencies without mixing user records."
+    },
+    {
+      "id": "selah-work-hub-claim-integrity-20261003",
+      "summary": "Harden cross-device work claims with repository, base, file/resource overlap, evidence, and Mac handoff receipts",
+      "owner": "windows",
+      "status": "in_progress",
+      "claimVersion": 2,
+      "scopes": ["selah.coordination.claim-integrity"],
+      "branch": "codex/selah-work-hub-v2-20261003",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a0fc19-3ed4-7bc1-90c8-8552f112a6da",
+      "baseCommit": "2721d57",
+      "files": ["docs/work-hub.json", "docs/WORK_HUB.md", "scripts/work-hub.mjs", ".github/workflows/work-hub.yml", "TODO.md"],
+      "evidence": [],
+      "nextAction": "Implement and validate stricter claims, then merge through a PR.",
+      "feedback": [],
+      "handoffs": []
     }
   ],
   "featureParityFile": "contracts/feature-parity.json"
