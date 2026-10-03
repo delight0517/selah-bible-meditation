@@ -9,4 +9,5 @@ jobs:
         with:
           node-version: 22
       - run: node --test scripts/test-unified-data.mjs
+      - run: node --test scripts/test-legacy-migration.mjs
       - run: node mobile/scripts/copy-web.mjs --check

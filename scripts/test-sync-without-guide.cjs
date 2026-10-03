@@ -10,6 +10,7 @@ const context = {
   SelahData: require('./unified-data.js'),
   selectUnifiedAccount: async () => {}, mergeSharedProgress: () => ({}), applyUnifiedAppearance() {},
   unifiedBaseline: {}, unifiedLastSyncAt: 0, window: {dispatchEvent() {}}, Event: class {},
+  cloudRetryAttempts: 0, cloudRetryAt: 0, cloudRetryTimer: 0, clearTimeout() {}, recoverCloud(error) { throw error; },
   token: 'test', accountId: 'test-account', username: 'test', accountStateReady: false,
   db: { owner: 'test-account', _rev: 0, reflections: [], cards: [], qtLibrary: [], meditationFeedback: [], attendanceDays: [], meditationPlaces: [], bibleChats: [] },
   $: id => id === 'guideStart' ? null : { hidden: true },

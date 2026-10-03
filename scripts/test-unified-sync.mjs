@@ -66,7 +66,9 @@ try {
   await windows.context.setOffline(true);
   await windows.page.evaluate(()=>{db.reflections.push({id:'offline',ref:'Matthew 1',date:'2026-10-02',text:'offline synthetic note',tags:[],updatedAt:Date.now()});persist();});
   assert.equal(await windows.page.evaluate(async()=>{try{await sync();return false}catch{return JSON.parse(localStorage.getItem(key)).reflections.some(n=>n.id==='offline')}}),true);
-  await windows.context.setOffline(false);await windows.page.evaluate(()=>sync());await mac.page.evaluate(()=>sync());
+  await windows.context.setOffline(false);
+  await windows.page.waitForFunction(()=>Date.now()>=cloudRetryAt);
+  await windows.page.evaluate(()=>sync());await mac.page.evaluate(()=>sync());
   assert.equal(await mac.page.evaluate(()=>db.reflections.some(n=>n.id==='offline')),true);
   await mac.page.evaluate(()=>{db.qtLibrary.push({id:'delete-test',title:'Synthetic link',url:'https://example.test',createdAt:Date.now()});persist();});await mac.page.evaluate(()=>sync());await ios.page.evaluate(()=>sync());
   await mac.page.evaluate(()=>{db.qtLibrary=db.qtLibrary.filter(n=>n.id!=='delete-test');persist();});await mac.page.evaluate(()=>sync());await ios.page.evaluate(()=>sync());
