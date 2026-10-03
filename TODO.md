@@ -1,3 +1,7 @@
+## 2026-10-03 · iOS reader startup and source identity — 1.0.8 / build 20
+- Remove unrelated Matthew snippets during startup. Bundle actual book metadata for each default translation, restore the selected book without network-first catalog fallback, serialize book selection, and preserve verse DOM/scroll on unchanged renders.
+- Root HTML remains authoritative; mobile runtime is copied/hashed. Native iOS bundle version now follows SHARED_APP_BUILD.json. Regression checks and device build/install evidence recorded in the PR; physical UI proof remains separate if Mirroring cannot connect.
+
 ## 2026-10-03 · Chapter keyboard shortcuts
 - Reader uses Ctrl/Command+Z for the previous chapter and Ctrl/Command+Shift+Z for the next chapter, through existing cross-book navigation. Editable controls, open dialogs, IME composition and held-key repeats are guarded. Shared mobile source mirrored.
 - Syntax/whitespace checks only; installed-app keypress behavior remains unverified.
