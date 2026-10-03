@@ -116,6 +116,108 @@
       }
     },
     {
+      "id": "SELAH-DESKTOP-SHELL-PARITY",
+      "revision": 1,
+      "title": "Windows·Mac 데스크톱 쉘 탐색·읽기 제어 동등성",
+      "acceptance": [
+        "두 데스크톱 앱에서 웹뷰의 뒤로/앞으로 이동을 제어할 수 있다.",
+        "두 앱에서 80–150% 페이지 확대·축소와 100% 초기화를 사용할 수 있다.",
+        "두 앱에서 읽기 집중 모드에 진입·복귀할 수 있고 각 운영체제의 키보드 접근 경로가 문서화돼 있다.",
+        "각 설치 앱의 실제 실행본에서 위 동작을 확인하고, 브라우저 단독 테스트와 구분해 기록한다."
+      ],
+      "paths": [
+        "windows/app-shell.js",
+        "windows/Launch-Selah-App.vbs",
+        "windows/PLATFORM-PARITY.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Web shell",
+          "state": "not_applicable",
+          "reason": "This contract is for installed desktop app shells; a normal browser tab keeps its own browser navigation chrome.",
+          "evidence": "Standard website behavior remains available in the browser."
+        },
+        "windows": {
+          "owner": "Windows app task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation@665c856",
+          "build": "shared UI 1.0.10/32; launcher 1.0.10/25",
+          "evidence": "Isolated production Edge runtime verified back/forward shell controls, 80–150% zoom/reset and focus toggle. A fresh Start-menu app launch in an isolated profile is still pending.",
+          "workItem": "selah-windows-feature-runtime-20261003"
+        },
+        "macos": {
+          "owner": "Mac maintainer - source/build reconciliation pending",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "A dirty SwiftUI source snapshot contains back/forward, zoom and focus controls, but the producing checkout and installed app build are not established.",
+          "workItem": "selah-apple-feature-parity-20261003"
+        },
+        "ios": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "Desktop window chrome, page zoom and desktop keyboard shortcuts do not apply to the iPhone app; mobile reading remains available.",
+          "evidence": "Mobile reader features are tracked separately from desktop shell controls."
+        }
+      }
+    },
+    {
+      "id": "SELAH-COMPUTER-READING-HANDOFF",
+      "revision": 1,
+      "title": "Mac·Windows 간 개인정보 최소화 읽기 요청과 결과 전달",
+      "acceptance": [
+        "요청은 UUID, sessionId, open-reading action, targetPlatform, createdAt만 담고 본문·묵상·기도·인증정보를 전달하지 않는다.",
+        "OS 링크는 허용된 selah://read?request=<id> 형식만 받아 공유 읽기 화면으로 전달한다.",
+        "대상 앱은 요청 ID·플랫폼·2분 유효기간을 확인하고 같은 ID의 opened/expired/rejected 결과만 표시한다.",
+        "유효한 요청만 기존 읽기 sessionId를 이어받으며 잘못된 대상·만료·중복 링크는 다른 세션이나 결과를 변경하지 않는다.",
+        "합성 데이터/프로토콜 시험과 인증된 두 기기의 실제 왕복 검증을 별도 증거로 기록한다."
+      ],
+      "paths": [
+        "scripts/computer-reading-handoff.js",
+        "scripts/test-computer-reading-handoff.cjs",
+        "contracts/selah-cloud-state.schema.json",
+        "windows/Launch-Selah-App.vbs",
+        "windows/PLATFORM-PARITY.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Shared web handoff",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation@cfb9644",
+          "build": "shared app 1.0.10/32",
+          "evidence": "Shared request/result/session serialization and synthetic handoff tests are present; authenticated production round trip remains unverified.",
+          "workItem": "selah-windows-feature-runtime-20261003"
+        },
+        "windows": {
+          "owner": "Windows app task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation@46b58a3",
+          "build": "shared app 1.0.10/32; launcher 1.0.10/25",
+          "evidence": "Synthetic target/age/result and protocol tests pass; authenticated Mac↔Windows request, launch and result round trip remains unverified.",
+          "workItem": "selah-windows-feature-runtime-20261003"
+        },
+        "macos": {
+          "owner": "Mac maintainer - source/build reconciliation pending",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Dirty SwiftUI source contains an onOpenURL selah://read handler and an uncommitted URL scheme plist, but installed Selah Mac.app has no CFBundleURLTypes or established build provenance.",
+          "workItem": "selah-apple-feature-parity-20261003"
+        },
+        "ios": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request contract targets desktop computers (macOS and Windows); iPhone reading behavior is not an external computer-window handoff.",
+          "evidence": "The iPhone reader remains available in the shared app, but is not a computerReadingRequest target."
+        }
+      }
+    },
+    {
       "id": "SELAH-LIVE-TOGETHER-READING",
       "revision": 3,
       "title": "초대 URL로 같은 말씀·상대 읽는 위치·같은 타이머 공유",

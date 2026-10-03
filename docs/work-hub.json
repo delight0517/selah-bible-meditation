@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:32:08Z",
+  "updatedAt": "2026-10-03T15:51:29Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -240,7 +240,7 @@
     },
     {
       "id": "selah-apple-feature-parity-20261003",
-      "summary": "Mac/iOS apply and verify visitor explanation and account data feature revisions",
+      "summary": "Mac/iOS reconcile installed source and verify visitor, account, desktop shell, and reading handoff parity",
       "owner": "mac",
       "status": "waiting_external",
       "scopes": [
@@ -249,13 +249,15 @@
       "branch": "Mac maintainer to confirm",
       "featureIds": [
         "SELAH-VISITOR-EXPLANATION",
-        "SELAH-ACCOUNT-DATA-PARITY"
+        "SELAH-ACCOUNT-DATA-PARITY",
+        "SELAH-DESKTOP-SHELL-PARITY",
+        "SELAH-COMPUTER-READING-HANDOFF"
       ],
       "evidence": [
         "contracts/feature-parity.json",
         "https://github.com/delight0517/releasepilot-hub/commit/d0eb1304a32d2271916c174172d81e9989778278"
       ],
-      "nextAction": "Mac maintainer: reconcile the clean store-prep checkout with the dirty codex/selah-mac-app checkout; confirm the source that produces the installed app, preserve dirty work, apply the current visitor/account revisions, then return installed build provenance and synthetic Mac/iPhone sync/runtime evidence. The local inbox request remains unacknowledged.",
+      "nextAction": "Mac maintainer: reconcile the clean store-prep checkout with the dirty codex/selah-mac-app checkout; preserve dirty work; identify the source that produces the installed app; map visitor/account revisions; package the URL scheme; then return build provenance, desktop-shell acceptance, and synthetic Mac/Windows handoff plus Mac/iPhone account evidence. The local inbox request remains unacknowledged.",
       "feedback": [
         {
           "from": "windows",
@@ -271,7 +273,7 @@
     },
     {
       "id": "selah-windows-feature-runtime-20261003",
-      "summary": "Confirm feature acceptance in installed Windows app and cross-device account tests",
+      "summary": "Confirm Windows app-shell, reading handoff, visitor, and account-data acceptance",
       "owner": "windows",
       "status": "in_progress",
       "scopes": [
@@ -280,7 +282,9 @@
       "branch": "codex/selah-windows-feature-runtime-20261003",
       "featureIds": [
         "SELAH-VISITOR-EXPLANATION",
-        "SELAH-ACCOUNT-DATA-PARITY"
+        "SELAH-ACCOUNT-DATA-PARITY",
+        "SELAH-DESKTOP-SHELL-PARITY",
+        "SELAH-COMPUTER-READING-HANDOFF"
       ],
       "evidence": [
         "contracts/feature-parity.json",
@@ -290,7 +294,14 @@
         "2026-10-04: installed launcher build 25 SHA-256 matches the repository launcher (1F2B6CD10047E2BCBA46161745F61EB150DF1859CD558B7C2891189E08C16705); installed launcher's read-only --dry-run resolves to Edge app-window mode and the Windows shell URL. This verifies package-to-source command wiring only, not a full launch from the Start menu.",
         "2026-10-04: repeated credential-free isolated headless Edge interaction against live 1.0.10/build32 with windowsShell=1. Toolbar, zoom 100%→110%→100%, focus reading on/off, and visitor explanation open/close plus anonymous-ID, duplicate-browser, UTC-period, and privacy acceptance copy all passed; one telemetry write was blocked. This does not prove Start-menu app launch or authenticated BlueCloud round trip."
       ],
-      "nextAction": "Verify the installed Start-menu app shell in a profile that preserves the managed Edge route and does not access personal records; then prove same-account GET/PUT/GET with synthetic records on an authorized test account. Keep Mac/iPhone parity pending until implementation and device runtime evidence arrive."
+      "nextAction": "Verify the installed Start-menu app shell and selah://read route in a profile that preserves the managed Edge route and does not access personal records; then prove same-account GET/PUT/GET with synthetic records on an authorized test account. Keep Mac/iPhone parity pending until implementation and device runtime evidence arrive.",
+      "feedback": [
+        {
+          "from": "windows",
+          "at": "2026-10-03T15:51:29Z",
+          "text": "Added formal acceptance IDs SELAH-DESKTOP-SHELL-PARITY and SELAH-COMPUTER-READING-HANDOFF to this existing Windows runtime task. The live build32 Edge shell and Windows protocol implementation have synthetic/isolated-source evidence; Start-menu launch, authenticated cloud request/response, and Mac installed URL-scheme dispatch remain pending. No new task or Mac checkout change was made."
+        }
+      ]
     },
     {
       "id": "selah-work-hub-claim-integrity-20261003",
