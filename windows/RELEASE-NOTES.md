@@ -1,4 +1,4 @@
-# Selah Windows launcher — 1.0.6 / build 20
+# Selah Windows launcher — 1.0.9 / build 22
 
 Adds the Selah app icon to desktop and Start menu shortcuts and includes the multi-size icon in the launcher package. The hosted PWA uses the matching 192×192 and 512×512 assets; the iOS asset catalog uses the matching 1024×1024 artwork.
 

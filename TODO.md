@@ -1,3 +1,8 @@
+## 2026-10-03 · Selah 앱 아이콘 및 Windows 런처 — 1.0.9 / build 22
+- 사용자 피드백: Windows 무료 성경 앱의 화면 디자인을 세련되게 정리하고 앱 아이콘도 제대로 만들어 달라고 요청함.
+- 공통 앱 아이콘을 새 Selah 성경책과 십자가 디자인으로 적용하고 웹/PWA, iOS 앱 아이콘 카탈로그, Windows 다중 크기 바로가기 아이콘을 맞춤. Windows 런처 ZIP에도 전용 아이콘을 포함하고 바탕 화면/시작 메뉴 바로가기가 이 아이콘을 사용하도록 연결.
+- 버전 메타데이터를 1.0.9/build 22로 갱신. Windows 런처 패키지 생성 성공; SHA-256 49ce8408127ded3b2f10f553dd5b928f91a5ed60cf6c1a55e23d1483dcbcfa85. ZIP 내부 아이콘/체크섬과 공개 배포 readback 결과를 계속 기록할 것. iPhone 실기기 및 Xcode 빌드는 이 작업에서 수행하지 않음.
+
 ## 2026-10-03 · Search acquisition baseline and visible signup CTA — 1.0.9 / build 21
 - Google can crawl and has indexed the Selah root and Filipino page, but the latest settled Selah-only Search Console window (2026-09-03–2026-09-30; data through 2026-09-29) has zero page/query rows and zero sitemap-URL impressions. The parent GitHub Pages property has other projects; do not count its 88 impressions / 3 clicks as Selah traffic.
 - Live first-party summary for 2026-10-01–03 reports 46 page-view events / 31 anonymous browser IDs (KR and US); source, medium and campaign are empty. This is not verified human count or attributable acquisition. Current Korean copy test: 7 exposures (A=3/B=4), 4 CTA clicks, 2 reading starts, 0 30-second reads, 0 saved reflections, 0 recorded signup events; sample is too small and may include QA.
