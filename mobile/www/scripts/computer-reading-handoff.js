@@ -193,10 +193,10 @@
     }
     const now = Date.now();
     const session = db.computerReadingSession;
-    const activeSession = isRecord(session) && (
-      (session.status === "running" && now - timestamp(session, "lastSeenAt") < (readingIdle?.IDLE_TIMEOUT_MS || 600000)) ||
-      (session.status === "paused" && timestamp(session, "resumeGraceUntil") > now)
-    );
+    const activeSession = isRecord(session) && (readingIdle
+      ? readingIdle.isActive(session, now)
+      : (session.status === "running" && now - timestamp(session, "lastSeenAt") < 600000) ||
+        (session.status === "paused" && timestamp(session, "resumeGraceUntil") > now));
     const nextRequest = {
       id: crypto.randomUUID(),
       sessionId: activeSession ? session.id : crypto.randomUUID(),
