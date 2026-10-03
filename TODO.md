@@ -447,4 +447,5 @@
 ## 2026-10-03 · 사용자 요청: 허브 실제 테스트 후 goal 일시 중지
 - [x] 실제 CLI를 임시 원장에 실행하는 13개 시나리오 작성. 첫 시험 7/13 통과, 6개 실패를 재현: scope 간 동일 자원, repo URL alias, 완료 작업 재개, 동일 task 내부 경로 오탐, 신규 메타데이터 누락, handoff 손상.
 - [x] 모든 저장 전 원장 검증, repo URL 정규화, 동일 task 경로 오탐 제거, 기존 claim 예외 목록 명시, handoff 검증으로 수정. Windows CLI 13/13 통과 및 모든 거부 입력의 원장 바이트 보존 확인.
-- [ ] 필수 GitHub CI와 배포된 원장 readback 확인 뒤 검증 작업 완료 및 사용자 지시대로 goal paused 처리. GA4 OAuth 미완료는 대기 상태로 보존.
+- [x] PR #175 merged `2bb382822191cb1dd0a568a7910a28afaefefc6a`; 필수 validate CI run `37131152234`에서도 13/13 성공. Pages run `37131208988` 성공, 공개 CLI HTTP 200 및 검사 소스와 일치 확인. 공개 원장 schema2/기존 claim 예외 목록 readback.
+- [x] 허브 검증 완료. 사용자 요청은 검증 성공 후 analytics goal 일시 중지이며 이 결과 기록 병합 후 paused 처리. GA4 OAuth 미완료는 waiting_external로 보존; Mac 신규 실기기 수신을 이번 fixture 시험으로 확인한 것으로 간주하지 않음. 앱 build30 유지.
