@@ -1,3 +1,5 @@
+Build 23 aligns the in-app Selah wordmark with the shared Bible-and-cross app icon. Build 22 introduced the app icon in the Windows shortcuts and launcher package.
+
 # Selah Windows launcher
 
 This ZIP contains the open-source Windows launcher, not a Microsoft Store/MSIX package. It opens the live Selah app in an Edge app window and needs an internet connection for its first launch. Existing notes remain in the browser profile used to open the app.

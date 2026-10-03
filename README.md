@@ -9,7 +9,7 @@
 
 ## 소스 라이선스와 Windows 배포
 
-현재 배포 파일: [Windows 런처 다운로드(build 22)](windows/download.html).
+현재 배포 파일: [Windows 런처 다운로드(build 23)](windows/download.html).
 
 Selah 자체 앱 코드와 자체 문서는 [MIT 라이선스](LICENSE)로 공개합니다. 성경 번역문, 외부 아이콘·이미지·폰트, 의존성 코드는 각 자료의 기존 조건을 따릅니다. [라이선스 적용 범위와 제3자 고지](THIRD_PARTY_NOTICES.md)를 함께 확인하세요.
 
