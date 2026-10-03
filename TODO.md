@@ -338,7 +338,7 @@
 - [ ] Observe at least 28 days and 50 eligible exposures per variant in South Korea; wait for enough data and compare focused reading, reflection saves, and confirmed signups before choosing any winner.
 
 ## 2026-10-03 · 한국어 부담 없는 말씀 초대 썸네일 실험 준비
-- [x] A/B 썸네일 시안 2종을 1200×630 JPG로 제작하고 `assets/previews/`에 저장. 하나님을 알고 싶은 마음/궁금함을 말씀 읽기 초대로 연결하되, 영적 부족감·긴급성·보장 표현은 사용하지 않음.
+- [x] A/B 썸네일 시안 2종을 1200×630 JPG로 제작하고 `marketing/experiments/`에 저장. 하나님을 알고 싶은 마음/궁금함을 말씀 읽기 초대로 연결하되, 영적 부족감·긴급성·보장 표현은 사용하지 않음. 모바일 앱 런타임에는 복사하지 않음.
 - [x] `GROWTH_RESEARCH.md`에 가설, 측정 지표, 개인정보 한계, Google 이미지 노출 실험의 한계, 기존 한국어 문구 실험 후 순차 진행 규칙을 기록.
 - [ ] 현재 `kr-spiritual-curiosity-v2`의 관측이 끝난 뒤, 노출·링크 클릭을 제공하는 소유/허가 채널을 확정하고 같은 이벤트 파이프라인으로 별도 실험 ID를 등록. 개인 Instagram 및 유료 집행은 제외.
 - [ ] 28일 및 시안별 적격 노출 50회 이후 읽기·묵상 저장·가입까지 검토. 지금은 배포·게시·노출을 시작하지 않음.
