@@ -339,3 +339,6 @@
 
 - [x] Reconciled 21 additional main commits, preserved migration/foreground guard/icon changes, and set shared release candidate to 1.0.10 / 25. Previous build 22 packages retained, not uploaded.
 - [x] Official Korean Bible Society FAQ confirms royalty-free use of 개역한글 subject to attribution and text integrity; worldwide scope remains unstated in this FAQ.
+
+- [x] Build 25 iOS and Mac uploaded, processed VALID and attached; en-US/ko/ja subtitles and privacy URL read back.
+- [ ] Replace both with build 26 after five-language meditation setup fix; finish final runtime, locale screenshots, privacy and review requirements.

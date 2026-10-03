@@ -1,25 +1,13 @@
 # Selah iOS and Mac release preparation
 
-Fresh source: `3c42697d2e0822ff95b834be11cea567480edbab` (main, PR #115). Shared version: 1.0.10 / 22. See release-manifest.json for the current source base and implementation commit.
+Current candidate: 1.0.10 / build 26, after meditation setup translations were added for all five reader locales. Both build 25 packages were uploaded and processed VALID; they are attached temporarily and will be superseded before review. No review submission has occurred.
 
-ASC API access is ready. Neither Selah bundle is present in the current account app list. No app was submitted or published.
+ASC apps: iOS 6818769383 (`com.delight0517.selah`); Mac 6818769432 (`com.delight0517.selah.mac`). en-US/ko/ja descriptions, subtitles and privacy-policy URL were saved and read back.
 
-## Native packages
+Use `BUILD_RELEASE.md` and `release-manifest.json` for exact native packaging gates. Source copy to mobile/www must be followed by Capacitor copy into ios/App/App/public; inspect the actual archive resources before upload.
 
-- iOS: Capacitor target, team V3J8MR637G. Fresh checkout requires `npm ci` and `npm run sync:ios` before archive because native web resources are generated and ignored by Git.
-- Mac: SwiftUI/WKWebView target copied from existing macOS working files without changing their source checkout. Snapshot is not yet merged into canonical main. Mac native strings now have eight locale resources and an App Store icon using the existing iOS artwork. These new resources require a fresh signed Mac archive; the exported build 22 does not include them. The shared reader is now packaged in the Mac bundle, with local assets served via WKURLSchemeHandler. Mac network client sandbox is enabled.
-- Mac version plist now uses shared marketing/build settings rather than the older hardcoded 1.0 / 1.
+Simulator reading, font size, settings, Korean/Japanese language and mobile action layout were inspected. Full offline download, account sync, 30-day retention and final build 26 runtime validation remain pending. Physical iPhone is not requested. Mac store archive passes codesign but fails local spctl execution assessment, so it was not launched. A separate trusted Developer ID build is being prepared for notarized runtime validation.
 
-## Bible storage
+The Korean Bible Society FAQ permits royalty-free use after expired economic protection while requiring attribution and integrity; worldwide scope remains unstated. Japanese 1965 translation is New Testament only. Bible text must retain source attribution.
 
-See BIBLE_DOWNLOAD_POLICY.md for 30-day expiry, chapter resume, cache-first reading and OS background limits.
-
-## Remaining release gates
-
-Use release-manifest.json for outstanding gates. Draft listing copy is saved in listing-drafts.json; it has not been uploaded. No screenshot was represented as native runtime proof. Existing THIRD_PARTY_NOTICES.md explicitly leaves worldwide redistribution rights for bundled Korean Revised Version 1961 unverified. Confirm rights or replace that bundled edition with a verified permitted edition before distribution. Preserve personal reflection data during any device update.
-
-Shared backlog 474637700f55 (Selah/Pomodoro/RiseSync correlation ID instrumentation and real journey) remains pending; Windows cannot be validated today.
-
-## Authorized ad-free first release
-
-The user authorized iOS and Mac release without advertisements on 2026-10-03. PR #121 remains deferred; this release contains no AdMob SDK. The ASC New App form is unfinished. Native menu automation returned invalid element IDs/noWindowsAvailable, so no app creation is claimed. Official Korean Bible Society copyright notice was checked; worldwide redistribution permission remains unverified.
+First release remains ad-free. Ad PR #121 stays deferred. Shared correlation backlog 474637700f55 is pending; Windows is unavailable today.
