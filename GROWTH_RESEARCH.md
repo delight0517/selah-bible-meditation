@@ -515,3 +515,5 @@ Copy this block for each study; replace every unknown with an observation or `no
 - 코드 점검에서 정적 검색 랜딩은 attribution이 없으면 `(direct, 빈 medium, 빈 campaign)`으로 dedup key를 만들지만 앱은 `(direct, none, 빈 campaign)`을 사용함을 확인했다. 같은 브라우저가 랜딩에서 앱으로 이동해도 exposure/CTA 키가 달라 중복 기록될 수 있는 결함이다. 기존 “동일 키 공유” 설명은 이 경우에 한해 부정확했다.
 - 최소 수정으로 정적 랜딩의 기본 medium을 앱과 같은 `none`으로 맞추고, 직접 attribution 기본값 및 두 코드 경로의 공유 dedup key 회귀 assertion을 추가했다. tagged UTM과 검색/referral 규칙은 변경하지 않았다.
 - 기존 운영 행을 소급 변경하지 않는다. 최신 `global-funnel-v1` 요약은 0행이며, 실제 중복이 데이터에서 관측됐다는 뜻은 아니다. PR·배포·이후 실제 이벤트 도착은 별도 확인이 필요하다.
+
+- **배포 읽기 결과:** PR #192 merge commit `95d86c96a029285ee27d259f815edfe0d8ef16be`, Pages run `37149372833` 성공. 공개 루트, `/en/`, `/fil/`, `/pt-br/`, `/fil/analytics.js`는 HTTP 200이며 정적 스크립트에서 `medium: campaign.medium || "none"`을 확인했다. 현재 analytics summary 재조회는 HTTP 403이어서 신규 운영 이벤트 도착을 확인하지 못했다. 이전 0행을 이번 조회 결과처럼 표현하지 않고 후속 확인 대상으로 둔다.
