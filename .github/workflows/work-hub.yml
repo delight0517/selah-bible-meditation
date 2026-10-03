@@ -3,14 +3,8 @@ name: Selah Work Hub
 on:
   pull_request:
     branches: [main]
-    paths:
-      - 'docs/work-hub.json'
-      - 'scripts/work-hub.mjs'
   push:
     branches: [main]
-    paths:
-      - 'docs/work-hub.json'
-      - 'scripts/work-hub.mjs'
 
 permissions:
   contents: read
