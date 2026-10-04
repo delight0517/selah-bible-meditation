@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T02:06:22.928Z",
+  "updatedAt": "2026-10-04T02:14:48.738Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -73,7 +73,7 @@
     {
       "id": "google-search-console-selah",
       "name": "Google Search Console performance",
-      "systemOfRecord": "Search Console URL-prefix property https://delight0517.github.io/selah-bible-meditation/ queried through the GSC Wizard API",
+      "systemOfRecord": "Google Search Console URL-prefix property https://delight0517.github.io/ queried through the GSC Wizard API; reports are filtered to the Selah subpath /selah-bible-meditation/",
       "datasets": [
         "clicks",
         "impressions",
@@ -85,8 +85,8 @@
         "query"
       ],
       "refresh": "On request; Search Console reports lag by roughly 2–3 days",
-      "lastVerified": "2026-10-03",
-      "coverage": "2026-09-03 through 2026-09-30; settled through 2026-09-29",
+      "lastVerified": "2026-10-04",
+      "coverage": "2026-09-04 through 2026-10-01; settled through 2026-09-29",
       "limitations": [
         "0 clicks and 0 impressions means CTR is not calculable",
         "Zero rows do not establish that a page has no visits",
@@ -107,12 +107,15 @@
         "country/device/locale/path buckets when source fields exist"
       ],
       "refresh": "Live aggregate API readback",
-      "lastVerified": "2026-10-03",
+      "lastVerified": "2026-10-04",
+      "coverage": "2026-10-01 through 2026-10-04 UTC calendar month-to-date; 10/04 was partial",
       "limitations": [
         "Event counts are not people",
         "Some historical rows have unresolved origin mixing",
         "Do not assign an unknown-origin path to Selah",
-        "This is separate from feature experiment counts in analytics-worker"
+        "This is separate from feature experiment counts in analytics-worker",
+        "The latest 68-event aggregate included a localhost-origin row and incomplete origin/path joins; do not treat it as verified external traffic",
+        "The 40 anonymous browser IDs are approximations, not people"
       ],
       "evidence": [
         "GROWTH_RESEARCH.md",
@@ -129,11 +132,14 @@
         "experiment exposures and conversions"
       ],
       "refresh": "Live aggregate API readback",
-      "lastVerified": "2026-10-03",
+      "lastVerified": "2026-10-04",
+      "coverage": "30-day rolling aggregate read on 2026-10-04",
       "limitations": [
         "Separate from page-view reporting",
         "Approximate event/browser counts, not verified people",
-        "Do not infer causality or a winner below the documented sample rule"
+        "Do not infer causality or a winner below the documented sample rule",
+        "No landing-route dimension is present, so localized-page exposure cannot be joined to a specific Search Console URL",
+        "Rows may include owner or QA actions; do not count aggregate events as users"
       ],
       "evidence": [
         "analytics-worker/README.md",
@@ -424,7 +430,7 @@
       "id": "selah-growth-readback-20261004",
       "summary": "Refresh settled Search Console and first-party funnel evidence, record limits and next review",
       "owner": "shared",
-      "status": "in_progress",
+      "status": "review",
       "claimVersion": 2,
       "scopes": [
         "selah.analytics.gsc-baseline",
@@ -439,8 +445,10 @@
         "GROWTH_RESEARCH.md",
         "MARKET_PLAYBOOK.md"
       ],
-      "evidence": [],
-      "nextAction": "Update this record before handoff or completion.",
+      "evidence": [
+        "Live 2026-10-04 GSC and Cloudflare aggregates documented in GROWTH_RESEARCH.md cumulative four-day refresh; exact nine-page performance window, URL inspection statuses, 68/40 page-view aggregate and 10-exposure funnel with user-count caveats recorded."
+      ],
+      "nextAction": "After the first settled GSC report includes 2026-10-02, compare Selah page/query/country performance with route-attributed aggregate funnel data; create a separate scoped task for a landing-route dimension before the next regional design experiment.",
       "feedback": [],
       "handoffs": []
     }
