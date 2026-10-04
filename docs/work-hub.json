@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-03T15:51:29Z",
+  "updatedAt": "2026-10-04T00:39:30.125Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -386,6 +386,34 @@
         "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated."
       ],
       "nextAction": "Browser UI and device acceptance pending; Mac maintainer request must apply latest revision3/build32.",
+      "feedback": [
+        {
+          "from": "windows",
+          "at": "2026-10-04T00:39:30.122Z",
+          "text": "US state count case bug uses a separate index.html claim; current build32 code is preserved. Generated bundle, build33 metadata and new parity entry will be reconciled against latest main during release."
+        }
+      ],
+      "handoffs": []
+    },
+    {
+      "id": "selah-us-state-counts-20261004",
+      "summary": "Fix US state counts using case-normalized region codes",
+      "owner": "windows",
+      "status": "in_progress",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.analytics.first-party-pageviews"
+      ],
+      "branch": "codex/selah-us-state-counts-20261004",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a10457-a096-75b2-be8a-59dbedf76f7e",
+      "baseCommit": "6c66486",
+      "files": [
+        "index.html",
+        "scripts/test-us-state-counts.mjs"
+      ],
+      "evidence": [],
+      "nextAction": "Update this record before handoff or completion.",
       "feedback": [],
       "handoffs": []
     }
