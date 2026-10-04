@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T04:05:00Z",
+  "updatedAt": "2026-10-04T04:34:06Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -464,34 +464,10 @@
     },
     {
       "id": "selah-search-copy-review-20261004",
-      "summary": "Record a dated search-competitor copy scan and a low-friction message hypothesis without claiming demand or a winner.",
+      "summary": "Record the dated market/search scan and continue Selah allow-listed landing-route attribution through the reader and conversion funnel.",
       "owner": "shared",
       "status": "in_progress",
-      "claimVersion": 2,
-      "scopes": [
-        "selah.analytics.gsc-baseline",
-        "selah.coordination.work-hub"
-      ],
-      "branch": "codex/selah-search-copy-review-20261004",
-      "repo": "https://github.com/delight0517/selah-bible-meditation",
-      "threadId": "01a0fa42-f6d3-7530-9c18-439a44ef6fb5",
-      "baseCommit": "bacca88acd688e14840853587e79a423a27aed40",
-      "files": [
-        "docs/work-hub.json",
-        "GROWTH_RESEARCH.md",
-        "MARKET_PLAYBOOK.md"
-      ],
-      "evidence": [],
-      "nextAction": "Update this record before handoff or completion.",
-      "feedback": [],
-      "handoffs": []
-    },
-    {
-      "id": "selah-route-attribution-20261004",
-      "summary": "Carry an allow-listed landing-route category from localized search entry through reader and funnel events; then compare settled search pages with downstream event counts.",
-      "owner": "Selah growth thread",
-      "status": "in_progress",
-      "claimVersion": 1,
+      "claimVersion": 3,
       "scopes": [
         "selah.analytics.gsc-baseline",
         "selah.analytics.route-funnel",
@@ -500,28 +476,30 @@
       "branch": "codex/selah-route-attribution-20261004",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a0fa42-f6d3-7530-9c18-439a44ef6fb5",
-      "baseCommit": "625eca3",
+      "baseCommit": "625eca38edeb21b8f1f508e954944af90aa1d62e",
       "files": [
-        "index.html",
-        "fil/analytics.js",
-        "analytics-worker/src/index.js",
-        "analytics-worker/migrations/0005_landing_route.sql",
-        "analytics-worker/README.md",
-        "privacy.html",
-        "contracts/feature-parity.json",
-        "scripts/test-acquisition-scope.mjs",
-        "scripts/test-market-experiment-worker.mjs",
+        "GROWTH_RESEARCH.md",
+        "MARKET_PLAYBOOK.md",
         "TODO.md",
+        "analytics-worker/README.md",
+        "analytics-worker/migrations/0005_landing_route.sql",
+        "analytics-worker/src/index.js",
+        "contracts/feature-parity.json",
         "docs/work-hub.json",
-        "mobile/www"
+        "fil/analytics.js",
+        "index.html",
+        "mobile/www",
+        "privacy.html",
+        "scripts/test-acquisition-scope.mjs",
+        "scripts/test-market-experiment-worker.mjs"
       ],
       "evidence": [
-        "Current 2026-10-04 settled GSC API query for Selah subpaths × country: 0 rows through 2026-09-29; page-view and funnel snapshots recorded in GROWTH_RESEARCH.md with browser-ID/user-count caveats.",
-        "Allow-listed route category carries through same-origin landing-to-reader flow; `.html` download route misclassification discovered by regression test and fixed.",
-        "Worker route validation/client routing tests pass; SQLite migration smoke test preserves aggregate count as unattributed; mobile/www regenerated and source/parity checks pass. Commit 01a0e31 exists locally; branch push, migration apply and deployment remain pending.",
-        "Open PR #137 edits some of the same source/docs and adds 0004_usage.sql; this change uses 0005_landing_route.sql to preserve sequence."
+        "PR #214 (search-copy work-hub claim) merged 2026-10-04 02:43 UTC as 625eca38edeb21b8f1f508e954944af90aa1d62e; the dated market and live search audit is now recorded in GROWTH_RESEARCH.md.",
+        "2026-10-04 GSC URL inspection confirms Korean root, Japanese, and Filipino landing are submitted/indexed and mobile fetch succeeds; settled Selah page/query window still has 0 impressions/clicks through 2026-10-01, so post-index demand remains unknown.",
+        "Landing-route implementation and local acquisition/Worker/migration/parity checks are in commit 01a0e31; draft PR #215 is open. CI currently reports overlapping active live-together ownership for contracts/feature-parity.json, TODO.md, and mobile/www, plus missing parity coverage for mobile/www/privacy.html. Production migration/deployment have not happened.",
+        "Competitor scan and current landing audit were appended to GROWTH_RESEARCH.md with source links; competitor claims are supply/positioning signals, not verified customer demand."
       ],
-      "nextAction": "Push the task branch and open the route-attribution PR. Reconcile the analytics usage PR before applying production migrations or claiming live route attribution.",
+      "nextAction": "Keep PR #215 in draft while the live-together owner retains contracts/feature-parity.json, TODO.md, and mobile/www. Coordinate/reconcile those files when their active claim is released; then resolve the parity coverage report, rerun checks, and only then merge/deploy and observe a settled post-deployment period.",
       "feedback": [],
       "handoffs": []
     }
