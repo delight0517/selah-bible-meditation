@@ -543,5 +543,6 @@
 
 ## 2026-10-04 · 검색 랜딩에서 읽기·기록 전환 연결
 - [x] 허용 목록만 쓰는 랜딩 경로 범주(app/localized-landing/guide/download/other/unattributed)를 글로벌 퍼널에 추가하고, 정적 페이지에서 앱으로 이동해도 첫 진입 범주와 중복 키를 유지한다. 원본 경로·쿼리는 실험 행에 저장하지 않는다.
-- [x] 기존 행은 `unattributed`로 보존하는 마이그레이션을 적용하고, 8개 UI 언어·가이드·다운로드 경로의 범주화와 개인정보 안내를 검증한다. Worker/client tests, SQLite preservation smoke test, generated mobile bundle and parity checks pass.
-- [ ] 웹 퍼널 이벤트로 제한하며 QA·네이티브 방문은 계속 제외한다. 배포 후 새 표본이 쌓인 뒤 Search Console의 정착된 URL/검색어/국가 행과 경로별 읽기·기록·가입을 대조한다. 50 노출/시안/시장 미만에서는 승자를 고르지 않는다.
+- [x] 기존 행을 `unattributed`로 보존하는 마이그레이션 파일을 만들고, 8개 UI 언어·가이드·다운로드 경로 범주화 및 개인정보 안내를 검증했다. Worker/client tests, SQLite preservation smoke test, generated mobile bundle and parity checks pass. Migration has not been applied to production.
+- [x] 구현 범위는 웹 유입 퍼널이며 QA·네이티브 방문은 계속 제외된다.
+- [ ] PR·배포와 마이그레이션 이후 새 표본이 쌓이면 Search Console의 정착된 URL/검색어/국가 행과 경로별 읽기·기록·가입을 대조한다. 50 노출/시안/시장 미만에서는 승자를 고르지 않는다.

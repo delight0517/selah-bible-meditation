@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T04:01:00Z",
+  "updatedAt": "2026-10-04T04:05:00Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -517,11 +517,11 @@
       ],
       "evidence": [
         "Current 2026-10-04 settled GSC API query for Selah subpaths × country: 0 rows through 2026-09-29; page-view and funnel snapshots recorded in GROWTH_RESEARCH.md with browser-ID/user-count caveats.",
-        "Allow-listed route category now carries through same-origin landing-to-reader flow; `.html` download route misclassification discovered by regression test and fixed.",
-        "Worker route validation/client routing tests pass; migration smoke test preserves aggregate count as unattributed; mobile/www regenerated and source/parity checks pass. Changes remain uncommitted and undeployed.",
-        "Open PR #137 also touches analytics-worker README/source/index/privacy and introduces 0004_usage.sql; new landing migration is sequenced as 0005 to avoid version collision."
+        "Allow-listed route category carries through same-origin landing-to-reader flow; `.html` download route misclassification discovered by regression test and fixed.",
+        "Worker route validation/client routing tests pass; SQLite migration smoke test preserves aggregate count as unattributed; mobile/www regenerated and source/parity checks pass. Commit 01a0e31 exists locally; branch push, migration apply and deployment remain pending.",
+        "Open PR #137 edits some of the same source/docs and adds 0004_usage.sql; this change uses 0005_landing_route.sql to preserve sequence."
       ],
-      "nextAction": "Review PR #137 integration risks, run remaining source checks, claim integrate/deploy after edit leases end, then create the route-attribution PR and verify Pages and Worker readback independently.",
+      "nextAction": "Push the task branch and open the route-attribution PR. Reconcile the analytics usage PR before applying production migrations or claiming live route attribution.",
       "feedback": [],
       "handoffs": []
     }
