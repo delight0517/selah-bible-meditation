@@ -3,7 +3,7 @@
 - UI는 UTC 오늘의 익명 브라우저 ID를 로그인 여부와 무관하게 한 번 집계하고, UTC 자정부터 지난 시간을 초 단위로 보여준다. 새 형식의 데이터가 확인되기 전에는 수치를 0으로 꾸미지 않고 — 로 둔다. 브라우저·기기 전환, 비공개 창, 저장 데이터 초기화는 다시 셀 수 있으므로 사람 수나 계정별 고유 인원으로 표현하지 않는다.
 - 서울 선택 시 25개 구 이름을 위치 근사 타일 지도로 탐색할 수 있다. 구·동별 접속 수는 기존 위치 데이터에서 알 수 없고, 개인정보 안내가 동·구 단위 수집을 금지하므로 해당 통계는 새로 만들지 않는다.
 - Cloudflare Worker `cloud-account-storage` 배포 3e9028f6-6588-4c93-ac4e-ab3ea8b3ddb8 완료. API readback은 days=1 응답, visitor coverage=false/null을 반환한다. 이는 예전 하루 기록에 국가별 고유 page-view ID가 없어 임의 수치를 만들지 않도록 한 것이다. 새 UI는 selah.analytics.dailyUniqueSentDay 키로 기존 방문자도 하루 이벤트를 다시 보낸다.
-- Selah UI PR #228은 PR #215 브랜치에 쌓였고 아직 미배포다. PR #215가 main과 병합 충돌 중이라 #228을 main으로 병합·배포할 수 없다. UI 자동 parity CI에서 생성 manifest와 mobile/www/privacy.html 경로 누락을 수정했고, 최신 run 결과는 pending 확인 필요. Worker 소스 PR은 releasepilot-reports #15 open.
+- Selah UI PR #228은 PR #215 브랜치에 쌓였고 아직 미배포다. PR #215가 main과 병합 충돌 중이라 #228을 main으로 병합·배포할 수 없다. UI 자동 CI에서 contract와 windows-protocol 두 run 모두 통과. Worker 소스 PR은 releasepilot-reports #15 open이며 별도 checks 없음.
 - SELAH-VISITOR-EXPLANATION revision 2. Platform source/parity validators pass for generated shared bundle; no iPhone/Mac/Windows runtime claim.
 - 별도 active backlog 유지: owner/Codex 테스트 유입 제외는 현재 이 변경에 포함하지 않음. selah_qa=1 경로는 기존 시험 계측 제외 수단이며 일반 브라우저 방문자의 소유자 여부를 식별하지 않는다.
 
