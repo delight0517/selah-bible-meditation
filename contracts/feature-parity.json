@@ -610,12 +610,12 @@
           "appliedRevision": 1,
           "source": "current task branch",
           "build": "GitHub Pages shared source",
-          "evidence": "The computer handoff selector now stays hidden until BlueCloud identity is verified; Pages deployment readback pending."
+          "evidence": "PR #226 merged as 602850a9fcbf050eadd614c5b0a108ca096f2080; Pages run 37228235251 succeeded. Public index and versioned handoff JS returned HTTP 200 and include the verified token/accountId visibility gate; visual browser interaction remains unverified."
         },
         "windows": {
           "owner": "selah-windows-feature-runtime-20261003",
           "state": "implemented",
-          "evidence": "Windows uses the same hosted reader source and receives this guest/authentication or semantic-theme behavior; independent installed Windows runtime readback remains unverified.",
+          "evidence": "Windows shares the deployed hosted reader source; Pages source readback passed. Installed Windows shell runtime was not separately exercised.",
           "appliedRevision": 1,
           "source": "current task branch shared hosted reader",
           "build": "Selah shared UI 1.0.11/build 36"
@@ -657,12 +657,12 @@
           "appliedRevision": 1,
           "source": "current task branch",
           "build": "GitHub Pages shared source",
-          "evidence": "Semantic theme tokens and contrast-safe foreground selection are implemented; Pages visual readback pending."
+          "evidence": "PR #226 merged as 602850a9fcbf050eadd614c5b0a108ca096f2080; Pages run 37228235251 succeeded. Public index, semantic theme JS and CSS returned HTTP 200 with contrast-role tokens present; actual rendered browser visual check remains unverified."
         },
         "windows": {
           "owner": "selah-windows-feature-runtime-20261003",
           "state": "implemented",
-          "evidence": "Windows uses the same hosted reader source and receives this guest/authentication or semantic-theme behavior; independent installed Windows runtime readback remains unverified.",
+          "evidence": "Windows shares the deployed hosted reader and theme source; Pages source readback passed. Installed Windows shell rendering was not separately exercised.",
           "appliedRevision": 1,
           "source": "current task branch shared hosted reader",
           "build": "Selah shared UI 1.0.11/build 36"
