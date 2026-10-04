@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T02:14:48.738Z",
+  "updatedAt": "2026-10-04T02:18:38.511Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -430,7 +430,7 @@
       "id": "selah-growth-readback-20261004",
       "summary": "Refresh settled Search Console and first-party funnel evidence, record limits and next review",
       "owner": "shared",
-      "status": "review",
+      "status": "completed",
       "claimVersion": 2,
       "scopes": [
         "selah.analytics.gsc-baseline",
@@ -446,9 +446,10 @@
         "MARKET_PLAYBOOK.md"
       ],
       "evidence": [
-        "Live 2026-10-04 GSC and Cloudflare aggregates documented in GROWTH_RESEARCH.md cumulative four-day refresh; exact nine-page performance window, URL inspection statuses, 68/40 page-view aggregate and 10-exposure funnel with user-count caveats recorded."
+        "Live 2026-10-04 GSC and Cloudflare aggregates documented in GROWTH_RESEARCH.md cumulative four-day refresh; exact nine-page performance window, URL inspection statuses, 68/40 page-view aggregate and 10-exposure funnel with user-count caveats recorded.",
+        "PR #212 merged as 5e5f68bcf78f970bf6f2b3dafa7aeaeaca3958cb; GitHub Pages run 37170581241 succeeded; GROWTH_RESEARCH.md and MARKET_PLAYBOOK.md public readback contains the exact 68/40 page-view and 10-exposure funnel snapshot, GSC settled window, and attribution caveats."
       ],
-      "nextAction": "After the first settled GSC report includes 2026-10-02, compare Selah page/query/country performance with route-attributed aggregate funnel data; create a separate scoped task for a landing-route dimension before the next regional design experiment.",
+      "nextAction": "Create a separately claimed change adding an allow-listed landing-route dimension to aggregate page-view and feature-funnel events; then compare route-level reading, reflection, and signup stages with settled Search Console URL/query/country data.",
       "feedback": [],
       "handoffs": []
     }
