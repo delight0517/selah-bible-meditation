@@ -460,6 +460,62 @@
           "workItem": "selah-us-state-counts-20261004"
         }
       }
+    },
+    {
+      "id": "SELAH-KOREA-REGION-BOUNDARY-MAP",
+      "revision": 1,
+      "title": "한국 시·도 안의 실제 행정구역 경계 지도",
+      "acceptance": [
+        "서울·충남처럼 경계 자료가 포함된 지역을 선택하면 접근 가능한 행정구역 지도를 보여준다",
+        "지도 영역은 마우스와 키보드로 선택할 수 있고 선택한 명칭을 안내한다",
+        "행정구역별 방문자 수는 집계하거나 표시하지 않는다",
+        "지도 데이터가 없는 시·도는 실제 이름 목록으로 대체하고 가짜 경계나 수치를 만들지 않는다"
+      ],
+      "paths": [
+        "index.html",
+        "assets/korea-top-region-maps.json",
+        "THIRD_PARTY_NOTICES.md",
+        "mobile/www/index.html",
+        "mobile/www/assets/korea-top-region-maps.json",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation PR #114 reconciled onto main 625eca3",
+          "build": "GitHub Pages source; live runtime readback pending",
+          "evidence": "Accessible SVG boundary map and list fallback are implemented; only province-level visit totals remain visible."
+        },
+        "windows": {
+          "owner": "Windows Selah maintainer",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Shared hosted page will carry the web implementation; installed Windows shell runtime needs separate verification.",
+          "workItem": "selah-korea-region-map-platform-proof"
+        },
+        "macos": {
+          "owner": "Mac Selah maintainer",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Mac app source and installed runtime adoption have not been verified.",
+          "workItem": "selah-korea-region-map-platform-proof"
+        },
+        "ios": {
+          "owner": "Mac iOS maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation mobile/www shared bundle",
+          "build": "Generated source bundle only; device build and UI proof pending",
+          "evidence": "The canonical web page and map dataset are copied into mobile/www; installation and device interaction are separate proof.",
+          "workItem": "selah-korea-region-map-platform-proof"
+        }
+      }
     }
   ]
 }
