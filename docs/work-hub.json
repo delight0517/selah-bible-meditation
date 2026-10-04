@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T00:47:32.360Z",
+  "updatedAt": "2026-10-04T02:06:22.928Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -417,6 +417,30 @@
         "Pages build33 live browser verified: Oklahoma 6, Arizona 4, California 0; 51 states/DC; Korea/US switching passed"
       ],
       "nextAction": "Native installed runtime verification remains with platform maintainers",
+      "feedback": [],
+      "handoffs": []
+    },
+    {
+      "id": "selah-growth-readback-20261004",
+      "summary": "Refresh settled Search Console and first-party funnel evidence, record limits and next review",
+      "owner": "shared",
+      "status": "in_progress",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.analytics.gsc-baseline",
+        "selah.analytics.first-party-pageviews"
+      ],
+      "branch": "codex/selah-funnel-next-20261004",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a0fa42-f6d3-7530-9c18-439a44ef6fb5",
+      "baseCommit": "5ca757d",
+      "files": [
+        "docs/work-hub.json",
+        "GROWTH_RESEARCH.md",
+        "MARKET_PLAYBOOK.md"
+      ],
+      "evidence": [],
+      "nextAction": "Update this record before handoff or completion.",
       "feedback": [],
       "handoffs": []
     }
