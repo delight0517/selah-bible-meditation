@@ -547,7 +547,8 @@
         "mobile/www/assets/scripture-highlights.js",
         "mobile/www/scripts/unified-data.js",
         "mobile/www/SHARED_SOURCE_MANIFEST.json",
-        "TODO.md"
+        "TODO.md",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj"
       ],
       "platforms": {
         "web": {
