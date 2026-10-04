@@ -427,6 +427,13 @@
         "additionalProperties": true
       },
       "description": "Original standalone reader data retained during additive migration."
+    },
+    "togetherReads": {
+      "type": "array",
+      "description": "Private account-scoped history for users who joined a shared reading room; raw room IDs and invite tokens are never stored.",
+      "items": {
+        "$ref": "#/$defs/togetherRead"
+      }
     }
   },
   "$defs": {
@@ -899,6 +906,75 @@
         "createdAt": {
           "type": "integer",
           "minimum": 0
+        }
+      }
+    },
+    "togetherRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "passage",
+        "participantCount",
+        "startedAt",
+        "updatedAt",
+        "friendName"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}$",
+          "description": "Truncated SHA-256 digest of an ephemeral room ID."
+        },
+        "passage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "book",
+            "chapter",
+            "translation",
+            "language"
+          ],
+          "properties": {
+            "book": {
+              "type": "string",
+              "maxLength": 16
+            },
+            "chapter": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "translation": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "language": {
+              "type": "string",
+              "maxLength": 16
+            }
+          }
+        },
+        "participantCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "startedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "friendName": {
+          "type": "string",
+          "maxLength": 80
         }
       }
     }

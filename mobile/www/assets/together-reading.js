@@ -74,6 +74,7 @@
     await apply(room); clearInterval(poll); poll=setInterval(tick,2000); void tick();
   }
   async function apply(room) {
+    const previous = snapshot;
     snapshot=room;
     const key=JSON.stringify(room.passage);
     if(key!==passageKey || JSON.stringify(bridge.current().passage)!==key) {
@@ -86,6 +87,9 @@
       else if(!room.timer) await bridge.read();
     }
     renderPeers(room);
+    if (!previous || JSON.stringify(previous.passage) !== JSON.stringify(room.passage) || previous.participants?.filter(row=>row.active).length !== room.participants?.filter(row=>row.active).length) {
+      await bridge.recordRoom?.({roomId:session.roomId, passage:room.passage, participantCount:room.participants.filter(row=>row.active).length, endedAt:null});
+    }
   }
   function position() {
     const reader=bridge.reader(), rect=reader.getBoundingClientRect();
@@ -119,6 +123,7 @@
   }
   async function leaveRoom() {
     const old=session; if(!old)return;
+    if (snapshot?.passage) await bridge.recordRoom?.({roomId:old.roomId, passage:snapshot.passage, participantCount:snapshot.participants.filter(row=>row.active).length, endedAt:Date.now()});
     try { await request('/rooms/'+old.roomId+'/leave','POST',{participantId:old.participantId}); } catch {}
     clearInterval(poll); sessionStorage.removeItem('selah.together.'+old.roomId); session=null;snapshot=null;passageKey='';timerKey='';
     for(const {bar} of bars)bar.hidden=true;
@@ -134,6 +139,6 @@
   }
   document.addEventListener('visibilitychange',()=>void tick());
   window.addEventListener('online',()=>void tick());
-  window.SelahTogether={create:createRoom,leave:leaveRoom};
+  window.SelahTogether={create:createRoom,leave:leaveRoom,current:()=>session&&snapshot?{roomId:session.roomId,passage:snapshot.passage,participantCount:snapshot.participants.filter(row=>row.active).length}:null};
   void boot();
 })();

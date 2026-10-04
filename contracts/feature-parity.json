@@ -266,14 +266,18 @@
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 3,
-      "title": "초대 URL로 같은 말씀·상대 읽는 위치·같은 타이머 공유",
+      "revision": 5,
+      "title": "초대 URL 함께 읽기 및 계정별 기록·친구 별명",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
         "상대 URL 입장 시 같은 번역본·책·장으로 열린다",
         "상대가 읽는 절을 옅은 표시로 보여준다",
         "시간 묵상은 서버 종료 시각 기준 타이머를 공유한다",
-        "묵상·기도·계정 정보는 전송하지 않는다"
+        "묵상·기도·계정 정보는 전송하지 않는다",
+        "로그인한 참가자는 함께 읽은 본문·시작 시각·참여 인원을 본인 BlueCloud 기록에 저장한다",
+        "방 ID 원문·계정 정보·묵상과 기도는 함께 읽기 Worker나 다른 참가자에게 전송하지 않는다",
+        "각 계정에서 함께 읽은 기록의 친구 별명을 수정하고 여러 기기에서 동기화한다",
+        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다"
       ],
       "paths": [
         "index.html",
@@ -283,25 +287,31 @@
         "mobile/www/",
         "mobile/ios/",
         "together-worker/",
-        "home.html"
+        "home.html",
+        "scripts/unified-data.js",
+        "contracts/selah-cloud-state.schema.json",
+        "scripts/test-unified-data.mjs",
+        "scripts/test-together-reading.mjs",
+        "assets/together-history.js",
+        "scripts/test-together-history.mjs"
       ],
       "platforms": {
         "web": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 5,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
           "workItem": "selah-live-together-20261003"
         },
         "windows": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 5,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
           "workItem": "selah-live-together-20261003"
         },
         "macos": {
@@ -310,16 +320,16 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Native source and device acceptance pending",
+          "evidence": "Native app parity and runtime verification remain pending; shared web source change does not prove the standalone Mac app.",
           "workItem": "selah-live-together-20261003"
         },
         "ios": {
           "owner": "Mac maintainer - request pending",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 5,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
           "workItem": "selah-live-together-20261003"
         }
       }
@@ -394,10 +404,12 @@
     },
     {
       "id": "SELAH-LOCALIZED-SEARCH-PREVIEW",
-      "revision": 1,
-      "title": "필리핀어·스페인어·브라질 포르투갈어 검색 미리보기 정합성",
+      "revision": 2,
+      "title": "기본 한국어와 현지화 검색·공유 미리보기 정합성",
       "acceptance": [
         "각 현지화 랜딩의 title, meta description, Open Graph, Twitter 제목과 설명이 현지어이며 같은 기능·성경판 약속을 표현한다.",
+        "기본 한국어 공유 카드와 구조화 데이터는 특정 성경 책이 앱 전체 범위인 것처럼 보이지 않게 하고, 실제 지원하는 말씀 읽기·구절 북마크·묵상/기도 기록·사용자 제작 복습 퀴즈를 설명한다.",
+        "한국어 Open Graph 미리보기는 1200×630 공유 이미지와 일치하며 이미지 URL 변경으로 교체 전 카드 이미지 캐시와 구분할 수 있다.",
         "페이지 제목, 구조화 데이터 이름, 검색·공유 이미지 대체 문구는 해당 페이지 언어로 일관되고 번역되지 않은 마케팅 표현을 섞지 않는다.",
         "검색 제목과 설명은 감사에서 관측한 잘림 길이 이내이며 정식 canonical URL과 og:url이 같다.",
         "현지화 랜딩은 SoftwareApplication, 현지화 안내 페이지는 Article 구조화 데이터를 포함하고 언어 및 canonical 페이지를 표시한다.",
@@ -405,6 +417,11 @@
         "구조화 데이터나 메타 태그는 Google의 검색 노출, 선택된 제목/설명 또는 썸네일 표시를 보장한다고 설명하지 않는다."
       ],
       "paths": [
+        "index.html",
+        "assets/previews/",
+        "mobile/www/index.html",
+        "mobile/www/assets/previews/",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
         "fil/index.html",
         "fil/guide/index.html",
         "es/index.html",
@@ -418,11 +435,11 @@
       "platforms": {
         "web": {
           "owner": "Selah growth funnel",
-          "state": "verified",
-          "appliedRevision": 1,
-          "source": "codex/localized-search-preview-20261004",
-          "build": "Pages run 37151582667; commit cb2f0646e896609254afd963890a13bca50c19f7",
-          "evidence": "PR #194 merged; five localized pages and their preview images returned HTTP 200 with expected title, description, canonical, JSON-LD and image metadata. GSC inspection still reflects pre-deployment crawls; both guide pages remain crawled-not-indexed and search performance is not yet measurable."
+          "state": "implemented",
+          "appliedRevision": 2,
+          "source": "codex/selah-together-history-20261004@1cb4ce3",
+          "build": "1.0.10 / build 34 source bundle; PR #219 pending",
+          "evidence": "Default Korean title, description, Open Graph, Twitter, JSON-LD and 1200×630 preview image now describe reading, bookmarks, reflection/prayer notes and review quizzes without implying Matthew-only coverage. Generated iOS web bundle is synchronized. No Pages deployment or live social crawler readback yet."
         },
         "windows": {
           "owner": "Native platform maintainers (no native change)",
