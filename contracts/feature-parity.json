@@ -266,7 +266,7 @@
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 4,
+      "revision": 5,
       "title": "초대 URL 함께 읽기 및 계정별 기록·친구 별명",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
@@ -299,7 +299,7 @@
         "web": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "codex/selah-together-history-20261004",
           "build": "shared UI 1.0.10/34",
           "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
@@ -308,7 +308,7 @@
         "windows": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "codex/selah-together-history-20261004",
           "build": "shared UI 1.0.10/34",
           "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
@@ -326,7 +326,7 @@
         "ios": {
           "owner": "Mac maintainer - request pending",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "codex/selah-together-history-20261004",
           "build": "shared UI 1.0.10/34",
           "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
