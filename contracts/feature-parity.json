@@ -23,7 +23,8 @@
         "assets/visitor-explanation.js",
         "mobile/www/index.html",
         "mobile/www/assets/visitor-explanation.js",
-        "mobile/www/SHARED_SOURCE_MANIFEST.json"
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/www/privacy.html"
       ],
       "platforms": {
         "web": {
