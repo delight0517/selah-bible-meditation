@@ -425,11 +425,11 @@
       "platforms": {
         "web": {
           "owner": "US state display task",
-          "state": "implemented",
+          "state": "verified",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation source",
+          "source": "main 941f2dd4075b5dc506c6cf352908b7c42ea0cd47",
           "build": "shared UI 1.0.10/33",
-          "evidence": "Case-normalized US map rendering regression passed; live deployment verification pending",
+          "evidence": "Live build33 browser: Oklahoma 6, Arizona 4, California 0; 51 state/DC tiles; Korea Seoul 14, Chungnam 35; KR/US switching passed. Pages run 37165848335 succeeded.",
           "workItem": "selah-us-state-counts-20261004"
         },
         "windows": {
