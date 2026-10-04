@@ -467,7 +467,7 @@
       "summary": "Record the dated market/search scan and continue Selah allow-listed landing-route attribution through the reader and conversion funnel.",
       "owner": "shared",
       "status": "in_progress",
-      "claimVersion": 3,
+      "claimVersion": 4,
       "scopes": [
         "selah.analytics.gsc-baseline",
         "selah.analytics.route-funnel",
@@ -479,16 +479,12 @@
       "baseCommit": "625eca38edeb21b8f1f508e954944af90aa1d62e",
       "files": [
         "GROWTH_RESEARCH.md",
-        "MARKET_PLAYBOOK.md",
-        "TODO.md",
         "analytics-worker/README.md",
         "analytics-worker/migrations/0005_landing_route.sql",
         "analytics-worker/src/index.js",
-        "contracts/feature-parity.json",
         "docs/work-hub.json",
         "fil/analytics.js",
         "index.html",
-        "mobile/www",
         "privacy.html",
         "scripts/test-acquisition-scope.mjs",
         "scripts/test-market-experiment-worker.mjs"
@@ -496,10 +492,12 @@
       "evidence": [
         "PR #214 (search-copy work-hub claim) merged 2026-10-04 02:43 UTC as 625eca38edeb21b8f1f508e954944af90aa1d62e; the dated market and live search audit is now recorded in GROWTH_RESEARCH.md.",
         "2026-10-04 GSC URL inspection confirms Korean root, Japanese, and Filipino landing are submitted/indexed and mobile fetch succeeds; settled Selah page/query window still has 0 impressions/clicks through 2026-10-01, so post-index demand remains unknown.",
-        "Landing-route implementation and local acquisition/Worker/migration/parity checks are in commit 01a0e31; draft PR #215 is open. CI currently reports overlapping active live-together ownership for contracts/feature-parity.json, TODO.md, and mobile/www, plus missing parity coverage for mobile/www/privacy.html. Production migration/deployment have not happened.",
+        "Landing-route web acquisition implementation is in PR #215. The production summary currently lacks landingRoute; the candidate change must pass CI before deployment.",
+        "2026-10-04 live funnel refresh: 68 page-view events / 40 approximate monthly browser IDs in four partial UTC days (KR 54, US 14; 46 desktop, 22 mobile); global funnel 10 exposures, 1 CTA, 1 reader, 1 at 30s and 120s, 0 saves, signups or return events. These are aggregates, not people, and may include QA.",
+        "PR #215 was narrowed to web-only acquisition measurement because native Capacitor events remain excluded. Changes to TODO.md, contracts/feature-parity.json, and mobile/www are deferred while another active task owns those paths; no production migration or deployment has occurred.",
         "Competitor scan and current landing audit were appended to GROWTH_RESEARCH.md with source links; competitor claims are supply/positioning signals, not verified customer demand."
       ],
-      "nextAction": "Keep PR #215 in draft while the live-together owner retains contracts/feature-parity.json, TODO.md, and mobile/www. Coordinate/reconcile those files when their active claim is released; then resolve the parity coverage report, rerun checks, and only then merge/deploy and observe a settled post-deployment period.",
+      "nextAction": "Validate the web-only PR #215 with CI after the ownership split. Before applying migration 0005, reconcile its ordering with open PR #137's migration 0004. When TODO.md, the parity contract, and mobile/www are released, record this web-only scope there; deploy and inspect live route aggregates before comparing a settled period.",
       "feedback": [],
       "handoffs": []
     }
