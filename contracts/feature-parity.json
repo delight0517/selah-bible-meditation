@@ -588,6 +588,99 @@
           "evidence": "Capacitor bundle generated with localized guest save prompt; physical iPhone runtime not exercised."
         }
       }
+    },
+    {
+      "id": "SELAH-COMPUTER-READING-AUTH-GATE",
+      "revision": 1,
+      "title": "로그인 사용자에게만 다른 컴퓨터에서 읽기 표시",
+      "acceptance": [
+        "BlueCloud 인증이 확인되어 token과 accountId가 모두 있는 경우에만 Mac/Windows 읽기 선택 UI를 표시한다.",
+        "로그아웃 또는 인증 만료 시 컴퓨터 읽기 선택, 버튼, 이전 요청 상태를 숨긴다.",
+        "일반 말씀 읽기와 시간 묵상은 비로그인 사용자에게 계속 제공한다."
+      ],
+      "paths": [
+        "index.html",
+        "scripts/computer-reading-handoff.js",
+        "mobile/www/"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch",
+          "build": "GitHub Pages shared source",
+          "evidence": "The computer handoff selector now stays hidden until BlueCloud identity is verified; Pages deployment readback pending."
+        },
+        "windows": {
+          "owner": "selah-windows-feature-runtime-20261003",
+          "state": "implemented",
+          "evidence": "Windows uses the same hosted reader source and receives this guest/authentication or semantic-theme behavior; independent installed Windows runtime readback remains unverified.",
+          "appliedRevision": 1,
+          "source": "current task branch shared hosted reader",
+          "build": "Selah shared UI 1.0.11/build 36"
+        },
+        "macos": {
+          "owner": "selah-apple-feature-parity-20261003",
+          "state": "pending",
+          "evidence": "The shared hosted reader is updated; separate macOS application runtime/source parity has not been verified."
+        },
+        "ios": {
+          "owner": "Selah shared UI task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch mobile/www",
+          "build": "shared UI source bundle",
+          "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; installed iPhone runtime remains unverified."
+        }
+      }
+    },
+    {
+      "id": "SELAH-SEMANTIC-THEME-CONTRAST",
+      "revision": 1,
+      "title": "공통 역할 기반 테마 색상과 최소 대비 보정",
+      "acceptance": [
+        "system/light/dark 설정에 맞게 root color-scheme과 브라우저 기본 컨트롤이 함께 바뀐다.",
+        "본문·보조 글자·강조 글자를 종이·카드·부드러운 배경별로 계산하고, 선택한 색이 배경 대비 4.5:1 미만이면 읽을 수 있는 전경색을 사용한다.",
+        "공통 화면 컴포넌트는 역할 토큰을 사용해 개별 글자 색 수정 없이 다크 모드 가독성을 유지한다."
+      ],
+      "paths": [
+        "index.html",
+        "scripts/semantic-theme.js",
+        "styles/semantic-theme.css",
+        "mobile/www/"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch",
+          "build": "GitHub Pages shared source",
+          "evidence": "Semantic theme tokens and contrast-safe foreground selection are implemented; Pages visual readback pending."
+        },
+        "windows": {
+          "owner": "selah-windows-feature-runtime-20261003",
+          "state": "implemented",
+          "evidence": "Windows uses the same hosted reader source and receives this guest/authentication or semantic-theme behavior; independent installed Windows runtime readback remains unverified.",
+          "appliedRevision": 1,
+          "source": "current task branch shared hosted reader",
+          "build": "Selah shared UI 1.0.11/build 36"
+        },
+        "macos": {
+          "owner": "selah-apple-feature-parity-20261003",
+          "state": "pending",
+          "evidence": "The shared semantic theme is updated; separate macOS application runtime/source parity has not been verified."
+        },
+        "ios": {
+          "owner": "Selah shared UI task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch mobile/www",
+          "build": "shared UI source bundle",
+          "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; installed iPhone runtime remains unverified."
+        }
+      }
     }
   ]
 }

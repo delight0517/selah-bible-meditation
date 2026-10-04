@@ -149,7 +149,15 @@
 
   let computerReadingSendError = false;
   function renderStatus() {
-    button.hidden = false;
+    const signedIn = Boolean(token && accountId);
+    const control = button.closest(".computer-reading-control");
+    if (control) control.hidden = !signedIn;
+    button.hidden = !signedIn;
+    if (!signedIn) {
+      status.hidden = true;
+      status.textContent = "";
+      return;
+    }
     button.textContent = text("open");
     const current = db.computerReadingRequest;
     const result = db.computerReadingResult?.id === current?.id ? db.computerReadingResult : null;
@@ -380,6 +388,13 @@
       activateSyncedMeditation(session);
     }
   });
+
+  const originalSync = sync;
+  sync = async function (...args) {
+    try { return await originalSync(...args); }
+    finally { renderStatus(); }
+  };
+  document.getElementById("signOut")?.addEventListener("click", () => queueMicrotask(renderStatus));
 
   scheduleFocusIdleExpiry();
   renderStatus();
