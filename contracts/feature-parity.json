@@ -405,6 +405,60 @@
           "reason": "Search-result metadata and static page schema are web-document capabilities; native app behavior is unchanged."
         }
       }
+    },
+    {
+      "id": "SELAH-US-STATE-COUNTS",
+      "revision": 1,
+      "title": "미국 주별 방문 숫자 표시",
+      "acceptance": [
+        "미국 선택 시 Oklahoma/Arizona 등 서버에 있는 주별 방문 수를 그대로 표시한다",
+        "지역 코드 대소문자가 달라도 같은 주를 조회한다",
+        "집계가 없는 주는 0으로 표시하며 한국 지도 전환을 유지한다"
+      ],
+      "paths": [
+        "index.html",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "US state display task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation source",
+          "build": "shared UI 1.0.10/33",
+          "evidence": "Case-normalized US map rendering regression passed; live deployment verification pending",
+          "workItem": "selah-us-state-counts-20261004"
+        },
+        "windows": {
+          "owner": "Windows runtime owner",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation source",
+          "build": "shared UI 1.0.10/33",
+          "evidence": "Hosted source includes correction; installed launcher runtime pending",
+          "workItem": "selah-us-state-counts-20261004"
+        },
+        "macos": {
+          "owner": "Mac Selah maintainer",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Native source and runtime adoption pending",
+          "workItem": "selah-us-state-counts-20261004"
+        },
+        "ios": {
+          "owner": "Mac iOS maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation source",
+          "build": "shared UI 1.0.10/33",
+          "evidence": "Generated mobile/www source includes correction; device build and install pending",
+          "workItem": "selah-us-state-counts-20261004"
+        }
+      }
     }
   ]
 }

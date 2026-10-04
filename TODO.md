@@ -517,3 +517,10 @@
 - [x] GSC settled-through 2026-09-29; Selah 홈 page performance와 국가 행, 최근 14일 속성 요약 모두 impressions/clicks 0. GSC 지연 때문에 10/04 이후 검색 효과는 아직 모른다.
 - [x] GSC가 연결한 확인 속성은 `https://delight0517.github.io/`이며, 여기에 저장된 정확한 Selah 기본 랜딩 8개는 모두 indexed다. Selah 경로 page performance, page+country, query+page는 확정 구간(2026-09-03–09-30, settled-through 09-29)에서 0 노출·클릭/0행이다. 하위 경로 `siteUrl`로 만든 임시 tracker는 공식 연결 속성 목록에 없었다. 그곳에 이번에 추가한 7개 행을 제거했고, 원래 4개 URL은 보존했다. 이전 11/2/3/6 상태는 사용하지 않는다.
 - [ ] 10/05 KST 상위 속성 tracker/sitemap 상태 확인, 10/08 KST 이후에는 10/04 배포 뒤 확정된 GSC와 실제 글로벌 funnel event를 함께 읽는다. Semrush 키워드량은 연결 전까지 미확인으로 두고, 새 국가별 제목/광고는 실제 현지 검색 의도가 확인된 뒤에만 검토한다.
+
+
+## 2026-10-04 미국 주별 숫자 수정 — 1.0.10/build33
+- 사용자 피드백: 미국 주 단위로 숫자가 여전히 안 나옴.
+- 원인: 서버 us-ok/us-az와 지도 us-OK/us-AZ 조회의 대소문자 불일치. 지역 코드를 소문자로 정규화해 숫자 표시 수정.
+- 테스트: 소문자·대문자 데이터 및 집계 없는 주 0 표시, 50주+DC 렌더링 확인.
+- 공유 웹/Windows hosted 소스 및 iOS 생성 소스 반영. Mac/iPhone 설치와 실기기 실행은 미확인.
