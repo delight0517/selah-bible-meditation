@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T07:31:18.881Z",
+  "updatedAt": "2026-10-04T10:02:11Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -500,7 +500,8 @@
         "PR #215 CI after the ownership split now reaches the repo's generated-source parity gate and fails `Stale mobile bundle: index.html`; the canonical mobile/www copy is still owned by selah-live-together-20261003. Work Hub file overlap itself is resolved, but safe route-funnel merge still needs that generated copy and the contract/TODO handoff.",
         "Competitor scan and current landing audit were appended to GROWTH_RESEARCH.md with source links; competitor claims are supply/positioning signals, not verified customer demand.",
         "Drafted a 100-model multilingual campaign catalog in docs/CAMPAIGN_MODELS_100.md; it labels demand hypotheses, current-feature/edition checks, absent-feature gates, and publication status. No public posts or spend.",
-        "Fresh seven-page SEO crawl: all audited landing URLs HTTP 200, self-canonical and indexable. CJK thin-content counts and empty decorative-alt flags were manually identified as heuristic false positives. Korean root and Tagalog pass Google mobile URL Inspection; settled search data still predates Oct 2 crawls."
+        "Fresh seven-page SEO crawl: all audited landing URLs HTTP 200, self-canonical and indexable. CJK thin-content counts and empty decorative-alt flags were manually identified as heuristic false positives. Korean root and Tagalog pass Google mobile URL Inspection; settled search data still predates Oct 2 crawls.",
+        "2026-10-04 fresh cloud readback: production pageview summary = 69 views / 40 approximate monthly browser IDs (11 returning-event classification, KR 55, US 14); one localhost origin and incomplete origin/path joins mean external unique-user count remains unverified. Experiment API now aggregates global-funnel-v1 11 exposures / 2 CTAs / 2 reader starts / 1 at 30s / 1 at 120s / 0 saves/signups; kr-home-copy-v1 12 / 7 / 4 / 0 / 0 / 0 saves/signups and 11 return-event counts (not returning people). GSC exact Selah page/country remains 0 through 2026-09-29; 8 language landings indexed after Oct 1–2 crawls. Research refresh pushed to PR #215 at f63c17e. Its CI still fails generated mobile parity because mobile/www is owned by selah-live-together-20261003; no production change, market winner, or verified activated user claimed."
       ],
       "nextAction": "Resolve current ownership of generated mobile/www before using copy:web; keep PR #215 deployment and route measurement pending. Wait for the first settled GSC window after Oct 2 crawls before deciding market copy.",
       "feedback": [],
