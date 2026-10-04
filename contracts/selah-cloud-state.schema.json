@@ -130,9 +130,14 @@
         },
         "mobile": {
           "$ref": "#/$defs/readerPreference"
+        },
+        "highlightColor": {
+          "type": "string",
+          "enum": ["yellow", "green", "blue", "pink", "purple", "orange"],
+          "description": "Last selected private Scripture highlight color for this account."
         }
       },
-      "description": "Separate reader preferences selected by viewport width (mobile at max-width 760px, desktop otherwise)."
+      "description": "Separate reader preferences selected by viewport width (mobile at max-width 760px, desktop otherwise), plus the account's preferred Scripture highlight color."
     },
     "customFontData": {
       "type": [
@@ -410,6 +415,27 @@
           },
           "locale": {
             "type": "string"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "yellow",
+              "green",
+              "blue",
+              "pink",
+              "purple",
+              "orange"
+            ]
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "UTF-16 offset within the selected verse text; omitted on imported legacy whole-verse highlights."
+          },
+          "end": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Exclusive UTF-16 offset within the selected verse text."
           }
         },
         "additionalProperties": true

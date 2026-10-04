@@ -524,6 +524,66 @@
           "workItem": "selah-us-state-counts-20261004"
         }
       }
+    },
+    {
+      "id": "SELAH-SCRIPTURE-PER-USER-HIGHLIGHTS",
+      "revision": 1,
+      "title": "드래그 구절 개인 색상 하이라이트",
+      "acceptance": [
+        "웹과 iPhone Safari에서 성경 본문 글자를 드래그해 한 구절 또는 여러 구절의 선택 범위에 여섯 색 중 하나를 적용할 수 있다.",
+        "색상과 구절 내 선택 범위는 로그인한 BlueCloud 계정의 비공개 readerMarks에 저장되어 다시 열거나 계정 동기화 후에도 표시된다. 비로그인 상태에서는 현재 브라우저에만 저장된다.",
+        "선택한 색을 구절 도구막대에서 지울 수 있으며 겹친 범위의 나머지 하이라이트는 유지된다.",
+        "친구와 함께 읽기 위치나 초대 링크에는 개인 하이라이트가 포함되지 않는다.",
+        "하이라이트 선택 도구와 상태가 지원 UI 언어(한국어, 영어, 일본어, 중국어 간체·번체, 스페인어, 브라질 포르투갈어, 필리핀어)로 표시된다."
+      ],
+      "paths": [
+        "index.html",
+        "assets/scripture-highlights.js",
+        "scripts/unified-data.js",
+        "contracts/selah-cloud-state.schema.json",
+        "contracts/feature-parity.json",
+        "scripts/test-scripture-highlights.mjs",
+        "mobile/www/index.html",
+        "mobile/www/assets/scripture-highlights.js",
+        "mobile/www/scripts/unified-data.js",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah reader feature task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch",
+          "build": "shared UI 1.0.10/build 35",
+          "evidence": "Selection toolbar, per-range personal color records, persistence, account sync, clear and localized labels implemented; focused source checks pending."
+        },
+        "windows": {
+          "owner": "Selah shared hosted reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "delight0517/selah-bible-meditation shared hosted source",
+          "build": "shared UI 1.0.10/build 35",
+          "evidence": "Windows launcher uses the shared hosted reader; behavior follows the web source after Pages deployment. Windows runtime not independently exercised."
+        },
+        "macos": {
+          "owner": "Mac Selah maintainer",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Standalone macOS reading implementation and runtime ownership still need confirmation; existing shared Apple parity work item remains the owner.",
+          "workItem": "selah-apple-feature-parity-20261003"
+        },
+        "ios": {
+          "owner": "Selah shared iPhone reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated mobile/www from current task branch",
+          "build": "shared UI 1.0.10/build 35",
+          "evidence": "Capacitor bundle generated and parity checks pending; physical iPhone runtime was not available during this task."
+        }
+      }
     }
   ]
 }

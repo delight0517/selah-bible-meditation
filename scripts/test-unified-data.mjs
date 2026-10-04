@@ -88,3 +88,13 @@ test('shared reading history and private friend labels sync by stable per-room I
  assert.equal(data.payload(merged).token,undefined);
  same(merged,data.merge(b,a));
 });
+
+test('personal highlight color preference synchronizes as its own account register', () => {
+  const start = base();
+  const phone = edit(start, 'iOS', 100, state => { state.readerPrefs.highlightColor = 'pink'; });
+  const mac = edit(start, 'Mac', 110, state => { state.readerPrefs.highlightColor = 'blue'; });
+  const merged = data.merge(phone, mac);
+  assert.ok(data.registers.includes('readerPrefs.highlightColor'));
+  assert.equal(merged.readerPrefs.highlightColor, 'blue');
+  assert.equal(data.payload(merged).readerPrefs.highlightColor, 'blue');
+});
