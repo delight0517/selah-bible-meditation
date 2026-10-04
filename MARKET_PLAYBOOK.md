@@ -225,3 +225,11 @@ Google은 언어·지역별 URL을 명시하고 `hreflang`으로 대응 버전�
 - PR #195 문서 병합 `563de97` 및 Pages run `37152669100` 성공. 공개 현지 랜딩 5개는 HTTP 200이고 title/canonical/description이 배포 버전과 일치한다.
 - GSC는 09-29까지 정착된 창에서 Selah page/country·query/page 행이 없고 Image 응답 한 행은 다른 프로젝트다. 다섯 URL의 `requested_at`은 URL Inspection API 조회 기록일 뿐 “Request indexing” 제출 증거가 아니다. 세 홈은 indexed, 두 guide는 crawled-not-indexed이며 마지막 크롤링은 배포 전이다. Selah sitemap은 pending, 오류·경고 0이다.
 - Worker 요약은 허용된 GitHub Pages Origin에서 200, 30일 동안 KR/ko만 반환했다. 공통 `global-funnel-v1`은 0행. 기존 한국어 A/B 이벤트 표본은 각 5 exposure이며 30초 집중 읽기·기록 저장·가입은 0이다. 사람 수나 승자로 해석하지 않고 비한국 유입·Google 재크롤링을 다음 주기에 기다린다.
+
+## 2026-10-04 · 운영 방식 정정: 여러 국가를 병렬로 검증
+
+- 사용자의 요구에 따라 한국을 유일한 시작 시장/통과 관문으로 취급하지 않는다. 한국은 현재 앱의 기준 경험 및 유일한 관측 이벤트가 있는 비교선으로 유지하고, 브라질·필리핀 및 일본·대만·스페인어권 조사를 병렬로 이어간다.
+- 브라질은 Bíblia Livre 2018과 기존 “짧게 한 장씩” 약속이 이미 있어 새로운 변형부터 만들지 않는다. “빠진 날 뒤 부담 없이 이어가기”는 현지 응답과 귀속 가능한 유입이 확보될 때만 검증할 후보 가설이다. 2024 Our Daily Bread의 800명 이상 constituent 조사는 전국 대표 표본이 아니다.
+- 필리핀은 2023 National Readership Survey의 성경 독서 선호와 2024 PSA의 모바일/인터넷 맥락을 각각 참고하되 앱 수요로 일반화하지 않는다. 기존 Ang Biblia 1905 판의 수용성과 관할권별 텍스트 권리를 확인하고, 저데이터 모바일 사용성을 검토한다. 현지 기존 앱의 오프라인·오디오·메모 기능 때문에 이를 차별점으로 주장하지 않는다.
+- 최신 GSC는 상위 GitHub Pages 속성 기준 88 노출/3 클릭(2026-09-29까지)이나 Selah 정확 경로 행은 0이다. sitemap은 제출 후 pending, 오류/경고 0. 43 page-view 이벤트/38 브라우저 추정치는 사람 수가 아니며 KR/US 집계도 이번 분석의 역사 데이터다. 현재 Metricool은 개인 Instagram만 연결되어 있어 홍보에 사용하지 않는다.
+- 다음은 국가별 카피를 더 만드는 일이 아니라, 기존 공통 funnel의 실제 non-QA 이벤트 전달 및 유입 출처를 확인하고 각 시장의 직접 응답을 확보하는 일이다. 국가/디자인/카피 승자 없음, 광고비 집행 없음, 이번 조사로 추가된 검증 활성 사용자 0명. 상세 출처와 한계는 `GROWTH_RESEARCH.md`의 2026-10-04 병렬 시장 기록을 참조한다.

@@ -1,6 +1,6 @@
 # Selah Growth Plan: First 1,000 to the Long-Range Targets
 
-Updated: 2026-10-03
+Updated: 2026-10-04
 Canonical product: Selah Bible meditation at `https://delight0517.github.io/selah-bible-meditation/`
 
 ## 1. Outcomes and honest starting point
@@ -36,17 +36,23 @@ Use separate, auditable counts. Never sum these into a single “users” number
 
 Before wiring identifiers across marketing and account events, confirm the privacy notice, consent basis, data minimization and retention. Do not collect raw IP, Bible passages, reflection text or more precise location for growth reporting. Continue marking owner, QA, app-webview and unauthenticated traffic as unknown/excluded where the evidence does not distinguish it.
 
-## 3. Market sequence
+## 3. Parallel market validation
 
-### First market: Korean-language readers
+### Parallel market lanes: Korea, Brazil, and the Philippines
 
-Keep Korea as the first validation market because the product’s current primary experience and homepage are Korean, and the present analytics only offer a weak KR/US signal. This is an execution choice, not proof that Korea is the largest or best-converting market.
+Do not make Korea a prerequisite for learning in other countries. Keep it as the product baseline because the current primary experience is Korean and it is the only locale with any observed experiment activity. At the same time, investigate multiple localized markets in parallel. This is an operating choice, not proof that any listed market is the largest or best-converting one.
 
-Test one specific need: “I want to read a Bible chapter quietly and keep a meaningful reflection, but general Bible apps make it hard to stay with the text.” Selah’s candidate product promise is a focused reading screen, chapter selection, and a saved meditation note. The need and distinction still require user evidence.
+Keep the candidate need narrow and testable: “I want a quiet, manageable Scripture reading and a way to resume or record what I noticed.” Treat this only as a hypothesis until local readers or attributable behavior confirm it. Selah's focused reader, chapter selection, and saved note are product facts; they are not proof of market differentiation.
 
-The Korean Bible Union’s current app listing already offers curated devotional content and Korean/English text. A generic claim such as “Bible reading app” is not enough differentiation. Compare the actual entry experience and the rights/edition offered before making any superiority claim. [Daily Bible app listing](https://play.google.com/store/apps/details?hl=ko&id=kr.or.su.everydaybible)
+**Korea — benchmark lane.** Keep the existing Korean entry journey as a stable control and measure search → focused reading → reflection → signup. The available sample is too small to select a message or establish a distinct need. Established Korean Bible apps already offer plans, notes, sharing and multiple reading features, so avoid generic superiority claims. [Daily Bible app listing](https://play.google.com/store/apps/details?hl=ko&id=kr.or.su.everydaybible)
 
-### Next markets: score, then choose one
+**Brazil — next message hypothesis, not a market winner.** Selah already has a complete 66-book Portuguese Bíblia Livre 2018 edition and a live “short reading / one chapter at a time” promise. A 2024 survey of more than 800 Our Daily Bread Brazil constituents reported routine, forgetfulness and prioritization barriers; that faith-engaged sample is not nationally representative. A separate national readership study is evidence about book-reading context, not Bible-app demand. Test whether “resume gently after a missed day” is more relevant than repeating the current short-reading message only after source attribution works and local-reader feedback supports the distinction. [Our Daily Bread research](https://www.odbm.org/en/center-for-bible-engagement/blog/research-factors-that-help-and-hinder-bible-reading) · [Fundação Itaú reading survey](https://fundacaoitau.org.br/observatorio/biblioteca/retratos-da-leitura-no-brasil-6-edicao)
+
+**Philippines — edition-fit and access lane.** The 2023 National Readership Survey reported that the Bible was the most popular adult non-school reading genre and that Filipino was the preferred reading language; this describes reading preferences, not Bible-app demand. General internet access differs sharply by region, supporting a mobile-first, low-data hypothesis rather than proving a devotional need. Selah currently offers the older Ang Biblia 1905 edition, while existing Tagalog apps already provide offline access, notes, highlights and audio. Check whether the edition is acceptable to local readers and verify jurisdiction-specific text rights before promoting or expanding it. [Philippine Information Agency survey summary](https://pia.gov.ph/news/pay-more-attention-to-reading-literacy-nbdb-urges-works-to-get-more-filipinos-to-read/) · [Philippine Statistics Authority internet access](https://psa.gov.ph/content/percentage-households-internet-connection-increased-488-percent-2024-two-out-every-three) · [CrossWire TagAngBiblia module](https://www.crosswire.org/sword/modules/ModInfo.jsp?modName=TagAngBiblia)
+
+**Other locales — continue discovery.** Japan, Taiwan, Spanish-speaking markets and other supported languages remain open research lanes. Do not wait for Korea, but do not create country-specific claims or UI variants without a local query/problem signal, a suitable Scripture edition, and an attributable path to reading outcomes.
+
+### Compare markets with the same scorecard
 
 Do not launch every translation as a separate campaign. Score each candidate 0–5 using these weights; mark missing evidence `unknown`, never zero:
 
@@ -56,7 +62,7 @@ Do not launch every translation as a separate campaign. Score each candidate 0�
 - Correct, licensed Scripture text and complete locale journey: 15%
 - Reachable channel and measurable acquisition cost: 10%
 
-Re-score Korea, the US, the Philippines, Japan and other locales when comparable evidence exists. The Philippines remains a research candidate, not a selected winner: a couple of locale-route views do not prove local visitors, and local Bible products already provide broad reading, notes, highlights and offline features. A country only advances when its query, visitor location, first-screen promise and downstream reading behavior line up.
+Re-score Korea, the US, the Philippines, Brazil, Japan and other locales when comparable evidence exists. Country/locale page opens alone do not prove local visitors or local need; established Bible products in both Brazil and the Philippines already provide broad reading features. A market only advances when local query or direct user evidence, visitor market, first-screen promise and downstream reading behavior line up. Preserve each source's population, sample, date and limitations in `GROWTH_RESEARCH.md`.
 
 ### Expert review lenses
 
@@ -81,15 +87,15 @@ Apply these five checks at each decision point; these are review roles, not a cl
 **Pass:** a tagged test journey can be followed from arrival to reading, reflection and confirmed signup, with QA excluded and no personal Scripture content collected.
 **Fail:** keep paid spend at ₩0, repair the missing event or readback, and do not declare acquisition success.
 
-### Gate 1 — Validate the Korean promise and search intent
+### Gate 1 — Validate each local promise and search intent
 
-1. Export Selah-only settled queries and landing pages weekly; separate branded, generic and problem-intent queries.
-2. Interview 5–8 Korean Bible readers or collect equivalent voluntary feedback about their current reading routine, where it breaks, and what they currently use. This is qualitative discovery, not a representative survey.
-3. Map each real query/problem to one useful landing page and the matching in-app first screen. Do not produce dozens of thin country/keyword pages.
-4. Check the result snippet as seen in actual Google Search for the query, locale, device and date when available. Compare title/description promise with the page’s first screen. Google recommends people-first content and explicitly discourages producing pages primarily to attract search visits. [Google helpful-content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
+1. Export Selah-only settled queries and landing pages weekly for every supported locale; separate branded, generic and problem-intent queries. Keep zero-row markets visible as “no settled data,” not as zero demand.
+2. Collect small, voluntary qualitative feedback from readers in each active lane (Korea, Brazil, Philippines) about reading routines, where they break, the Bible edition they trust and the tools they already use. Label this discovery, not a representative survey.
+3. Map only a real query or repeated local problem to one useful landing page and matching first screen. Do not produce thin country/keyword pages or translate a Korean winner by default.
+4. Check the actual Google result by query, locale, device and date when available. Compare title/description promise with the first screen. Google recommends people-first content and discourages pages produced primarily to attract search visits. [Google helpful-content guidance](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)
 
-**Pass:** recurring user language and a relevant search/query signal support the same promise; users can immediately find that feature after landing.
-**Fail:** revise the promise or target need before testing more designs.
+**Pass per market:** local-reader language and a relevant search/query signal support the same promise; the arriving reader immediately finds the promised feature, and a downstream reading/record event is measurable.
+**Fail:** revise that market's promise or need independently. A weak result in one country does not pause discovery elsewhere.
 
 ### Gate 2 — Run one clean conversion experiment
 
@@ -106,7 +112,7 @@ Use at most ₩5,000 for the first tightly scoped high-intent search test. The r
 
 ### Gate 4 — Expand only after repeatable activation
 
-After Korea produces reliable activated-reader and D7-return cohorts, evaluate the next locale using the same scorecard. Localize the search promise, interface emphasis, Scripture edition and proof only where the evidence requires it. Verify public-domain/license terms for each translation before packaging or promoting it. Reuse the winning user problem and measurement contract, but do not assume the Korean design wins elsewhere.
+Evaluate every locale on the same scorecard; do not require Korea to pass before another market can progress. Localize search promise, interface emphasis, Scripture edition and proof only where evidence requires it. Verify public-domain/license terms for each translation before packaging or promoting it. Reuse the measurement contract, never assume a message or design winner transfers across countries.
 
 For premium, first establish repeated value and retention, then test a clear optional paid feature. Keep Scripture access and the stated free offer transparent. Report active paid entitlement, paid retention, refunds and contribution margin separately. Do not claim premium growth until the billing source confirms it.
 
@@ -130,8 +136,8 @@ Every market or design attempt gets a permanent research entry with the query, e
 
 Use channels in this order so each one teaches something measurable:
 
-1. **Google and Naver search:** answer demonstrated Korean search needs with a small number of complete landing pages. Monitor each search engine separately; an IndexNow receipt is not a ranking or visitor.
-2. **Reader/community discovery:** invite a small, consented set of Bible readers or reading groups to try the exact Korean flow and share friction. Give a useful, non-promotional reason to participate; record feedback themes, not names or private devotional content. Do not post to the reserved personal Instagram.
+1. **Google and local search:** answer demonstrated queries in each market with a small number of complete local pages. Monitor each search engine separately; an IndexNow receipt is not a ranking or visitor.
+2. **Reader/community discovery:** invite small, consented reader groups in each active market to try the exact local flow and share friction. Give a useful, non-promotional reason to participate; record themes, not names or private devotional content. Do not post to the reserved personal Instagram.
 3. **Natural sharing:** make the existing Scripture/reading share flow lead back to the same chapter or reflection context. Measure shared-link opens and subsequent reading without making the recipient auto-follow or exposing the sender’s private notes.
 4. **Paid high-intent search:** only the bounded test in Gate 3 after attribution and promise match pass. Keep display/network expansion off for this first test so the query and intent remain interpretable.
 5. **App-store discovery:** once the iOS release itself is ready and install-to-first-reading analytics exist, optimize store listing and screenshots as a separate acquisition funnel. Do not call web traffic an app install.
@@ -149,4 +155,4 @@ Each checkpoint is a distinct-account count in the rolling 30-day window under t
 
 ## Immediate priority
 
-Complete Gate 0 on the current Korean journey, because missing source attribution and zero recorded signups prevent any reliable judgment about SEO or marketing. Keep the ₩20,000 ceiling untouched until that end-to-end readback passes. Then run the first 28-day Korean intent/landing observation. This document sets a weekly review cadence but does not create or reactivate a scheduled automation.
+Complete Gate 0 across the shared multilingual funnel, because missing source attribution and no confirmed signup prevent reliable market comparisons. Keep the ₩20,000 ceiling untouched until the end-to-end readback passes. In parallel, retain Korea as the baseline, review the Brazil “resume after a missed day” hypothesis against local evidence, and verify Philippine edition fit and access constraints. Observe settled search windows without forcing variants or choosing a winner when the sample is small. This document sets a weekly review cadence but does not create or reactivate a scheduled automation.
