@@ -419,7 +419,8 @@
         "index.html",
         "mobile/www/index.html",
         "mobile/www/SHARED_SOURCE_MANIFEST.json",
-        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "mobile/www/SHARED_APP_BUILD.json"
       ],
       "platforms": {
         "web": {
