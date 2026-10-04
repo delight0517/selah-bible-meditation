@@ -66,10 +66,10 @@ The actual campaign label is generated from the pinned image (`selah-illustratio
 
 ## Creative asset inventory
 
-- `assets/marketing/selah-illustrations/quest-path.webp`
-- `assets/marketing/selah-illustrations/focus-battle.webp`
-- `assets/marketing/selah-illustrations/pixel-quest.webp`
-- `assets/marketing/selah-illustrations/watercolor-stillness.webp`
-- `assets/marketing/selah-illustrations/editorial-light.webp`
+- `marketing/experiments/selah-illustration-assets/quest-path.webp`
+- `marketing/experiments/selah-illustration-assets/focus-battle.webp`
+- `marketing/experiments/selah-illustration-assets/pixel-quest.webp`
+- `marketing/experiments/selah-illustration-assets/watercolor-stillness.webp`
+- `marketing/experiments/selah-illustration-assets/editorial-light.webp`
 
 Images are original generated illustrations converted to WebP; no scripture quotation or generated text is embedded in the artwork.

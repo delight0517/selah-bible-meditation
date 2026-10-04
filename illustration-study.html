@@ -10,7 +10,7 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="A quiet moment with Scripture · Selah">
   <meta property="og:description" content="Read one chapter, mark a passage, and save a reflection.">
-  <meta property="og:image" content="https://delight0517.github.io/selah-bible-meditation/assets/marketing/selah-illustrations/editorial-light.webp">
+  <meta property="og:image" content="https://delight0517.github.io/selah-bible-meditation/marketing/experiments/selah-illustration-assets/editorial-light.webp">
   <title>A quiet moment with Scripture · Selah</title>
   <style>
     :root{color-scheme:light;--paper:#f4f1e8;--ink:#202720;--muted:#667067;--green:#31513e;--line:#d8ddd3;--white:#fffefa}
@@ -48,7 +48,7 @@
       </label>
     </header>
     <section class="layout" aria-labelledby="headline">
-      <img class="art" id="art" src="assets/marketing/selah-illustrations/editorial-light.webp" width="1730" height="909" alt="An open Bible beside a warm beam of light leading along a quiet path" fetchpriority="high">
+      <img class="art" id="art" src="marketing/experiments/selah-illustration-assets/editorial-light.webp" width="1730" height="909" alt="An open Bible beside a warm beam of light leading along a quiet path" fetchpriority="high">
       <div class="copy">
         <p class="eyebrow" id="eyebrow">A quiet place to stay with the Word</p>
         <h1 id="headline">Read a chapter. Keep what stays with you.</h1>
@@ -92,7 +92,7 @@
       document.documentElement.lang=locale;document.title=`${localeData.headline} · Selah`;
       set("eyebrow",localeData.eyebrow);set("headline",localeData.headline);set("description",localeData.description);set("note",localeData.note);set("privacy",localeData.privacy);set("language-label",localeData.language);
       const features=document.getElementById("features");features.setAttribute("aria-label",localeData.features.join(", "));features.replaceChildren(...localeData.features.map(text=>{const item=document.createElement("li");item.textContent=text;return item}));
-      const image=document.getElementById("art");image.src=`assets/marketing/selah-illustrations/${art[variant]}`;image.alt=(alt[locale]||alt.en)[index];
+      const image=document.getElementById("art");image.src=`marketing/experiments/selah-illustration-assets/${art[variant]}`;image.alt=(alt[locale]||alt.en)[index];
       const language=document.getElementById("language");language.value=locale;language.addEventListener("change",()=>{const next=new URL(location.href);next.searchParams.set("lang",language.value);location.assign(next.href)});
       const sourceValues=new Set(["google","bing","naver","facebook","instagram","threads","reddit","tiktok","youtube","linkedin","x","kakao","email","owned","referral","direct"]),mediumValues=new Set(["organic","social","community","email","referral","owned","direct"]),sourceIn=(query.get("utm_source")||"").toLowerCase(),mediumIn=(query.get("utm_medium")||"").toLowerCase(),external=Boolean(document.referrer);
       const source=sourceValues.has(sourceIn)?sourceIn:(external?"referral":"direct"),medium=mediumValues.has(mediumIn)?mediumIn:(external?"referral":"direct"),campaign=`selah-illustration-v1-${variant}`;
