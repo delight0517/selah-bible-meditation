@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T04:34:06Z",
+  "updatedAt": "2026-10-04T07:31:18.881Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -499,9 +499,10 @@
         "Six more live URL inspections: English, zh-CN, zh-TW, Spanish, and pt-BR landings are submitted/indexed with successful crawls (2026-10-01/02); home.html is unknown to Google. Search Console settled-through is still 2026-09-29, so post-crawl performance is not yet available.",
         "PR #215 CI after the ownership split now reaches the repo's generated-source parity gate and fails `Stale mobile bundle: index.html`; the canonical mobile/www copy is still owned by selah-live-together-20261003. Work Hub file overlap itself is resolved, but safe route-funnel merge still needs that generated copy and the contract/TODO handoff.",
         "Competitor scan and current landing audit were appended to GROWTH_RESEARCH.md with source links; competitor claims are supply/positioning signals, not verified customer demand.",
-        "Drafted a 100-model multilingual campaign catalog in docs/CAMPAIGN_MODELS_100.md; it labels demand hypotheses, current-feature/edition checks, absent-feature gates, and publication status. No public posts or spend."
+        "Drafted a 100-model multilingual campaign catalog in docs/CAMPAIGN_MODELS_100.md; it labels demand hypotheses, current-feature/edition checks, absent-feature gates, and publication status. No public posts or spend.",
+        "Fresh seven-page SEO crawl: all audited landing URLs HTTP 200, self-canonical and indexable. CJK thin-content counts and empty decorative-alt flags were manually identified as heuristic false positives. Korean root and Tagalog pass Google mobile URL Inspection; settled search data still predates Oct 2 crawls."
       ],
-      "nextAction": "Reconcile ownership of generated mobile/www source, then run the repository's canonical copy:web sync to satisfy platform-source CI. Update TODO.md and the feature contract after their current owner releases them; reconcile migrations 0004/0005 before applying. Deploy only after checks pass, verify live landingRoute aggregation, and wait for a settled post-crawl cohort before market decisions.",
+      "nextAction": "Resolve current ownership of generated mobile/www before using copy:web; keep PR #215 deployment and route measurement pending. Wait for the first settled GSC window after Oct 2 crawls before deciding market copy.",
       "feedback": [],
       "handoffs": []
     }
