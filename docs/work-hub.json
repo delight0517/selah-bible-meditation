@@ -362,7 +362,7 @@
       "id": "selah-live-together-20261003",
       "summary": "Live invite same passage peer positions and shared timer",
       "owner": "windows",
-      "status": "review",
+      "status": "waiting_external",
       "claimVersion": 2,
       "scopes": [
         "selah.features.live-together"
@@ -377,15 +377,15 @@
         "SHARED_APP_BUILD.json",
         "contracts/feature-parity.json",
         "mobile/www/",
-        "TODO.md",
-        "docs/work-hub.json"
+        "TODO.md"
       ],
       "evidence": [
         "Live server two-participant tests and Node mock tests pass; web UI validation pending",
         "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc",
-        "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated."
+        "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated.",
+        "PR #181 merged d5692245c17f8993a9359d13597015b3c3cffb7d; Pages public SHARED_APP_BUILD 1.0.10/32 and Korean home promo readback verified. Client integration and Worker tests pass; browser UI and Mac/iOS device evidence pending."
       ],
-      "nextAction": "Browser UI and device acceptance pending; Mac maintainer request must apply latest revision3/build32.",
+      "nextAction": "Browser and Mac/iOS device acceptance remain pending; docs/work-hub.json is released for independent tasks; source feature paths remain owned for follow-up fixes.",
       "feedback": [
         {
           "from": "windows",
