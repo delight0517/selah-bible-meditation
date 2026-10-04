@@ -586,8 +586,9 @@ Copy this block for each study; replace every unknown with an observation or `no
 
 ## 2026-10-04: 다국어 랜딩 크롤링·색인 상태 재확인
 
-- **검색 노출은 아직 없음:** GSC API가 반환한 Selah 홈페이지 범위는 2026-09-03–09-30, 확정 데이터는 09-29까지다. 홈페이지 페이지 실적과 국가별 행은 비어 있고, 직전 14일 속성 요약도 노출 0·클릭 0이다. 이는 색인이 가능한 페이지가 있어도 실제 검색 노출이 아직 확인되지 않았다는 뜻이며, 10/04 이후 배포 효과는 아직 측정할 수 없다.
+- **검색 노출은 아직 없음:** GSC에서 연결된 확인 속성은 `https://delight0517.github.io/`이다. 이 속성의 정확한 Selah 홈페이지 URL(`/selah-bible-meditation/`) 페이지 실적은 2026-09-03–09-30 동안 0 노출·0 클릭이고 settled-through는 09-29다. 같은 기간 Selah 경로로 제한한 `page,country`와 `query,page` 요청도 모두 0행이다. 직전 14일의 상위 속성 요약은 다른 GitHub Pages 프로젝트를 포함하므로 Selah 성과로 귀속하지 않는다. 10/04 배포 이후 효과는 아직 측정할 수 없다.
 - **크롤링 기본 상태:** 공개 `robots.txt`는 전체 경로를 허용하고 사이트맵을 선언한다. `sitemap.xml`은 HTTP 200/XML로 응답하며 14개 URL을 포함한다. 제출 사이트맵은 GSC에서 계속 pending, 경고 0·오류 0이다. 표본 확인한 `/en/`, `/en/download/`, `/fil/`, `/pt-br/`, `/zh-tw/`는 모두 HTTP 200이었다. `/en/`에는 자체 canonical, 영어 설명문, hreflang, OG/Twitter 카드가 있다. 이는 접근성과 메타데이터의 기초가 살아 있음을 확인하지만, 검색 순위·노출을 보장하지 않는다.
-- **색인 추적:** GSC 추적기 기존 4개에 7개 현지 홈페이지(`/en/`, `/ja/`, `/zh-cn/`, `/zh-tw/`, `/fil/`, `/es/`, `/pt-br/`)를 추가했다. 이후 추적기 readback은 11개 중 indexed 2, not indexed 3, pending 6, errors 0이었다. 새로 검사된 영어 `/en/`은 10/02 crawl 및 `Submitted and indexed`; 나머지 6개 현지 홈페이지는 아직 pending이다. URL 추적 등록은 색인 요청이나 색인 완료가 아니다.
-- **다음 판단:** 기존 사이트맵을 처리 루프 없이 기다리고, 10/05 KST 이후 추적기와 확정 GSC 기간을 한 번 다시 읽는다. 지역별 URL이 색인되기 전에는 해당 지역 검색 CTR/방문 의도를 판정하지 않는다. 정확한 검색량 자료도 아직 없다(Semrush 미설치); 검색 결과/경쟁 사이트 탐색을 키워드 수요량으로 세지 않는다.
+- **색인 추적:** 확인 속성의 기존 tracker는 15개 URL 중 indexed 8, not indexed 6, pending 1, errors/warnings 0이다. Selah의 기본 랜딩 8개(한국어와 영어·일본어·중국어 간체·번체·필리핀어·스페인어·브라질 포르투갈어)는 모두 `Submitted and indexed`/`PASS`다. Selah 다운로드·가이드 URL 일부는 아직 unknown/crawled-not-indexed이며 Windows 다운로드 URL은 pending이다. Selah 사이트맵 자체는 계속 pending, 경고·오류 0이다.
+- **속성 범위 정정:** 직전 기록에서 사용한 `/selah-bible-meditation/`를 `siteUrl`로 넣은 11 URL tracker는 GSC 연결 속성 목록에 없는 하위 경로 주소였다. 이로 인해 표시된 2 indexed/3 not indexed/6 pending을 운영 색인 상태로 해석하면 안 된다. 그 tracker에 내가 추가한 7개 행은 제거했고 원래 4개 행만 남겼다. 이후 공식 GSC 조회는 연결된 상위 URL-prefix 속성 `https://delight0517.github.io/`를 쓰고 Selah URL을 페이지 필터로 한정한다. 이전 하위 tracker 조회로 Google 색인 요청을 제출한 것은 아니다.
+- **다음 판단:** Selah 기본 현지 랜딩은 이미 색인됐으므로, 당장 해결해야 할 것은 색인 차단보다 노출 0이다. 10/05에는 상위 속성의 tracker/sitemap 상태만 확인하고, 10/04 이후 검색 반응을 평가할 GSC 데이터는 지연을 감안해 10/08 KST 이후 한 번 확인한다. 정확한 영어 검색량은 아직 없다(Semrush 미설치); 검색 결과/경쟁 사이트 탐색을 키워드 수요량으로 세지 않는다.
 - **이번 변화:** 국가별 랜딩 제목·디자인 변경이나 광고는 하지 않았다. 새로 확인된 검증 고유 활성 사용자는 0명.
