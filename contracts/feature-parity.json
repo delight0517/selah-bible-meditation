@@ -18,7 +18,10 @@
       ],
       "paths": [
         "index.html",
-        "styles/ios-safari-reader.css"
+        "styles/ios-safari-reader.css",
+        "mobile/www/index.html",
+        "mobile/www/styles/ios-safari-reader.css",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json"
       ],
       "platforms": {
         "web": {
@@ -43,9 +46,11 @@
         },
         "ios": {
           "owner": "Platform contract",
-          "state": "not_applicable",
-          "reason": "The requested target is Selah in Safari on iPhone; the separate native iOS app is not changed.",
-          "evidence": "Safari loads the web app tracked under the web platform."
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch mobile/www",
+          "build": "shared UI 1.0.10/build 33 source bundle",
+          "evidence": "Generated iOS web bundle matches the canonical reader CSS and HTML; installed app runtime remains unverified."
         }
       }
     },
