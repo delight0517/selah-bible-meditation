@@ -539,3 +539,7 @@
 - [x] GSC exact-page 통계 9개(Selah 루트와 8개 언어 홈)를 새로 읽었다. 모두 0 노출/클릭, settled-through 2026-09-29이며 해당 구간은 홈의 10/01–02 색인 확인 이전이다. sitemap pending/오류0/경고0. 재제출 불필요.
 - [x] Bing Webmaster 통계는 API key 미설정으로 비구성 상태임을 기록했다. Google·Bing 검색 성과를 합산하거나 추정하지 않는다.
 - [ ] GSC settled-through가 10/02 이후 색인 시점을 포함하는 첫 보고 기간에 도달하면 Selah 언어별 URL·국가·쿼리를 재조회한다. Worker에서는 same-window non-QA locale exposure→read→reflection→signup을 점검하고, page-view와 개인 수준으로 억지 결합하지 않는다.
+## 2026-10-04 · iPhone Safari 집중 읽기 화면 잘림 수정
+- Safari의 주소창 높이 변화를 반영하는 `100dvh`와 안전 영역을 적용하고, 읽기 도구·책/장 선택·본문·장 이동을 한 화면의 세로 흐름으로 배치했다. 본문만 스크롤하며 마지막 구절이 하단 버튼에 가리지 않는다.
+- 루트 웹 원본과 자동 생성 iOS `mobile/www` 복사본을 동기화했다. `check-platform-source`, 기능 원장 검사, 집중 읽기 세션 검사와 읽기 시작 회귀 검사는 통과했다.
+- 남은 증거: iPhone Safari 실제 화면과 GitHub Pages 배포 확인. Mac이 잠겨 있어 실기기 화면 확인은 수행하지 않았다.
