@@ -37,7 +37,7 @@
     "assets/visitor-explanation.js": "da76d15e12e6f43ad2f81b57d68617f57ca01699551bbc7affa3b2b858f687b1",
     "bible-translations.json": "66c8e34c3d43bc464869d49303308cf394d8c8feaa744ef7b65fb806dd95f2c2",
     "home.html": "80b2ed335b021c3943c9e654318866a521f21383ec618c1ef7627891a2750c7d",
-    "index.html": "a68310e20b2c0164ea6aed24f2630a8af161650f91813cfffcff26fa37dd2467",
+    "index.html": "1f0f75809fda7354d14459289ea506149f4b87fb6ad4419f9733a7bf7d0343eb",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -54,6 +54,7 @@
     "scripts/unified-data.js": "252fc30ef5e1061f05717f7e01a4d21a4eeeac6554c0265c839c69ebe5526b0f",
     "styles/computer-reading-handoff.css": "d90aa963187b4b9d1fa894f0146aed54a15984d35127eeca0f99f0c9704d26c6",
     "styles/desktop-polish.css": "abc2f865eaeabc7a7f451059491dd6d059b8455f30d2cc179a76fb8465f66e8b",
+    "styles/ios-safari-reader.css": "fcc1e8d163ebcbc47e5c0428a2f11876953c357e663c027da33e5060a2ec9688",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
   }
 }

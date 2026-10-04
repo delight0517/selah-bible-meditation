@@ -8,6 +8,53 @@
   ],
   "features": [
     {
+      "id": "SELAH-SAFARI-FOCUSED-READER-VIEWPORT",
+      "revision": 1,
+      "title": "iPhone Safari 집중 읽기 화면과 본문 스크롤",
+      "acceptance": [
+        "집중 읽기 화면이 Safari의 동적 뷰포트와 안전 영역 안에 맞춰진다.",
+        "책·장 선택과 상단 도구가 서로 겹치지 않는다.",
+        "장 이동 버튼이 말씀을 가리지 않고, 마지막 구절까지 스크롤해 읽을 수 있다."
+      ],
+      "paths": [
+        "index.html",
+        "styles/ios-safari-reader.css",
+        "mobile/www/index.html",
+        "mobile/www/styles/ios-safari-reader.css",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah iPhone Safari reader task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch",
+          "build": "GitHub Pages source",
+          "evidence": "iPhone-width focus view uses dynamic viewport sizing, safe-area insets, an in-flow chapter navigation row and a vertically scrollable Scripture region; live Safari verification pending."
+        },
+        "windows": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This change corrects the iPhone Safari web viewport; Windows layout and shell are unchanged.",
+          "evidence": "Scoped to the narrow-screen web stylesheet."
+        },
+        "macos": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This change corrects the iPhone Safari web viewport; macOS layout and native app are unchanged.",
+          "evidence": "Scoped to the narrow-screen web stylesheet."
+        },
+        "ios": {
+          "owner": "Platform contract",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "current task branch mobile/www",
+          "build": "shared UI 1.0.10/build 33 source bundle",
+          "evidence": "Generated iOS web bundle matches the canonical reader CSS and HTML; installed app runtime remains unverified."
+        }
+      }
+    },
+    {
       "id": "SELAH-VISITOR-EXPLANATION",
       "revision": 1,
       "title": "월간 방문자 숫자의 상세 설명",
