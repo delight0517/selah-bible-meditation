@@ -9,12 +9,14 @@
   "features": [
     {
       "id": "SELAH-VISITOR-EXPLANATION",
-      "revision": 1,
-      "title": "월간 방문자 숫자의 상세 설명",
+      "revision": 2,
+      "title": "하루 방문자 집계와 위치 정확도 안내",
       "acceptance": [
-        "숫자를 누르면 설명을 열고 다시 닫을 수 있다",
-        "익명 브라우저 집계와 중복 방문 예시를 설명한다",
-        "UTC 월간 기간과 개인정보 범위를 설명한다"
+        "익명 브라우저 ID를 UTC 하루 단위로 중복 제거해 로그인 여부와 무관하게 집계한다",
+        "통계 화면에 UTC 날짜와 하루 집계 시작 이후 경과 시간을 표시한다",
+        "국가와 1단계 지역까지만 방문 수를 표시하고 서울 구·동별 수치를 수집 또는 추정하지 않는다",
+        "서울을 선택하면 구 이름을 위치 근사 타일 지도로 탐색할 수 있고 선택 구별 방문 수 미수집 사실을 표시한다",
+        "집계 정확도와 기기·브라우저별 중복 가능성 및 데이터 범위를 설명한다"
       ],
       "paths": [
         "index.html",
@@ -25,19 +27,19 @@
       "platforms": {
         "web": {
           "owner": "Windows feature task",
-          "state": "verified",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "1.0.10/32",
-          "evidence": "Shared app 1.0.10/build32 deployed; production shell click/open-close and acceptance copy verified in isolated Edge on 2026-10-04"
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Daily anonymous browser aggregation and Seoul district map UI implemented on task branch; deploy and runtime readback pending"
         },
         "windows": {
           "owner": "Windows app task",
-          "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Production windowsShell=1 isolated Edge runtime verified toolbar, zoom reset/increase, focus toggle, explanation open/close and required copy; Start-menu launch in an isolated profile remains unverified",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Shared UI source must be regenerated and host runtime parity remains pending",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
@@ -46,16 +48,16 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Mac implementation source and installed app must be inspected",
+          "evidence": "Shared UI source and macOS runtime parity pending",
           "workItem": "selah-apple-feature-parity-20261003"
         },
         "ios": {
           "owner": "Mac iOS maintainer - acknowledgement pending",
-          "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e mobile/www",
-          "build": "1.0.10/32 source bundle only",
-          "evidence": "Current shared-app CI source-bundle parity check passed; iPhone installation and UI test remain pending",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Generated source bundle and iOS runtime parity pending",
           "workItem": "selah-apple-feature-parity-20261003"
         }
       }
