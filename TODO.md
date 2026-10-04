@@ -526,3 +526,10 @@
 - 공유 웹/Windows hosted 소스 및 iOS 생성 소스 반영. Mac/iPhone 설치와 실기기 실행은 미확인.
 
 - Live verification: build33 Pages deployed (run 37165848335); Oklahoma 6, Arizona 4, California 0; 51 states/DC. Korea/US switching passed.
+
+## 2026-10-04 · 다국가 성장 운영 방향 정정
+- [x] 한국을 단독 시장이나 타국 진입의 통과 관문으로 두지 않도록 성장 계획을 병렬 시장 검증으로 수정했다. 한국은 제품 기준선, 브라질·필리핀은 별도 증거를 쌓는 lane이며 일본·대만·스페인어권 탐색도 중단하지 않는다.
+- [x] Selah 전용 GSC settled page 필터는 2026-09-29까지 0행이고, 호스트 전체 88노출/3클릭은 다른 GitHub Pages 프로젝트가 섞여 Selah 성과로 쓸 수 없음을 재기록했다. 현재 Metricool 연결은 비공개 요청에 따라 사용하지 않는 개인 Instagram 한 개뿐이다.
+- [x] 브라질의 기존 한 장 읽기 메시지를 반복하지 않도록 “빠진 뒤 부담 없이 재개”를 미검증 가설로만 기록했다. 필리핀은 Ang Biblia 1905의 판본 수용성·지역별 권리·저데이터 모바일 적합성을 먼저 확인한다. 전국 독서 조사나 경쟁 앱 설치 수를 Selah 앱 수요로 간주하지 않는다.
+- [x] `docs/GROWTH_PLAN_NORTHSTAR.md`, `GROWTH_RESEARCH.md`, `MARKET_PLAYBOOK.md`에 병렬 검증, 출처, 조사 표본 한계와 현재 채널/계측 공백을 기록했다. 이번 단계의 검증 활성 사용자 증가는 0명이며 광고비는 집행하지 않았다.
+- [ ] 다음 settled GSC 구간과 실제 non-QA locale landing→읽기→기록→가입 집계를 국가별로 대조한다. 공통 퍼널 전달이 확인되지 않으면 해당 측정 경로를 우선 진단하고, 국가별 승자/새 UI/광고는 보류한다. 현지 독자 피드백은 개인 Instagram 외의 승인되고 귀속 가능한 채널이 생긴 뒤 수집한다.
