@@ -495,9 +495,11 @@
         "Landing-route web acquisition implementation is in PR #215. The production summary currently lacks landingRoute; the candidate change must pass CI before deployment.",
         "2026-10-04 live funnel refresh: 68 page-view events / 40 approximate monthly browser IDs in four partial UTC days (KR 54, US 14; 46 desktop, 22 mobile); global funnel 10 exposures, 1 CTA, 1 reader, 1 at 30s and 120s, 0 saves, signups or return events. These are aggregates, not people, and may include QA.",
         "PR #215 was narrowed to web-only acquisition measurement because native Capacitor events remain excluded. Changes to TODO.md, contracts/feature-parity.json, and mobile/www are deferred while another active task owns those paths; no production migration or deployment has occurred.",
+        "Six more live URL inspections: English, zh-CN, zh-TW, Spanish, and pt-BR landings are submitted/indexed with successful crawls (2026-10-01/02); home.html is unknown to Google. Search Console settled-through is still 2026-09-29, so post-crawl performance is not yet available.",
+        "PR #215 CI after the ownership split now reaches the repo's generated-source parity gate and fails `Stale mobile bundle: index.html`; the canonical mobile/www copy is still owned by selah-live-together-20261003. Work Hub file overlap itself is resolved, but safe route-funnel merge still needs that generated copy and the contract/TODO handoff.",
         "Competitor scan and current landing audit were appended to GROWTH_RESEARCH.md with source links; competitor claims are supply/positioning signals, not verified customer demand."
       ],
-      "nextAction": "Validate the web-only PR #215 with CI after the ownership split. Before applying migration 0005, reconcile its ordering with open PR #137's migration 0004. When TODO.md, the parity contract, and mobile/www are released, record this web-only scope there; deploy and inspect live route aggregates before comparing a settled period.",
+      "nextAction": "Reconcile ownership of generated mobile/www source, then run the repository's canonical copy:web sync to satisfy platform-source CI. Update TODO.md and the feature contract after their current owner releases them; reconcile migrations 0004/0005 before applying. Deploy only after checks pass, verify live landingRoute aggregation, and wait for a settled post-crawl cohort before market decisions.",
       "feedback": [],
       "handoffs": []
     }
