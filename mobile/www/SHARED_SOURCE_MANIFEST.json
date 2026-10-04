@@ -40,7 +40,7 @@
     "assets/visitor-explanation.js": "da76d15e12e6f43ad2f81b57d68617f57ca01699551bbc7affa3b2b858f687b1",
     "bible-translations.json": "66c8e34c3d43bc464869d49303308cf394d8c8feaa744ef7b65fb806dd95f2c2",
     "home.html": "80b2ed335b021c3943c9e654318866a521f21383ec618c1ef7627891a2750c7d",
-    "index.html": "7f9315f33a6d92c92fe11e3307641aec304c7befd75ac828e0434a85ba491ba8",
+    "index.html": "f11506686218d4d50ef0aea48066b6f669745a34efce95039bd4a122c31cd5e1",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -49,15 +49,17 @@
     "matthew-krv.json": "ecc07e6134e651eac193699d569d66b9317ad591824a9be23580f82c3d0899d9",
     "matthew-web.json": "e30a5533d3695e29a04369063ac05e34702d46a67743d969eea16170eb5e48af",
     "privacy.html": "b85c0f37bbeca41025bc13740b4282d325085422e454b0d0431ced7d4195b59f",
-    "scripts/computer-reading-handoff.js": "f8f63ebf6a845e82b2561a39e3a4ddb6bb29d3fa418dfa9aa3287b26bfeac55e",
+    "scripts/computer-reading-handoff.js": "49602589753923946a1e597ea7cf8f8dbd04c396c15d256b5c68a137678f07fa",
     "scripts/google-login-recovery.js": "bb782156325b62ab076d7d83e70dcc4e609180b53554cf97cc4369dc0f3096d0",
     "scripts/legacy-migration-ui.js": "3657e6e92d97d515a339efa948b8dc97617f051451849eb4005ac1b735d3a88c",
     "scripts/legacy-migration.js": "75b0b01084bd94ff8b9979b8dd4199133b4c14486416e7b1b2f09456108d415c",
+    "scripts/semantic-theme.js": "5902658722280b05d37c9501081f9e88bb267ac5349635a91c8011844047fb10",
     "scripts/unified-data-ui.js": "d2a6ff960d90cfd7f6716cbf68bf53024beab38b8b33d6ac9337513b0022db53",
     "scripts/unified-data.js": "27d19d58388483f2a755ed08e1d5d5000abe8ef9a878ecc37259786d231f0e9e",
     "styles/computer-reading-handoff.css": "d90aa963187b4b9d1fa894f0146aed54a15984d35127eeca0f99f0c9704d26c6",
     "styles/desktop-polish.css": "abc2f865eaeabc7a7f451059491dd6d059b8455f30d2cc179a76fb8465f66e8b",
     "styles/ios-safari-reader.css": "fcc1e8d163ebcbc47e5c0428a2f11876953c357e663c027da33e5060a2ec9688",
+    "styles/semantic-theme.css": "e667f34676923b0390c2aa4e9dea71fcef33419c7bd9086b414194aab35f5667",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
   }
 }
