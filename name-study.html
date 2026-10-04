@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <meta name="theme-color" content="#f4f1e8">
+  <meta name="description" content="Selah is testing clearer names for its Bible meditation experience. See one name, then try the same Scripture reading and reflection app.">
+  <link rel="canonical" href="https://delight0517.github.io/selah-bible-meditation/name-study.html">
+  <title>A name for a quiet Bible moment · Selah</title>
+  <style>
+    :root{color-scheme:light;--paper:#f4f1e8;--ink:#202720;--muted:#667067;--green:#31513e;--soft:#e7ece3;--line:#d8ddd3;--white:#fffefa}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100svh;background:var(--paper);color:var(--ink);font:400 1rem/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+    main{width:min(100% - 2rem,52rem);margin:0 auto;padding:clamp(1.25rem,5vw,4rem) 0 2rem}
+    header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:clamp(3rem,12vh,7rem)}
+    .wordmark{font-size:.82rem;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+    label{font-size:.85rem;color:var(--muted)}
+    select{min-height:48px;padding:.55rem 2rem .55rem .8rem;border:1px solid var(--line);border-radius:999px;background:var(--white);color:var(--ink);font:inherit;font-size:1rem;accent-color:var(--green)}
+    .eyebrow{margin:0 0 1rem;color:var(--green);font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+    h1{max-width:14ch;margin:0;font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.6rem,9vw,5.8rem);font-weight:500;letter-spacing:-.055em;line-height:.98}
+    .description{max-width:37rem;margin:1.5rem 0 0;color:#465047;font-size:clamp(1.1rem,2.8vw,1.35rem);line-height:1.65}
+    .features{display:flex;flex-wrap:wrap;gap:.55rem;margin:1.65rem 0 2rem;padding:0;list-style:none}
+    .features li{padding:.4rem .75rem;border:1px solid var(--line);border-radius:999px;color:#455149;font-size:.9rem}
+    .cta{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:.8rem 1.2rem;border:0;border-radius:999px;background:var(--green);color:#fff;font:inherit;font-weight:700;text-decoration:none;transition:transform .16s ease,background-color .16s ease}
+    .cta:hover{transform:translateY(-1px);background:#263f30}
+    .cta:focus-visible,select:focus-visible{outline:3px solid #78947e;outline-offset:3px}
+    .note{max-width:40rem;margin:1rem 0 0;color:var(--muted);font-size:.88rem}
+    footer{margin-top:clamp(4rem,14vh,8rem);padding-top:1rem;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+    @media(max-width:420px){main{width:min(100% - 1.25rem,52rem)}header{margin-bottom:18vh}h1{font-size:clamp(2.55rem,13vw,3.4rem)}}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <a class="wordmark" href="./" aria-label="Selah home">Selah · Bible meditation</a>
+      <label for="language"><span id="languageLabel">언어</span>
+        <select id="language" autocomplete="off">
+          <option value="ko">한국어</option><option value="en">English</option><option value="fil">Filipino</option><option value="ja">日本語</option><option value="es">Español</option><option value="pt-BR">Português (Brasil)</option><option value="zh-CN">简体中文</option><option value="zh-TW">繁體中文</option>
+        </select>
+      </label>
+    </header>
+    <section aria-labelledby="name">
+      <p class="eyebrow" id="eyebrow">Selah의 새 이름 후보 실험</p>
+      <h1 id="name">한 장, 한 순간</h1>
+      <p class="description" id="description">성경 한 장을 천천히 읽고, 마음에 남은 말씀과 묵상을 기록하는 시간.</p>
+      <ul class="features" id="features" aria-label="앱에서 할 수 있는 일"><li>성경 읽기</li><li>말씀 표시</li><li>묵상 기록</li></ul>
+      <a class="cta" id="continue" href="./?lang=ko&amp;bibleLang=ko&amp;homeAction=read">이 이름이 마음에 들어요 · 앱 열기</a>
+      <p class="note" id="note">이름 반응을 살펴보는 실험입니다. 실제 앱은 Selah이며, 이름 외에는 같은 기능과 화면으로 열립니다.</p>
+    </section>
+    <footer id="footer">한 번만 표시한 이름의 언어별 반응과 앱 사용 전환을 익명 집계합니다. 성경 본문과 개인 기록은 이 실험에서 수집하지 않습니다.</footer>
+  </main>
+  <script>
+    (()=>{
+      const localeKeys=["ko","en","fil","ja","es","pt-BR","zh-CN","zh-TW"];
+      const query=new URLSearchParams(location.search);
+      const normalize=value=>{const exact=localeKeys.find(key=>key.toLowerCase()===String(value||"").toLowerCase());return exact||({tl:"fil", "zh":"zh-CN", "zh-hans":"zh-CN", "zh-hant":"zh-TW"}[String(value||"").toLowerCase()]||"")};
+      const browserLocale=normalize(navigator.language)||"en";
+      let savedLocale="";try{savedLocale=normalize(localStorage.getItem("selah.name-study.locale"))}catch{}
+      let locale=normalize(query.get("lang"))||savedLocale||browserLocale;
+      const variants=["a","b","c","d","e"];
+      const content={
+        ko:{eyebrow:"Selah의 새 이름 후보 실험",description:"성경 한 장을 천천히 읽고, 마음에 남은 말씀과 묵상을 기록하는 시간.",features:["성경 읽기","말씀 표시","묵상 기록"],note:"이름 반응을 살펴보는 실험입니다. 실제 앱은 Selah이며, 이름 외에는 같은 기능과 화면으로 열립니다.",cta:"이 이름이 마음에 들어요 · 앱 열기",privacy:"언어와 국가별 반응 및 앱 사용 전환을 익명 집계합니다. 성경 본문과 개인 기록은 이 실험에서 수집하지 않습니다.",language:"언어",names:["성경 묵상","한 장, 한 순간","말씀곁","읽고, 머물고, 기록하기","마음에 남은 말씀"]},
+        en:{eyebrow:"A name test for Selah",description:"Read one chapter slowly, then keep the Scripture and reflection that stayed with you.",features:["Read Scripture","Mark a passage","Save a reflection"],note:"This is a name test. The app is still Selah; every option opens the same app and features.",cta:"I like this name · Open the app",privacy:"We count anonymous responses and app-use steps by language and country. Scripture and personal notes are not collected.",language:"Language",names:["Bible Meditation","One Chapter, One Moment","Word Beside You","Read. Pause. Reflect.","What Stays With You"]},
+        fil:{eyebrow:"Pagsubok ng pangalan para sa Selah",description:"Basahin nang dahan-dahan ang isang kabanata, at itala ang talatang tumatak sa iyo.",features:["Magbasa ng Bibliya","Markahan ang talata","Magtala ng pagninilay"],note:"Pagsubok lamang ito ng pangalan. Selah pa rin ang app; pareho ang app at mga tampok sa bawat opsyon.",cta:"Gusto ko ang pangalang ito · Buksan ang app",privacy:"Bilang lamang ng mga hindi nagpapakilalang tugon at paggamit ayon sa wika at bansa. Hindi kinokolekta ang mga talata o personal na tala.",language:"Wika",names:["Pagninilay sa Bibliya","Isang Kabanata, Isang Sandali","Salita sa Iyong Piling","Basahin. Magnilay. Isulat.","Salitang Nananatili"]},
+        ja:{eyebrow:"Selahの名前候補テスト",description:"聖書を一章ゆっくり読み、心に残ったみことばと思いを書き留めます。",features:["聖書を読む","みことばに印をつける","黙想を記録する"],note:"これは名前のテストです。アプリはSelahのままで、どの候補からも同じ機能が開きます。",cta:"この名前が好き · アプリを開く",privacy:"言語・国ごとの反応とアプリ利用段階を匿名で集計します。聖書本文や個人の記録は収集しません。",language:"言語",names:["聖書の黙想","一章、一つの静かな時間","みことばのそばに","読んで、思い巡らし、書き留める","心に残るみことば"]},
+        es:{eyebrow:"Prueba de nombre para Selah",description:"Lee un capítulo con calma y anota el pasaje y la reflexión que se quedan contigo.",features:["Lee la Biblia","Marca un pasaje","Guarda una reflexión"],note:"Esta es una prueba de nombre. La app sigue siendo Selah; todas las opciones abren la misma app.",cta:"Me gusta este nombre · Abrir la app",privacy:"Contamos respuestas anónimas y pasos de uso por idioma y país. No recopilamos pasajes ni notas personales.",language:"Idioma",names:["Meditación bíblica","Un capítulo, un momento","Cerca de la Palabra","Lee. Haz una pausa. Reflexiona.","Lo que permanece contigo"]},
+        "pt-BR":{eyebrow:"Teste de nome da Selah",description:"Leia um capítulo com calma e anote a passagem e a reflexão que ficaram com você.",features:["Leia a Bíblia","Marque uma passagem","Guarde uma reflexão"],note:"Este é um teste de nome. O app continua sendo Selah; todas as opções abrem o mesmo app.",cta:"Gosto deste nome · Abrir o app",privacy:"Contamos respostas anônimas e etapas de uso por idioma e país. Não coletamos passagens nem anotações pessoais.",language:"Idioma",names:["Meditação bíblica","Um capítulo, um momento","Perto da Palavra","Leia. Pause. Reflita.","O que fica com você"]},
+        "zh-CN":{eyebrow:"Selah 名称测试",description:"慢慢读一章圣经，记下留在心里的经文和默想。",features:["阅读圣经","标记经文","保存默想"],note:"这是名称测试。应用目前仍叫 Selah；每个名称都会打开相同的应用和功能。",cta:"我喜欢这个名字 · 打开应用",privacy:"我们按语言和国家匿名统计反馈及应用使用步骤，不收集圣经正文或个人笔记。",language:"语言",names:["圣经默想","一章，一段安静时光","伴你读经","阅读、停留、默想","留在心里的经文"]},
+        "zh-TW":{eyebrow:"Selah 名稱測試",description:"慢慢讀一章聖經，記下留在心裡的經文與默想。",features:["閱讀聖經","標記經文","保存默想"],note:"這是名稱測試。應用目前仍叫 Selah；每個名稱都會開啟相同的應用與功能。",cta:"我喜歡這個名字 · 開啟應用",privacy:"我們按語言與國家匿名統計回應及應用使用步驟，不收集聖經正文或個人筆記。",language:"語言",names:["聖經默想","一章，一段安靜時光","陪你讀經","閱讀、停留、默想","留在心裡的經文"]}
+      };
+      const data=content[locale]||content.en;
+      let variant=variants.includes(query.get("variant"))?query.get("variant"):"";
+      try{variant=localStorage.getItem("selah.name-study.v1.variant")||""}catch{}
+      const fixedVariant=variants.includes(query.get("variant"))?query.get("variant"):"";
+      if(fixedVariant)variant=fixedVariant;
+      if(!variants.includes(variant)){const bytes=new Uint8Array(1);crypto.getRandomValues(bytes);variant=variants[bytes[0]%variants.length]}
+      try{localStorage.setItem("selah.name-study.v1.variant",variant)}catch{}
+      const variantIndex=variants.indexOf(variant);
+      document.documentElement.lang=locale;
+      document.title=`${data.names[variantIndex]} · Selah name test`;
+      document.getElementById("eyebrow").textContent=data.eyebrow;
+      document.getElementById("name").textContent=data.names[variantIndex];
+      document.getElementById("description").textContent=data.description;
+      document.getElementById("features").setAttribute("aria-label",data.features.join(", "));
+      document.getElementById("features").replaceChildren(...data.features.map(text=>{const item=document.createElement("li");item.textContent=text;return item}));
+      document.getElementById("note").textContent=data.note;
+      document.getElementById("footer").textContent=data.privacy;
+      document.getElementById("languageLabel").textContent=data.language;
+      const language=document.getElementById("language");language.value=locale;
+      const target=new URL("./",location.href);target.searchParams.set("lang",locale);target.searchParams.set("bibleLang",locale);target.searchParams.set("homeAction","read");
+      const sourceChoices=new Set(["google","bing","naver","facebook","instagram","threads","reddit","tiktok","youtube","linkedin","x","kakao","email","owned","referral","direct"]);
+      const mediumChoices=new Set(["organic","social","community","email","referral","owned","direct"]);
+      const incomingSource=(query.get("utm_source")||"").toLowerCase(),incomingMedium=(query.get("utm_medium")||"").toLowerCase();
+      const source=sourceChoices.has(incomingSource)?incomingSource:(document.referrer?"referral":"direct");
+      const medium=mediumChoices.has(incomingMedium)?incomingMedium:(document.referrer?"referral":"direct");
+      const campaign=`selah-name-fit-v1-${variant}`;
+      target.searchParams.set("utm_source",source);target.searchParams.set("utm_medium",medium);target.searchParams.set("utm_campaign",campaign);
+      const continueLink=document.getElementById("continue");continueLink.textContent=data.cta;continueLink.href=target.href;
+      language.addEventListener("change",()=>{try{localStorage.setItem("selah.name-study.locale",language.value)}catch{}const next=new URL(location.href);next.searchParams.set("lang",language.value);location.assign(next.href)});
+      if(query.get("selah_qa")==="1")return;
+      const deviceClass=matchMedia("(pointer:coarse)").matches?(Math.min(screen.width,screen.height)>=600?"tablet":"phone"):"computer";
+      const context={appId:"selah",experiment:"global-funnel-v1",variant:"a",locale,client:"web",deviceClass,source,medium,campaign};
+      const scope=[locale,context.client,deviceClass,source,medium,campaign].join(".");
+      const send=event=>{
+        const key=`selah.experiment.global-funnel-v1.a.${scope}.${event}.once`;
+        let marker="";try{const saved=localStorage.getItem(key)||"",pendingAt=saved.startsWith("pending:")?Number(saved.slice(8)):NaN,age=Date.now()-pendingAt;if(saved==="1"||(Number.isFinite(pendingAt)&&age>=0&&age<30000))return;marker="pending:"+Date.now();localStorage.setItem(key,marker)}catch{}
+        const settle=success=>{try{if(marker&&localStorage.getItem(key)!==marker)return;if(success)localStorage.setItem(key,"1");else if(marker)localStorage.removeItem(key)}catch{}};
+        fetch("https://selah-feature-analytics.imdisablebutgodisable.workers.dev/analytics/experiment/event",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({...context,event}),keepalive:true}).then(response=>settle(response.ok)).catch(()=>settle(false));
+      };
+      send("exposure");
+      continueLink.addEventListener("click",()=>send("cta_click"),{once:true});
+    })();
+  </script>
+</body>
+</html>
