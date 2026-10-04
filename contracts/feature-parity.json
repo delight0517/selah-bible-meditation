@@ -548,7 +548,8 @@
         "mobile/www/scripts/unified-data.js",
         "mobile/www/SHARED_SOURCE_MANIFEST.json",
         "TODO.md",
-        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "mobile/www/SHARED_APP_BUILD.json"
       ],
       "platforms": {
         "web": {
