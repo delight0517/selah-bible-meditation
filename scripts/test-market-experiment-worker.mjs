@@ -8,8 +8,8 @@ const database = {
     return {
       async all() {
         reads.push(sql);
-        const market = sql.includes('GROUP BY country, region_code, locale, experiment, variant ORDER BY country, region_code, locale, experiment, variant');
-        const row = { country: 'KR', regionCode: '11', locale: 'ko', experiment: 'kr-home-copy-v1', variant: 'a', exposures: 1, ctaClicks: 1, readingStarts: 1, readers30s: 1, readers120s: 0, reflectionsSaved: 1, signups: 1, returnVisits: 1 };
+        const market = sql.includes('GROUP BY country, region_code, landing_route, locale, experiment, variant ORDER BY country, region_code, landing_route, locale, experiment, variant');
+        const row = { country: 'KR', regionCode: '11', landingRoute: 'localized-landing', locale: 'ko', experiment: 'kr-home-copy-v1', variant: 'a', exposures: 1, ctaClicks: 1, readingStarts: 1, readers30s: 1, readers120s: 0, reflectionsSaved: 1, signups: 1, returnVisits: 1 };
         return { results: [market ? row : { ...row, client: 'web', deviceClass: 'phone', source: 'naver', medium: 'owned', campaign: 'kr-readers' }] };
       },
       bind(...values) {
@@ -17,7 +17,7 @@ const database = {
           async run() { writes.push({ sql, values }); return { success: true }; },
           async first() { return { feature: 'meditation_started', total: 1 }; },
           async all() {
-            return { results: [{ country: 'KR', regionCode: '11', locale: 'ko', client: 'web', deviceClass: 'phone', source: 'naver', medium: 'owned', campaign: 'kr-readers', experiment: 'kr-home-copy-v1', variant: 'a', exposures: 1, ctaClicks: 1, readingStarts: 1, readers30s: 1, readers120s: 0, reflectionsSaved: 1, returnVisits: 1 }] };
+            return { results: [{ country: 'KR', regionCode: '11', landingRoute: 'localized-landing', locale: 'ko', client: 'web', deviceClass: 'phone', source: 'naver', medium: 'owned', campaign: 'kr-readers', experiment: 'kr-home-copy-v1', variant: 'a', exposures: 1, ctaClicks: 1, readingStarts: 1, readers30s: 1, readers120s: 0, reflectionsSaved: 1, returnVisits: 1 }] };
           }
         };
       }
@@ -34,11 +34,11 @@ function request(url, init = {}, cf = { country: 'KR', regionCode: '11' }) {
 const event = request('https://worker.test/analytics/experiment/event', {
   method: 'POST',
   headers: { origin: env.ALLOWED_ORIGIN, 'content-type': 'application/json' },
-  body: JSON.stringify({ appId: 'selah', experiment: 'kr-home-copy-v1', variant: 'a', event: 'exposure', locale: 'ko', client: 'web', deviceClass: 'phone', source: 'Naver', medium: 'Owned', campaign: 'KR.Readers' })
+  body: JSON.stringify({ appId: 'selah', experiment: 'kr-home-copy-v1', variant: 'a', event: 'exposure', landingRoute: 'localized-landing', locale: 'ko', client: 'web', deviceClass: 'phone', source: 'Naver', medium: 'Owned', campaign: 'KR.Readers' })
 }, { country: 'KR', regionCode: '44', city: 'ignored', latitude: 'ignored' });
 const accepted = await worker.fetch(event, env);
 assert.equal(accepted.status, 202);
-assert.deepEqual(writes[0].values, ['KR', '44', 'ko', 'web', 'phone', 'naver', 'owned', 'kr.readers', 'kr-home-copy-v1', 'a', 'exposure']);
+assert.deepEqual(writes[0].values, ['KR', '44', 'localized-landing', 'ko', 'web', 'phone', 'naver', 'owned', 'kr.readers', 'kr-home-copy-v1', 'a', 'exposure']);
 assert.doesNotMatch(writes[0].sql, /city|latitude|longitude/);
 assert.match(writes[0].sql, /ON CONFLICT/);
 
@@ -64,6 +64,8 @@ const summaryBody = await summary.json();
 assert.equal(summaryBody.rows[0].readers120s, 0);
 assert.equal(summaryBody.marketRows[0].client, undefined);
 assert.equal(summaryBody.rows[0].campaign, 'kr-readers');
+assert.equal(summaryBody.rows[0].landingRoute, 'localized-landing');
+assert.equal(summaryBody.marketRows[0].landingRoute, 'localized-landing');
 assert.equal(summaryBody.rows[0].signups, 1);
 assert.ok(reads.some(sql => /AS signups/.test(sql)));
 assert.equal((await worker.fetch(request('https://worker.test/analytics/experiment/summary'), env).then(r => r.json())).rows[0].returnVisits, 1);
@@ -79,6 +81,13 @@ const invalidDevice = request('https://worker.test/analytics/experiment/event', 
 });
 assert.equal((await worker.fetch(invalidDevice, env)).status, 400);
 
+const invalidLandingRoute = request('https://worker.test/analytics/experiment/event', {
+  method: 'POST',
+  headers: { origin: env.ALLOWED_ORIGIN, 'content-type': 'application/json' },
+  body: JSON.stringify({ appId: 'selah', experiment: 'kr-home-copy-v1', variant: 'a', event: 'exposure', landingRoute: '/raw/path?private=1', locale: 'ko', client: 'web', deviceClass: 'phone' })
+});
+assert.equal((await worker.fetch(invalidLandingRoute, env)).status, 400);
+
 const invitation = request('https://worker.test/analytics/experiment/event', {
   method: 'POST',
   headers: { origin: env.ALLOWED_ORIGIN, 'content-type': 'application/json' },
@@ -87,14 +96,15 @@ const invitation = request('https://worker.test/analytics/experiment/event', {
 assert.equal((await worker.fetch(invitation, env)).status, 202);
 assert.equal(writes[2].values.at(-3), 'kr-gentle-invitation-v1');
 assert.equal(writes[2].values.at(-2), 'b');
+assert.equal(writes[2].values[2], 'unattributed', 'legacy clients without a route remain accepted');
 
 const globalLanding = request('https://worker.test/analytics/experiment/event', {
   method: 'POST',
   headers: { origin: env.ALLOWED_ORIGIN, 'content-type': 'application/json' },
-  body: JSON.stringify({ appId: 'selah', experiment: 'global-funnel-v1', variant: 'a', event: 'exposure', locale: 'pt-BR', client: 'web', deviceClass: 'phone', source: 'google', medium: 'organic', campaign: 'pt-br-landing' })
+  body: JSON.stringify({ appId: 'selah', experiment: 'global-funnel-v1', variant: 'a', event: 'exposure', landingRoute: 'guide', locale: 'pt-BR', client: 'web', deviceClass: 'phone', source: 'google', medium: 'organic', campaign: 'pt-br-landing' })
 }, { country: 'BR', regionCode: 'SP' });
 assert.equal((await worker.fetch(globalLanding, env)).status, 202);
-assert.deepEqual(writes[3].values, ['BR', 'SP', 'pt-BR', 'web', 'phone', 'google', 'organic', 'pt-br-landing', 'global-funnel-v1', 'a', 'exposure']);
+assert.deepEqual(writes[3].values, ['BR', 'SP', 'guide', 'pt-BR', 'web', 'phone', 'google', 'organic', 'pt-br-landing', 'global-funnel-v1', 'a', 'exposure']);
 
 const market = await worker.fetch(request('https://worker.test/analytics/market'), env);
 assert.deepEqual(await market.json(), { country: 'KR', regionCode: '11', topFeature: null, sampleCount: 1, experiments: ["global-funnel-v1", "kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"] });

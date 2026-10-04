@@ -539,3 +539,9 @@
 - [x] GSC exact-page 통계 9개(Selah 루트와 8개 언어 홈)를 새로 읽었다. 모두 0 노출/클릭, settled-through 2026-09-29이며 해당 구간은 홈의 10/01–02 색인 확인 이전이다. sitemap pending/오류0/경고0. 재제출 불필요.
 - [x] Bing Webmaster 통계는 API key 미설정으로 비구성 상태임을 기록했다. Google·Bing 검색 성과를 합산하거나 추정하지 않는다.
 - [ ] GSC settled-through가 10/02 이후 색인 시점을 포함하는 첫 보고 기간에 도달하면 Selah 언어별 URL·국가·쿼리를 재조회한다. Worker에서는 same-window non-QA locale exposure→read→reflection→signup을 점검하고, page-view와 개인 수준으로 억지 결합하지 않는다.
+
+
+## 2026-10-04 · 검색 랜딩에서 읽기·기록 전환 연결
+- [x] 허용 목록만 쓰는 랜딩 경로 범주(app/localized-landing/guide/download/other/unattributed)를 글로벌 퍼널에 추가하고, 정적 페이지에서 앱으로 이동해도 첫 진입 범주와 중복 키를 유지한다. 원본 경로·쿼리는 실험 행에 저장하지 않는다.
+- [x] 기존 행은 `unattributed`로 보존하는 마이그레이션을 적용하고, 8개 UI 언어·가이드·다운로드 경로의 범주화와 개인정보 안내를 검증한다. Worker/client tests, SQLite preservation smoke test, generated mobile bundle and parity checks pass.
+- [ ] 웹 퍼널 이벤트로 제한하며 QA·네이티브 방문은 계속 제외한다. 배포 후 새 표본이 쌓인 뒤 Search Console의 정착된 URL/검색어/국가 행과 경로별 읽기·기록·가입을 대조한다. 50 노출/시안/시장 미만에서는 승자를 고르지 않는다.

@@ -115,6 +115,29 @@
     medium: campaign.medium || "none",
     campaign: campaign.campaign || ""
   };
+  const funnelRouteKey = "selah.experiment.global-funnel-v1.entry-route";
+  const validFunnelRoutes = new Set(["app", "localized-landing", "guide", "download", "other", "unattributed"]);
+  function classifyFunnelRoute(pathname) {
+    const parts = pathname.replace(/\/index\.html$/i, "").split("/").filter(Boolean).map(part => part.toLowerCase().replace(/\.html$/i, ""));
+    const base = parts.lastIndexOf("selah-bible-meditation");
+    const route = parts.slice(base >= 0 ? base + 1 : 0).map(part => part.toLowerCase());
+    if (route.some(part => ["guide", "guia"].includes(part))) return "guide";
+    if (route.some(part => part === "download")) return "download";
+    if (!route.length) return "app";
+    if (route.length === 1 && /^(ko(?:-kr)?|en|ja|zh-cn|zh-tw|fil|es|pt-br)$/.test(route[0])) return "localized-landing";
+    return "other";
+  }
+  function entryFunnelRoute() {
+    const current = classifyFunnelRoute(path);
+    try {
+      const previous = sessionStorage.getItem(funnelRouteKey);
+      const externalEntry = !document.referrer || new URL(document.referrer).origin !== location.origin;
+      if (externalEntry || !validFunnelRoutes.has(previous)) sessionStorage.setItem(funnelRouteKey, current);
+      const stored = sessionStorage.getItem(funnelRouteKey);
+      return validFunnelRoutes.has(stored) ? stored : current;
+    } catch { return current; }
+  }
+  const landingRoute = entryFunnelRoute();
 
   function reserveFunnelKey(key) {
     try {
@@ -140,7 +163,7 @@
 
   function trackFunnel(event, occurrence = "once") {
     if (nativeApp) return;
-    const scope = [locale, funnelClient, deviceClass, funnelAttribution.source, funnelAttribution.medium, funnelAttribution.campaign].join(".");
+    const scope = [landingRoute, locale, funnelClient, deviceClass, funnelAttribution.source, funnelAttribution.medium, funnelAttribution.campaign].join(".");
     const key = "selah.experiment.global-funnel-v1.a." + scope + "." + event + "." + occurrence;
     if (pending.has(key)) return;
     const marker = reserveFunnelKey(key);
@@ -150,7 +173,7 @@
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        appId: "selah", experiment: "global-funnel-v1", variant: "a", event, locale,
+        appId: "selah", experiment: "global-funnel-v1", variant: "a", event, landingRoute, locale,
         client: funnelClient, deviceClass, ...funnelAttribution
       }),
       keepalive: true

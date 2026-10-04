@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T02:41:45.607Z",
+  "updatedAt": "2026-10-04T04:01:00Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -66,6 +66,15 @@
       "title": "Live together reading rooms and UI",
       "resources": [
         "Live room protocol and together-reading user flow"
+      ]
+    },
+    {
+      "id": "selah.analytics.route-funnel",
+      "title": "Allow-listed landing-route attribution through the reading/reflection/signup funnel",
+      "resources": [
+        "global-funnel-v1 landing-route category",
+        "privacy.html",
+        "analytics-worker/migrations/0005_landing_route.sql"
       ]
     }
   ],
@@ -474,6 +483,45 @@
       ],
       "evidence": [],
       "nextAction": "Update this record before handoff or completion.",
+      "feedback": [],
+      "handoffs": []
+    },
+    {
+      "id": "selah-route-attribution-20261004",
+      "summary": "Carry an allow-listed landing-route category from localized search entry through reader and funnel events; then compare settled search pages with downstream event counts.",
+      "owner": "Selah growth thread",
+      "status": "in_progress",
+      "claimVersion": 1,
+      "scopes": [
+        "selah.analytics.gsc-baseline",
+        "selah.analytics.route-funnel",
+        "selah.coordination.work-hub"
+      ],
+      "branch": "codex/selah-route-attribution-20261004",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a0fa42-f6d3-7530-9c18-439a44ef6fb5",
+      "baseCommit": "625eca3",
+      "files": [
+        "index.html",
+        "fil/analytics.js",
+        "analytics-worker/src/index.js",
+        "analytics-worker/migrations/0005_landing_route.sql",
+        "analytics-worker/README.md",
+        "privacy.html",
+        "contracts/feature-parity.json",
+        "scripts/test-acquisition-scope.mjs",
+        "scripts/test-market-experiment-worker.mjs",
+        "TODO.md",
+        "docs/work-hub.json",
+        "mobile/www"
+      ],
+      "evidence": [
+        "Current 2026-10-04 settled GSC API query for Selah subpaths × country: 0 rows through 2026-09-29; page-view and funnel snapshots recorded in GROWTH_RESEARCH.md with browser-ID/user-count caveats.",
+        "Allow-listed route category now carries through same-origin landing-to-reader flow; `.html` download route misclassification discovered by regression test and fixed.",
+        "Worker route validation/client routing tests pass; migration smoke test preserves aggregate count as unattributed; mobile/www regenerated and source/parity checks pass. Changes remain uncommitted and undeployed.",
+        "Open PR #137 also touches analytics-worker README/source/index/privacy and introduces 0004_usage.sql; new landing migration is sequenced as 0005 to avoid version collision."
+      ],
+      "nextAction": "Review PR #137 integration risks, run remaining source checks, claim integrate/deploy after edit leases end, then create the route-attribution PR and verify Pages and Worker readback independently.",
       "feedback": [],
       "handoffs": []
     }
