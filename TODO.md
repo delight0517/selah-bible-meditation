@@ -524,3 +524,5 @@
 - 원인: 서버 us-ok/us-az와 지도 us-OK/us-AZ 조회의 대소문자 불일치. 지역 코드를 소문자로 정규화해 숫자 표시 수정.
 - 테스트: 소문자·대문자 데이터 및 집계 없는 주 0 표시, 50주+DC 렌더링 확인.
 - 공유 웹/Windows hosted 소스 및 iOS 생성 소스 반영. Mac/iPhone 설치와 실기기 실행은 미확인.
+
+- Live verification: build33 Pages deployed (run 37165848335); Oklahoma 6, Arizona 4, California 0; 51 states/DC. Korea/US switching passed.

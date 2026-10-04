@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T00:41:12.847Z",
+  "updatedAt": "2026-10-04T00:47:32.360Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -399,7 +399,7 @@
       "id": "selah-us-state-counts-20261004",
       "summary": "Fix US state counts using case-normalized region codes",
       "owner": "windows",
-      "status": "review",
+      "status": "completed",
       "claimVersion": 2,
       "scopes": [
         "selah.analytics.first-party-pageviews"
@@ -413,9 +413,10 @@
         "scripts/test-us-state-counts.mjs"
       ],
       "evidence": [
-        "US state renderer regression passes with lowercase and uppercase region codes; source and platform checks pass; web deployment verification pending"
+        "US state renderer regression passes with lowercase and uppercase region codes; source and platform checks pass; web deployment verification pending",
+        "Pages build33 live browser verified: Oklahoma 6, Arizona 4, California 0; 51 states/DC; Korea/US switching passed"
       ],
-      "nextAction": "Update this record before handoff or completion.",
+      "nextAction": "Native installed runtime verification remains with platform maintainers",
       "feedback": [],
       "handoffs": []
     }
