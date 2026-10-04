@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T02:18:38.511Z",
+  "updatedAt": "2026-10-04T02:41:45.607Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -450,6 +450,30 @@
         "PR #212 merged as 5e5f68bcf78f970bf6f2b3dafa7aeaeaca3958cb; GitHub Pages run 37170581241 succeeded; GROWTH_RESEARCH.md and MARKET_PLAYBOOK.md public readback contains the exact 68/40 page-view and 10-exposure funnel snapshot, GSC settled window, and attribution caveats."
       ],
       "nextAction": "Create a separately claimed change adding an allow-listed landing-route dimension to aggregate page-view and feature-funnel events; then compare route-level reading, reflection, and signup stages with settled Search Console URL/query/country data.",
+      "feedback": [],
+      "handoffs": []
+    },
+    {
+      "id": "selah-search-copy-review-20261004",
+      "summary": "Record a dated search-competitor copy scan and a low-friction message hypothesis without claiming demand or a winner.",
+      "owner": "shared",
+      "status": "in_progress",
+      "claimVersion": 2,
+      "scopes": [
+        "selah.analytics.gsc-baseline",
+        "selah.coordination.work-hub"
+      ],
+      "branch": "codex/selah-search-copy-review-20261004",
+      "repo": "https://github.com/delight0517/selah-bible-meditation",
+      "threadId": "01a0fa42-f6d3-7530-9c18-439a44ef6fb5",
+      "baseCommit": "bacca88acd688e14840853587e79a423a27aed40",
+      "files": [
+        "docs/work-hub.json",
+        "GROWTH_RESEARCH.md",
+        "MARKET_PLAYBOOK.md"
+      ],
+      "evidence": [],
+      "nextAction": "Update this record before handoff or completion.",
       "feedback": [],
       "handoffs": []
     }
