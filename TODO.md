@@ -533,3 +533,9 @@
 - [x] 브라질의 기존 한 장 읽기 메시지를 반복하지 않도록 “빠진 뒤 부담 없이 재개”를 미검증 가설로만 기록했다. 필리핀은 Ang Biblia 1905의 판본 수용성·지역별 권리·저데이터 모바일 적합성을 먼저 확인한다. 전국 독서 조사나 경쟁 앱 설치 수를 Selah 앱 수요로 간주하지 않는다.
 - [x] `docs/GROWTH_PLAN_NORTHSTAR.md`, `GROWTH_RESEARCH.md`, `MARKET_PLAYBOOK.md`에 병렬 검증, 출처, 조사 표본 한계와 현재 채널/계측 공백을 기록했다. 이번 단계의 검증 활성 사용자 증가는 0명이며 광고비는 집행하지 않았다.
 - [ ] 다음 settled GSC 구간과 실제 non-QA locale landing→읽기→기록→가입 집계를 국가별로 대조한다. 공통 퍼널 전달이 확인되지 않으면 해당 측정 경로를 우선 진단하고, 국가별 승자/새 UI/광고는 보류한다. 현지 독자 피드백은 개인 Instagram 외의 승인되고 귀속 가능한 채널이 생긴 뒤 수집한다.
+
+## 2026-10-04 · 글로벌 퍼널 및 검색 구간 재확인
+- [x] Worker 30일 요약을 최신 재조회: global-funnel 노출 2, CTA 1, 읽기 시작 1, 30초/120초 각 1, 묵상 저장 0, 가입 0, 재방문 0. 국가는 KR만 기록됐지만 외부 고유 사용자로 보증하지 않는다. 과거 “0행” 기록은 같은 날의 이전 시점 스냅샷으로 남긴다.
+- [x] GSC exact-page 통계 9개(Selah 루트와 8개 언어 홈)를 새로 읽었다. 모두 0 노출/클릭, settled-through 2026-09-29이며 해당 구간은 홈의 10/01–02 색인 확인 이전이다. sitemap pending/오류0/경고0. 재제출 불필요.
+- [x] Bing Webmaster 통계는 API key 미설정으로 비구성 상태임을 기록했다. Google·Bing 검색 성과를 합산하거나 추정하지 않는다.
+- [ ] GSC settled-through가 10/02 이후 색인 시점을 포함하는 첫 보고 기간에 도달하면 Selah 언어별 URL·국가·쿼리를 재조회한다. Worker에서는 same-window non-QA locale exposure→read→reflection→signup을 점검하고, page-view와 개인 수준으로 억지 결합하지 않는다.
