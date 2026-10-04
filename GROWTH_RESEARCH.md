@@ -23,6 +23,14 @@ Purpose: preserve search promises, landing-page designs, experimental methods, e
 
 ## Study records
 
+### KR-NAME-SEARCH-20261005-01 — Korean-language Selah name ambiguity
+
+- **Status:** search-result desk check; not a country-local Google SERP or a popularity measurement. No name change or promotion launched.
+- **Searches checked (2026-10-05):** exact queries `무료 성경 묵상 앱 셀라`, `셀라 성경 묵상 앱`, and `마태복음 읽기 셀라`, plus exact `site:` queries for the canonical Korean, Filipino, and Brazilian Portuguese guide URLs. In the web-search tool's returned results, Selah's own guide pages were not surfaced for these exact searches.
+- **Observed competing listings:** results included an unrelated Korean [Selah app on the App Store](https://apps.apple.com/kr/app/selah-%EC%9E%A0%EC%8B%9C-%EB%A9%88%EC%B6%94%EB%8B%A4/id6774114376), an unrelated [Selah Bible/prayer app on Google Play](https://play.google.com/store/apps/details?id=fr.selah.app&hl=ko), a second [Selah daily-prayer app on Google Play](https://play.google.com/store/apps/details?id=com.kay.selah&hl=ko), and an unrelated Korean [Selah worship-note app listing](https://apps.apple.com/kr/app/%EC%85%80%EB%9D%BC-selah-%EC%98%88%EB%B0%B0-%EB%A7%90%EC%94%80-%EB%85%B8%ED%8A%B8/id6779875313). These establish competing use of the same name in displayed results, not their actual ranking, install totals, or that naming caused Selah's low search visibility.
+- **Interpretation:** the Korean app name `셀라 / Selah` alone does not distinguish this web app in a search result set. The existing canonical page already identifies reading, reflection, and review in its title; keep that exact product promise clear in the title and preview. GSC's latest exact-page window for the three meditation guides remains at 0 impressions/clicks (2026-09-04–2026-10-01, settled through 2026-10-02). The available data still cannot compare CTR or user response between different names.
+- **Decision / next evidence:** keep the Selah product name stable and test a descriptive subtitle/creative rather than changing the product identity. Obtain a genuinely localized Google result capture for Korea and compare the title, preview image, and competitor wording. Launch no name winner until eligible exposure and downstream reading/save data exist; keep all unvalidated alternatives as drafts and the personal Instagram excluded.
+
 ### BRAND-SEARCH-20261005-01 — Selah name collision and five untested directions
 
 - **Status:** desk research and test candidates only. No alternate name, title, creative, or campaign has been published. No user preference or winning name has been observed.
