@@ -291,7 +291,9 @@
         "scripts/unified-data.js",
         "contracts/selah-cloud-state.schema.json",
         "scripts/test-unified-data.mjs",
-        "scripts/test-together-reading.mjs"
+        "scripts/test-together-reading.mjs",
+        "assets/together-history.js",
+        "scripts/test-together-history.mjs"
       ],
       "platforms": {
         "web": {
