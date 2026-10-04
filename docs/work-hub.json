@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T02:41:45.607Z",
+  "updatedAt": "2026-10-04T04:34:06Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -66,6 +66,15 @@
       "title": "Live together reading rooms and UI",
       "resources": [
         "Live room protocol and together-reading user flow"
+      ]
+    },
+    {
+      "id": "selah.analytics.route-funnel",
+      "title": "Allow-listed landing-route attribution through the reading/reflection/signup funnel",
+      "resources": [
+        "global-funnel-v1 landing-route category",
+        "privacy.html",
+        "analytics-worker/migrations/0005_landing_route.sql"
       ]
     }
   ],
@@ -455,25 +464,42 @@
     },
     {
       "id": "selah-search-copy-review-20261004",
-      "summary": "Record a dated search-competitor copy scan and a low-friction message hypothesis without claiming demand or a winner.",
+      "summary": "Record the dated market/search scan and continue Selah allow-listed landing-route attribution through the reader and conversion funnel.",
       "owner": "shared",
       "status": "in_progress",
-      "claimVersion": 2,
+      "claimVersion": 3,
       "scopes": [
         "selah.analytics.gsc-baseline",
+        "selah.analytics.route-funnel",
         "selah.coordination.work-hub"
       ],
-      "branch": "codex/selah-search-copy-review-20261004",
+      "branch": "codex/selah-route-attribution-20261004",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a0fa42-f6d3-7530-9c18-439a44ef6fb5",
-      "baseCommit": "bacca88acd688e14840853587e79a423a27aed40",
+      "baseCommit": "625eca38edeb21b8f1f508e954944af90aa1d62e",
       "files": [
-        "docs/work-hub.json",
         "GROWTH_RESEARCH.md",
-        "MARKET_PLAYBOOK.md"
+        "MARKET_PLAYBOOK.md",
+        "TODO.md",
+        "analytics-worker/README.md",
+        "analytics-worker/migrations/0005_landing_route.sql",
+        "analytics-worker/src/index.js",
+        "contracts/feature-parity.json",
+        "docs/work-hub.json",
+        "fil/analytics.js",
+        "index.html",
+        "mobile/www",
+        "privacy.html",
+        "scripts/test-acquisition-scope.mjs",
+        "scripts/test-market-experiment-worker.mjs"
       ],
-      "evidence": [],
-      "nextAction": "Update this record before handoff or completion.",
+      "evidence": [
+        "PR #214 (search-copy work-hub claim) merged 2026-10-04 02:43 UTC as 625eca38edeb21b8f1f508e954944af90aa1d62e; the dated market and live search audit is now recorded in GROWTH_RESEARCH.md.",
+        "2026-10-04 GSC URL inspection confirms Korean root, Japanese, and Filipino landing are submitted/indexed and mobile fetch succeeds; settled Selah page/query window still has 0 impressions/clicks through 2026-10-01, so post-index demand remains unknown.",
+        "Landing-route implementation and local acquisition/Worker/migration/parity checks are in commit 01a0e31; draft PR #215 is open. CI currently reports overlapping active live-together ownership for contracts/feature-parity.json, TODO.md, and mobile/www, plus missing parity coverage for mobile/www/privacy.html. Production migration/deployment have not happened.",
+        "Competitor scan and current landing audit were appended to GROWTH_RESEARCH.md with source links; competitor claims are supply/positioning signals, not verified customer demand."
+      ],
+      "nextAction": "Keep PR #215 in draft while the live-together owner retains contracts/feature-parity.json, TODO.md, and mobile/www. Coordinate/reconcile those files when their active claim is released; then resolve the parity coverage report, rerun checks, and only then merge/deploy and observe a settled post-deployment period.",
       "feedback": [],
       "handoffs": []
     }

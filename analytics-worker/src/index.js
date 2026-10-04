@@ -8,6 +8,7 @@ const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "rea
 const experiments = new Set(["global-funnel-v1", "kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"]);
 const experimentClients = new Set(["app", "web", "unknown"]);
 const experimentDevices = new Set(["phone", "tablet", "computer", "unknown"]);
+const landingRoutes = new Set(["app", "localized-landing", "guide", "download", "other", "unattributed"]);
 const validTag = value => typeof value === "string" && /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? value.toLowerCase() : "";
 
 function cors(origin, allowed) {
@@ -74,11 +75,12 @@ export default {
       try { body = await request.json(); } catch { return json({ error: "invalid_json" }, 400, headers); }
       const country = request.cf?.country;
       const regionCode = String(request.cf?.regionCode || "").toUpperCase();
-      if (body?.appId !== "selah" || !experiments.has(body.experiment) || !["a", "b"].includes(body.variant) || !experimentEvents.has(body.event) || !locales.has(body.locale) || !experimentClients.has(body.client) || !experimentDevices.has(body.deviceClass) || !/^[A-Z]{2}$/.test(country || "") || !/^[A-Z0-9-]{0,8}$/.test(regionCode)) {
+      const landingRoute = body?.landingRoute === undefined ? "unattributed" : body.landingRoute;
+      if (body?.appId !== "selah" || !experiments.has(body.experiment) || !["a", "b"].includes(body.variant) || !experimentEvents.has(body.event) || !locales.has(body.locale) || !experimentClients.has(body.client) || !experimentDevices.has(body.deviceClass) || !landingRoutes.has(landingRoute) || !/^[A-Z]{2}$/.test(country || "") || !/^[A-Z0-9-]{0,8}$/.test(regionCode)) {
         return json({ error: "invalid_event" }, 400, headers);
       }
       const source = validTag(body.source), medium = validTag(body.medium), campaign = validTag(body.campaign);
-      await env.DB.prepare("INSERT INTO market_experiment_daily (day, country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant, event, count) VALUES (date('now'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1) ON CONFLICT(day, country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant, event) DO UPDATE SET count = count + 1").bind(country, regionCode, body.locale, body.client, body.deviceClass, source, medium, campaign, body.experiment, body.variant, body.event).run();
+      await env.DB.prepare("INSERT INTO market_experiment_daily (day, country, region_code, landing_route, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant, event, count) VALUES (date('now'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1) ON CONFLICT(day, country, region_code, landing_route, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant, event) DO UPDATE SET count = count + 1").bind(country, regionCode, landingRoute, body.locale, body.client, body.deviceClass, source, medium, campaign, body.experiment, body.variant, body.event).run();
       return json({ ok: true }, 202, headers);
     }
 
@@ -87,8 +89,8 @@ export default {
       const where = period === "all" ? "" : " WHERE day >= date('now', '-29 days')";
       const metrics = "SUM(CASE WHEN event = 'exposure' THEN count ELSE 0 END) AS exposures, SUM(CASE WHEN event = 'cta_click' THEN count ELSE 0 END) AS ctaClicks, SUM(CASE WHEN event = 'reading_start' THEN count ELSE 0 END) AS readingStarts, SUM(CASE WHEN event = 'reader_30s' THEN count ELSE 0 END) AS readers30s, SUM(CASE WHEN event = 'reader_120s' THEN count ELSE 0 END) AS readers120s, SUM(CASE WHEN event = 'reflection_saved' THEN count ELSE 0 END) AS reflectionsSaved, SUM(CASE WHEN event = 'signup_complete' THEN count ELSE 0 END) AS signups, SUM(CASE WHEN event = 'return_visit' THEN count ELSE 0 END) AS returnVisits FROM market_experiment_daily" + where;
       const [markets, details] = await Promise.all([
-        env.DB.prepare(`SELECT country, region_code AS regionCode, locale, experiment, variant, ${metrics} GROUP BY country, region_code, locale, experiment, variant ORDER BY country, region_code, locale, experiment, variant`).all(),
-        env.DB.prepare(`SELECT country, region_code AS regionCode, locale, client, device_class AS deviceClass, utm_source AS source, utm_medium AS medium, utm_campaign AS campaign, experiment, variant, ${metrics} GROUP BY country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant ORDER BY country, region_code, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant`).all()
+        env.DB.prepare(`SELECT country, region_code AS regionCode, landing_route AS landingRoute, locale, experiment, variant, ${metrics} GROUP BY country, region_code, landing_route, locale, experiment, variant ORDER BY country, region_code, landing_route, locale, experiment, variant`).all(),
+        env.DB.prepare(`SELECT country, region_code AS regionCode, landing_route AS landingRoute, locale, client, device_class AS deviceClass, utm_source AS source, utm_medium AS medium, utm_campaign AS campaign, experiment, variant, ${metrics} GROUP BY country, region_code, landing_route, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant ORDER BY country, region_code, landing_route, locale, client, device_class, utm_source, utm_medium, utm_campaign, experiment, variant`).all()
       ]);
       return json({ period, marketRows: markets.results || [], rows: details.results || [] }, 200, headers);
     }
