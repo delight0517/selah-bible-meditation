@@ -266,14 +266,18 @@
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 3,
-      "title": "초대 URL로 같은 말씀·상대 읽는 위치·같은 타이머 공유",
+      "revision": 4,
+      "title": "초대 URL 함께 읽기 및 계정별 기록·친구 별명",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
         "상대 URL 입장 시 같은 번역본·책·장으로 열린다",
         "상대가 읽는 절을 옅은 표시로 보여준다",
         "시간 묵상은 서버 종료 시각 기준 타이머를 공유한다",
-        "묵상·기도·계정 정보는 전송하지 않는다"
+        "묵상·기도·계정 정보는 전송하지 않는다",
+        "로그인한 참가자는 함께 읽은 본문·시작 시각·참여 인원을 본인 BlueCloud 기록에 저장한다",
+        "방 ID 원문·계정 정보·묵상과 기도는 함께 읽기 Worker나 다른 참가자에게 전송하지 않는다",
+        "각 계정에서 함께 읽은 기록의 친구 별명을 수정하고 여러 기기에서 동기화한다",
+        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다"
       ],
       "paths": [
         "index.html",
@@ -283,25 +287,29 @@
         "mobile/www/",
         "mobile/ios/",
         "together-worker/",
-        "home.html"
+        "home.html",
+        "scripts/unified-data.js",
+        "contracts/selah-cloud-state.schema.json",
+        "scripts/test-unified-data.mjs",
+        "scripts/test-together-reading.mjs"
       ],
       "platforms": {
         "web": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 4,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
           "workItem": "selah-live-together-20261003"
         },
         "windows": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 4,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
           "workItem": "selah-live-together-20261003"
         },
         "macos": {
@@ -310,16 +318,16 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Native source and device acceptance pending",
+          "evidence": "Native app parity and runtime verification remain pending; shared web source change does not prove the standalone Mac app.",
           "workItem": "selah-live-together-20261003"
         },
         "ios": {
           "owner": "Mac maintainer - request pending",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 4,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified.",
           "workItem": "selah-live-together-20261003"
         }
       }

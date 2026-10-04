@@ -76,3 +76,15 @@ test('hybrid clocks advance after observing a device whose clock was ahead', () 
 });
 
 test("reader restores location and protects asynchronous selection and scroll", async () => { const { default: run } = await import("./test-reader-startup.cjs"); await run(); });
+
+
+test('shared reading history and private friend labels sync by stable per-room ID',()=>{
+ const start={...base(),togetherReads:[]};
+ const room={id:'a'.repeat(32),passage:{book:'MAT',chapter:1,translation:'KRV',language:'ko'},participantCount:2,startedAt:100,updatedAt:100,friendName:''};
+ const a=edit(start,'iOS',110,state=>state.togetherReads.push(room));
+ const b=edit(start,'Mac',120,state=>{state.togetherReads.push({...room,friendName:'Mina',updatedAt:120});});
+ const merged=data.merge(a,b);assert.equal(merged.togetherReads.length,1);assert.equal(merged.togetherReads[0].friendName,'Mina');
+ assert.equal(data.payload(merged).togetherReads[0].passage.book,'MAT');
+ assert.equal(data.payload(merged).token,undefined);
+ same(merged,data.merge(b,a));
+});
