@@ -1,11 +1,11 @@
 {
   "appId": "selah",
   "version": "1.0.13",
-  "build": 57,
+  "build": 58,
   "dataContractVersion": 1,
   "source": "https://delight0517.github.io/selah-bible-meditation/",
   "files": {
-    "SHARED_APP_BUILD.json": "efcab5ffef8bc57748cc3f68e2236bce70f24fcb8ca335ab8ccb1a4f04018fc5",
+    "SHARED_APP_BUILD.json": "4d55f0934db863216632316f591013d0b958fc0be4337eaa9af1bfc2302e0121",
     "assets/COUNTRY-REGION-DATA-LICENSE.txt": "a02cfcf8c0671fd1322ef45356e027407104305fc5222bf6a13a534e2f82e1b5",
     "assets/MATERIAL-ICONS-LICENSE.txt": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
     "assets/MATERIAL-ICONS-NOTICE.txt": "c783fe6c609e28c6442b3e8aece00e8a1a9afdcf5c78e1a9566877523d0cea78",
@@ -44,7 +44,7 @@
     "bible-rights.json": "f9c41489c85300f41d1b16af1a3032c097d53a2eeaeb876f068017e92d0856eb",
     "bible-translations.json": "ce212e988739c51f5c988591f50a45e3533484d6e1d2a5e48b60cf656fb53ce4",
     "home.html": "80b2ed335b021c3943c9e654318866a521f21383ec618c1ef7627891a2750c7d",
-    "index.html": "056e9cc624f41b2abe929630d4b175793d52d84223f38a2687b56abf4e4cb658",
+    "index.html": "db5a2af768684d0f26df7cbe12efe21d550ec32bd364f10f7124be4fbeaea7f4",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -69,6 +69,7 @@
     "styles/ios-safari-reader.css": "fcc1e8d163ebcbc47e5c0428a2f11876953c357e663c027da33e5060a2ec9688",
     "styles/semantic-theme.css": "1ec3beccc6491b8d2554cc975315569d150326ebdac65ac622f05e4f5413fa4b",
     "uk/index.html": "8db76ab372f38f767619e6d7a52b4a2d346ffafe175d43f64ab7225f8596a76d",
-    "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
+    "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38",
+    "youtube-player.html": "94d8d993828049463392dc08b9a0dbf5f89f7e85bebd963855ea1b32200d8f47"
   }
 }

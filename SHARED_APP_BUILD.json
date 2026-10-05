@@ -1,8 +1,8 @@
 {
   "appId": "selah",
   "version": "1.0.13",
-  "build": 57,
+  "build": 58,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Dark theme contrast fixes"
+  "description": "YouTube iOS player identity"
 }
