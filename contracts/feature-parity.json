@@ -685,6 +685,55 @@
           "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; installed iPhone runtime remains unverified."
         }
       }
+    },
+    {
+      "id": "SELAH-MULTILINGUAL-QT-SOURCE-CATALOG",
+      "revision": 1,
+      "title": "언어별 공식 무료 큐티 바로가기 카탈로그",
+      "acceptance": [
+        "지원 앱 언어 8개(한국어, 영어, 일본어, 중국어 간체·번체, 필리핀어, 스페인어, 브라질 포르투갈어)에 맞춰 해당 언어의 무료 온라인 성경 묵상 계획을 골라 볼 수 있다.",
+        "카드는 제공 사이트의 공식 언어별 이미지, 언어, 공식 도메인, 출처 설명을 보여주고 HTTPS 공식 페이지를 새 탭으로 연다.",
+        "사용자는 선택한 공식 링크를 기존 개인 QT 라이브러리에 추가할 수 있으며 기존 사용자 링크·동기화·삭제 동작을 유지한다.",
+        "앱은 외부 큐티 본문을 복제하지 않고, 일부 자료는 제공처 계정 또는 앱이 필요할 수 있음을 알린다."
+      ],
+      "paths": [
+        "index.html",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "contracts/feature-parity.json",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web catalog task",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-qt-language-library-20261005",
+          "build": "GitHub Pages shared source; deployment pending",
+          "evidence": "Language-filtered catalog maps 8 supported UI languages to official YouVersion reading-plan pages; Korean Our Daily Bread remains available. Official source icon/domain and free-plan link are rendered. PR and Pages readback pending."
+        },
+        "windows": {
+          "owner": "Selah hosted reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared hosted reader source",
+          "build": "GitHub Pages shared source; runtime verification pending",
+          "evidence": "The hosted reader uses the shared catalog; installed Windows shell/runtime was not independently exercised."
+        },
+        "macos": {
+          "owner": "Selah macOS maintainer",
+          "state": "pending",
+          "evidence": "Separate macOS runtime source and adoption of the shared QT catalog have not been verified."
+        },
+        "ios": {
+          "owner": "Selah shared iOS reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated mobile/www bundle",
+          "build": "Shared web source; native build/install pending",
+          "evidence": "Capacitor web bundle is generated from the shared catalog source; installed iPhone runtime was not exercised."
+        }
+      }
     }
   ]
 }
