@@ -9,6 +9,12 @@ const experiments = new Set(["global-funnel-v1", "kr-home-copy-v1", "kr-gentle-i
 const experimentClients = new Set(["app", "web", "unknown"]);
 const experimentDevices = new Set(["phone", "tablet", "computer", "unknown"]);
 const validTag = value => typeof value === "string" && /^[a-zA-Z0-9._-]{1,80}$/.test(value) ? value.toLowerCase() : "";
+const editionInterestLanguages = new Set(["ko", "en", "ja", "zh-CN", "zh-TW", "ar", "he", "other"]);
+const editionInterestTypes = new Set(["read", "paid"]);
+const normalizeEditionName = value => typeof value === "string" && value.length <= 100
+  ? value.normalize("NFKC").replace(/[\u0000-\u001f\u007f]/g, "").replace(/\s+/g, " ").trim()
+  : "";
+const normalizeEditionId = value => typeof value === "string" && /^[A-Za-z0-9_.:-]{1,80}$/.test(value) ? value : "";
 
 function cors(origin, allowed) {
   const valid = origin === allowed;
@@ -65,6 +71,33 @@ export default {
       }
       await env.DB.prepare("INSERT INTO feature_daily (day, country, locale, feature, count) VALUES (date('now'), ?, ?, ?, 1) ON CONFLICT(day, country, locale, feature) DO UPDATE SET count = count + 1").bind(country, body.locale, body.feature).run();
       return json({ ok: true }, 202, headers);
+    }
+
+    if (request.method === "POST" && url.pathname === "/analytics/edition-interest") {
+      const declaredLength = Number(request.headers.get("content-length") || 0);
+      if (declaredLength > 2048) return json({ error: "payload_too_large" }, 413, headers);
+      let rawBody;
+      try { rawBody = await request.text(); } catch { return json({ error: "invalid_json" }, 400, headers); }
+      if (new TextEncoder().encode(rawBody).byteLength > 2048) return json({ error: "payload_too_large" }, 413, headers);
+      let body;
+      try { body = JSON.parse(rawBody); } catch { return json({ error: "invalid_json" }, 400, headers); }
+      const country = request.cf?.country;
+      const editionName = normalizeEditionName(body?.editionName);
+      const editionId = normalizeEditionId(body?.editionId);
+      const rawEditionId = body?.editionId;
+      if (body?.appId !== "selah" || !editionName || !/[\p{L}\p{N}]/u.test(editionName) || /[<>]/.test(editionName) || !editionInterestLanguages.has(body.language) || !editionInterestTypes.has(body.interestType) || !locales.has(body.locale) || !/^[A-Z]{2}$/.test(country || "") || (rawEditionId && !editionId)) {
+        return json({ error: "invalid_event" }, 400, headers);
+      }
+      const editionKey = editionId ? `id:${editionId.toLowerCase()}` : `name:${editionName.toLowerCase()}`;
+      await env.DB.prepare("INSERT INTO bible_edition_interest_daily (day, country, locale, language, edition_key, edition_id, edition_name, interest_type, count) VALUES (date('now'), ?, ?, ?, ?, ?, ?, ?, 1) ON CONFLICT(day, country, locale, language, edition_key, interest_type) DO UPDATE SET count = count + 1").bind(country, body.locale, body.language, editionKey, editionId, editionName, body.interestType).run();
+      return json({ ok: true }, 202, headers);
+    }
+
+    if (request.method === "GET" && url.pathname === "/analytics/edition-interest/summary") {
+      const period = url.searchParams.get("period") === "all" ? "all" : "30d";
+      const where = period === "all" ? "" : " WHERE day >= date('now', '-29 days')";
+      const rows = await env.DB.prepare(`SELECT language, edition_key AS editionKey, edition_id AS editionId, edition_name AS editionName, interest_type AS interestType, SUM(count) AS total FROM bible_edition_interest_daily${where} GROUP BY language, edition_key, edition_id, edition_name, interest_type HAVING SUM(count) >= 10 ORDER BY total DESC LIMIT 100`).all();
+      return json({ period, minimumAggregate: 10, editions: rows.results || [] }, 200, headers);
     }
 
     if (request.method === "POST" && url.pathname === "/analytics/experiment/event") {

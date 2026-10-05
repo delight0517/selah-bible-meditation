@@ -1,15 +1,17 @@
 {
   "appId": "selah",
-  "version": "1.0.11",
-  "build": 50,
+  "version": "1.0.12",
+  "build": 51,
   "dataContractVersion": 1,
   "source": "https://delight0517.github.io/selah-bible-meditation/",
   "files": {
-    "SHARED_APP_BUILD.json": "823c679eedc032d45abd7d64c754e0881b937dde45a5fa5beba1981254b25a90",
+    "SHARED_APP_BUILD.json": "6d477b73ed8a749b6f164bc8ba5d2610726ae3982e78f0b3af5533c5bf1c12b6",
     "assets/COUNTRY-REGION-DATA-LICENSE.txt": "a02cfcf8c0671fd1322ef45356e027407104305fc5222bf6a13a534e2f82e1b5",
     "assets/MATERIAL-ICONS-LICENSE.txt": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
     "assets/MATERIAL-ICONS-NOTICE.txt": "c783fe6c609e28c6442b3e8aece00e8a1a9afdcf5c78e1a9566877523d0cea78",
     "assets/bible-book-catalogs.js": "ced01405cb5ad49b5addda68339863d4522c9ed62db4e3e0b1bede5acde6dbda",
+    "assets/bible-edition-wishlist.css": "090d5a9fd8d0527c34ec6eea3d44f2308acea4c597a3049cd624290bee0afb3f",
+    "assets/bible-edition-wishlist.js": "5dcabadb53fab6f7eaf25585889961435b274c4ebb629ee4484782d5c8e2608b",
     "assets/cloud-icon.png": "1f59abf38cecc33eb8ba8d8f4890b4e3c84f5fee7f5b91695742f819ee9e1aa8",
     "assets/country-subdivisions.json": "82ac75b24ab884a9fab5c026dc6d99abb77193c2ef2d5f24db1812322a8918ca",
     "assets/korea-sig-regions.json": "ac1b21226eb116af68179e27b70a3ab1704c8b90daf25c5157fec689ec132a7c",
@@ -44,7 +46,7 @@
     "bible-rights.json": "94ca101dae74b197850c72120c2f4c52a462ab718c455df9a11dea88e7218f34",
     "bible-translations.json": "66c8e34c3d43bc464869d49303308cf394d8c8feaa744ef7b65fb806dd95f2c2",
     "home.html": "80b2ed335b021c3943c9e654318866a521f21383ec618c1ef7627891a2750c7d",
-    "index.html": "d92e39d80ce861accdf12ac064990d977cfd144476db4e10c495e671bda4a875",
+    "index.html": "ff92fd3a840c9885918333c45e6e0cff5c09e4ad0a518146ef4580ca61c675db",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -52,7 +54,7 @@
     "matthew-jpn1965.json": "4353e6533a5e70c250cde1ed9944bb3d314830f5fe9cbf1969376c88e6d0919f",
     "matthew-krv.json": "ecc07e6134e651eac193699d569d66b9317ad591824a9be23580f82c3d0899d9",
     "matthew-web.json": "e30a5533d3695e29a04369063ac05e34702d46a67743d969eea16170eb5e48af",
-    "privacy.html": "b85c0f37bbeca41025bc13740b4282d325085422e454b0d0431ced7d4195b59f",
+    "privacy.html": "315c5fff0d25d911530a3d724faafe639fc85be52ee24456c0d5a1ef95a70152",
     "scripts/computer-reading-handoff.js": "49602589753923946a1e597ea7cf8f8dbd04c396c15d256b5c68a137678f07fa",
     "scripts/google-login-recovery.js": "bb782156325b62ab076d7d83e70dcc4e609180b53554cf97cc4369dc0f3096d0",
     "scripts/legacy-migration-ui.js": "3657e6e92d97d515a339efa948b8dc97617f051451849eb4005ac1b735d3a88c",
@@ -65,6 +67,6 @@
     "styles/desktop-polish.css": "abc2f865eaeabc7a7f451059491dd6d059b8455f30d2cc179a76fb8465f66e8b",
     "styles/ios-safari-reader.css": "fcc1e8d163ebcbc47e5c0428a2f11876953c357e663c027da33e5060a2ec9688",
     "styles/semantic-theme.css": "e667f34676923b0390c2aa4e9dea71fcef33419c7bd9086b414194aab35f5667",
-    "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38"
+    "windows/app-shell.js": "e1635d9d7f8513f6f9ce8e5a86a318e79dcc19b45836a6f270eb48d0e4c7290e"
   }
 }

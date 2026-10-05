@@ -645,3 +645,14 @@
 - [x] 상단 배지를 UTC 오늘의 고유 익명 브라우저 수로 표시하고, 상세 화면에는 오늘 수와 UTC 월간 고유 익명 브라우저 수 및 날짜 범위를 함께 표시했다. 모바일에서도 상단 기간 라벨을 유지하고, 지도 국·지역 수치는 날짜별 브라우저 방문 합계(브라우저·일)라고 설명한다. 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어 문구를 정리했다.
 - [x] PR #245 (`1799e8a`) 병합. GitHub Pages 배포 run `37272666551` 성공, 공개 HTML과 설명 스크립트에서 일간/월간 KPI, 모바일 라벨, 브라우저·일 단위, 8개 언어를 읽어 확인했다. 플랫폼 소스 검사와 Capacitor `mobile/www` 생성본 동일성 검사 통과.
 - [ ] 새 웹 소스는 배포됨. 이번 작업에서는 iOS 네이티브 앱의 새 패키지 설치 및 실기기 런타임을 검증하지 않았다. 별도 macOS 네이티브 구현도 확인하지 않았다.
+
+
+## 2026-10-05 — Quiet office reading and Bible edition wishlist
+
+- Branch: `codex/selah-office-bible-edition-wishlist-20261005`, rebased onto `origin/main` `ecc46ce` after the visitor-region update.
+- Implemented in source: label the existing Windows focus-reading action as Quiet office reading; add catalog/custom edition wishlist entries stored only in the current browser; provide removal, HTTPS-only optional source links, rights notice, and explicit separate opt-ins for anonymous reading demand and future paid-licensed-edition interest.
+- Anonymous interest endpoint stores only daily edition/language/UI-locale/country/interest aggregates. Public totals omit country and remain hidden until each interest type has at least 10 submissions. Counts represent submissions, not people. No account, email, IP, device ID, source URL, Bible text, notes, or reading history is stored in the interest table.
+- Native Capacitor surfaces keep local wishlist behavior but suppress network sharing until native-origin privacy/CORS is reviewed.
+- Verified: focused wishlist/Worker tests, Bible rights registry, feature-parity ledger, shared-bundle and platform-source checks, and `npm --prefix mobile run check:shared` pass. Local preview verified the Windows quiet-office label, focus-mode toggle, local add/remove, and consent controls.
+- Broader local suite caveats: `test-computer-reading-handoff.cjs` fails on an existing test double without `.closest`; `test-legacy-migration-ui.mjs` and `test-unified-sync.mjs` cannot run because this worktree has no `playwright` package. Those files are unchanged by this branch.
+- Remaining: push the branch and open a PR. Apply migration `analytics-worker/migrations/0004_bible_edition_interest.sql` before deploying the Worker. Do not claim Bible text publication, purchase, or Store release until rights, price, eligible regions, and package readiness are verified.
