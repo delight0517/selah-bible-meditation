@@ -35,16 +35,16 @@
           "state": "implemented",
           "appliedRevision": 4,
           "source": "codex/selah-local-reading-position-restore-20261005",
-          "build": "1.0.11 / build 40; deployment pending",
-          "evidence": "After the selected chapter loads, startup reapplies saved verse anchor/offset or scroll ratio to the reader. Regression test verifies selected book/chapter load completes before restoration."
+          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded",
+          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified."
         },
         "windows": {
           "owner": "Platform contract",
           "state": "not_applicable",
           "reason": "This change corrects the iPhone Safari web viewport; Windows layout and shell are unchanged.",
-          "evidence": "Uses the shared hosted reader; source contains the post-load reading-position restore path. Windows-shell runtime was not exercised.",
+          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified.",
           "appliedRevision": 4,
-          "build": "Shared hosted reader build 40; deployment pending"
+          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded"
         },
         "macos": {
           "owner": "Platform contract",
@@ -57,8 +57,8 @@
           "state": "implemented",
           "appliedRevision": 4,
           "source": "shared Selah reader and generated mobile/www bundle",
-          "build": "1.0.11 / build 40; deployment pending",
-          "evidence": "After the selected chapter loads, startup reapplies saved verse anchor/offset or scroll ratio to the reader. Regression test verifies selected book/chapter load completes before restoration."
+          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded",
+          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified."
         }
       }
     },
