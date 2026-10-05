@@ -767,11 +767,11 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 11,
+      "revision": 13,
       "title": "번역본별 YouTube 성경 듣기·연속 재생·미니 플레이어",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
-        "검색 결과는 선택 언어·번역본·책·장으로 안내하되 영상의 번역 정확성은 사용자가 확인한다. 번역본이 다른 외부 낭독 링크는 해당 번역본과 일치가 확인되지 않으면 표시하지 않는다.",
+        "YouTube search uses the selected language, translation, book, and chapter. The localized setup tells users to verify the video title matches the selected translation before saving; mismatched external reading links are not presented as matching.",
         "각 번역본마다 여러 YouTube 채널·영상·재생목록을 저장하고, 원하는 출처를 기본 선택할 수 있다. 실제 YouTube 구독으로 표현하지 않는다.",
         "YouTube 영상은 YouTube 표준 임베드 플레이어에서 재생한다. 광고 노출과 로그인 상태는 YouTube와 각 영상의 설정이 결정하며 Selah가 광고를 강제하거나 차단하지 않는다.",
         "처음 재생은 YouTube 플레이어의 표준 재생 컨트롤을 사용한다. Selah는 플레이어를 자동 재생하거나 영상·오디오를 분리하지 않는다.",
@@ -782,7 +782,9 @@
         "YouTube 플레이어가 최소 200×200 CSS px 이상으로 보이도록 하고, 축소 화면에서도 플레이어를 계속 보이게 하며 컨트롤을 덮지 않는다.",
         "읽기 화면을 숨기거나 앱이 백그라운드로 갈 때 임베드 재생을 일시 정지한다. 외부 YouTube 앱으로 열면 YouTube 자체 정책과 Premium이 적용된다.",
         "듣기·연속 재생·YouTube에서 열기·축소/복원 문구를 한국어, 영어, 일본어, 중국어 간체·번체, 필리핀어, 스페인어, 브라질 포르투갈어로 제공한다.",
-        "마태복음 1장 검증: 번역본에 맞는 검색 결과 열기 → 사용자가 선택한 영상 또는 재생목록 저장 → YouTube 표준 재생 버튼 → 재생목록 연속 재생 → 우측 하단 축소와 복원. 브라우저/실기기 증거를 구분한다."
+        "마태복음 1장 검증: 번역본에 맞는 검색 결과 열기 → 사용자가 선택한 영상 또는 재생목록 저장 → YouTube 표준 재생 버튼 → 재생목록 연속 재생 → 우측 하단 축소와 복원. 브라우저/실기기 증거를 구분한다.",
+        "The translation-match reminder is localized in Korean, English, Japanese, Simplified and Traditional Chinese, Filipino, Spanish, and Brazilian Portuguese.",
+        "When no source is saved for the selected translation, the empty default-source card stays hidden. Localized match guidance fits without overlapping the YouTube search control."
       ],
       "paths": [
         "index.html",
@@ -805,18 +807,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 11,
+          "appliedRevision": 13,
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / shared reader UI build 58",
-          "evidence": "Reassessed for revision 11: hosted HTTPS web readers keep their existing direct YouTube iframe; only iOS native local-origin WebViews use the wrapper. Web runtime playback was not re-tested in this change."
+          "build": "1.0.13 / build 61; deploy/readback pending",
+          "evidence": "Revision 13 stacks audio guidance and controls on mobile; hosted runtime deployment/readback pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
-          "state": "pending",
-          "appliedRevision": 10,
+          "state": "implemented",
+          "appliedRevision": 13,
           "source": "shared hosted reader source",
-          "build": "1.0.11 / shared reader UI build 55; platform validation pending",
-          "evidence": "Reassessed for revision 11: hosted clients retain direct standard YouTube iframes; no separate Windows/macOS shell playback runtime was changed or verified."
+          "build": "1.0.13 / build 61; deploy/readback pending",
+          "evidence": "Revision 13 stacks audio guidance and controls on mobile; hosted runtime deployment/readback pending."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -828,10 +830,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 11,
+          "appliedRevision": 13,
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 58; GitHub Pages deployment run 37329055327 succeeded",
-          "evidence": "Installed and ran on iOS 26.4 Selah Store QA simulator AF287C82-2E16-4C65-A2E9-842D00924621. KRV 1961 Matthew 1 YouTube embed loaded and played (timer/frame advanced); minimized preview kept advancing and restored. HTTP 200 verified for the hosted HTTPS player and public build JSON says 1.0.13/58. Playlist continuity, other translations, physical iPhone, and ad/Premium outcomes were not tested; YouTube controls those outcomes."
+          "build": "1.0.13 / build 61; iOS 26.4 simulator installed and visually checked",
+          "evidence": "Simulator screenshot confirms the World English Bible label, non-overlapping vertical guidance/search control, and hidden empty source card. Live YouTube results still recommend an ESV playlist first; exact-version discovery remains unresolved. Physical iPhone, ad, Premium, and continuous playlist behavior were not verified in this run."
         }
       }
     },

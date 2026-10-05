@@ -704,3 +704,14 @@
 ## 2026-10-05 · 테마별 본문 색상 대비 수정
 - [x] 밝은 테마의 짙은 성경 카드/그라데이션 위 장·절 표시와 어두운 테마의 카드 위 표시가 배경에 맞는 전경색을 사용하도록 수정한다.
 - [x] 어두운 테마에서 기본·보조 버튼과 출석 체크 표시도 표면별 색상 토큰을 사용한다. 로컬 브라우저에서 밝은 모드와 어두운 모드의 독서 화면을 확인했다.
+
+## 2026-10-06 · 번역본별 YouTube 검색 결과 일치 안내
+- [x] iOS 26.4 Selah Store QA Simulator에서 성경 언어를 English로 변경했을 때 본문·듣기 제목이 World English Bible로 바뀌고, YouTube 검색창에 `World English Bible Matthew 1` 검색어가 전달되는 것을 확인했다.
+- [x] 실제 첫 결과가 ESV 낭독 영상인 것을 확인했다. 앱은 검색 결과를 자동 저장하지 않지만, 선택 판본과 다른 영상이 먼저 보일 수 있다는 점을 사용자에게 알릴 필요가 있다.
+- [x] 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어 안내에 저장 전 판본 제목을 확인하라는 문구를 추가하고 feature revision 12로 기록한다.
+- [x] Build 61에서 판본 일치 안내·빈 출처 카드 숨김을 시뮬레이터로 확인했다. ESV 검색 결과를 선택하지 않아 저장된 기본 출처는 없으며, 영상 판본의 정확성은 제목에서 다시 확인해야 한다.
+- [ ] 재생목록 연속 재생은 선택된 YouTube 목록에 실제 다음 영상이 있을 때만 확인 가능하다. 실기기 재생, 광고 표시, Premium 계정 결과는 별도 검증이며 YouTube가 제어한다.
+- [x] build 59 simulator visual check exposed overlapping translation-match copy and a blank “Open” source card even when the selected translation had no saved YouTube source.
+- [x] Shorten the localized match reminder and apply an explicit `[hidden]` rule to the primary audio source card so an empty default cannot occupy the reading screen.
+- [x] Rebuilt and installed build 61 in the iOS 26.4 simulator. Fresh screen capture confirms the translation-match reminder and YouTube search control are separated; the empty default-source card stays hidden. Evidence run `34cb8a12-3d3b-448c-91fa-41ed6ab2d388` is in `/tmp/selah-youtube-player-evidence.jsonl`.
+- [ ] The live YouTube search for World English Bible Matthew 1 still recommends an ESV playlist first. No source was saved; exact-version discovery, playlist continuity, physical iPhone, ad, and Premium outcomes remain separate checks.
