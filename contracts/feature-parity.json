@@ -669,35 +669,37 @@
     },
     {
       "id": "SELAH-SEMANTIC-THEME-CONTRAST",
-      "revision": 3,
+      "revision": 4,
       "title": "공통 역할 기반 테마 색상과 최소 대비 보정",
       "acceptance": [
         "system/light/dark 설정에 맞게 root color-scheme과 브라우저 기본 컨트롤이 함께 바뀐다.",
         "본문·보조 글자·강조 글자를 종이·카드·부드러운 배경별로 계산하고, 선택한 색이 배경 대비 4.5:1 미만이면 읽을 수 있는 전경색을 사용한다.",
-        "공통 화면 컴포넌트는 역할 토큰을 사용해 개별 글자 색 수정 없이 다크 모드 가독성을 유지한다."
+        "공통 화면 컴포넌트는 역할 토큰을 사용해 개별 글자 색 수정 없이 다크 모드 가독성을 유지한다.",
+        "성경 카드의 장·절 표시는 카드 표면/그라디언트 위에서 읽을 수 있고, 기본·보조 버튼과 출석 표시는 각 테마의 실제 표면 대비가 4.5:1 이상이다."
       ],
       "paths": [
         "index.html",
         "scripts/semantic-theme.js",
         "styles/semantic-theme.css",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
         "mobile/www/"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web task",
           "state": "implemented",
-          "appliedRevision": 3,
+          "appliedRevision": 4,
           "source": "current task branch",
           "build": "GitHub Pages shared source",
-          "evidence": "PR #226 merged as 602850a9fcbf050eadd614c5b0a108ca096f2080; Pages run 37228235251 succeeded. Public index, semantic theme JS and CSS returned HTTP 200 with contrast-role tokens present; actual rendered browser visual check remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "evidence": "PR #226 merged as 602850a9fcbf050eadd614c5b0a108ca096f2080; Pages run 37228235251 succeeded. Dark-mode browser audit found under-contrast chapter labels, verse numbers, and secondary/primary controls; revision 4 binds these colors to their rendered surfaces."
         },
         "windows": {
           "owner": "selah-windows-feature-runtime-20261003",
           "state": "implemented",
           "evidence": "Windows shares the deployed hosted reader and theme source; Pages source readback passed. Installed Windows shell rendering was not separately exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
-          "appliedRevision": 3,
+          "appliedRevision": 4,
           "source": "current task branch shared hosted reader",
-          "build": "Selah shared UI 1.0.11/build 36"
+          "build": "Selah shared UI 1.0.13/build 57"
         },
         "macos": {
           "owner": "selah-apple-feature-parity-20261003",
@@ -707,10 +709,10 @@
         "ios": {
           "owner": "Selah shared UI task",
           "state": "implemented",
-          "appliedRevision": 3,
+          "appliedRevision": 4,
           "source": "current task branch mobile/www",
-          "build": "shared UI source bundle",
-          "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; installed iPhone runtime remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "build": "shared UI 1.0.13/build 57 source bundle",
+          "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; dark-mode surface contrast rules are included. Installed iPhone runtime remains unverified."
         }
       }
     },

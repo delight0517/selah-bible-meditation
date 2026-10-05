@@ -27,5 +27,25 @@ label, .experience-form legend { color: var(--muted-on-paper, var(--muted)); }
 [data-theme="dark"] .dialog label { color: var(--muted-on-card, var(--muted)); }
 [data-theme="dark"] .meditation-entry p,
 [data-theme="dark"] .feedback-consent { color: var(--muted-on-soft, var(--muted)); }
-[data-theme="dark"] .passage-picker select { color: var(--ink-on-card, var(--ink)); }
+:root[data-theme="dark"] .passage-picker select { color: var(--ink-on-card, var(--ink)); }
+
+/* Accent text is chosen against the accent swatch, but these controls can be
+   rendered on dark cards or muted surfaces. Bind each foreground to its actual
+   surface so dark mode never pairs dark text with a dark background. */
+:root:not([data-theme="dark"]) .verse-card,
+:root:not([data-theme="dark"]) .verse-card :is(.reference, .bible-verse-num, .eyebrow) {
+  color: var(--text-on-accent, var(--on-accent)) !important;
+}
+:root[data-theme="dark"] .verse-card :is(.reference, .bible-verse-num, .eyebrow) {
+  color: var(--ink-on-card, var(--ink));
+}
+:root[data-theme="dark"] :is(.btn.secondary, .quiz-card, .formation, .ai-result, .tag-chip, .qt-active, .duration-option, .account-badge, .developer-feedback) {
+  background: var(--soft) !important;
+  color: var(--ink-on-soft, var(--ink)) !important;
+}
+:root[data-theme="dark"] .btn:not(.secondary):not(.ghost),
+:root[data-theme="dark"] .attendance-day.done {
+  background: var(--green) !important;
+  color: var(--text-on-accent, var(--on-accent)) !important;
+}
 .computer-reading-control[hidden] { display: none !important; }
