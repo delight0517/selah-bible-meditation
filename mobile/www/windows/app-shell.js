@@ -56,7 +56,16 @@
 
   function syncFocusLabel() {
     const isFocused = document.body.classList.contains('mobile-reading-focus');
-    const label = focusToggle?.getAttribute('aria-label') || (isFocused ? 'Exit focus reading' : 'Focus reading');
+    const language = document.documentElement.lang || 'en';
+    const labels = {
+      ko: { enter: '조용한 오피스 읽기', exit: '조용한 읽기 닫기' },
+      en: { enter: 'Quiet office reading', exit: 'Exit quiet reading' },
+      ja: { enter: '静かなオフィス読書', exit: '静かな読書を終了' },
+      'zh-CN': { enter: '安静办公阅读', exit: '退出安静阅读' },
+      'zh-TW': { enter: '安靜辦公閱讀', exit: '結束安靜閱讀' }
+    };
+    const copy = labels[language] || labels[language.split('-')[0]] || labels.en;
+    const label = isFocused ? copy.exit : copy.enter;
     focusButton.setAttribute('aria-label', label);
     focusButton.title = `${label} (Ctrl+Shift+F)`;
     focusButton.setAttribute('aria-pressed', String(isFocused));
@@ -71,6 +80,7 @@
   window.addEventListener('popstate', updateNavigation);
   if (window.navigation) window.navigation.addEventListener('currententrychange', updateNavigation);
   if (focusToggle) new MutationObserver(syncFocusLabel).observe(focusToggle, { attributes: true, attributeFilter: ['aria-label', 'title'] });
+  new MutationObserver(syncFocusLabel).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
   new MutationObserver(syncFocusLabel).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
   document.addEventListener('keydown', (event) => {

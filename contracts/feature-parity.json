@@ -1050,6 +1050,72 @@
         }
       },
       "workItem": "selah-dynamic-country-regions-20261005"
+    },
+    {
+      "id": "SELAH-WINDOWS-QUIET-OFFICE-EDITION-WISHLIST",
+      "revision": 1,
+      "title": "Quiet office reading and privacy-first Bible edition wishlist",
+      "acceptance": [
+        "The Windows app shell labels its existing focus-reading control as quiet office reading and preserves the Ctrl+Shift+F shortcut.",
+        "Users can add catalog editions or custom edition names to a browser-local wishlist, review the rights notice, and remove entries without account sync.",
+        "Anonymous demand is sent only after explicit consent and contains edition name or catalog ID, Bible language, UI locale, interest type, and a coarse country code derived by Cloudflare.",
+        "The analytics worker stores daily aggregate counts only; its public summary omits country-level rows and only returns each edition-interest-type total after at least 10 submissions of that type.",
+        "Paid interest means consideration of a future licensed edition, not purchase or preorder; Bible text is not distributed or sold before rights, price, and region are verified.",
+        "Native Capacitor surfaces retain local wishlist behavior but do not send anonymous interest until native-origin sharing is reviewed and allowed."
+      ],
+      "paths": [
+        "index.html",
+        "assets/bible-edition-wishlist.js",
+        "assets/bible-edition-wishlist.css",
+        "windows/app-shell.js",
+        "analytics-worker/src/index.js",
+        "analytics-worker/migrations/0004_bible_edition_interest.sql",
+        "analytics-worker/README.md",
+        "privacy.html",
+        "mobile/www/privacy.html",
+        "mobile/www/windows/app-shell.js",
+        "scripts/test-bible-edition-wishlist.mjs",
+        "scripts/test-edition-interest-worker.mjs",
+        "SHARED_APP_BUILD.json",
+        "contracts/feature-parity.json",
+        "mobile/scripts/copy-web.mjs",
+        "mobile/www/index.html",
+        "mobile/www/assets/bible-edition-wishlist.js",
+        "mobile/www/assets/bible-edition-wishlist.css",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah shared web reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared hosted web source",
+          "build": "1.0.12 / build 51",
+          "evidence": "Wishlist, opt-in aggregate demand flow, and per-interest-type summary threshold are implemented in this branch; production Pages and Worker migration/deployment remain pending."
+        },
+        "windows": {
+          "owner": "Selah shared reader / Windows shell",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared hosted reader and windows/app-shell.js",
+          "build": "1.0.12 / build 51",
+          "evidence": "Windows toolbar labels the existing focus view as quiet office reading; the shared reader provides the local wishlist. Production deployment remains pending."
+        },
+        "macos": {
+          "owner": "Platform contract",
+          "state": "pending",
+          "evidence": "The shared hosted page contains the feature; standalone macOS wrapper and runtime have not been verified."
+        },
+        "ios": {
+          "owner": "Selah Capacitor iOS reader",
+          "state": "pending",
+          "evidence": "The local wishlist is bundle-compatible, but native-origin aggregate sharing and installed-app runtime have not been verified.",
+          "workItem": "selah-edition-wishlist-native-share-parity"
+        }
+      }
     }
   ]
 }
