@@ -870,14 +870,15 @@
     },
     {
       "id": "SELAH-BIBLE-VERSION-RIGHTS",
-      "revision": 2,
-      "title": "판본별 성경 이용 권리·표기·다운로드·광고 판정",
+      "revision": 3,
+      "title": "읽기 화면의 정확한 성경 판본명 표시와 판본별 권리 안내",
       "acceptance": [
         "각 개별 번역본과 앱 포함 판본은 고유 권리 기록, 출처 URL, 라이선스 상태, 관할 범위, 필수 표기를 가진다.",
         "성경 라이브러리는 선택 판본의 라이선스·필수 표기·다운로드 및 광고 정책을 현재 UI 언어로 보여준다.",
         "판본별 권리가 미확인되면 추가 다운로드를 차단하고, 권리 확인이 끝날 때까지 해당 판본이 저장된 기기의 광고를 차단한다.",
         "비영리 전용 판본이 기기에 저장되면 어떤 화면에서도 광고용 SDK가 표시할 수 없도록 공통 정책 훅이 false를 반환한다.",
-        "기본 한글 1961 판본과 Bible API의 Korean 1910 ID는 서로 다른 판본으로 취급한다."
+        "기본 한글 1961 판본과 Bible API의 Korean 1910 ID는 서로 다른 판본으로 취급한다.",
+        "일반 본문·집중 묵상 화면에서 현재 선택된 번역본의 권리 목록상 정식 판본명을 항상 표시하며, 사용자 입력 본문은 판본 미확인으로 구분한다."
       ],
       "paths": [
         "index.html",
@@ -899,18 +900,18 @@
         "web": {
           "owner": "Selah shared web reader",
           "state": "implemented",
-          "appliedRevision": 2,
+          "appliedRevision": 3,
           "source": "shared web source",
-          "build": "1.0.11 / build 42",
-          "evidence": "Source-level rights registry and shared ad/download policy; public Pages readback pending. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
+          "build": "1.0.11 / build 44",
+          "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
         },
         "windows": {
           "owner": "Selah shared reader / Windows shell",
           "state": "implemented",
-          "appliedRevision": 2,
+          "appliedRevision": 3,
           "source": "shared web source",
-          "build": "1.0.11 / build 42",
-          "evidence": "Rights metadata and enforcement are in the shared reader and generated files; Windows runtime not separately verified. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
+          "build": "1.0.11 / build 44",
+          "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
         },
         "macos": {
           "owner": "Selah platform contract",
@@ -920,10 +921,10 @@
         "ios": {
           "owner": "Selah Capacitor iOS reader",
           "state": "implemented",
-          "appliedRevision": 2,
+          "appliedRevision": 3,
           "source": "generated mobile/www shared reader",
-          "build": "1.0.11 / build 42",
-          "evidence": "Generated mobile bundle carries the same registry and policy hook; native build/install runtime not separately verified. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
+          "build": "1.0.11 / build 44",
+          "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
         }
       }
     },
