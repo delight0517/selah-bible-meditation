@@ -986,6 +986,70 @@
           "workItem": "selah-korea-region-map-platform-proof"
         }
       }
+    },
+    {
+      "id": "SELAH-DYNAMIC-COUNTRY-REGION-VISITS",
+      "revision": 1,
+      "title": "신규 국가 국기와 1단계 지역 방문 자동 표시",
+      "acceptance": [
+        "방문 요약에 새 ISO 국가가 나타나면 별도 국가 목록 수정 없이 현지화 이름과 국기를 표시한다.",
+        "선택 국가의 양수 방문 지역 코드를 국가별 ISO 3166-2 첫 단계 행정구역 이름에 연결해 표시한다.",
+        "한국·미국의 기존 지도와 지역 표시는 유지하고, 데이터가 없는 지역은 숫자를 만들어내지 않는다.",
+        "국가와 regionCode 외에 도시·구·좌표·우편번호를 수집하거나 추정하지 않는다.",
+        "광역 지역 설명은 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어로 제공한다."
+      ],
+      "paths": [
+        "index.html",
+        "assets/country-subdivisions.json",
+        "assets/COUNTRY-REGION-DATA-LICENSE.txt",
+        "THIRD_PARTY_NOTICES.md",
+        "contracts/feature-parity.json",
+        "TODO.md",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/index.html",
+        "mobile/www/assets/country-subdivisions.json",
+        "mobile/www/assets/COUNTRY-REGION-DATA-LICENSE.txt",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-dynamic-country-visits-20261005",
+          "build": "1.0.11 / 50; Pages deployment pending",
+          "evidence": "Visitor country rows derive from the summary response. ISO country flags and first-level subdivision labels are rendered from response codes; Korea and US maps remain specialized. Live deployment readback pending."
+        },
+        "windows": {
+          "owner": "Windows platform contract",
+          "state": "not_applicable",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "The requested country visitor map is the hosted web dashboard; the separate Windows app shell is unchanged.",
+          "reason": "No Windows native analytics map is modified; browser access uses the web implementation."
+        },
+        "macos": {
+          "owner": "macOS platform contract",
+          "state": "not_applicable",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "The requested country visitor map is the hosted web dashboard; no separate Selah macOS client source is changed.",
+          "reason": "Browser access uses the web implementation; this does not modify another macOS app."
+        },
+        "ios": {
+          "owner": "Selah iOS shared-web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated mobile/www bundle",
+          "build": "shared UI 1.0.11 / build 50; native packaging pending",
+          "evidence": "The shared Capacitor source bundle will include the same country/region rendering and dataset. Build 50 source parity is tracked separately from device installation and runtime proof."
+        }
+      },
+      "workItem": "selah-dynamic-country-regions-20261005"
     }
   ]
 }
