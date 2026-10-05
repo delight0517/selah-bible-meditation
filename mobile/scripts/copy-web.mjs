@@ -8,7 +8,7 @@ const repoDir = resolve(mobileDir, '..');
 const webDir = resolve(mobileDir, 'www');
 const check = process.argv.includes('--check');
 const release = JSON.parse(await readFile(resolve(repoDir, 'SHARED_APP_BUILD.json'), 'utf8'));
-const files = ['index.html', 'home.html', 'privacy.html', 'manifest.webmanifest', 'magazine.json', 'windows/app-shell.js', 'scripts/unified-data.js', 'scripts/unified-data-ui.js', 'scripts/legacy-migration.js', 'scripts/legacy-migration-ui.js', 'scripts/computer-reading-handoff.js', 'scripts/google-login-recovery.js', 'styles/computer-reading-handoff.css', 'styles/desktop-polish.css', 'matthew-krv.json', 'matthew-web.json', 'matthew-jpn1965.json', 'matthew-cuv-simp.json', 'matthew-cuv-trad.json', 'matthew-rus-syn.json', 'matthew-ukr-ufb.json', 'bible-translations.json', 'bible-rights.json', 'SHARED_APP_BUILD.json', 'ru/index.html', 'uk/index.html'];
+const files = ['index.html', 'youtube-player.html', 'home.html', 'privacy.html', 'manifest.webmanifest', 'magazine.json', 'windows/app-shell.js', 'scripts/unified-data.js', 'scripts/unified-data-ui.js', 'scripts/legacy-migration.js', 'scripts/legacy-migration-ui.js', 'scripts/computer-reading-handoff.js', 'scripts/google-login-recovery.js', 'styles/computer-reading-handoff.css', 'styles/desktop-polish.css', 'matthew-krv.json', 'matthew-web.json', 'matthew-jpn1965.json', 'matthew-cuv-simp.json', 'matthew-cuv-trad.json', 'matthew-rus-syn.json', 'matthew-ukr-ufb.json', 'bible-translations.json', 'bible-rights.json', 'SHARED_APP_BUILD.json', 'ru/index.html', 'uk/index.html'];
 async function assets(directory) {
   for (const entry of await readdir(resolve(repoDir, directory), { withFileTypes: true })) {
     const path = directory + '/' + entry.name;

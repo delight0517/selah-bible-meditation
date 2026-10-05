@@ -684,6 +684,12 @@
 - [x] 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어에 현지화된 버튼 이름을 제공한다.
 - [x] 공유 UI build 54, Capacitor 동기화, 소스 패리티, 정적 매튜 corpus/search hook 및 8개 언어 미니플레이어 문구 검사를 완료했다. iOS Simulator와 서명된 iOS 빌드에 성공했고 build 54를 iPhone 14 Pro에 설치했다.
 - [ ] 마태복음 1장에서 YouTube 검색, 사용자가 고른 영상 재생, 축소 중 재생 지속, 복원을 브라우저와 iPhone에서 확인한다. iPhone Mirroring이 멈춰 실제 화면 검증은 대기 중이다.
+
+## 2026-10-05 · iOS YouTube 임베드 Referer 오류
+- [x] build 55 시뮬레이터에서 저장한 마태복음 YouTube 영상을 열어 Error 153을 확인했다. 저장·기본 선택·우측 하단 축소는 작동했지만 영상 재생은 막혔다.
+- [x] YouTube 공식 문서에 따라 iOS의 로컬 Capacitor 출처가 아닌 Selah HTTPS 플레이어 페이지 안에서 표준 YouTube 플레이어를 연다. 원래 앱의 오프라인 말씀 본문과 저장 데이터는 그대로 유지한다.
+- [x] 출처 origin, iframe source, 일회성 토큰을 확인하는 메시지 연결로 영상 시각과 상태만 전달하고 YouTube 표준 재생 버튼을 유지한다.
+- [ ] build 58로 iOS Simulator에서 마태복음 1장 비디오 재생/축소/복원/재생 상태 반영을 확인한다. 배포와 설치를 runtime proof와 별개로 기록한다.
 - [x] PR #256 병합 후 GitHub Pages 배포 run `37299467588` 성공, 공개 build JSON에서 build 54와 YouTube 미니플레이어 코드를 확인했다.
 
 ## 2026-10-05 · 러시아어·우크라이나어 성경과 검색 페이지

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Selah YouTube player</title>
+  <style>
+    html, body, #player { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+    #player iframe { display: block; width: 100%; height: 100%; border: 0; }
+  </style>
+</head>
+<body>
+  <div id="player" aria-label="YouTube video player"></div>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const videoId = params.get("video") || "";
+      const playlistId = params.get("playlist") || "";
+      const token = params.get("token") || "";
+      let parentOrigin = "";
+      try { parentOrigin = new URL(params.get("parentOrigin") || "").origin; } catch {}
+      let player;
+      let state = -1;
+      let sampleTimer = 0;
+
+      function send(type, extra = {}) {
+        if (window.parent === window) return;
+        if (!parentOrigin || parentOrigin === "null") return;
+        window.parent.postMessage({ channel: "selah-youtube-player", token, type, ...extra }, parentOrigin);
+      }
+
+      function sample() {
+        if (!player || state !== 1) return;
+        let seconds = 0, activeVideoId = videoId;
+        try {
+          seconds = player.getCurrentTime();
+          activeVideoId = new URL(player.getVideoUrl()).searchParams.get("v") || activeVideoId;
+        } catch {}
+        send("progress", { seconds, videoId: activeVideoId });
+      }
+
+      function onYouTubeIframeAPIReady() {
+        if (!/^[\w-]{11}$/.test(videoId) && !playlistId) { send("error", { code: "invalid-source" }); return; }
+        player = new YT.Player("player", {
+          width: "100%",
+          height: "100%",
+          videoId: videoId || undefined,
+          playerVars: {
+            autoplay: 0,
+            enablejsapi: 1,
+            origin: location.origin,
+            playsinline: 1,
+            rel: 0,
+            ...(playlistId ? { listType: "playlist", list: playlistId } : {}),
+            ...(params.get("hl") ? { hl: params.get("hl") } : {})
+          },
+          events: {
+            onReady: () => send("ready"),
+            onStateChange: event => {
+              state = event.data;
+              if (state === YT.PlayerState.PLAYING) {
+                if (!sampleTimer) sampleTimer = setInterval(sample, 500);
+                sample();
+              } else {
+                if (sampleTimer) clearInterval(sampleTimer);
+                sampleTimer = 0;
+              }
+              let activeVideoId = videoId;
+              try { activeVideoId = new URL(event.target.getVideoUrl()).searchParams.get("v") || activeVideoId; } catch {}
+              send("state", { state, videoId: activeVideoId });
+            },
+            onError: event => send("error", { code: event.data })
+          }
+        });
+      }
+
+      window.addEventListener("message", event => {
+        if (!parentOrigin || parentOrigin === "null" || event.source !== window.parent || event.origin !== parentOrigin || !event.data || event.data.channel !== "selah-youtube-player" || event.data.token !== token) return;
+        try {
+          if (event.data.command === "pause") player?.pauseVideo();
+          if (event.data.command === "play") player?.playVideo();
+        } catch {}
+      });
+
+      window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+      if (!parentOrigin || parentOrigin === "null") { send("error", { code: "invalid-parent-origin" }); return; }
+      const api = document.createElement("script");
+      api.src = "https://www.youtube.com/iframe_api";
+      api.async = true;
+      api.onerror = () => send("error", { code: "api-unavailable" });
+      document.head.append(api);
+    })();
+  </script>
+</body>
+</html>
