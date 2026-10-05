@@ -710,7 +710,7 @@
           "appliedRevision": 1,
           "source": "codex/selah-qt-language-library-20261005",
           "build": "GitHub Pages shared source; deployment pending",
-          "evidence": "Language-filtered catalog maps 8 supported UI languages to official YouVersion reading-plan pages; Korean Our Daily Bread remains available. Official source icon/domain and free-plan link are rendered. PR and Pages readback pending."
+          "evidence": "PR #233 merged as 3ebb0e57dc3d1c39684b9e5731824345dff3db8e; Pages deployment run 37248413539 succeeded. Public root index readback contains the 8-language catalog, Filipino official plan URL, Korean ODB thumbnail and language filter. Interactive visual rendering remains unverified."
         },
         "windows": {
           "owner": "Selah hosted reader",
@@ -718,7 +718,7 @@
           "appliedRevision": 1,
           "source": "shared hosted reader source",
           "build": "GitHub Pages shared source; runtime verification pending",
-          "evidence": "The hosted reader uses the shared catalog; installed Windows shell/runtime was not independently exercised."
+          "evidence": "The deployed hosted reader includes the shared catalog; installed Windows shell/runtime was not independently exercised."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -731,7 +731,7 @@
           "appliedRevision": 1,
           "source": "generated mobile/www bundle",
           "build": "Shared web source; native build/install pending",
-          "evidence": "Capacitor web bundle is generated from the shared catalog source; installed iPhone runtime was not exercised."
+          "evidence": "Generated mobile/www source parity passed at shared UI 1.0.11/build 36; installed iPhone runtime was not exercised."
         }
       }
     }
