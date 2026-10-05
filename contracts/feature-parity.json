@@ -827,11 +827,11 @@
         },
         "ios": {
           "owner": "Selah shared iOS reader",
-          "state": "implementing",
+          "state": "implemented",
           "appliedRevision": 11,
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / shared reader UI build 58",
-          "evidence": "Build 55 simulator exposed YouTube error 153 from the local Capacitor origin. Revision 11 adds an HTTPS-hosted standard-player wrapper for iOS and a restricted postMessage bridge; build/install/runtime verification pending."
+          "build": "1.0.13 / build 58; GitHub Pages deployment run 37329055327 succeeded",
+          "evidence": "Installed and ran on iOS 26.4 Selah Store QA simulator AF287C82-2E16-4C65-A2E9-842D00924621. KRV 1961 Matthew 1 YouTube embed loaded and played (timer/frame advanced); minimized preview kept advancing and restored. HTTP 200 verified for the hosted HTTPS player and public build JSON says 1.0.13/58. Playlist continuity, other translations, physical iPhone, and ad/Premium outcomes were not tested; YouTube controls those outcomes."
         }
       }
     },

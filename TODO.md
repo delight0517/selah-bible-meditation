@@ -689,8 +689,10 @@
 - [x] build 55 시뮬레이터에서 저장한 마태복음 YouTube 영상을 열어 Error 153을 확인했다. 저장·기본 선택·우측 하단 축소는 작동했지만 영상 재생은 막혔다.
 - [x] YouTube 공식 문서에 따라 iOS의 로컬 Capacitor 출처가 아닌 Selah HTTPS 플레이어 페이지 안에서 표준 YouTube 플레이어를 연다. 원래 앱의 오프라인 말씀 본문과 저장 데이터는 그대로 유지한다.
 - [x] 출처 origin, iframe source, 일회성 토큰을 확인하는 메시지 연결로 영상 시각과 상태만 전달하고 YouTube 표준 재생 버튼을 유지한다.
-- [ ] build 58로 iOS Simulator에서 마태복음 1장 비디오 재생/축소/복원/재생 상태 반영을 확인한다. 배포와 설치를 runtime proof와 별개로 기록한다.
-- [x] PR #256 병합 후 GitHub Pages 배포 run `37299467588` 성공, 공개 build JSON에서 build 54와 YouTube 미니플레이어 코드를 확인했다.
+- [x] PR #263 병합 후 build 58을 iOS 26.4 QA Simulator에 설치했다. 개역한글판(1961) 마태복음 1장의 YouTube 표준 플레이어가 Error 153 없이 열리고 재생 타이머·영상 프레임이 진행됨을 확인했다.
+- [x] 우측 하단 미니 플레이어로 접은 동안에도 영상 프레임이 진행되고, 다시 펼쳐지는 것을 시뮬레이터에서 확인했다. 배포·설치·실행 증거는 `/tmp/selah-youtube-player-evidence.jsonl`에 별도로 기록했다.
+- [x] GitHub Pages 배포 run `37329055327` 성공. 공개 `youtube-player.html` HTTP 200 및 public `SHARED_APP_BUILD.json` 1.0.13/build 58을 읽어 확인했다.
+- [ ] 재생목록 다음 영상 연속 재생, 다른 번역본별 실제 선택, 실기기, YouTube 광고 표시·Premium 계정 반영은 별도 검증이 남아 있다. 광고와 Premium은 YouTube 및 각 영상 설정에 따라 달라지며 Selah가 보장하지 않는다.
 
 ## 2026-10-05 · 러시아어·우크라이나어 성경과 검색 페이지
 
