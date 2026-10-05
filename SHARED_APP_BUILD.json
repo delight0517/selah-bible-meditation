@@ -1,8 +1,8 @@
 {
   "appId": "selah",
   "version": "1.0.11",
-  "build": 53,
+  "build": 54,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Bible listening controls always visible in reader"
+  "description": "Matthew YouTube Bible audio mini-player"
 }

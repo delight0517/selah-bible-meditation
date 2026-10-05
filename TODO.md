@@ -669,3 +669,10 @@
 - [x] 접힌 메뉴를 없애고, 읽기 화면에 현재 장 낭독 검색 → YouTube 영상/재생목록 URL 저장 → Selah 내 재생을 한 영역에서 바로 보여준다. 새 링크 저장 시 플레이어를 바로 연다. HTTPS 형식만으로 저장되던 재생 불가 링크는 거부하도록 검증한다.
 - [x] shared UI build 53으로 웹·Capacitor 동기화를 완료했고 source parity 및 feature parity 검사가 통과했다. iOS Simulator용 Xcode 빌드도 성공했다.
 - [ ] Pages 배포 후 공개 페이지의 보이는 위치와 듣기 진입을 확인한다. iPhone 실기기 설치·재생·절 따라가기는 웹 배포와 별도로 확인한다.
+
+## 2026-10-05 · 마태복음 YouTube 듣기 미니 플레이어
+- [x] 재생 영상에 접기/복원 버튼을 더하고 읽기 중 화면 우측 하단의 safe-area 안에서 작은 YouTube 플레이어로 유지한다. 접을 때 iframe을 교체하지 않아 현재 재생을 유지한다.
+- [x] 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어에 현지화된 버튼 이름을 제공한다.
+- [x] 공유 UI build 54, Capacitor 동기화, 소스 패리티, 정적 매튜 corpus/search hook 및 8개 언어 미니플레이어 문구 검사를 완료했다. iOS Simulator와 서명된 iOS 빌드에 성공했고 build 54를 iPhone 14 Pro에 설치했다.
+- [ ] 마태복음 1장에서 YouTube 검색, 사용자가 고른 영상 재생, 축소 중 재생 지속, 복원을 브라우저와 iPhone에서 확인한다. iPhone Mirroring이 멈춰 실제 화면 검증은 대기 중이다.
+- [ ] Pages 배포 및 실제 제공본 확인 후 웹 배포를 완료 표시한다.

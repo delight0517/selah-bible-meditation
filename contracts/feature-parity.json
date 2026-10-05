@@ -765,8 +765,8 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 8,
-      "title": "성경 듣기 영상의 절별 따라읽기",
+      "revision": 9,
+      "title": "성경 듣기 미니 플레이어와 절별 따라읽기",
       "acceptance": [
         "사용자는 번역본마다 여러 YouTube 채널·영상·재생목록 및 성경 낭독 사이트를 즐겨찾기에 저장하고, 원하는 출처 하나를 기본으로 선택할 수 있다.",
         "기본 출처는 성경 본문 위에 바로 노출되어 누르면 원래 출처로 이동한다. 영상·재생목록은 설정 안에서 선택 후 privacy-enhanced youtube-nocookie.com 플레이어로도 재생할 수 있다.",
@@ -778,7 +778,10 @@
         "영상·재생목록별 시점은 BlueCloud 동기화 데이터에 보존되며, 동시 수정 시 절별 시점을 병합한다. 유효하지 않은 시점 데이터는 로드 시 제외한다.",
         "다음 장의 저장 시점에 도달하면 본문 장을 자동 전환하고 해당 절을 강조·스크롤한다. 저장되지 않은 절의 정확한 자동 추적은 보장하지 않으며 각 절 시점은 최초에 한 번 설정해야 한다.",
         "읽기 화면에서 성경 듣기와 출처 설정을 스크롤 끝까지 이동하지 않고 바로 찾을 수 있다.",
-        "읽기 화면의 성경 듣기 제목, 현재 장 YouTube 검색, 영상/재생목록 링크 저장과 재생 버튼은 접힌 disclosure 없이 본문 위에서 바로 보인다."
+        "읽기 화면의 성경 듣기 제목, 현재 장 YouTube 검색, 영상/재생목록 링크 저장과 재생 버튼은 접힌 disclosure 없이 본문 위에서 바로 보인다.",
+        "재생 중인 YouTube 영상은 읽기 본문 우측 하단의 미니 플레이어로 접을 수 있고, 접는 동안 재생이 이어지며 복원 버튼으로 본문 내 플레이어 크기로 돌아온다.",
+        "미니 플레이어는 iOS Safari와 앱 웹뷰의 safe area 안에 표시되고, 좁은 화면에서는 화면 폭을 넘지 않으며 접근 가능한 현지화 버튼 이름을 제공한다.",
+        "마태복음 1장에서 현재 장 YouTube 검색 → 사용자가 고른 영상 링크 저장 → Selah 재생 → 우측 하단 최소화 → 복원을 검증한다. 기본 영상이나 번역본은 사용자 선택 없이 지정하지 않는다."
       ],
       "paths": [
         "index.html",
@@ -798,31 +801,31 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 8,
-          "source": "current task branch",
-          "build": "1.0.11 / shared reader UI build 53; deployment pending",
-          "evidence": "Exposed chapter-specific YouTube search, source setup, saved source list and inline playback in a visible reader card; validation and Pages deployment pending."
+          "appliedRevision": 9,
+          "source": "index.html + generated Capacitor shared bundle",
+          "build": "1.0.11 / shared reader UI build 54; deployment pending",
+          "evidence": "Inline JavaScript parsing, 8-locale copy checks, Matthew 1 corpus/search hook, safe-area CSS and minimize/restore state checks pass. Pages deployment and live Matthew playback pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
-          "state": "implemented",
+          "state": "pending",
           "appliedRevision": 8,
           "source": "shared hosted reader source",
-          "build": "1.0.11 / shared reader UI build 53; deployment pending",
-          "evidence": "Windows uses the shared hosted reader; updated visible listening card follows the same source and verse-cue flow after Pages deployment."
+          "build": "1.0.11 / shared reader UI build 54",
+          "evidence": "Hosted UI change is prepared for deployment; verify the served mini-player behavior."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Separate macOS app audio UI/runtime adoption remains unverified; the shared web reader change does not prove native macOS parity."
+          "evidence": "Separate macOS app audio UI/runtime adoption remains unverified; shared reader change does not prove native macOS parity."
         },
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 8,
+          "appliedRevision": 9,
           "source": "generated mobile/www bundle",
-          "build": "1.0.11 / shared UI build 53; iOS rebuild/install/runtime pending",
-          "evidence": "Capacitor source sync and bundle parity passed at shared UI build 53; Xcode simulator build succeeded. Physical iPhone install and playback/follow remain unverified."
+          "build": "1.0.11 / shared UI build 54; signed device build installed",
+          "evidence": "Capacitor sync, source parity, iOS Simulator build and signed generic iOS build passed; build 54 installed to iPhone 14 Pro. Mirroring remains paused, so Matthew playback/minimize UI is not observed."
         }
       }
     },
