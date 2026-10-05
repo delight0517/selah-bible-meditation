@@ -3,7 +3,8 @@
 - [x] 저장 항목은 기존 통합 데이터 동기화에 포함하고 Cloud state 스키마에도 옵션 필드로 등록했다. iframe은 요청 후 `youtube-nocookie.com`에서 클릭 후 로드한다. shared UI 버전을 build 37로 올렸다.
 - [x] YouTube Premium은 공식 YouTube 앱/사이트에서 사용자의 로그인 세션을 사용하도록 안내한다. Selah 내부 YouTube/Google OAuth, 비밀번호 수집은 구현하지 않는다.
 - [x] 공용 소스 동기화, 데이터 병합 회귀, 기능 계약 검사가 통과했다.
-- [ ] PR 검사와 GitHub Pages 반영 readback 확인. 실제 앱/브라우저 재생, iPhone 런타임은 아직 검증되지 않았다.
+- [x] PR #235 검사 통과 및 merge commit `6e9ee44`; GitHub Pages 배포 run `37250576063` 성공. 공개 페이지 HTTP 200과 build 37의 YouTube 설정·저장 필드·privacy-enhanced player 텍스트 readback을 확인했다.
+- [ ] 실제 브라우저 재생, iPhone 설치·런타임, 별도 macOS 앱은 아직 검증되지 않았다.
 
 ## 2026-10-05 · 언어별 무료 큐티 바로가기 카탈로그
 - [x] 지원하는 8개 앱 언어별로 공식 YouVersion 묵상 계획 링크를 보여주고, 한국어 오늘의 양식 링크는 유지한다.
