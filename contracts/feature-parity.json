@@ -804,6 +804,61 @@
           "evidence": "PR #239 merged as d884ad29e6360b3a6ca162cfb6a0dc04188c17de; Pages deployment run 37253786972 succeeded. Public index, build metadata (39), and unified-data merge script returned HTTP 200 and contained the verse-follow implementation. iPhone native install/runtime and Windows-shell runtime remain separate verification."
         }
       }
+    },
+    {
+      "id": "SELAH-CREATOR-PORTFOLIO-FOOTER",
+      "revision": 1,
+      "title": "앱 하단 제작자 소개와 개인 포트폴리오 링크",
+      "acceptance": [
+        "Selah 웹사이트 본문 아래에 앱 제작자를 소개하는 문구와 공식 개인 포트폴리오 링크가 표시된다.",
+        "제작자 소개와 링크 문구는 한국어, 영어, 일본어, 중국어 간체·번체 UI에서 각 언어로 표시된다.",
+        "포트폴리오 링크는 새 탭에서 열리고 현재 Selah 화면을 유지한다.",
+        "모바일과 데스크톱에서 링크를 쉽게 읽고 누를 수 있다."
+      ],
+      "paths": [
+        "index.html",
+        "styles/creator-footer.css",
+        "contracts/feature-parity.json",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/index.html",
+        "mobile/www/styles/creator-footer.css",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared Selah web source",
+          "build": "1.0.11 / build 41",
+          "evidence": "Footer credits Kim GeunHu and links to the verified public portfolio homepage https://delight0517.github.io/. Five UI locales are provided; responsive footer uses app theme tokens."
+        },
+        "windows": {
+          "owner": "Selah hosted reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared hosted Selah web source",
+          "build": "1.0.11 / build 41",
+          "evidence": "The website footer is part of the shared hosted page source; Windows standalone shell runtime is not separately verified."
+        },
+        "macos": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request adds a footer to the Selah website and its shared web bundle; the separate native macOS app is not part of this website surface.",
+          "evidence": "Website/browser scope only."
+        },
+        "ios": {
+          "owner": "Selah shared iOS reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated Capacitor mobile/www bundle",
+          "build": "1.0.11 / build 41",
+          "evidence": "Generated mobile/www contains the footer and localized links; an installed native iPhone app build/runtime was not part of this website change."
+        }
+      }
     }
   ]
 }
