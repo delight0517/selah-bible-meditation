@@ -738,7 +738,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 4,
+      "revision": 5,
       "title": "성경 번역본별 즐겨찾기 듣기 출처와 기본 선택",
       "acceptance": [
         "사용자는 번역본마다 여러 YouTube 채널·영상·재생목록 및 성경 낭독 사이트를 즐겨찾기에 저장하고, 원하는 출처 하나를 기본으로 선택할 수 있다.",
@@ -766,18 +766,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "codex/selah-bible-audio-setup-20261005",
-          "build": "1.0.11 / build 38; deployment pending",
-          "evidence": "Shared reader supports saved source favorites and a per-translation default rendered above the Scripture passage; sync uses source/default record collections. Source syntax, unified-data tests, platform parity, and local feature contract checks pass; Pages verification pending. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "build": "1.0.11 / build 38; Pages deployed at merge 6bd0652",
+          "evidence": "GitHub Pages run 37252365953 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 with the favorite-source UI at build 38. Interactive user-device checks remain distinct."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "shared hosted reader source",
-          "build": "GitHub Pages shared reader build 38 pending",
-          "evidence": "Windows hosted reader consumes the shared favorites/default UI and account sync; deployment and installed shell runtime verification pending. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "build": "GitHub Pages shared reader build 38 deployed",
+          "evidence": "Windows hosted reader uses the deployed shared favorites/default UI; no separate Windows-shell runtime was tested."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -787,10 +787,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "generated mobile/www bundle",
-          "build": "1.0.11 / build 38 generated shared source bundle; native package pending",
-          "evidence": "Generated Capacitor source includes the favorites list and primary source action; iPhone build/runtime not verified. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "build": "1.0.11 / build 38 shared source deployed to Pages; native package pending",
+          "evidence": "Generated Capacitor bundle parity passed and hosted Pages deployment succeeded. Native iOS build/install/runtime remains unverified."
         }
       }
     }
