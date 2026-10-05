@@ -133,7 +133,14 @@
         },
         "highlightColor": {
           "type": "string",
-          "enum": ["yellow", "green", "blue", "pink", "purple", "orange"],
+          "enum": [
+            "yellow",
+            "green",
+            "blue",
+            "pink",
+            "purple",
+            "orange"
+          ],
           "description": "Last selected private Scripture highlight color for this account."
         }
       },
@@ -1056,6 +1063,13 @@
         "updatedAt": {
           "type": "integer",
           "minimum": 0
+        },
+        "verseCues": {
+          "type": "array",
+          "maxItems": 5000,
+          "items": {
+            "$ref": "#/$defs/bibleAudioVerseCue"
+          }
         }
       }
     },
@@ -1077,6 +1091,43 @@
         "updatedAt": {
           "type": "integer",
           "minimum": 0
+        }
+      }
+    },
+    "bibleAudioVerseCue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bookId",
+        "chapter",
+        "verse",
+        "seconds",
+        "videoId"
+      ],
+      "properties": {
+        "bookId": {
+          "type": "string",
+          "maxLength": 16,
+          "pattern": "^[-A-Za-z0-9_]+$"
+        },
+        "chapter": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "verse": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "seconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        "videoId": {
+          "type": "string",
+          "pattern": "^[-A-Za-z0-9_]{11}$"
         }
       }
     }
