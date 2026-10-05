@@ -771,16 +771,16 @@
           "state": "implemented",
           "appliedRevision": 6,
           "source": "codex/selah-youtube-scripture-sync-20261005",
-          "build": "1.0.11 / build 39; Pages release pending",
-          "evidence": "Source and generated shared reader include YouTube playback-time following, per-video verse cue persistence, and chapter auto-advance. Automated regression checks pending; hosted deployment and device runtime are separate proof."
+          "build": "1.0.11 / build 39; GitHub Pages deployed at d884ad2",
+          "evidence": "PR #239 merged as d884ad29e6360b3a6ca162cfb6a0dc04188c17de; Pages deployment run 37253786972 succeeded. Public index, build metadata (39), and unified-data merge script returned HTTP 200 and contained the verse-follow implementation. iPhone native install/runtime and Windows-shell runtime remain separate verification."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
           "appliedRevision": 6,
           "source": "shared hosted reader source",
-          "build": "1.0.11 / build 39; Pages release pending",
-          "evidence": "Source and generated shared reader include YouTube playback-time following, per-video verse cue persistence, and chapter auto-advance. Automated regression checks pending; hosted deployment and device runtime are separate proof."
+          "build": "1.0.11 / build 39; GitHub Pages deployed at d884ad2",
+          "evidence": "PR #239 merged as d884ad29e6360b3a6ca162cfb6a0dc04188c17de; Pages deployment run 37253786972 succeeded. Public index, build metadata (39), and unified-data merge script returned HTTP 200 and contained the verse-follow implementation. iPhone native install/runtime and Windows-shell runtime remain separate verification."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -792,8 +792,8 @@
           "state": "implemented",
           "appliedRevision": 6,
           "source": "generated mobile/www bundle",
-          "build": "1.0.11 / build 39; Pages release pending",
-          "evidence": "Source and generated shared reader include YouTube playback-time following, per-video verse cue persistence, and chapter auto-advance. Automated regression checks pending; hosted deployment and device runtime are separate proof."
+          "build": "1.0.11 / build 39; GitHub Pages deployed at d884ad2",
+          "evidence": "PR #239 merged as d884ad29e6360b3a6ca162cfb6a0dc04188c17de; Pages deployment run 37253786972 succeeded. Public index, build metadata (39), and unified-data merge script returned HTTP 200 and contained the verse-follow implementation. iPhone native install/runtime and Windows-shell runtime remain separate verification."
         }
       }
     }
