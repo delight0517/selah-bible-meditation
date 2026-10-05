@@ -738,7 +738,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 1,
+      "revision": 2,
       "title": "성경 번역본별 YouTube 듣기 설정",
       "acceptance": [
         "선택한 Bible translation에 맞춰 사용자가 YouTube 영상 또는 재생목록 URL과 설정 이름을 저장하고, 다른 번역본을 선택해도 각 설정은 분리되어 유지된다.",
@@ -764,18 +764,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "codex/selah-bible-audio-setup-20261005",
-          "build": "1.0.11 / build 37 shared UI; deployment pending",
-          "evidence": "Shared reader contains per-translation YouTube video/playlist setup, BlueCloud-synced records, click-to-load privacy-enhanced playback and open-original-YouTube action for the user’s Premium session. PR/Pages readback pending."
+          "build": "1.0.11 / build 37; GitHub Pages deploy run 37250576063",
+          "evidence": "PR #235 merged as 6e9ee44. Pages deployment succeeded; live public URL returned HTTP 200 and contained the build 37 translation-specific setup, synced data field and privacy-enhanced player source. Actual browser playback was not exercised."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "shared hosted reader source",
-          "build": "GitHub Pages shared source; runtime verification pending",
-          "evidence": "Windows hosted reader consumes the shared UI and sync contract. Installed Windows shell/runtime not independently exercised."
+          "build": "GitHub Pages shared source build 37; deploy run 37250576063",
+          "evidence": "Windows hosted reader consumes the deployed shared UI and sync contract. Installed Windows shell/runtime not independently exercised."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -785,10 +785,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "generated mobile/www bundle",
           "build": "1.0.11 / build 37 shared UI source bundle; native package pending",
-          "evidence": "Capacitor shared source will include the per-translation setup and privacy-enhanced player; installed iPhone runtime is not verified."
+          "evidence": "Generated Capacitor source bundle includes the per-translation setup and privacy-enhanced player at build 37; installed iPhone runtime is not verified."
         }
       }
     }
