@@ -681,6 +681,7 @@
         "index.html",
         "scripts/semantic-theme.js",
         "styles/semantic-theme.css",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
         "mobile/www/"
       ],
       "platforms": {
