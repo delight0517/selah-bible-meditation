@@ -738,15 +738,18 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 5,
-      "title": "성경 번역본별 즐겨찾기 듣기 출처와 기본 선택",
+      "revision": 6,
+      "title": "성경 듣기 영상의 절별 따라읽기",
       "acceptance": [
         "사용자는 번역본마다 여러 YouTube 채널·영상·재생목록 및 성경 낭독 사이트를 즐겨찾기에 저장하고, 원하는 출처 하나를 기본으로 선택할 수 있다.",
         "기본 출처는 성경 본문 위에 바로 노출되어 누르면 원래 출처로 이동한다. 영상·재생목록은 설정 안에서 선택 후 privacy-enhanced youtube-nocookie.com 플레이어로도 재생할 수 있다.",
         "주소는 HTTPS만 허용한다. 사용자가 저장한 출처 이름과 링크를 Selah가 YouTube 채널의 실제 구독으로 표현하지 않는다.",
         "출처 목록과 번역본별 기본 선택은 비로그인 시 기기에 저장되고 BlueCloud 로그인 시 기존 공용 데이터 동기화에 포함된다. 삭제·기본 변경은 다른 기기와 동기화된다.",
         "YouTube Premium은 사용자의 YouTube 로그인 세션에서 이용한다. Selah는 Google 로그인 정보나 YouTube 토큰을 받거나 저장하지 않는다.",
-        "듣기 출처 관리 문구는 한국어, 영어, 일본어, 중국어 간체·번체, 필리핀어, 스페인어, 브라질 포르투갈어를 지원한다."
+        "듣기 출처 관리 문구는 한국어, 영어, 일본어, 중국어 간체·번체, 필리핀어, 스페인어, 브라질 포르투갈어를 지원한다.",
+        "Selah 내 YouTube 영상·재생목록 플레이어에서 사용자는 현재 보이는 절의 시작 시점을 저장하고, 저장한 시점에 맞춰 재생 중인 절을 강조 표시할 수 있다.",
+        "영상·재생목록별 시점은 BlueCloud 동기화 데이터에 보존되며, 동시 수정 시 절별 시점을 병합한다. 유효하지 않은 시점 데이터는 로드 시 제외한다.",
+        "다음 장의 저장 시점에 도달하면 본문 장을 자동 전환하고 해당 절을 강조·스크롤한다. 저장되지 않은 절의 정확한 자동 추적은 보장하지 않으며 각 절 시점은 최초에 한 번 설정해야 한다."
       ],
       "paths": [
         "index.html",
@@ -766,18 +769,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 5,
-          "source": "codex/selah-bible-audio-setup-20261005",
-          "build": "1.0.11 / build 38; Pages deployed at merge 6bd0652",
-          "evidence": "GitHub Pages run 37252365953 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 with the favorite-source UI at build 38. Interactive user-device checks remain distinct."
+          "appliedRevision": 6,
+          "source": "codex/selah-youtube-scripture-sync-20261005",
+          "build": "1.0.11 / build 39; Pages release pending",
+          "evidence": "Source and generated shared reader include YouTube playback-time following, per-video verse cue persistence, and chapter auto-advance. Automated regression checks pending; hosted deployment and device runtime are separate proof."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 5,
+          "appliedRevision": 6,
           "source": "shared hosted reader source",
-          "build": "GitHub Pages shared reader build 38 deployed",
-          "evidence": "Windows hosted reader uses the deployed shared favorites/default UI; no separate Windows-shell runtime was tested."
+          "build": "1.0.11 / build 39; Pages release pending",
+          "evidence": "Source and generated shared reader include YouTube playback-time following, per-video verse cue persistence, and chapter auto-advance. Automated regression checks pending; hosted deployment and device runtime are separate proof."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -787,10 +790,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 5,
+          "appliedRevision": 6,
           "source": "generated mobile/www bundle",
-          "build": "1.0.11 / build 38 shared source deployed to Pages; native package pending",
-          "evidence": "Generated Capacitor bundle parity passed and hosted Pages deployment succeeded. Native iOS build/install/runtime remains unverified."
+          "build": "1.0.11 / build 39; Pages release pending",
+          "evidence": "Source and generated shared reader include YouTube playback-time following, per-video verse cue persistence, and chapter auto-advance. Automated regression checks pending; hosted deployment and device runtime are separate proof."
         }
       }
     }

@@ -99,11 +99,14 @@
         const key = name + ':' + id, av = aa.get(id), bv = bb.get(id);
         const ac = clockFor(a, 'records', key, av), bc = clockFor(b, 'records', key, bv);
         const winner = choose(av, bv, ac, bc), wc = winner === av ? ac : bc;
+        const resolved = name === 'bibleAudioLinks' && av && bv
+          ? { ...clone(winner), verseCues: [...new Map([...(winner === av ? bv.verseCues || [] : av.verseCues || []), ...(winner.verseCues || [])].map(cue => [[cue.videoId, cue.bookId, cue.chapter, cue.verse].join(':'), cue])).values()].slice(-5000) }
+          : winner;
         // Draft IDs identify a single writer; autosaves replace its earlier draft.
         // Different writers always retain separate draft IDs.
         if (name !== 'drafts' && av && bv && stable(av) !== stable(bv)) remember(meta, name, id, winner === av ? bv : av);
         if (meta.deleted[key] && compare(meta.deleted[key], wc) >= 0) { remember(meta, name, id, winner); continue; }
-        if (winner) { out[name].push({ ...clone(winner), id }); meta.records[key] = clone(wc); }
+        if (winner) { out[name].push({ ...clone(resolved), id }); meta.records[key] = clone(wc); }
       }
       out[name].sort((x, y) => (Number(x.createdAt || x.updatedAt) || 0) - (Number(y.createdAt || y.updatedAt) || 0) || x.id.localeCompare(y.id, 'en'));
     }

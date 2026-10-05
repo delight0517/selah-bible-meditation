@@ -115,3 +115,17 @@ test('Bible audio favorites sync multiple sources and one last-write-wins defaul
   assert.equal(merged.bibleAudioDefaults[0].sourceId, 'source-site');
   same(merged, data.merge(phone, pc));
 });
+
+
+test('Bible audio verse timestamp maps survive BlueCloud merge and converge', () => {
+  const cue1={bookId:'MAT',chapter:1,verse:1,seconds:3.25,videoId:'abcdefghijk'};
+  const cue2={bookId:'MAT',chapter:2,verse:1,seconds:61.5,videoId:'abcdefghijk'};
+  const start={...base(),bibleAudioLinks:[{id:'source-video',translationId:'WEB',url:'https://youtu.be/abcdefghijk',verseCues:[cue1]}]};
+  const phone=edit(start,'iOS',110,state=>state.bibleAudioLinks[0].verseCues.push(cue2));
+  const mac=edit(start,'Mac',120,state=>state.bibleAudioLinks[0].verseCues[0]={...cue1,seconds:4});
+  const merged=data.merge(phone,mac);
+  assert.equal(merged.bibleAudioLinks[0].verseCues.length,2);
+  assert.equal(merged.bibleAudioLinks[0].verseCues[0].seconds,4);
+  assert.ok(merged.bibleAudioLinks[0].verseCues.some(cue=>cue.chapter===2&&cue.seconds===61.5));
+  same(merged,data.merge(mac,phone));
+});

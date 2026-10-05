@@ -1,7 +1,7 @@
 {
   "appId": "selah",
   "version": "1.0.11",
-  "build": 38,
+  "build": 39,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
   "description": "Shared UI source, account data merge and recovery across Windows, Mac, iOS and web"
