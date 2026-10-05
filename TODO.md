@@ -668,11 +668,19 @@
 - [x] 사용자 재신고에서 원인을 재확인: 이전 수정은 ‘성경 듣기’ 관련 UI를 접힌 `<details>` 안으로 이동했으나, 처음 쓰는 사용자에게 보이는 것은 메뉴 제목뿐이었다. 저장된 출처가 없으면 재생 버튼도 감춰져 있어 기능이 없는 것처럼 보였다.
 - [x] 접힌 메뉴를 없애고, 읽기 화면에 현재 장 낭독 검색 → YouTube 영상/재생목록 URL 저장 → Selah 내 재생을 한 영역에서 바로 보여준다. 새 링크 저장 시 플레이어를 바로 연다. HTTPS 형식만으로 저장되던 재생 불가 링크는 거부하도록 검증한다.
 - [x] shared UI build 53으로 웹·Capacitor 동기화를 완료했고 source parity 및 feature parity 검사가 통과했다. iOS Simulator용 Xcode 빌드도 성공했다.
-- [ ] Pages 배포 후 공개 페이지의 보이는 위치와 듣기 진입을 확인한다. iPhone 실기기 설치·재생·절 따라가기는 웹 배포와 별도로 확인한다.
+- [x] PR #255로 공용 UI를 공개 배포했고 build 54 Pages run `37299467588`의 공개 페이지 readback을 확인했다. iPhone 실기기 재생·절 따라가기는 별도 검증으로 남긴다.
+
+## 2026-10-05 · 번역본별 YouTube 광고·Premium·연속 재생
+- [x] 현재 선택한 언어·번역본·책·장으로 YouTube 검색을 만들고 저장 링크를 번역본별로 분리한다. 여러 장을 잇는 경우 YouTube 재생목록을 저장하도록 안내한다.
+- [x] YouTube 표준 임베드와 표준 재생 컨트롤을 사용하고 자동 재생을 막는다. YouTube가 허용하는 경우 광고가 표시될 수 있으며, Selah가 광고를 강제하거나 차단하지 않는다.
+- [x] 플레이어에서 원본 YouTube 영상·재생목록을 열 수 있어 공식 YouTube 앱/사이트의 로그인과 Premium을 사용할 수 있다. Google 자격 증명은 Selah에 입력하지 않는다. 선택 번역본과 다른 외부 성경 낭독 링크는 숨기도록 기존 한국어 링크 오류도 고쳤다.
+- [x] 축소 상태에서도 영상이 보이고 임베드 최소 200×200 CSS px를 유지한다. 앱을 숨기면 임베드 재생을 일시 정지한다.
+- [x] shared UI build 55, Capacitor 동기화, source parity, feature parity 검사, iOS Simulator Release build, 서명된 generic iOS build 55 및 codesign 검증을 완료했다. iPhone 설치·재생은 Mirroring 재연결 후 확인한다.
+- [ ] PR/Pages 배포, 브라우저 재생목록 연속 재생과 iPhone build 55에서 축소·복원 및 YouTube Premium 열기를 확인한다. Mirroring 연결 대기 중.
 
 ## 2026-10-05 · 마태복음 YouTube 듣기 미니 플레이어
 - [x] 재생 영상에 접기/복원 버튼을 더하고 읽기 중 화면 우측 하단의 safe-area 안에서 작은 YouTube 플레이어로 유지한다. 접을 때 iframe을 교체하지 않아 현재 재생을 유지한다.
 - [x] 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어에 현지화된 버튼 이름을 제공한다.
 - [x] 공유 UI build 54, Capacitor 동기화, 소스 패리티, 정적 매튜 corpus/search hook 및 8개 언어 미니플레이어 문구 검사를 완료했다. iOS Simulator와 서명된 iOS 빌드에 성공했고 build 54를 iPhone 14 Pro에 설치했다.
 - [ ] 마태복음 1장에서 YouTube 검색, 사용자가 고른 영상 재생, 축소 중 재생 지속, 복원을 브라우저와 iPhone에서 확인한다. iPhone Mirroring이 멈춰 실제 화면 검증은 대기 중이다.
-- [ ] Pages 배포 및 실제 제공본 확인 후 웹 배포를 완료 표시한다.
+- [x] PR #256 병합 후 GitHub Pages 배포 run `37299467588` 성공, 공개 build JSON에서 build 54와 YouTube 미니플레이어 코드를 확인했다.
