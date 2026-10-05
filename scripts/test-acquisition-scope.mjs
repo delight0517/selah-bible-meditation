@@ -7,7 +7,22 @@ assert.match(staticAnalytics,/source:\s*campaign\.source\s*\|\|\s*"direct",\s*me
 assert.match(html,/let source="direct",medium="none"/,'Application direct-attribution default must remain aligned with static landing events');
 assert.match(staticAnalytics,/"selah\.experiment\.global-funnel-v1\.a\."\s*\+\s*scope\s*\+\s*"\."\s*\+\s*event/,'Static landing funnel key must use the shared funnel scope');
 assert.match(html,/"selah\.experiment\.global-funnel-v1\.a\."\s*\+\s*scope\s*\+\s*"\."\s*\+\s*event/,'Application funnel key must use the shared funnel scope');
+assert.match(staticAnalytics,/localized-arrival-copy-v1/);
+assert.match(html,/trackLocalizedArrivalExperiment\(event,occurrence\)/,'The localized arrival variant continues through app funnel events');
+assert.match(html,/landingRoute:entry\.route,locale:entry\.locale/,'Downstream experiment events retain the safe landing-route category and arrival locale');
 for(const match of html.matchAll(/<script(\s[^>]*)?>([\s\S]*?)<\/script>/g)){if(!/application\/ld\+json/.test(match[1]||""))new vm.Script(match[2]);}
+
+const arrivalStart=staticAnalytics.indexOf('const arrivalExperiment =');
+const arrivalEnd=staticAnalytics.indexOf('function reserveFunnelKey',arrivalStart);
+const arrivalSetup=staticAnalytics.slice(arrivalStart,arrivalEnd);
+const arrivalStore=new Map(),arrivalSession=new Map(),headline={textContent:'current headline'};
+const arrivalContext=vm.createContext({nativeApp:false,landingRoute:'localized-landing',locale:'es',funnelClient:'web',deviceClass:'phone',funnelAttribution:{source:'google',medium:'organic',campaign:''},pending:new Set(),document:{querySelector:()=>headline},localStorage:{getItem:key=>arrivalStore.get(key)||null,setItem:(key,value)=>arrivalStore.set(key,value)},sessionStorage:{setItem:(key,value)=>arrivalSession.set(key,value)},crypto:{getRandomValues:bytes=>{bytes[0]=200;return bytes}},fetch:()=>Promise.resolve({ok:true}),Date});
+vm.runInContext(arrivalSetup,arrivalContext);
+assert.equal(vm.runInContext('arrivalVariant',arrivalContext),'b');
+assert.equal(JSON.parse(arrivalSession.get('selah.experiment.localized-arrival-copy-v1.entry')).locale,'es');
+assert.match(arrivalStore.get('selah.experiment.localized-arrival-copy-v1.es.variant'),/^b$/);
+assert.equal(headline.textContent,'No hace falta leer mucho. Empieza con un capítulo y anota lo que se quedó contigo.');
+assert.match(arrivalSetup,/No hace falta leer mucho/,'Treatment copy must be localized and describe an available one-chapter reflection flow');
 const activation=html.split('\n').find(line=>line.startsWith('async function activateKoreanHomeExperiment'));
 async function scenario(search, client='web',country='KR',locale='ko',ready=true){
  const cards={};const events=[];const funnelCalls=[];const saved=new Map();const node=id=>cards[id]??={hidden:true,textContent:'',addEventListener(){}};

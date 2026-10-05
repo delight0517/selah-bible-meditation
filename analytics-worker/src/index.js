@@ -5,7 +5,7 @@ const features = new Set([
 ]);
 const locales = new Set(["ko", "en", "ja", "zh-CN", "zh-TW", "fil", "es", "pt-BR"]);
 const experimentEvents = new Set(["exposure", "cta_click", "reading_start", "reader_30s", "reader_120s", "reflection_saved", "signup_complete", "return_visit"]);
-const experiments = new Set(["global-funnel-v1", "kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"]);
+const experiments = new Set(["global-funnel-v1", "localized-arrival-copy-v1", "kr-home-copy-v1", "kr-gentle-invitation-v1", "kr-spiritual-curiosity-v2", "kr-spiritual-curiosity-v3"]);
 const experimentClients = new Set(["app", "web", "unknown"]);
 const experimentDevices = new Set(["phone", "tablet", "computer", "unknown"]);
 const landingRoutes = new Set(["app", "localized-landing", "guide", "download", "other", "unattributed"]);
