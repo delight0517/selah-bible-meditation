@@ -84,7 +84,8 @@
         "mobile/www/index.html",
         "mobile/www/assets/visitor-explanation.js",
         "mobile/www/SHARED_SOURCE_MANIFEST.json",
-        "SHARED_APP_BUILD.json"
+        "SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj"
       ],
       "platforms": {
         "web": {
