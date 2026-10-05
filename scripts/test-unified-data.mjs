@@ -76,3 +76,56 @@ test('hybrid clocks advance after observing a device whose clock was ahead', () 
 });
 
 test("reader restores location and protects asynchronous selection and scroll", async () => { const { default: run } = await import("./test-reader-startup.cjs"); await run(); });
+
+
+test('shared reading history and private friend labels sync by stable per-room ID',()=>{
+ const start={...base(),togetherReads:[]};
+ const room={id:'a'.repeat(32),passage:{book:'MAT',chapter:1,translation:'KRV',language:'ko'},participantCount:2,startedAt:100,updatedAt:100,friendName:''};
+ const a=edit(start,'iOS',110,state=>state.togetherReads.push(room));
+ const b=edit(start,'Mac',120,state=>{state.togetherReads.push({...room,friendName:'Mina',updatedAt:120});});
+ const merged=data.merge(a,b);assert.equal(merged.togetherReads.length,1);assert.equal(merged.togetherReads[0].friendName,'Mina');
+ assert.equal(data.payload(merged).togetherReads[0].passage.book,'MAT');
+ assert.equal(data.payload(merged).token,undefined);
+ same(merged,data.merge(b,a));
+});
+
+test('personal highlight color preference synchronizes as its own account register', () => {
+  const start = base();
+  const phone = edit(start, 'iOS', 100, state => { state.readerPrefs.highlightColor = 'pink'; });
+  const mac = edit(start, 'Mac', 110, state => { state.readerPrefs.highlightColor = 'blue'; });
+  const merged = data.merge(phone, mac);
+  assert.ok(data.registers.includes('readerPrefs.highlightColor'));
+  assert.equal(merged.readerPrefs.highlightColor, 'blue');
+  assert.equal(data.payload(merged).readerPrefs.highlightColor, 'blue');
+});
+
+test('Bible audio favorites sync multiple sources and one last-write-wins default per translation', () => {
+  const start = { ...base(), bibleAudioLinks: [], bibleAudioDefaults: [] };
+  const pc = edit(start, 'Windows', 100, state => {
+    state.bibleAudioLinks.push({ id: 'source-video', translationId: 'WEB', url: 'https://youtu.be/abcdefghijk', title: 'Video' });
+    state.bibleAudioDefaults.push({ id: 'default-WEB', translationId: 'WEB', sourceId: 'source-video', updatedAt: 100 });
+  });
+  const phone = edit(start, 'iOS', 120, state => {
+    state.bibleAudioLinks.push({ id: 'source-site', translationId: 'WEB', url: 'https://example.org/audio', title: 'Site' });
+    state.bibleAudioDefaults.push({ id: 'default-WEB', translationId: 'WEB', sourceId: 'source-site', updatedAt: 120 });
+  });
+  const merged = data.merge(pc, phone);
+  assert.equal(merged.bibleAudioLinks.length, 2);
+  assert.equal(merged.bibleAudioDefaults.length, 1);
+  assert.equal(merged.bibleAudioDefaults[0].sourceId, 'source-site');
+  same(merged, data.merge(phone, pc));
+});
+
+
+test('Bible audio verse timestamp maps survive BlueCloud merge and converge', () => {
+  const cue1={bookId:'MAT',chapter:1,verse:1,seconds:3.25,videoId:'abcdefghijk'};
+  const cue2={bookId:'MAT',chapter:2,verse:1,seconds:61.5,videoId:'abcdefghijk'};
+  const start={...base(),bibleAudioLinks:[{id:'source-video',translationId:'WEB',url:'https://youtu.be/abcdefghijk',verseCues:[cue1]}]};
+  const phone=edit(start,'iOS',110,state=>state.bibleAudioLinks[0].verseCues.push(cue2));
+  const mac=edit(start,'Mac',120,state=>state.bibleAudioLinks[0].verseCues[0]={...cue1,seconds:4});
+  const merged=data.merge(phone,mac);
+  assert.equal(merged.bibleAudioLinks[0].verseCues.length,2);
+  assert.equal(merged.bibleAudioLinks[0].verseCues[0].seconds,4);
+  assert.ok(merged.bibleAudioLinks[0].verseCues.some(cue=>cue.chapter===2&&cue.seconds===61.5));
+  same(merged,data.merge(mac,phone));
+});

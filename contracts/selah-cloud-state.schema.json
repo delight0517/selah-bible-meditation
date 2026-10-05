@@ -130,9 +130,21 @@
         },
         "mobile": {
           "$ref": "#/$defs/readerPreference"
+        },
+        "highlightColor": {
+          "type": "string",
+          "enum": [
+            "yellow",
+            "green",
+            "blue",
+            "pink",
+            "purple",
+            "orange"
+          ],
+          "description": "Last selected private Scripture highlight color for this account."
         }
       },
-      "description": "Separate reader preferences selected by viewport width (mobile at max-width 760px, desktop otherwise)."
+      "description": "Separate reader preferences selected by viewport width (mobile at max-width 760px, desktop otherwise), plus the account's preferred Scripture highlight color."
     },
     "customFontData": {
       "type": [
@@ -410,6 +422,27 @@
           },
           "locale": {
             "type": "string"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "yellow",
+              "green",
+              "blue",
+              "pink",
+              "purple",
+              "orange"
+            ]
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "UTF-16 offset within the selected verse text; omitted on imported legacy whole-verse highlights."
+          },
+          "end": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Exclusive UTF-16 offset within the selected verse text."
           }
         },
         "additionalProperties": true
@@ -427,6 +460,27 @@
         "additionalProperties": true
       },
       "description": "Original standalone reader data retained during additive migration."
+    },
+    "togetherReads": {
+      "type": "array",
+      "description": "Private account-scoped history for users who joined a shared reading room; raw room IDs and invite tokens are never stored.",
+      "items": {
+        "$ref": "#/$defs/togetherRead"
+      }
+    },
+    "bibleAudioLinks": {
+      "type": "array",
+      "description": "User-owned Bible reading audio sites, YouTube channels, videos, and playlists saved by Bible translation.",
+      "items": {
+        "$ref": "#/$defs/bibleAudioLink"
+      }
+    },
+    "bibleAudioDefaults": {
+      "type": "array",
+      "description": "One preferred Bible audio source per Bible translation.",
+      "items": {
+        "$ref": "#/$defs/bibleAudioDefault"
+      }
     }
   },
   "$defs": {
@@ -899,6 +953,181 @@
         "createdAt": {
           "type": "integer",
           "minimum": 0
+        }
+      }
+    },
+    "togetherRead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "passage",
+        "participantCount",
+        "startedAt",
+        "updatedAt",
+        "friendName"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}$",
+          "description": "Truncated SHA-256 digest of an ephemeral room ID."
+        },
+        "passage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "book",
+            "chapter",
+            "translation",
+            "language"
+          ],
+          "properties": {
+            "book": {
+              "type": "string",
+              "maxLength": 16
+            },
+            "chapter": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "translation": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "language": {
+              "type": "string",
+              "maxLength": 16
+            }
+          }
+        },
+        "participantCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "startedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "friendName": {
+          "type": "string",
+          "maxLength": 80
+        }
+      }
+    },
+    "bibleAudioLink": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "translationId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "translationName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "language": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "mediaType": {
+          "enum": [
+            "video",
+            "playlist",
+            "channel",
+            "site"
+          ]
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "verseCues": {
+          "type": "array",
+          "maxItems": 5000,
+          "items": {
+            "$ref": "#/$defs/bibleAudioVerseCue"
+          }
+        }
+      }
+    },
+    "bibleAudioDefault": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "translationId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "sourceId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "bibleAudioVerseCue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bookId",
+        "chapter",
+        "verse",
+        "seconds",
+        "videoId"
+      ],
+      "properties": {
+        "bookId": {
+          "type": "string",
+          "maxLength": 16,
+          "pattern": "^[-A-Za-z0-9_]+$"
+        },
+        "chapter": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "verse": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "seconds": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 86400
+        },
+        "videoId": {
+          "type": "string",
+          "pattern": "^[-A-Za-z0-9_]{11}$"
         }
       }
     }

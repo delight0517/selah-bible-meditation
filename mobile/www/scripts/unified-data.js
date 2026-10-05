@@ -2,8 +2,8 @@
 (function (root) {
   'use strict';
   const VERSION = 1;
-  const collections = ['reflections', 'cards', 'qtLibrary', 'bibleChats', 'meditationFeedback', 'meditationPlaces', 'drafts', 'readerMarks', 'legacyReaderArchives', 'togetherStamps'];
-  const registers = ['selectedQt', 'gptContext', 'language', 'customPassage', 'customPassageActive', 'readerPrefs.desktop', 'readerPrefs.mobile', 'appearance'];
+  const collections = ['reflections', 'cards', 'qtLibrary', 'bibleAudioLinks', 'bibleAudioDefaults', 'bibleChats', 'meditationFeedback', 'meditationPlaces', 'drafts', 'readerMarks', 'legacyReaderArchives', 'togetherStamps', 'togetherReads'];
+  const registers = ['selectedQt', 'gptContext', 'language', 'customPassage', 'customPassageActive', 'readerPrefs.desktop', 'readerPrefs.mobile', 'readerPrefs.highlightColor', 'appearance'];
   const privateFields = new Set(['owner', 'draft', '_rev', 'token', 'authToken', 'authorization', '__proto__', 'constructor', 'prototype']);
   const liveFields = ['computerReadingRequest', 'computerReadingResult', 'computerReadingSession', 'readingState', 'meditationSession'];
   const clone = value => value === undefined ? undefined : JSON.parse(JSON.stringify(value));
@@ -99,11 +99,14 @@
         const key = name + ':' + id, av = aa.get(id), bv = bb.get(id);
         const ac = clockFor(a, 'records', key, av), bc = clockFor(b, 'records', key, bv);
         const winner = choose(av, bv, ac, bc), wc = winner === av ? ac : bc;
+        const resolved = name === 'bibleAudioLinks' && av && bv
+          ? { ...clone(winner), verseCues: [...new Map([...(winner === av ? bv.verseCues || [] : av.verseCues || []), ...(winner.verseCues || [])].map(cue => [[cue.videoId, cue.bookId, cue.chapter, cue.verse].join(':'), cue])).values()].slice(-5000) }
+          : winner;
         // Draft IDs identify a single writer; autosaves replace its earlier draft.
         // Different writers always retain separate draft IDs.
         if (name !== 'drafts' && av && bv && stable(av) !== stable(bv)) remember(meta, name, id, winner === av ? bv : av);
         if (meta.deleted[key] && compare(meta.deleted[key], wc) >= 0) { remember(meta, name, id, winner); continue; }
-        if (winner) { out[name].push({ ...clone(winner), id }); meta.records[key] = clone(wc); }
+        if (winner) { out[name].push({ ...clone(resolved), id }); meta.records[key] = clone(wc); }
       }
       out[name].sort((x, y) => (Number(x.createdAt || x.updatedAt) || 0) - (Number(y.createdAt || y.updatedAt) || 0) || x.id.localeCompare(y.id, 'en'));
     }
