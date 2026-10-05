@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 14,
+      "revision": 15,
       "title": "번역본별 YouTube 성경 듣기·연속 재생·미니 플레이어",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -784,7 +784,9 @@
         "듣기·연속 재생·YouTube에서 열기·축소/복원 문구를 한국어, 영어, 일본어, 중국어 간체·번체, 필리핀어, 스페인어, 브라질 포르투갈어로 제공한다.",
         "마태복음 1장 검증: 번역본에 맞는 검색 결과 열기 → 사용자가 선택한 영상 또는 재생목록 저장 → YouTube 표준 재생 버튼 → 재생목록 연속 재생 → 우측 하단 축소와 복원. 브라우저/실기기 증거를 구분한다.",
         "The translation-match reminder is localized in Korean, English, Japanese, Simplified and Traditional Chinese, Filipino, Spanish, and Brazilian Portuguese.",
-        "When no source is saved for the selected translation, the empty default-source card stays hidden. Localized match guidance fits without overlapping the YouTube search control."
+        "When no source is saved for the selected translation, the empty default-source card stays hidden. Localized match guidance fits without overlapping the YouTube search control.",
+        "Listening setup labels and guidance follow the app UI language, independently of the selected Bible content language and edition.",
+        "On phone layouts, the minimized floating player is no wider than 240 CSS px while the embedded YouTube player retains its 200×200 minimum for controls."
       ],
       "paths": [
         "index.html",
@@ -808,33 +810,33 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 14,
+          "appliedRevision": 15,
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / build 61; deploy/readback pending",
-          "evidence": "Revision 13 stacks audio guidance and controls on mobile; hosted runtime deployment/readback pending."
+          "build": "1.0.13 / build 62; source and generated iOS bundle updated; hosted deployment pending",
+          "evidence": "Revision 15 separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 14,
+          "appliedRevision": 15,
           "source": "shared hosted reader source",
-          "build": "1.0.13 / build 61; deploy/readback pending",
-          "evidence": "Revision 13 stacks audio guidance and controls on mobile; hosted runtime deployment/readback pending."
+          "build": "1.0.13 / build 62; source and generated iOS bundle updated; hosted deployment pending",
+          "evidence": "Revision 15 separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Reassessed for revision 11: hosted clients retain direct standard YouTube iframes; no separate Windows/macOS shell playback runtime was changed or verified.",
+          "evidence": "Revision 15 assessed: change is in shared HTML/CSS source; separate macOS runtime adoption and visual verification remain pending.",
           "appliedRevision": 10,
           "build": "1.0.11 / shared reader UI build 55; platform validation pending"
         },
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 14,
+          "appliedRevision": 15,
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 61; iOS 26.4 simulator installed and visually checked",
-          "evidence": "Simulator screenshot confirms the World English Bible label, non-overlapping vertical guidance/search control, and hidden empty source card. Live YouTube results still recommend an ESV playlist first; exact-version discovery remains unresolved. Physical iPhone, ad, Premium, and continuous playlist behavior were not verified in this run."
+          "build": "1.0.13 / build 62; installed on iOS 26.4 Selah QA Simulator",
+          "evidence": "Simulator build 62 shows Korean audio guidance with World English Bible selected, and an opened WEB Matthew 1 test source collapses into a 240 CSS px card while retaining the 200 px-minimum YouTube iframe. Named simulator test source was removed after capture. Audio output, playlist continuation, YouTube Premium state, and physical iPhone were not verified."
         }
       }
     },
