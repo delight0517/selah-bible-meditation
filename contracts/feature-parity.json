@@ -921,7 +921,7 @@
     },
     {
       "id": "SELAH-KOREA-REGION-BOUNDARY-MAP",
-      "revision": 1,
+      "revision": 2,
       "title": "한국 시·도 안의 실제 행정구역 경계 지도",
       "acceptance": [
         "서울·충남처럼 경계 자료가 포함된 지역을 선택하면 접근 가능한 행정구역 지도를 보여준다",
@@ -941,9 +941,9 @@
         "web": {
           "owner": "Selah web maintainer",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "delight0517/selah-bible-meditation task branch 048a7b2 reconciled onto origin/main f5bda2c",
-          "build": "GitHub Pages source; live runtime readback pending",
+          "build": "GitHub Pages source aligned with main f5bda2c; deploy/runtime readback pending",
           "evidence": "Accessible SVG boundaries for Seoul and Chungnam are backed by assets/korea-top-region-maps.json; visit totals remain province-level only. Deployment/runtime readback pending."
         },
         "windows": {
@@ -952,7 +952,7 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Shared hosted page will carry the web implementation; installed Windows shell runtime needs separate verification.",
+          "evidence": "Revision 2 rechecked: native windows source/runtime adoption is not verified; no district-level visitor counts are collected.",
           "workItem": "selah-korea-region-map-platform-proof"
         },
         "macos": {
@@ -961,15 +961,15 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Mac app source and installed runtime adoption have not been verified.",
+          "evidence": "Revision 2 rechecked: native macos source/runtime adoption is not verified; no district-level visitor counts are collected.",
           "workItem": "selah-korea-region-map-platform-proof"
         },
         "ios": {
           "owner": "Mac iOS maintainer",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "Generated mobile/www shared bundle after reconciliation with origin/main f5bda2c",
-          "build": "Generated source bundle only; device build and UI proof pending",
+          "build": "Generated mobile web bundle 1.0.11 / build 42; iOS install/runtime proof pending",
           "evidence": "The canonical web page and map dataset are copied into mobile/www; installation and device interaction are separate proof.",
           "workItem": "selah-korea-region-map-platform-proof"
         }
