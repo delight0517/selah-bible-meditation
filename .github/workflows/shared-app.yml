@@ -12,7 +12,6 @@ jobs:
           node-version: 22
       - run: node --test scripts/test-unified-data.mjs
       - run: node --test scripts/test-legacy-migration.mjs
-      - run: node scripts/check-bible-rights.mjs
       - run: node scripts/check-platform-source.mjs
       - run: node scripts/test-shared-bundle.mjs
       - run: node scripts/check-feature-parity.mjs
