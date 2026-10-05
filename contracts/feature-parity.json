@@ -870,7 +870,7 @@
     },
     {
       "id": "SELAH-BIBLE-VERSION-RIGHTS",
-      "revision": 3,
+      "revision": 4,
       "title": "읽기 화면의 정확한 성경 판본명 표시와 판본별 권리 안내",
       "acceptance": [
         "각 개별 번역본과 앱 포함 판본은 고유 권리 기록, 출처 URL, 라이선스 상태, 관할 범위, 필수 표기를 가진다.",
@@ -900,7 +900,7 @@
         "web": {
           "owner": "Selah shared web reader",
           "state": "implemented",
-          "appliedRevision": 3,
+          "appliedRevision": 4,
           "source": "shared web source",
           "build": "1.0.11 / build 44",
           "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
@@ -908,7 +908,7 @@
         "windows": {
           "owner": "Selah shared reader / Windows shell",
           "state": "implemented",
-          "appliedRevision": 3,
+          "appliedRevision": 4,
           "source": "shared web source",
           "build": "1.0.11 / build 44",
           "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
@@ -921,7 +921,7 @@
         "ios": {
           "owner": "Selah Capacitor iOS reader",
           "state": "implemented",
-          "appliedRevision": 3,
+          "appliedRevision": 4,
           "source": "generated mobile/www shared reader",
           "build": "1.0.11 / build 44",
           "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
