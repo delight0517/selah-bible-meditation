@@ -676,7 +676,8 @@
 - [x] 플레이어에서 원본 YouTube 영상·재생목록을 열 수 있어 공식 YouTube 앱/사이트의 로그인과 Premium을 사용할 수 있다. Google 자격 증명은 Selah에 입력하지 않는다. 선택 번역본과 다른 외부 성경 낭독 링크는 숨기도록 기존 한국어 링크 오류도 고쳤다.
 - [x] 축소 상태에서도 영상이 보이고 임베드 최소 200×200 CSS px를 유지한다. 앱을 숨기면 임베드 재생을 일시 정지한다.
 - [x] shared UI build 55, Capacitor 동기화, source parity, feature parity 검사, iOS Simulator Release build, 서명된 generic iOS build 55 및 codesign 검증을 완료했다. iPhone 설치·재생은 Mirroring 재연결 후 확인한다.
-- [ ] PR/Pages 배포, 브라우저 재생목록 연속 재생과 iPhone build 55에서 축소·복원 및 YouTube Premium 열기를 확인한다. Mirroring 연결 대기 중.
+- [x] PR #257 merge commit `1a92827ad89380a28d68b7af991355d59846a320`; Pages run `37302191175` 성공. 공개 build JSON의 build 55 및 index의 YouTube player/Premium handoff 코드를 readback했다.
+- [ ] 실제 브라우저의 재생목록 연속 재생, 다른 번역본에 맞는 출처 선택, iPhone build 55 축소·복원 및 공식 YouTube Premium handoff는 Mirroring 재연결 후 확인한다.
 
 ## 2026-10-05 · 마태복음 YouTube 듣기 미니 플레이어
 - [x] 재생 영상에 접기/복원 버튼을 더하고 읽기 중 화면 우측 하단의 safe-area 안에서 작은 YouTube 플레이어로 유지한다. 접을 때 iframe을 교체하지 않아 현재 재생을 유지한다.
