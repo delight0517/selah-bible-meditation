@@ -1,0 +1,31 @@
+/* Theme colors are assigned by semantic role, not by individual glyph. */
+:root { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; --ink:#eef2ed; --muted:#bdc6bb; --paper:#111612; --card:#1b231d; --green:#a9c5a7; --line:#39443c; --gold:#e5c477; --soft:#29362d; }
+body, .meditation { color: var(--ink-on-paper, var(--ink)); }
+label, .experience-form legend { color: var(--muted-on-paper, var(--muted)); }
+:is(.card, .fold, .saved, .dialog, .experience-entry, .promo-dialog, .reader-settings[open], #highlightSaveDialog) { color: var(--ink-on-card, var(--ink)); }
+:is(.quiz-card, .formation, .ai-result, .tag-chip, .qt-active, .meditation-entry, .meditation-steps, .account-badge, .developer-feedback) { color: var(--ink-on-soft, var(--ink)); }
+:is(textarea, input, select, .computer-reading-control select) { color: var(--ink-on-card, var(--ink)); color-scheme: inherit; }
+:is(.btn, .verse-card, .mark) { color: var(--text-on-accent, #fff); }
+:is(.btn.secondary, .quiz-card, .formation, .ai-result, .tag-chip, .qt-active) { color: var(--accent-on-soft, var(--accent-text)); }
+:is(.small, .eyebrow, .community-copy, .community-empty, .community-members, .community-progress, .audio-options, .pomodoro-promo, #computerReadingStatus) { color: var(--muted-on-paper, var(--muted)); }
+[data-theme="dark"] :is(.fold, .card, .saved, .dialog, .experience-entry) { background: var(--card); color: var(--ink-on-card, var(--ink)); }
+[data-theme="dark"] :is(.quiz-card, .formation, .qt-active, .meditation-entry, .meditation-steps, .tag-chip, .btn.secondary, .ai-result, .duration-option, .account-badge, .developer-feedback) { background: var(--soft); color: var(--ink-on-soft, var(--ink)); }
+[data-theme="dark"] :is(textarea, input, select, .passage-picker select, .quiz-answer, .duration-option, .computer-reading-control select) { background: var(--card); color: var(--ink-on-card, var(--ink)); border-color: var(--line); }
+:is(textarea, input, select)::placeholder { color: var(--muted-on-card, var(--muted)); opacity: 1; }
+.card :is(.small, .community-copy, .community-empty, .community-members, .community-progress),
+.fold :is(.small, .community-copy, .community-empty, .community-members, .community-progress) { color: var(--muted-on-card, var(--muted)); }
+.card label, .fold label, .dialog label, .reader-settings label { color: var(--muted-on-card, var(--muted)); }
+.card .link, .fold .link, .saved .link, .dialog .link { color: var(--accent-on-card, var(--accent-text)); }
+:is(.quiz-card, .formation, .ai-result, .tag-chip, .qt-active, .meditation-entry, .meditation-steps) .link,
+.formation strong { color: var(--accent-on-soft, var(--accent-text)); }
+.btn.ghost, :is(a, button).link { color: var(--accent-on-paper, var(--accent-text)); }
+.toast { background: var(--ink); color: var(--text-on-ink, var(--paper)); }
+[data-theme="dark"] label,
+[data-theme="dark"] .experience-form legend { color: var(--muted-on-paper, var(--muted)); }
+[data-theme="dark"] .reader-settings label,
+[data-theme="dark"] .dialog label { color: var(--muted-on-card, var(--muted)); }
+[data-theme="dark"] .meditation-entry p,
+[data-theme="dark"] .feedback-consent { color: var(--muted-on-soft, var(--muted)); }
+[data-theme="dark"] .passage-picker select { color: var(--ink-on-card, var(--ink)); }
+.computer-reading-control[hidden] { display: none !important; }

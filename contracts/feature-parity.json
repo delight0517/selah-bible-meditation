@@ -8,36 +8,95 @@
   ],
   "features": [
     {
+      "id": "SELAH-SAFARI-FOCUSED-READER-VIEWPORT",
+      "revision": 4,
+      "title": "읽던 말씀 위치 복원과 iPhone Safari 집중 읽기",
+      "acceptance": [
+        "집중 읽기 화면이 Safari의 동적 뷰포트와 안전 영역 안에 맞춰진다.",
+        "책·장 선택과 상단 도구가 서로 겹치지 않는다.",
+        "장 이동 버튼이 말씀을 가리지 않고, 마지막 구절까지 스크롤해 읽을 수 있다.",
+        "저장된 책·장·구절 위치와 스크롤 오프셋은 성경 본문이 로드된 뒤 읽기 화면에 적용되며, 페이지를 새로 열어도 이전에 읽던 자리에서 이어갈 수 있다."
+      ],
+      "paths": [
+        "index.html",
+        "styles/ios-safari-reader.css",
+        "mobile/www/index.html",
+        "mobile/www/styles/ios-safari-reader.css",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "scripts/test-reader-startup.cjs",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah iPhone Safari reader task",
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "codex/selah-local-reading-position-restore-20261005",
+          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded",
+          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified."
+        },
+        "windows": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This change corrects the iPhone Safari web viewport; Windows layout and shell are unchanged.",
+          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified.",
+          "appliedRevision": 4,
+          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded"
+        },
+        "macos": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This change corrects the iPhone Safari web viewport; macOS layout and native app are unchanged.",
+          "evidence": "Scoped to the narrow-screen web stylesheet. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "ios": {
+          "owner": "Platform contract",
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "shared Selah reader and generated mobile/www bundle",
+          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded",
+          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified."
+        }
+      }
+    },
+    {
       "id": "SELAH-VISITOR-EXPLANATION",
-      "revision": 1,
-      "title": "월간 방문자 숫자의 상세 설명",
+      "revision": 4,
+      "title": "모바일 지역 지도와 방문자 숫자 설명",
       "acceptance": [
         "숫자를 누르면 설명을 열고 다시 닫을 수 있다",
         "익명 브라우저 집계와 중복 방문 예시를 설명한다",
-        "UTC 월간 기간과 개인정보 범위를 설명한다"
+        "UTC 월간 기간과 개인정보 범위를 설명한다",
+        "지역 타일의 국가별 이름이 올바른 행정구역과 연결된다",
+        "좁은 모바일 화면에서도 지역명이 타일 안에서 줄바꿈되고 방문 수와 겹치지 않는다",
+        "모바일 통계 대화상자의 설명과 닫기 버튼을 내부 스크롤로 모두 볼 수 있다"
       ],
       "paths": [
         "index.html",
         "assets/visitor-explanation.js",
         "mobile/www/index.html",
-        "mobile/www/assets/visitor-explanation.js"
+        "mobile/www/assets/visitor-explanation.js",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json"
       ],
       "platforms": {
         "web": {
           "owner": "Windows feature task",
-          "state": "verified",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "1.0.10/32",
-          "evidence": "Shared app 1.0.10/build32 deployed; production shell click/open-close and acceptance copy verified in isolated Edge on 2026-10-04"
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "delight0517/selah-bible-meditation@codex/selah-map-mobile-copyfit-20261005",
+          "build": "1.0.11/36 shared source",
+          "evidence": "Corrected Korean region names and responsive tile label layout; source and static checks passed. Public runtime not yet verified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
         },
         "windows": {
           "owner": "Windows app task",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Production windowsShell=1 isolated Edge runtime verified toolbar, zoom reset/increase, focus toggle, explanation open/close and required copy; Start-menu launch in an isolated profile remains unverified",
+          "appliedRevision": 4,
+          "source": "delight0517/selah-bible-meditation@codex/selah-map-mobile-copyfit-20261005",
+          "build": "1.0.11/36 shared source",
+          "evidence": "Windows uses the shared hosted web source; responsive map fix is present in the shared source. Native shell runtime not rechecked. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
@@ -46,23 +105,23 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Mac implementation source and installed app must be inspected",
+          "evidence": "Mac implementation source and installed app must be inspected Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-apple-feature-parity-20261003"
         },
         "ios": {
           "owner": "Mac iOS maintainer - acknowledgement pending",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e mobile/www",
-          "build": "1.0.10/32 source bundle only",
-          "evidence": "Current shared-app CI source-bundle parity check passed; iPhone installation and UI test remain pending",
+          "appliedRevision": 4,
+          "source": "delight0517/selah-bible-meditation@codex/selah-map-mobile-copyfit-20261005",
+          "build": "1.0.11/36 shared source",
+          "evidence": "Generated mobile/www bundle matches web source and platform source check passed. Physical iPhone Safari runtime not verified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-apple-feature-parity-20261003"
         }
       }
     },
     {
       "id": "SELAH-ACCOUNT-DATA-PARITY",
-      "revision": 1,
+      "revision": 3,
       "title": "기기 간 계정 데이터와 추가형 백업의 동등한 동작",
       "acceptance": [
         "같은 계정에서 지원 기록이 기기 사이에 왕복한다",
@@ -81,18 +140,18 @@
         "web": {
           "owner": "Windows data task",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "delight0517/selah-bible-meditation main",
           "build": "shared UI 1.0.10/32",
-          "evidence": "Synthetic data and legacy-migration CI suites pass on the current source; authenticated cross-device GET/PUT/GET round trip remains pending"
+          "evidence": "Synthetic data and legacy-migration CI suites pass on the current source; authenticated cross-device GET/PUT/GET round trip remains pending Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
         },
         "windows": {
           "owner": "Windows data task",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "delight0517/selah-bible-meditation main",
           "build": "shared UI 1.0.10/32",
-          "evidence": "Hosted data implementation is live; authenticated Windows runtime GET/PUT/GET round trip remains pending",
+          "evidence": "Hosted data implementation is live; authenticated Windows runtime GET/PUT/GET round trip remains pending Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
@@ -101,16 +160,16 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Needs receipt, implementation mapping and runtime round trip",
+          "evidence": "Needs receipt, implementation mapping and runtime round trip Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-apple-feature-parity-20261003"
         },
         "ios": {
           "owner": "Mac iOS maintainer - acknowledgement pending",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "delight0517/selah-bible-meditation mobile/www",
           "build": "shared source 1.0.10/32",
-          "evidence": "Current shared-app CI source-bundle parity check passed; device install and authenticated account round trip remain pending",
+          "evidence": "Current shared-app CI source-bundle parity check passed; device install and authenticated account round trip remain pending Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-apple-feature-parity-20261003"
         }
       }
@@ -165,7 +224,7 @@
     },
     {
       "id": "SELAH-COMPUTER-READING-HANDOFF",
-      "revision": 1,
+      "revision": 3,
       "title": "Mac·Windows 간 개인정보 최소화 읽기 요청과 결과 전달",
       "acceptance": [
         "요청은 UUID, sessionId, open-reading action, targetPlatform, createdAt만 담고 본문·묵상·기도·인증정보를 전달하지 않는다.",
@@ -185,19 +244,19 @@
         "web": {
           "owner": "Shared web handoff",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "delight0517/selah-bible-meditation@cfb9644",
           "build": "shared app 1.0.10/32",
-          "evidence": "Shared request/result/session serialization and synthetic handoff tests are present; authenticated production round trip remains unverified.",
+          "evidence": "Shared request/result/session serialization and synthetic handoff tests are present; authenticated production round trip remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "windows": {
           "owner": "Windows app task",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "delight0517/selah-bible-meditation@46b58a3",
           "build": "shared app 1.0.10/32; launcher 1.0.10/25",
-          "evidence": "Synthetic target/age/result and protocol tests pass; authenticated Mac↔Windows request, launch and result round trip remains unverified.",
+          "evidence": "Synthetic target/age/result and protocol tests pass; authenticated Mac↔Windows request, launch and result round trip remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
@@ -206,27 +265,31 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Dirty SwiftUI source contains an onOpenURL selah://read handler and an uncommitted URL scheme plist, but installed Selah Mac.app has no CFBundleURLTypes or established build provenance.",
+          "evidence": "Dirty SwiftUI source contains an onOpenURL selah://read handler and an uncommitted URL scheme plist, but installed Selah Mac.app has no CFBundleURLTypes or established build provenance. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-apple-feature-parity-20261003"
         },
         "ios": {
           "owner": "Platform contract",
           "state": "not_applicable",
           "reason": "This request contract targets desktop computers (macOS and Windows); iPhone reading behavior is not an external computer-window handoff.",
-          "evidence": "The iPhone reader remains available in the shared app, but is not a computerReadingRequest target."
+          "evidence": "The iPhone reader remains available in the shared app, but is not a computerReadingRequest target. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
         }
       }
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 3,
-      "title": "초대 URL로 같은 말씀·상대 읽는 위치·같은 타이머 공유",
+      "revision": 7,
+      "title": "초대 URL 함께 읽기 및 계정별 기록·친구 별명",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
         "상대 URL 입장 시 같은 번역본·책·장으로 열린다",
         "상대가 읽는 절을 옅은 표시로 보여준다",
         "시간 묵상은 서버 종료 시각 기준 타이머를 공유한다",
-        "묵상·기도·계정 정보는 전송하지 않는다"
+        "묵상·기도·계정 정보는 전송하지 않는다",
+        "로그인한 참가자는 함께 읽은 본문·시작 시각·참여 인원을 본인 BlueCloud 기록에 저장한다",
+        "방 ID 원문·계정 정보·묵상과 기도는 함께 읽기 Worker나 다른 참가자에게 전송하지 않는다",
+        "각 계정에서 함께 읽은 기록의 친구 별명을 수정하고 여러 기기에서 동기화한다",
+        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다"
       ],
       "paths": [
         "index.html",
@@ -236,25 +299,32 @@
         "mobile/www/",
         "mobile/ios/",
         "together-worker/",
-        "home.html"
+        "home.html",
+        "scripts/unified-data.js",
+        "mobile/www/scripts/unified-data.js",
+        "contracts/selah-cloud-state.schema.json",
+        "scripts/test-unified-data.mjs",
+        "scripts/test-together-reading.mjs",
+        "assets/together-history.js",
+        "scripts/test-together-history.mjs"
       ],
       "platforms": {
         "web": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 7,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-live-together-20261003"
         },
         "windows": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 7,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-live-together-20261003"
         },
         "macos": {
@@ -263,23 +333,23 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Native source and device acceptance pending",
+          "evidence": "Native app parity and runtime verification remain pending; shared web source change does not prove the standalone Mac app. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-live-together-20261003"
         },
         "ios": {
           "owner": "Mac maintainer - request pending",
           "state": "implemented",
-          "appliedRevision": 3,
-          "source": "delight0517/selah-bible-meditation@d569224",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Promotion copy and shared runtime source included; client/server integration passed; browser and device acceptance pending",
+          "appliedRevision": 7,
+          "source": "codex/selah-together-history-20261004",
+          "build": "shared UI 1.0.10/34",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-live-together-20261003"
         }
       }
     },
     {
       "id": "SELAH-ANONYMOUS-MARKET-FUNNEL",
-      "revision": 4,
+      "revision": 6,
       "title": "지원 언어 전체의 익명 유입·읽기 전환 측정",
       "acceptance": [
         "지원하는 8개 UI 언어의 웹 방문을 국가·지역·언어·기기·UTM 출처별 집계로 기록한다.",
@@ -310,10 +380,10 @@
         "web": {
           "owner": "Selah growth funnel",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 6,
           "source": "delight0517/selah-bible-meditation@95d86c96a029285ee27d259f815edfe0d8ef16be",
           "build": "GitHub Pages deployment run 37149372833 succeeded",
-          "evidence": "PR #192 merged; public root/en/fil/pt-br and fil/analytics.js return HTTP 200; deployed direct fallback is medium=none. Analytics summary refresh returned HTTP 403 in this check, so real event delivery remains unverified."
+          "evidence": "PR #192 merged; public root/en/fil/pt-br and fil/analytics.js return HTTP 200; deployed direct fallback is medium=none. Analytics summary refresh returned HTTP 403 in this check, so real event delivery remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
         },
         "windows": {
           "owner": "Native platform maintainers (no native change in this revision)",
@@ -321,7 +391,7 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Revision 3 adds instrumentation only to public static SEO landing pages. The shared hosted web flow is tracked under web; native app telemetry remains intentionally excluded.",
+          "evidence": "Revision 3 adds instrumentation only to public static SEO landing pages. The shared hosted web flow is tracked under web; native app telemetry remains intentionally excluded. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-1000",
           "reason": "Public search landing instrumentation is a web browser capability; no Windows native app change is needed in this revision."
         },
@@ -331,7 +401,7 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Revision 3 adds instrumentation only to public static SEO landing pages. The shared hosted web flow is tracked under web; native app telemetry remains intentionally excluded.",
+          "evidence": "Revision 3 adds instrumentation only to public static SEO landing pages. The shared hosted web flow is tracked under web; native app telemetry remains intentionally excluded. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "reason": "Public search landing instrumentation is a web browser capability; no macOS native app change is needed in this revision."
         },
         "ios": {
@@ -340,17 +410,19 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Revision 3 adds instrumentation only to public static SEO landing pages. The shared hosted web flow is tracked under web; native app telemetry remains intentionally excluded.",
+          "evidence": "Revision 3 adds instrumentation only to public static SEO landing pages. The shared hosted web flow is tracked under web; native app telemetry remains intentionally excluded. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "reason": "Public search landing instrumentation is a web browser capability; native Capacitor events remain intentionally excluded."
         }
       }
     },
     {
       "id": "SELAH-LOCALIZED-SEARCH-PREVIEW",
-      "revision": 1,
-      "title": "필리핀어·스페인어·브라질 포르투갈어 검색 미리보기 정합성",
+      "revision": 4,
+      "title": "기본 한국어와 현지화 검색·공유 미리보기 정합성",
       "acceptance": [
         "각 현지화 랜딩의 title, meta description, Open Graph, Twitter 제목과 설명이 현지어이며 같은 기능·성경판 약속을 표현한다.",
+        "기본 한국어 공유 카드와 구조화 데이터는 특정 성경 책이 앱 전체 범위인 것처럼 보이지 않게 하고, 실제 지원하는 말씀 읽기·구절 북마크·묵상/기도 기록·사용자 제작 복습 퀴즈를 설명한다.",
+        "한국어 Open Graph 미리보기는 1200×630 공유 이미지와 일치하며 이미지 URL 변경으로 교체 전 카드 이미지 캐시와 구분할 수 있다.",
         "페이지 제목, 구조화 데이터 이름, 검색·공유 이미지 대체 문구는 해당 페이지 언어로 일관되고 번역되지 않은 마케팅 표현을 섞지 않는다.",
         "검색 제목과 설명은 감사에서 관측한 잘림 길이 이내이며 정식 canonical URL과 og:url이 같다.",
         "현지화 랜딩은 SoftwareApplication, 현지화 안내 페이지는 Article 구조화 데이터를 포함하고 언어 및 canonical 페이지를 표시한다.",
@@ -358,6 +430,11 @@
         "구조화 데이터나 메타 태그는 Google의 검색 노출, 선택된 제목/설명 또는 썸네일 표시를 보장한다고 설명하지 않는다."
       ],
       "paths": [
+        "index.html",
+        "assets/previews/",
+        "mobile/www/index.html",
+        "mobile/www/assets/previews/",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
         "fil/index.html",
         "fil/guide/index.html",
         "es/index.html",
@@ -371,11 +448,11 @@
       "platforms": {
         "web": {
           "owner": "Selah growth funnel",
-          "state": "verified",
-          "appliedRevision": 1,
-          "source": "codex/localized-search-preview-20261004",
-          "build": "Pages run 37151582667; commit cb2f0646e896609254afd963890a13bca50c19f7",
-          "evidence": "PR #194 merged; five localized pages and their preview images returned HTTP 200 with expected title, description, canonical, JSON-LD and image metadata. GSC inspection still reflects pre-deployment crawls; both guide pages remain crawled-not-indexed and search performance is not yet measurable."
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "codex/selah-together-history-20261004@1cb4ce3",
+          "build": "1.0.10 / build 34 source bundle; PR #219 pending",
+          "evidence": "Default Korean title, description, Open Graph, Twitter, JSON-LD and 1200×630 preview image now describe reading, bookmarks, reflection/prayer notes and review quizzes without implying Matthew-only coverage. Generated iOS web bundle is synchronized. No Pages deployment or live social crawler readback yet. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
         },
         "windows": {
           "owner": "Native platform maintainers (no native change)",
@@ -383,7 +460,7 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "This SEO metadata work changes public localized web landing/document pages only.",
+          "evidence": "This SEO metadata work changes public localized web landing/document pages only. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "reason": "Search-result metadata and static page schema are web-document capabilities; native app behavior is unchanged."
         },
         "macos": {
@@ -392,7 +469,7 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "This SEO metadata work changes public localized web landing/document pages only.",
+          "evidence": "This SEO metadata work changes public localized web landing/document pages only. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "reason": "Search-result metadata and static page schema are web-document capabilities; native app behavior is unchanged."
         },
         "ios": {
@@ -401,14 +478,14 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "This SEO metadata work changes public localized web landing/document pages only.",
+          "evidence": "This SEO metadata work changes public localized web landing/document pages only. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "reason": "Search-result metadata and static page schema are web-document capabilities; native app behavior is unchanged."
         }
       }
     },
     {
       "id": "SELAH-US-STATE-COUNTS",
-      "revision": 1,
+      "revision": 3,
       "title": "미국 주별 방문 숫자 표시",
       "acceptance": [
         "미국 선택 시 Oklahoma/Arizona 등 서버에 있는 주별 방문 수를 그대로 표시한다",
@@ -426,19 +503,19 @@
         "web": {
           "owner": "US state display task",
           "state": "verified",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "main 941f2dd4075b5dc506c6cf352908b7c42ea0cd47",
           "build": "shared UI 1.0.10/33",
-          "evidence": "Live build33 browser: Oklahoma 6, Arizona 4, California 0; 51 state/DC tiles; Korea Seoul 14, Chungnam 35; KR/US switching passed. Pages run 37165848335 succeeded.",
+          "evidence": "Live build33 browser: Oklahoma 6, Arizona 4, California 0; 51 state/DC tiles; Korea Seoul 14, Chungnam 35; KR/US switching passed. Pages run 37165848335 succeeded. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-us-state-counts-20261004"
         },
         "windows": {
           "owner": "Windows runtime owner",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "delight0517/selah-bible-meditation source",
           "build": "shared UI 1.0.10/33",
-          "evidence": "Hosted source includes correction; installed launcher runtime pending",
+          "evidence": "Hosted source includes correction; installed launcher runtime pending Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-us-state-counts-20261004"
         },
         "macos": {
@@ -447,17 +524,398 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Native source and runtime adoption pending",
+          "evidence": "Native source and runtime adoption pending Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-us-state-counts-20261004"
         },
         "ios": {
           "owner": "Mac iOS maintainer",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 3,
           "source": "delight0517/selah-bible-meditation source",
           "build": "shared UI 1.0.10/33",
-          "evidence": "Generated mobile/www source includes correction; device build and install pending",
+          "evidence": "Generated mobile/www source includes correction; device build and install pending Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
           "workItem": "selah-us-state-counts-20261004"
+        }
+      }
+    },
+    {
+      "id": "SELAH-SCRIPTURE-PER-USER-HIGHLIGHTS",
+      "revision": 4,
+      "title": "드래그 구절 개인 색상 하이라이트",
+      "acceptance": [
+        "웹과 iPhone Safari에서 성경 본문 글자를 드래그해 한 구절 또는 여러 구절의 선택 범위에 여섯 색 중 하나를 적용할 수 있다.",
+        "색상과 구절 내 선택 범위는 로그인한 BlueCloud 계정의 비공개 readerMarks에 저장되어 다시 열거나 계정 동기화 후에도 표시된다. 비로그인 상태에서는 현재 브라우저에만 저장된다.",
+        "선택한 색을 구절 도구막대에서 지울 수 있으며 겹친 범위의 나머지 하이라이트는 유지된다.",
+        "친구와 함께 읽기 위치나 초대 링크에는 개인 하이라이트가 포함되지 않는다.",
+        "하이라이트 선택 도구와 상태가 지원 UI 언어(한국어, 영어, 일본어, 중국어 간체·번체, 스페인어, 브라질 포르투갈어, 필리핀어)로 표시된다.",
+        "비로그인 사용자가 하이라이트가 있는 상태에서 묵상을 마치면 계정 저장 안내를 본다. 가입 또는 로그인을 선택하면 현재 기기의 개인 하이라이트가 기존 BlueCloud 계정 동기화 경로로 보존되며, 나중에 닫을 수도 있다."
+      ],
+      "paths": [
+        "index.html",
+        "assets/scripture-highlights.js",
+        "scripts/unified-data.js",
+        "contracts/selah-cloud-state.schema.json",
+        "contracts/feature-parity.json",
+        "scripts/test-scripture-highlights.mjs",
+        "mobile/www/index.html",
+        "mobile/www/assets/scripture-highlights.js",
+        "mobile/www/scripts/unified-data.js",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "TODO.md",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "SHARED_APP_BUILD.json"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah reader feature task",
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "current task branch",
+          "build": "shared UI 1.0.11/build 36",
+          "evidence": "Guest finish/timeout/Escape with private highlights opens a localized sign-in/create-account prompt; existing BlueCloud account flow preserves local readerMarks through the unified merge. Source, focused tests, and shared-bundle checks pass; public deploy readback pending. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "windows": {
+          "owner": "Selah shared hosted reader",
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "delight0517/selah-bible-meditation shared hosted source",
+          "build": "shared UI 1.0.11/build 36",
+          "evidence": "Windows launcher uses the shared hosted reader; behavior follows web source after Pages deployment. Windows runtime not independently exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "macos": {
+          "owner": "Mac Selah maintainer",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Standalone macOS reading implementation and runtime ownership still need confirmation; existing shared Apple parity work item remains the owner. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "workItem": "selah-apple-feature-parity-20261003"
+        },
+        "ios": {
+          "owner": "Selah shared iPhone reader",
+          "state": "implemented",
+          "appliedRevision": 4,
+          "source": "generated mobile/www from current task branch",
+          "build": "shared UI 1.0.11/build 36",
+          "evidence": "Capacitor bundle generated with localized guest save prompt; physical iPhone runtime not exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        }
+      }
+    },
+    {
+      "id": "SELAH-COMPUTER-READING-AUTH-GATE",
+      "revision": 3,
+      "title": "로그인 사용자에게만 다른 컴퓨터에서 읽기 표시",
+      "acceptance": [
+        "BlueCloud 인증이 확인되어 token과 accountId가 모두 있는 경우에만 Mac/Windows 읽기 선택 UI를 표시한다.",
+        "로그아웃 또는 인증 만료 시 컴퓨터 읽기 선택, 버튼, 이전 요청 상태를 숨긴다.",
+        "일반 말씀 읽기와 시간 묵상은 비로그인 사용자에게 계속 제공한다."
+      ],
+      "paths": [
+        "index.html",
+        "scripts/computer-reading-handoff.js",
+        "mobile/www/"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web task",
+          "state": "implemented",
+          "appliedRevision": 3,
+          "source": "current task branch",
+          "build": "GitHub Pages shared source",
+          "evidence": "PR #226 merged as 602850a9fcbf050eadd614c5b0a108ca096f2080; Pages run 37228235251 succeeded. Public index and versioned handoff JS returned HTTP 200 and include the verified token/accountId visibility gate; visual browser interaction remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "windows": {
+          "owner": "selah-windows-feature-runtime-20261003",
+          "state": "implemented",
+          "evidence": "Windows shares the deployed hosted reader source; Pages source readback passed. Installed Windows shell runtime was not separately exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 3,
+          "source": "current task branch shared hosted reader",
+          "build": "Selah shared UI 1.0.11/build 36"
+        },
+        "macos": {
+          "owner": "selah-apple-feature-parity-20261003",
+          "state": "pending",
+          "evidence": "The shared hosted reader is updated; separate macOS application runtime/source parity has not been verified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "ios": {
+          "owner": "Selah shared UI task",
+          "state": "implemented",
+          "appliedRevision": 3,
+          "source": "current task branch mobile/www",
+          "build": "shared UI source bundle",
+          "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; installed iPhone runtime remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        }
+      }
+    },
+    {
+      "id": "SELAH-SEMANTIC-THEME-CONTRAST",
+      "revision": 3,
+      "title": "공통 역할 기반 테마 색상과 최소 대비 보정",
+      "acceptance": [
+        "system/light/dark 설정에 맞게 root color-scheme과 브라우저 기본 컨트롤이 함께 바뀐다.",
+        "본문·보조 글자·강조 글자를 종이·카드·부드러운 배경별로 계산하고, 선택한 색이 배경 대비 4.5:1 미만이면 읽을 수 있는 전경색을 사용한다.",
+        "공통 화면 컴포넌트는 역할 토큰을 사용해 개별 글자 색 수정 없이 다크 모드 가독성을 유지한다."
+      ],
+      "paths": [
+        "index.html",
+        "scripts/semantic-theme.js",
+        "styles/semantic-theme.css",
+        "mobile/www/"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web task",
+          "state": "implemented",
+          "appliedRevision": 3,
+          "source": "current task branch",
+          "build": "GitHub Pages shared source",
+          "evidence": "PR #226 merged as 602850a9fcbf050eadd614c5b0a108ca096f2080; Pages run 37228235251 succeeded. Public index, semantic theme JS and CSS returned HTTP 200 with contrast-role tokens present; actual rendered browser visual check remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "windows": {
+          "owner": "selah-windows-feature-runtime-20261003",
+          "state": "implemented",
+          "evidence": "Windows shares the deployed hosted reader and theme source; Pages source readback passed. Installed Windows shell rendering was not separately exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 3,
+          "source": "current task branch shared hosted reader",
+          "build": "Selah shared UI 1.0.11/build 36"
+        },
+        "macos": {
+          "owner": "selah-apple-feature-parity-20261003",
+          "state": "pending",
+          "evidence": "The shared semantic theme is updated; separate macOS application runtime/source parity has not been verified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "ios": {
+          "owner": "Selah shared UI task",
+          "state": "implemented",
+          "appliedRevision": 3,
+          "source": "current task branch mobile/www",
+          "build": "shared UI source bundle",
+          "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; installed iPhone runtime remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        }
+      }
+    },
+    {
+      "id": "SELAH-MULTILINGUAL-QT-SOURCE-CATALOG",
+      "revision": 3,
+      "title": "언어별 공식 무료 큐티 바로가기 카탈로그",
+      "acceptance": [
+        "지원 앱 언어 8개(한국어, 영어, 일본어, 중국어 간체·번체, 필리핀어, 스페인어, 브라질 포르투갈어)에 맞춰 해당 언어의 무료 온라인 성경 묵상 계획을 골라 볼 수 있다.",
+        "카드는 제공 사이트의 공식 언어별 이미지, 언어, 공식 도메인, 출처 설명을 보여주고 HTTPS 공식 페이지를 새 탭으로 연다.",
+        "사용자는 선택한 공식 링크를 기존 개인 QT 라이브러리에 추가할 수 있으며 기존 사용자 링크·동기화·삭제 동작을 유지한다.",
+        "앱은 외부 큐티 본문을 복제하지 않고, 일부 자료는 제공처 계정 또는 앱이 필요할 수 있음을 알린다."
+      ],
+      "paths": [
+        "index.html",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "contracts/feature-parity.json",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web catalog task",
+          "state": "implemented",
+          "appliedRevision": 3,
+          "source": "codex/selah-qt-language-library-20261005",
+          "build": "GitHub Pages shared source; deployment pending",
+          "evidence": "PR #233 merged as 3ebb0e57dc3d1c39684b9e5731824345dff3db8e; Pages deployment run 37248413539 succeeded. Public root index readback contains the 8-language catalog, Filipino official plan URL, Korean ODB thumbnail and language filter. Interactive visual rendering remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "windows": {
+          "owner": "Selah hosted reader",
+          "state": "implemented",
+          "appliedRevision": 3,
+          "source": "shared hosted reader source",
+          "build": "GitHub Pages shared source; runtime verification pending",
+          "evidence": "The deployed hosted reader includes the shared catalog; installed Windows shell/runtime was not independently exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "macos": {
+          "owner": "Selah macOS maintainer",
+          "state": "pending",
+          "evidence": "Separate macOS runtime source and adoption of the shared QT catalog have not been verified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "ios": {
+          "owner": "Selah shared iOS reader",
+          "state": "implemented",
+          "appliedRevision": 3,
+          "source": "generated mobile/www bundle",
+          "build": "Shared web source; native build/install pending",
+          "evidence": "Generated mobile/www source parity passed at shared UI 1.0.11/build 36; installed iPhone runtime was not exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        }
+      }
+    },
+    {
+      "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
+      "revision": 6,
+      "title": "성경 듣기 영상의 절별 따라읽기",
+      "acceptance": [
+        "사용자는 번역본마다 여러 YouTube 채널·영상·재생목록 및 성경 낭독 사이트를 즐겨찾기에 저장하고, 원하는 출처 하나를 기본으로 선택할 수 있다.",
+        "기본 출처는 성경 본문 위에 바로 노출되어 누르면 원래 출처로 이동한다. 영상·재생목록은 설정 안에서 선택 후 privacy-enhanced youtube-nocookie.com 플레이어로도 재생할 수 있다.",
+        "주소는 HTTPS만 허용한다. 사용자가 저장한 출처 이름과 링크를 Selah가 YouTube 채널의 실제 구독으로 표현하지 않는다.",
+        "출처 목록과 번역본별 기본 선택은 비로그인 시 기기에 저장되고 BlueCloud 로그인 시 기존 공용 데이터 동기화에 포함된다. 삭제·기본 변경은 다른 기기와 동기화된다.",
+        "YouTube Premium은 사용자의 YouTube 로그인 세션에서 이용한다. Selah는 Google 로그인 정보나 YouTube 토큰을 받거나 저장하지 않는다.",
+        "듣기 출처 관리 문구는 한국어, 영어, 일본어, 중국어 간체·번체, 필리핀어, 스페인어, 브라질 포르투갈어를 지원한다.",
+        "Selah 내 YouTube 영상·재생목록 플레이어에서 사용자는 현재 보이는 절의 시작 시점을 저장하고, 저장한 시점에 맞춰 재생 중인 절을 강조 표시할 수 있다.",
+        "영상·재생목록별 시점은 BlueCloud 동기화 데이터에 보존되며, 동시 수정 시 절별 시점을 병합한다. 유효하지 않은 시점 데이터는 로드 시 제외한다.",
+        "다음 장의 저장 시점에 도달하면 본문 장을 자동 전환하고 해당 절을 강조·스크롤한다. 저장되지 않은 절의 정확한 자동 추적은 보장하지 않으며 각 절 시점은 최초에 한 번 설정해야 한다."
+      ],
+      "paths": [
+        "index.html",
+        "scripts/unified-data.js",
+        "contracts/selah-cloud-state.schema.json",
+        "contracts/feature-parity.json",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "TODO.md",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "mobile/www/scripts/unified-data.js",
+        "scripts/test-unified-data.mjs"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web audio task",
+          "state": "implemented",
+          "appliedRevision": 6,
+          "source": "codex/selah-youtube-scripture-sync-20261005",
+          "build": "1.0.11 / build 39; GitHub Pages deployed at d884ad2",
+          "evidence": "PR #239 merged as d884ad29e6360b3a6ca162cfb6a0dc04188c17de; Pages deployment run 37253786972 succeeded. Public index, build metadata (39), and unified-data merge script returned HTTP 200 and contained the verse-follow implementation. iPhone native install/runtime and Windows-shell runtime remain separate verification."
+        },
+        "windows": {
+          "owner": "Selah hosted reader",
+          "state": "implemented",
+          "appliedRevision": 6,
+          "source": "shared hosted reader source",
+          "build": "1.0.11 / build 39; GitHub Pages deployed at d884ad2",
+          "evidence": "PR #239 merged as d884ad29e6360b3a6ca162cfb6a0dc04188c17de; Pages deployment run 37253786972 succeeded. Public index, build metadata (39), and unified-data merge script returned HTTP 200 and contained the verse-follow implementation. iPhone native install/runtime and Windows-shell runtime remain separate verification."
+        },
+        "macos": {
+          "owner": "Selah macOS maintainer",
+          "state": "pending",
+          "evidence": "Separate macOS app audio UI/runtime adoption is not verified. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+        },
+        "ios": {
+          "owner": "Selah shared iOS reader",
+          "state": "implemented",
+          "appliedRevision": 6,
+          "source": "generated mobile/www bundle",
+          "build": "1.0.11 / build 39; GitHub Pages deployed at d884ad2",
+          "evidence": "PR #239 merged as d884ad29e6360b3a6ca162cfb6a0dc04188c17de; Pages deployment run 37253786972 succeeded. Public index, build metadata (39), and unified-data merge script returned HTTP 200 and contained the verse-follow implementation. iPhone native install/runtime and Windows-shell runtime remain separate verification."
+        }
+      }
+    },
+    {
+      "id": "SELAH-CREATOR-PORTFOLIO-FOOTER",
+      "revision": 1,
+      "title": "앱 하단 제작자 소개와 개인 포트폴리오 링크",
+      "acceptance": [
+        "Selah 웹사이트 본문 아래에 앱 제작자를 소개하는 문구와 공식 개인 포트폴리오 링크가 표시된다.",
+        "제작자 소개와 링크 문구는 한국어, 영어, 일본어, 중국어 간체·번체 UI에서 각 언어로 표시된다.",
+        "포트폴리오 링크는 새 탭에서 열리고 현재 Selah 화면을 유지한다.",
+        "모바일과 데스크톱에서 링크를 쉽게 읽고 누를 수 있다."
+      ],
+      "paths": [
+        "index.html",
+        "styles/creator-footer.css",
+        "contracts/feature-parity.json",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/index.html",
+        "mobile/www/styles/creator-footer.css",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared Selah web source",
+          "build": "1.0.11 / build 41",
+          "evidence": "Footer credits Kim GeunHu and links to the verified public portfolio homepage https://delight0517.github.io/. Five UI locales are provided; responsive footer uses app theme tokens."
+        },
+        "windows": {
+          "owner": "Selah hosted reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared hosted Selah web source",
+          "build": "1.0.11 / build 41",
+          "evidence": "The website footer is part of the shared hosted page source; Windows standalone shell runtime is not separately verified."
+        },
+        "macos": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request adds a footer to the Selah website and its shared web bundle; the separate native macOS app is not part of this website surface.",
+          "evidence": "Website/browser scope only."
+        },
+        "ios": {
+          "owner": "Selah shared iOS reader",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated Capacitor mobile/www bundle",
+          "build": "1.0.11 / build 41",
+          "evidence": "Generated mobile/www contains the footer and localized links; an installed native iPhone app build/runtime was not part of this website change."
+        }
+      }
+    },
+    {
+      "id": "SELAH-BIBLE-VERSION-RIGHTS",
+      "revision": 2,
+      "title": "판본별 성경 이용 권리·표기·다운로드·광고 판정",
+      "acceptance": [
+        "각 개별 번역본과 앱 포함 판본은 고유 권리 기록, 출처 URL, 라이선스 상태, 관할 범위, 필수 표기를 가진다.",
+        "성경 라이브러리는 선택 판본의 라이선스·필수 표기·다운로드 및 광고 정책을 현재 UI 언어로 보여준다.",
+        "판본별 권리가 미확인되면 추가 다운로드를 차단하고, 권리 확인이 끝날 때까지 해당 판본이 저장된 기기의 광고를 차단한다.",
+        "비영리 전용 판본이 기기에 저장되면 어떤 화면에서도 광고용 SDK가 표시할 수 없도록 공통 정책 훅이 false를 반환한다.",
+        "기본 한글 1961 판본과 Bible API의 Korean 1910 ID는 서로 다른 판본으로 취급한다."
+      ],
+      "paths": [
+        "index.html",
+        "bible-rights.json",
+        "bible-translations.json",
+        "THIRD_PARTY_NOTICES.md",
+        "scripts/check-bible-rights.mjs",
+        "contracts/feature-parity.json",
+        "SHARED_APP_BUILD.json",
+        "mobile/scripts/copy-web.mjs",
+        "mobile/www/index.html",
+        "mobile/www/bible-rights.json",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah shared web reader",
+          "state": "implemented",
+          "appliedRevision": 2,
+          "source": "shared web source",
+          "build": "1.0.11 / build 42",
+          "evidence": "Source-level rights registry and shared ad/download policy; public Pages readback pending. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
+        },
+        "windows": {
+          "owner": "Selah shared reader / Windows shell",
+          "state": "implemented",
+          "appliedRevision": 2,
+          "source": "shared web source",
+          "build": "1.0.11 / build 42",
+          "evidence": "Rights metadata and enforcement are in the shared reader and generated files; Windows runtime not separately verified. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
+        },
+        "macos": {
+          "owner": "Selah platform contract",
+          "state": "pending",
+          "evidence": "Shared web reader policy is implemented; standalone macOS wrapper consumption/runtime has not been verified."
+        },
+        "ios": {
+          "owner": "Selah Capacitor iOS reader",
+          "state": "implemented",
+          "appliedRevision": 2,
+          "source": "generated mobile/www shared reader",
+          "build": "1.0.11 / build 42",
+          "evidence": "Generated mobile bundle carries the same registry and policy hook; native build/install runtime not separately verified. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
         }
       }
     },
@@ -484,9 +942,9 @@
           "owner": "Selah web maintainer",
           "state": "implemented",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation PR #114 reconciled onto main 625eca3",
+          "source": "delight0517/selah-bible-meditation task branch 048a7b2 reconciled onto origin/main f5bda2c",
           "build": "GitHub Pages source; live runtime readback pending",
-          "evidence": "Accessible SVG boundary map and list fallback are implemented; only province-level visit totals remain visible."
+          "evidence": "Accessible SVG boundaries for Seoul and Chungnam are backed by assets/korea-top-region-maps.json; visit totals remain province-level only. Deployment/runtime readback pending."
         },
         "windows": {
           "owner": "Windows Selah maintainer",
@@ -510,7 +968,7 @@
           "owner": "Mac iOS maintainer",
           "state": "implemented",
           "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation mobile/www shared bundle",
+          "source": "Generated mobile/www shared bundle after reconciliation with origin/main f5bda2c",
           "build": "Generated source bundle only; device build and UI proof pending",
           "evidence": "The canonical web page and map dataset are copied into mobile/www; installation and device interaction are separate proof.",
           "workItem": "selah-korea-region-map-platform-proof"
