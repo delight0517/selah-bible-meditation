@@ -862,7 +862,7 @@
     },
     {
       "id": "SELAH-BIBLE-VERSION-RIGHTS",
-      "revision": 1,
+      "revision": 2,
       "title": "판본별 성경 이용 권리·표기·다운로드·광고 판정",
       "acceptance": [
         "각 개별 번역본과 앱 포함 판본은 고유 권리 기록, 출처 URL, 라이선스 상태, 관할 범위, 필수 표기를 가진다.",
@@ -891,18 +891,18 @@
         "web": {
           "owner": "Selah shared web reader",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "shared web source",
           "build": "1.0.11 / build 42",
-          "evidence": "Source-level rights registry and shared ad/download policy; public Pages readback pending."
+          "evidence": "Source-level rights registry and shared ad/download policy; public Pages readback pending. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
         },
         "windows": {
           "owner": "Selah shared reader / Windows shell",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "shared web source",
           "build": "1.0.11 / build 42",
-          "evidence": "Rights metadata and enforcement are in the shared reader and generated files; Windows runtime not separately verified."
+          "evidence": "Rights metadata and enforcement are in the shared reader and generated files; Windows runtime not separately verified. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
         },
         "macos": {
           "owner": "Selah platform contract",
@@ -912,10 +912,10 @@
         "ios": {
           "owner": "Selah Capacitor iOS reader",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "generated mobile/www shared reader",
           "build": "1.0.11 / build 42",
-          "evidence": "Generated mobile bundle carries the same registry and policy hook; native build/install runtime not separately verified."
+          "evidence": "Generated mobile bundle carries the same registry and policy hook; native build/install runtime not separately verified. Revision 2 also passed the shared reader startup regression (18/18) and rights registry validation."
         }
       }
     }
