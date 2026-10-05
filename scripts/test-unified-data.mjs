@@ -98,3 +98,20 @@ test('personal highlight color preference synchronizes as its own account regist
   assert.equal(merged.readerPrefs.highlightColor, 'blue');
   assert.equal(data.payload(merged).readerPrefs.highlightColor, 'blue');
 });
+
+test('Bible audio favorites sync multiple sources and one last-write-wins default per translation', () => {
+  const start = { ...base(), bibleAudioLinks: [], bibleAudioDefaults: [] };
+  const pc = edit(start, 'Windows', 100, state => {
+    state.bibleAudioLinks.push({ id: 'source-video', translationId: 'WEB', url: 'https://youtu.be/abcdefghijk', title: 'Video' });
+    state.bibleAudioDefaults.push({ id: 'default-WEB', translationId: 'WEB', sourceId: 'source-video', updatedAt: 100 });
+  });
+  const phone = edit(start, 'iOS', 120, state => {
+    state.bibleAudioLinks.push({ id: 'source-site', translationId: 'WEB', url: 'https://example.org/audio', title: 'Site' });
+    state.bibleAudioDefaults.push({ id: 'default-WEB', translationId: 'WEB', sourceId: 'source-site', updatedAt: 120 });
+  });
+  const merged = data.merge(pc, phone);
+  assert.equal(merged.bibleAudioLinks.length, 2);
+  assert.equal(merged.bibleAudioDefaults.length, 1);
+  assert.equal(merged.bibleAudioDefaults[0].sourceId, 'source-site');
+  same(merged, data.merge(phone, pc));
+});

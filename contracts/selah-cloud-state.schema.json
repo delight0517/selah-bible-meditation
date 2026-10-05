@@ -463,9 +463,16 @@
     },
     "bibleAudioLinks": {
       "type": "array",
-      "description": "User-owned YouTube audio links saved separately for each selected Bible translation.",
+      "description": "User-owned Bible reading audio sites, YouTube channels, videos, and playlists saved by Bible translation.",
       "items": {
         "$ref": "#/$defs/bibleAudioLink"
+      }
+    },
+    "bibleAudioDefaults": {
+      "type": "array",
+      "description": "One preferred Bible audio source per Bible translation.",
+      "items": {
+        "$ref": "#/$defs/bibleAudioDefault"
       }
     }
   },
@@ -1041,8 +1048,31 @@
         "mediaType": {
           "enum": [
             "video",
-            "playlist"
+            "playlist",
+            "channel",
+            "site"
           ]
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "bibleAudioDefault": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "translationId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "sourceId": {
+          "type": "string",
+          "maxLength": 100
         },
         "updatedAt": {
           "type": "integer",
