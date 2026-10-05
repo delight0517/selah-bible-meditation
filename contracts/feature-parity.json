@@ -872,7 +872,7 @@
     },
     {
       "id": "SELAH-BIBLE-VERSION-RIGHTS",
-      "revision": 4,
+      "revision": 5,
       "title": "읽기 화면의 정확한 성경 판본명 표시와 판본별 권리 안내",
       "acceptance": [
         "각 개별 번역본과 앱 포함 판본은 고유 권리 기록, 출처 URL, 라이선스 상태, 관할 범위, 필수 표기를 가진다.",
@@ -880,7 +880,8 @@
         "판본별 권리가 미확인되면 추가 다운로드를 차단하고, 권리 확인이 끝날 때까지 해당 판본이 저장된 기기의 광고를 차단한다.",
         "비영리 전용 판본이 기기에 저장되면 어떤 화면에서도 광고용 SDK가 표시할 수 없도록 공통 정책 훅이 false를 반환한다.",
         "기본 한글 1961 판본과 Bible API의 Korean 1910 ID는 서로 다른 판본으로 취급한다.",
-        "일반 본문·집중 묵상 화면에서 현재 선택된 번역본의 권리 목록상 정식 판본명을 항상 표시하며, 사용자 입력 본문은 판본 미확인으로 구분한다."
+        "일반 본문·집중 묵상 화면에서 현재 선택된 번역본의 권리 목록상 정식 판본명을 항상 표시하며, 사용자 입력 본문은 판본 미확인으로 구분한다.",
+        "본문 및 집중 읽기 재렌더링 직후 판본 표시가 갱신되어, 권리 안내창의 비동기 완료 여부에 의존하지 않는다."
       ],
       "paths": [
         "index.html",
@@ -902,18 +903,18 @@
         "web": {
           "owner": "Selah shared web reader",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "shared web source",
-          "build": "1.0.11 / build 44",
-          "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
+          "build": "1.0.11 / build 49",
+          "evidence": "Reader render refreshes the exact edition label independently of asynchronous rights-notice rendering; native runtime proof is recorded separately."
         },
         "windows": {
           "owner": "Selah shared reader / Windows shell",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "shared web source",
-          "build": "1.0.11 / build 44",
-          "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
+          "build": "1.0.11 / build 49",
+          "evidence": "Reader render refreshes the exact edition label independently of asynchronous rights-notice rendering; native runtime proof is recorded separately."
         },
         "macos": {
           "owner": "Selah platform contract",
@@ -923,10 +924,10 @@
         "ios": {
           "owner": "Selah Capacitor iOS reader",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "generated mobile/www shared reader",
-          "build": "1.0.11 / build 44",
-          "evidence": "Shared reader shows the exact rights-registry edition name in regular and focused readers; user-provided text is labeled unverified. Generated bundle parity checked; platform-specific runtime remains separate."
+          "build": "1.0.11 / build 49",
+          "evidence": "Reader render refreshes the exact edition label independently of asynchronous rights-notice rendering; native runtime proof is recorded separately."
         }
       }
     },
