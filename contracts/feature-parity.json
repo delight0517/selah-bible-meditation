@@ -56,35 +56,39 @@
     },
     {
       "id": "SELAH-VISITOR-EXPLANATION",
-      "revision": 1,
-      "title": "월간 방문자 숫자의 상세 설명",
+      "revision": 2,
+      "title": "모바일 지역 지도와 방문자 숫자 설명",
       "acceptance": [
         "숫자를 누르면 설명을 열고 다시 닫을 수 있다",
         "익명 브라우저 집계와 중복 방문 예시를 설명한다",
-        "UTC 월간 기간과 개인정보 범위를 설명한다"
+        "UTC 월간 기간과 개인정보 범위를 설명한다",
+        "지역 타일의 국가별 이름이 올바른 행정구역과 연결된다",
+        "좁은 모바일 화면에서도 지역명이 타일 안에서 줄바꿈되고 방문 수와 겹치지 않는다",
+        "모바일 통계 대화상자의 설명과 닫기 버튼을 내부 스크롤로 모두 볼 수 있다"
       ],
       "paths": [
         "index.html",
         "assets/visitor-explanation.js",
         "mobile/www/index.html",
-        "mobile/www/assets/visitor-explanation.js"
+        "mobile/www/assets/visitor-explanation.js",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json"
       ],
       "platforms": {
         "web": {
           "owner": "Windows feature task",
-          "state": "verified",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "1.0.10/32",
-          "evidence": "Shared app 1.0.10/build32 deployed; production shell click/open-close and acceptance copy verified in isolated Edge on 2026-10-04"
+          "state": "implemented",
+          "appliedRevision": 2,
+          "source": "delight0517/selah-bible-meditation@codex/selah-map-mobile-copyfit-20261005",
+          "build": "1.0.11/36 shared source",
+          "evidence": "Corrected Korean region names and responsive tile label layout; source and static checks passed. Public runtime not yet verified."
         },
         "windows": {
           "owner": "Windows app task",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e",
-          "build": "shared UI 1.0.10/32",
-          "evidence": "Production windowsShell=1 isolated Edge runtime verified toolbar, zoom reset/increase, focus toggle, explanation open/close and required copy; Start-menu launch in an isolated profile remains unverified",
+          "appliedRevision": 2,
+          "source": "delight0517/selah-bible-meditation@codex/selah-map-mobile-copyfit-20261005",
+          "build": "1.0.11/36 shared source",
+          "evidence": "Windows uses the shared hosted web source; responsive map fix is present in the shared source. Native shell runtime not rechecked.",
           "workItem": "selah-windows-feature-runtime-20261003"
         },
         "macos": {
@@ -99,10 +103,10 @@
         "ios": {
           "owner": "Mac iOS maintainer - acknowledgement pending",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "delight0517/selah-bible-meditation@5011f2e mobile/www",
-          "build": "1.0.10/32 source bundle only",
-          "evidence": "Current shared-app CI source-bundle parity check passed; iPhone installation and UI test remain pending",
+          "appliedRevision": 2,
+          "source": "delight0517/selah-bible-meditation@codex/selah-map-mobile-copyfit-20261005",
+          "build": "1.0.11/36 shared source",
+          "evidence": "Generated mobile/www bundle matches web source and platform source check passed. Physical iPhone Safari runtime not verified.",
           "workItem": "selah-apple-feature-parity-20261003"
         }
       }
