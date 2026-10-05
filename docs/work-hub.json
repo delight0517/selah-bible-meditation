@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T02:41:45.607Z",
+  "updatedAt": "2026-10-04T10:02:11Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -66,6 +66,15 @@
       "title": "Live together reading rooms and UI",
       "resources": [
         "Live room protocol and together-reading user flow"
+      ]
+    },
+    {
+      "id": "selah.analytics.route-funnel",
+      "title": "Allow-listed landing-route attribution through the reading/reflection/signup funnel",
+      "resources": [
+        "global-funnel-v1 landing-route category",
+        "privacy.html",
+        "analytics-worker/migrations/0005_landing_route.sql"
       ]
     }
   ],
@@ -455,25 +464,48 @@
     },
     {
       "id": "selah-search-copy-review-20261004",
-      "summary": "Record a dated search-competitor copy scan and a low-friction message hypothesis without claiming demand or a winner.",
+      "summary": "Record the dated market/search scan and continue Selah allow-listed landing-route attribution through the reader and conversion funnel.",
       "owner": "shared",
       "status": "in_progress",
-      "claimVersion": 2,
+      "claimVersion": 4,
       "scopes": [
         "selah.analytics.gsc-baseline",
+        "selah.analytics.route-funnel",
         "selah.coordination.work-hub"
       ],
-      "branch": "codex/selah-search-copy-review-20261004",
+      "branch": "codex/selah-route-attribution-20261004",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a0fa42-f6d3-7530-9c18-439a44ef6fb5",
-      "baseCommit": "bacca88acd688e14840853587e79a423a27aed40",
+      "baseCommit": "625eca38edeb21b8f1f508e954944af90aa1d62e",
       "files": [
-        "docs/work-hub.json",
         "GROWTH_RESEARCH.md",
-        "MARKET_PLAYBOOK.md"
+        "analytics-worker/README.md",
+        "analytics-worker/migrations/0005_landing_route.sql",
+        "analytics-worker/src/index.js",
+        "docs/work-hub.json",
+        "fil/analytics.js",
+        "index.html",
+        "privacy.html",
+        "scripts/test-acquisition-scope.mjs",
+        "scripts/test-market-experiment-worker.mjs",
+        "docs/CAMPAIGN_MODELS_100.md"
       ],
-      "evidence": [],
-      "nextAction": "Update this record before handoff or completion.",
+      "evidence": [
+        "PR #214 (search-copy work-hub claim) merged 2026-10-04 02:43 UTC as 625eca38edeb21b8f1f508e954944af90aa1d62e; the dated market and live search audit is now recorded in GROWTH_RESEARCH.md.",
+        "2026-10-04 GSC URL inspection confirms Korean root, Japanese, and Filipino landing are submitted/indexed and mobile fetch succeeds; settled Selah page/query window still has 0 impressions/clicks through 2026-10-01, so post-index demand remains unknown.",
+        "Landing-route web acquisition implementation is in PR #215. The production summary currently lacks landingRoute; the candidate change must pass CI before deployment.",
+        "2026-10-04 live funnel refresh: 68 page-view events / 40 approximate monthly browser IDs in four partial UTC days (KR 54, US 14; 46 desktop, 22 mobile); global funnel 10 exposures, 1 CTA, 1 reader, 1 at 30s and 120s, 0 saves, signups or return events. These are aggregates, not people, and may include QA.",
+        "PR #215 was narrowed to web-only acquisition measurement because native Capacitor events remain excluded. Changes to TODO.md, contracts/feature-parity.json, and mobile/www are deferred while another active task owns those paths; no production migration or deployment has occurred.",
+        "Six more live URL inspections: English, zh-CN, zh-TW, Spanish, and pt-BR landings are submitted/indexed with successful crawls (2026-10-01/02); home.html is unknown to Google. Search Console settled-through is still 2026-09-29, so post-crawl performance is not yet available.",
+        "PR #215 CI after the ownership split now reaches the repo's generated-source parity gate and fails `Stale mobile bundle: index.html`; the canonical mobile/www copy is still owned by selah-live-together-20261003. Work Hub file overlap itself is resolved, but safe route-funnel merge still needs that generated copy and the contract/TODO handoff.",
+        "Competitor scan and current landing audit were appended to GROWTH_RESEARCH.md with source links; competitor claims are supply/positioning signals, not verified customer demand.",
+        "Drafted a 100-model multilingual campaign catalog in docs/CAMPAIGN_MODELS_100.md; it labels demand hypotheses, current-feature/edition checks, absent-feature gates, and publication status. No public posts or spend.",
+        "Fresh seven-page SEO crawl: all audited landing URLs HTTP 200, self-canonical and indexable. CJK thin-content counts and empty decorative-alt flags were manually identified as heuristic false positives. Korean root and Tagalog pass Google mobile URL Inspection; settled search data still predates Oct 2 crawls.",
+        "2026-10-04 fresh cloud readback: production pageview summary = 69 views / 40 approximate monthly browser IDs (11 returning-event classification, KR 55, US 14); one localhost origin and incomplete origin/path joins mean external unique-user count remains unverified. Experiment API now aggregates global-funnel-v1 11 exposures / 2 CTAs / 2 reader starts / 1 at 30s / 1 at 120s / 0 saves/signups; kr-home-copy-v1 12 / 7 / 4 / 0 / 0 / 0 saves/signups and 11 return-event counts (not returning people). GSC exact Selah page/country remains 0 through 2026-09-29; 8 language landings indexed after Oct 1–2 crawls. Research refresh pushed to PR #215 at f63c17e. Its CI still fails generated mobile parity because mobile/www is owned by selah-live-together-20261003; no production change, market winner, or verified activated user claimed.",
+        "Filipino market check (2026-10-04): Selah's /fil/ promise is no-account access to the full Ang Biblia 1905 with local private notes/bookmarks, but not bilingual, audio, or offline use. Competing Play Store listings advertise those utilities and diaspora reach, which shows existing supply rather than unmet demand. Current Cloudflare joins do not confirm Philippines traffic and settled Selah GSC page/country rows remain zero through 2026-10-01; keep the page stable, avoid unsupported feature claims and paid promotion, and wait for settled regional/search and focused-reading evidence. Documented in GROWTH_RESEARCH.md; no product or production change.",
+        "GSC indexing tracker rechecked 2026-10-04: 14 parent-property URLs total, 8 indexed, 6 not indexed, 0 pending/errors/warnings. All eight locale landing roots are indexed, including /fil/ and /pt-br/. /fil/guide/ and /pt-br/guia/ were crawled Oct 3 but remain 'Crawled - currently not indexed'; four utility URLs remain unknown. Live URLs are HTTP 200, self-canonical, crawl-allowed, and listed in sitemap. Exact Selah page/country query has no rows through its current settled window, which ends before these crawls. No duplicate index requests or content changes; wait for post-crawl data."
+      ],
+      "nextAction": "Resolve current ownership of generated mobile/www before using copy:web; keep PR #215 deployment and route measurement pending. Wait for the first settled GSC window after Oct 2 crawls before deciding market copy.",
       "feedback": [],
       "handoffs": []
     }
