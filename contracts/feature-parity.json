@@ -765,7 +765,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 7,
+      "revision": 8,
       "title": "성경 듣기 영상의 절별 따라읽기",
       "acceptance": [
         "사용자는 번역본마다 여러 YouTube 채널·영상·재생목록 및 성경 낭독 사이트를 즐겨찾기에 저장하고, 원하는 출처 하나를 기본으로 선택할 수 있다.",
@@ -777,7 +777,8 @@
         "Selah 내 YouTube 영상·재생목록 플레이어에서 사용자는 현재 보이는 절의 시작 시점을 저장하고, 저장한 시점에 맞춰 재생 중인 절을 강조 표시할 수 있다.",
         "영상·재생목록별 시점은 BlueCloud 동기화 데이터에 보존되며, 동시 수정 시 절별 시점을 병합한다. 유효하지 않은 시점 데이터는 로드 시 제외한다.",
         "다음 장의 저장 시점에 도달하면 본문 장을 자동 전환하고 해당 절을 강조·스크롤한다. 저장되지 않은 절의 정확한 자동 추적은 보장하지 않으며 각 절 시점은 최초에 한 번 설정해야 한다.",
-        "읽기 화면에서 성경 듣기와 출처 설정을 스크롤 끝까지 이동하지 않고 바로 찾을 수 있다."
+        "읽기 화면에서 성경 듣기와 출처 설정을 스크롤 끝까지 이동하지 않고 바로 찾을 수 있다.",
+        "읽기 화면의 성경 듣기 제목, 현재 장 YouTube 검색, 영상/재생목록 링크 저장과 재생 버튼은 접힌 disclosure 없이 본문 위에서 바로 보인다."
       ],
       "paths": [
         "index.html",
@@ -797,18 +798,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-bible-audio-20261005",
-          "build": "1.0.11 / shared reader UI build 52; Pages deployment pending",
-          "evidence": "Moved the existing translation-specific YouTube setup/player and verse-follow controls into the reader card, immediately below passage controls. Source is ready; Pages deployment and browser interaction remain pending."
+          "appliedRevision": 8,
+          "source": "current task branch",
+          "build": "1.0.11 / shared reader UI build 53; deployment pending",
+          "evidence": "Exposed chapter-specific YouTube search, source setup, saved source list and inline playback in a visible reader card; validation and Pages deployment pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 7,
+          "appliedRevision": 8,
           "source": "shared hosted reader source",
-          "build": "1.0.11 / shared reader UI build 52; Pages deployment pending",
-          "evidence": "Windows uses the shared hosted reader. Reader-level audio setup placement is implemented in source; live hosted UI remains pending deployment."
+          "build": "1.0.11 / shared reader UI build 53; deployment pending",
+          "evidence": "Windows uses the shared hosted reader; updated visible listening card follows the same source and verse-cue flow after Pages deployment."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -818,10 +819,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 7,
+          "appliedRevision": 8,
           "source": "generated mobile/www bundle",
-          "build": "1.0.11 / shared UI build 52; iOS rebuild, installation and runtime pending",
-          "evidence": "Generated Capacitor reader bundle includes the reader-level audio controls. Build, install and device playback/follow behavior have not yet been verified."
+          "build": "1.0.11 / shared UI build 53; iOS rebuild/install/runtime pending",
+          "evidence": "Capacitor source sync and bundle parity passed at shared UI build 53; Xcode simulator build succeeded. Physical iPhone install and playback/follow remain unverified."
         }
       }
     },
