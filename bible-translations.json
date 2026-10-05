@@ -1,1 +1,396 @@
-{"translations":[{"id":"AAB","name":"Accessible Ancients Bible","website":"https://helloao.org/","licenseUrl":"https://github.com/HelloAOLab/bibles/blob/main/AAB/LICENSE","language":"eng"},{"id":"BSB","name":"Berean Standard Bible","website":"https://berean.bible/","licenseUrl":"https://berean.bible/","language":"eng"},{"id":"ENGWEBP","name":"World English Bible","website":"https://ebible.org/Scriptures/details.php?id=engwebp","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwebp","language":"eng"},{"id":"GHT","name":"Garth's Hyper-literal Translation","website":"https://www.wiebefamily.org/GHT.htm","licenseUrl":"https://www.wiebefamily.org/GHT.htm","language":"eng"},{"id":"eng_abt","name":"American Standard Version Byzantine Text","website":"https://ebible.org/Scriptures/details.php?id=engasvbt","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engasvbt","language":"eng"},{"id":"eng_aoi","name":"Anindilyakwa English Bible","website":"https://ebible.org/Scriptures/details.php?id=engaoi","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engaoi","language":"eng"},{"id":"eng_asv","name":"American Standard Version (1901)","website":"https://ebible.org/Scriptures/details.php?id=eng-asv","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-asv","language":"eng"},{"id":"eng_bar","name":"Barkly Bible Portions","website":"https://ebible.org/Scriptures/details.php?id=engbarkly","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engbarkly","language":"eng"},{"id":"eng_bbe","name":"Bible in Basic English","website":"https://ebible.org/Scriptures/details.php?id=engBBE","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engBBE","language":"eng"},{"id":"eng_boy","name":"Updated Brenton English Septuagint","website":"https://ebible.org/Scriptures/details.php?id=englxxup","licenseUrl":"https://ebible.org/Scriptures/details.php?id=englxxup","language":"eng"},{"id":"eng_bre","name":"Brenton Septuagint Translation","website":"https://ebible.org/Scriptures/details.php?id=eng-Brenton","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-Brenton","language":"eng"},{"id":"eng_cpb","name":"KJV Cambridge Paragraph Bible","website":"https://ebible.org/Scriptures/details.php?id=engkjvcpb","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engkjvcpb","language":"eng"},{"id":"eng_dby","name":"Darby Translation","website":"https://ebible.org/Scriptures/details.php?id=engDBY","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engDBY","language":"eng"},{"id":"eng_dra","name":"Douay-Rheims 1899","website":"https://ebible.org/Scriptures/details.php?id=engDRA","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engDRA","language":"eng"},{"id":"eng_emtv","name":"English Majority Text Version","website":"https://ebible.org/Scriptures/details.php?id=engemtv","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engemtv","language":"eng"},{"id":"eng_f35","name":"The New Testament with Commentary","website":"https://ebible.org/Scriptures/details.php?id=engf35","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engf35","language":"eng"},{"id":"eng_fbv","name":"Free Bible Version","website":"https://ebible.org/Scriptures/details.php?id=engfbv","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engfbv","language":"eng"},{"id":"eng_glw","name":"God's Living Word","website":"https://ebible.org/Scriptures/details.php?id=eng-glw","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-glw","language":"eng"},{"id":"eng_gnv","name":"Geneva Bible 1599","website":"https://ebible.org/Scriptures/details.php?id=enggnv","licenseUrl":"https://ebible.org/Scriptures/details.php?id=enggnv","language":"eng"},{"id":"eng_jps","name":"JPS TaNaKH 1917","website":"https://ebible.org/Scriptures/details.php?id=engjps","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engjps","language":"eng"},{"id":"eng_kja","name":"King James Version + Apocrypha","website":"https://ebible.org/Scriptures/details.php?id=eng-kjv","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-kjv","language":"eng"},{"id":"eng_kjv","name":"King James (Authorized) Version","website":"https://ebible.org/Scriptures/details.php?id=eng-kjv2006","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-kjv2006","language":"eng"},{"id":"eng_lee","name":"Isaac Leeser Tanakh","website":"https://ebible.org/Scriptures/details.php?id=englee","licenseUrl":"https://ebible.org/Scriptures/details.php?id=englee","language":"eng"},{"id":"eng_lsv","name":"Literal Standard Version","website":"https://ebible.org/Scriptures/details.php?id=englsv","licenseUrl":"https://ebible.org/Scriptures/details.php?id=englsv","language":"eng"},{"id":"eng_lxu","name":"LXX2012: Septuagint in British/International English 2012","website":"https://ebible.org/Scriptures/details.php?id=eng-uk-lxx2012","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-uk-lxx2012","language":"eng"},{"id":"eng_lxx","name":"LXX2012: Septuagint in American English 2012","website":"https://ebible.org/Scriptures/details.php?id=eng-lxx2012","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-lxx2012","language":"eng"},{"id":"eng_msb","name":"Majority Standard Bible","website":"https://ebible.org/Scriptures/details.php?id=engmsb","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engmsb","language":"eng"},{"id":"eng_net","name":"NET Bible","website":"https://ebible.org/Scriptures/details.php?id=engnet","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engnet","language":"eng"},{"id":"eng_nna","name":"Nyangumarta English Bible","website":"https://ebible.org/Scriptures/details.php?id=engnna","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engnna","language":"eng"},{"id":"eng_noy","name":"George Noyes Bible","website":"https://ebible.org/Scriptures/details.php?id=engnoy","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engnoy","language":"eng"},{"id":"eng_ojb","name":"The Orthodox Jewish Bible","website":"https://ebible.org/Scriptures/details.php?id=engojb","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engojb","language":"eng"},{"id":"eng_oke","name":"Targum Onkelos Etheridge","website":"https://ebible.org/Scriptures/details.php?id=engoke","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engoke","language":"eng"},{"id":"eng_our","name":"One Unity Resource Bible","website":"https://ebible.org/Scriptures/details.php?id=engourb","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engourb","language":"eng"},{"id":"eng_pev","name":"Plain English Version","website":"https://ebible.org/Scriptures/details.php?id=engPEV","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engPEV","language":"eng"},{"id":"eng_rv5","name":"Revised Version with Apocrypha (1895)","website":"https://ebible.org/Scriptures/details.php?id=eng-rv","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-rv","language":"eng"},{"id":"eng_t4t","name":"Translation for Translators","website":"https://ebible.org/Scriptures/details.php?id=eng-t4t","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-t4t","language":"eng"},{"id":"eng_tce","name":"Text-Critical English New Testament","website":"https://ebible.org/Scriptures/details.php?id=engtcent","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engtcent","language":"eng"},{"id":"eng_tnt","name":"Tyndale New Testament","website":"https://ebible.org/Scriptures/details.php?id=engtnt","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engtnt","language":"eng"},{"id":"eng_ulb","name":"Unlocked Literal Bible","website":"https://ebible.org/Scriptures/details.php?id=engULB","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engULB","language":"eng"},{"id":"eng_w88","name":"Wycliffe Bible","website":"https://ebible.org/Scriptures/details.php?id=engWycliffe","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engWycliffe","language":"eng"},{"id":"eng_wbs","name":"Noah Webster Bible","website":"https://ebible.org/Scriptures/details.php?id=engwebster","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwebster","language":"eng"},{"id":"eng_web","name":"World English Bible Classic","website":"https://ebible.org/Scriptures/details.php?id=eng-web","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-web","language":"eng"},{"id":"eng_webc","name":"World English Bible (Catholic)","website":"https://ebible.org/Scriptures/details.php?id=eng-web-c","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-web-c","language":"eng"},{"id":"eng_webpb","name":"World English Bible British Edition","website":"https://ebible.org/Scriptures/details.php?id=engwebpb","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwebpb","language":"eng"},{"id":"eng_webu","name":"World English Bible Updated","website":"https://ebible.org/Scriptures/details.php?id=engwebu","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwebu","language":"eng"},{"id":"eng_weu","name":"World English Bible British Edition with Deuterocanon","website":"https://ebible.org/Scriptures/details.php?id=eng-webbe","licenseUrl":"https://ebible.org/Scriptures/details.php?id=eng-webbe","language":"eng"},{"id":"eng_wmb","name":"World Messianic Bible","website":"https://ebible.org/Scriptures/details.php?id=engwmb","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwmb","language":"eng"},{"id":"eng_wmu","name":"World Messianic Bible British Edition","website":"https://ebible.org/Scriptures/details.php?id=engwmbb","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwmbb","language":"eng"},{"id":"eng_wyc2017","name":"Wycliffe's Bible with Modern Spelling","website":"https://ebible.org/Scriptures/details.php?id=engwyc2017","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwyc2017","language":"eng"},{"id":"eng_wyc2018","name":"Wycliffe's Bible with Modern Spelling (Enhanced)","website":"https://ebible.org/Scriptures/details.php?id=engwyc2018","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engwyc2018","language":"eng"},{"id":"eng_ylt","name":"Young's Literal Translation","website":"https://ebible.org/Scriptures/details.php?id=engylt","licenseUrl":"https://ebible.org/Scriptures/details.php?id=engylt","language":"eng"},{"id":"jpn_loc","name":"新改訳新約聖書(1965年版)","website":"https://ebible.org/Scriptures/details.php?id=jpn1965","licenseUrl":"https://ebible.org/Scriptures/details.php?id=jpn1965","language":"jpn"},{"id":"kor_old","name":"한국어 성경","website":"https://ebible.org/Scriptures/details.php?id=kor","licenseUrl":"https://ebible.org/Scriptures/details.php?id=kor","language":"kor"}]}
+{
+  "translations": [
+    {
+      "id": "AAB",
+      "name": "Accessible Ancients Bible",
+      "website": "https://helloao.org/",
+      "licenseUrl": "https://github.com/HelloAOLab/bibles/blob/main/AAB/LICENSE",
+      "language": "eng"
+    },
+    {
+      "id": "BSB",
+      "name": "Berean Standard Bible",
+      "website": "https://berean.bible/",
+      "licenseUrl": "https://berean.bible/",
+      "language": "eng"
+    },
+    {
+      "id": "ENGWEBP",
+      "name": "World English Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwebp",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwebp",
+      "language": "eng"
+    },
+    {
+      "id": "GHT",
+      "name": "Garth's Hyper-literal Translation",
+      "website": "https://www.wiebefamily.org/GHT.htm",
+      "licenseUrl": "https://www.wiebefamily.org/GHT.htm",
+      "language": "eng"
+    },
+    {
+      "id": "eng_abt",
+      "name": "American Standard Version Byzantine Text",
+      "website": "https://ebible.org/Scriptures/details.php?id=engasvbt",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engasvbt",
+      "language": "eng"
+    },
+    {
+      "id": "eng_aoi",
+      "name": "Anindilyakwa English Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engaoi",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engaoi",
+      "language": "eng"
+    },
+    {
+      "id": "eng_asv",
+      "name": "American Standard Version (1901)",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-asv",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-asv",
+      "language": "eng"
+    },
+    {
+      "id": "eng_bar",
+      "name": "Barkly Bible Portions",
+      "website": "https://ebible.org/Scriptures/details.php?id=engbarkly",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engbarkly",
+      "language": "eng"
+    },
+    {
+      "id": "eng_bbe",
+      "name": "Bible in Basic English",
+      "website": "https://ebible.org/Scriptures/details.php?id=engBBE",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engBBE",
+      "language": "eng"
+    },
+    {
+      "id": "eng_boy",
+      "name": "Updated Brenton English Septuagint",
+      "website": "https://ebible.org/Scriptures/details.php?id=englxxup",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=englxxup",
+      "language": "eng"
+    },
+    {
+      "id": "eng_bre",
+      "name": "Brenton Septuagint Translation",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-Brenton",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-Brenton",
+      "language": "eng"
+    },
+    {
+      "id": "eng_cpb",
+      "name": "KJV Cambridge Paragraph Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engkjvcpb",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engkjvcpb",
+      "language": "eng"
+    },
+    {
+      "id": "eng_dby",
+      "name": "Darby Translation",
+      "website": "https://ebible.org/Scriptures/details.php?id=engDBY",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engDBY",
+      "language": "eng"
+    },
+    {
+      "id": "eng_dra",
+      "name": "Douay-Rheims 1899",
+      "website": "https://ebible.org/Scriptures/details.php?id=engDRA",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engDRA",
+      "language": "eng"
+    },
+    {
+      "id": "eng_emtv",
+      "name": "English Majority Text Version",
+      "website": "https://ebible.org/Scriptures/details.php?id=engemtv",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engemtv",
+      "language": "eng"
+    },
+    {
+      "id": "eng_f35",
+      "name": "The New Testament with Commentary",
+      "website": "https://ebible.org/Scriptures/details.php?id=engf35",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engf35",
+      "language": "eng"
+    },
+    {
+      "id": "eng_fbv",
+      "name": "Free Bible Version",
+      "website": "https://ebible.org/Scriptures/details.php?id=engfbv",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engfbv",
+      "language": "eng"
+    },
+    {
+      "id": "eng_glw",
+      "name": "God's Living Word",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-glw",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-glw",
+      "language": "eng"
+    },
+    {
+      "id": "eng_gnv",
+      "name": "Geneva Bible 1599",
+      "website": "https://ebible.org/Scriptures/details.php?id=enggnv",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=enggnv",
+      "language": "eng"
+    },
+    {
+      "id": "eng_jps",
+      "name": "JPS TaNaKH 1917",
+      "website": "https://ebible.org/Scriptures/details.php?id=engjps",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engjps",
+      "language": "eng"
+    },
+    {
+      "id": "eng_kja",
+      "name": "King James Version + Apocrypha",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-kjv",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-kjv",
+      "language": "eng"
+    },
+    {
+      "id": "eng_kjv",
+      "name": "King James (Authorized) Version",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-kjv2006",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-kjv2006",
+      "language": "eng"
+    },
+    {
+      "id": "eng_lee",
+      "name": "Isaac Leeser Tanakh",
+      "website": "https://ebible.org/Scriptures/details.php?id=englee",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=englee",
+      "language": "eng"
+    },
+    {
+      "id": "eng_lsv",
+      "name": "Literal Standard Version",
+      "website": "https://ebible.org/Scriptures/details.php?id=englsv",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=englsv",
+      "language": "eng"
+    },
+    {
+      "id": "eng_lxu",
+      "name": "LXX2012: Septuagint in British/International English 2012",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-uk-lxx2012",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-uk-lxx2012",
+      "language": "eng"
+    },
+    {
+      "id": "eng_lxx",
+      "name": "LXX2012: Septuagint in American English 2012",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-lxx2012",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-lxx2012",
+      "language": "eng"
+    },
+    {
+      "id": "eng_msb",
+      "name": "Majority Standard Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engmsb",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engmsb",
+      "language": "eng"
+    },
+    {
+      "id": "eng_net",
+      "name": "NET Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engnet",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engnet",
+      "language": "eng"
+    },
+    {
+      "id": "eng_nna",
+      "name": "Nyangumarta English Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engnna",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engnna",
+      "language": "eng"
+    },
+    {
+      "id": "eng_noy",
+      "name": "George Noyes Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engnoy",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engnoy",
+      "language": "eng"
+    },
+    {
+      "id": "eng_ojb",
+      "name": "The Orthodox Jewish Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engojb",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engojb",
+      "language": "eng"
+    },
+    {
+      "id": "eng_oke",
+      "name": "Targum Onkelos Etheridge",
+      "website": "https://ebible.org/Scriptures/details.php?id=engoke",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engoke",
+      "language": "eng"
+    },
+    {
+      "id": "eng_our",
+      "name": "One Unity Resource Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engourb",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engourb",
+      "language": "eng"
+    },
+    {
+      "id": "eng_pev",
+      "name": "Plain English Version",
+      "website": "https://ebible.org/Scriptures/details.php?id=engPEV",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engPEV",
+      "language": "eng"
+    },
+    {
+      "id": "eng_rv5",
+      "name": "Revised Version with Apocrypha (1895)",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-rv",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-rv",
+      "language": "eng"
+    },
+    {
+      "id": "eng_t4t",
+      "name": "Translation for Translators",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-t4t",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-t4t",
+      "language": "eng"
+    },
+    {
+      "id": "eng_tce",
+      "name": "Text-Critical English New Testament",
+      "website": "https://ebible.org/Scriptures/details.php?id=engtcent",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engtcent",
+      "language": "eng"
+    },
+    {
+      "id": "eng_tnt",
+      "name": "Tyndale New Testament",
+      "website": "https://ebible.org/Scriptures/details.php?id=engtnt",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engtnt",
+      "language": "eng"
+    },
+    {
+      "id": "eng_ulb",
+      "name": "Unlocked Literal Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engULB",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engULB",
+      "language": "eng"
+    },
+    {
+      "id": "eng_w88",
+      "name": "Wycliffe Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engWycliffe",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engWycliffe",
+      "language": "eng"
+    },
+    {
+      "id": "eng_wbs",
+      "name": "Noah Webster Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwebster",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwebster",
+      "language": "eng"
+    },
+    {
+      "id": "eng_web",
+      "name": "World English Bible Classic",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-web",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-web",
+      "language": "eng"
+    },
+    {
+      "id": "eng_webc",
+      "name": "World English Bible (Catholic)",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-web-c",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-web-c",
+      "language": "eng"
+    },
+    {
+      "id": "eng_webpb",
+      "name": "World English Bible British Edition",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwebpb",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwebpb",
+      "language": "eng"
+    },
+    {
+      "id": "eng_webu",
+      "name": "World English Bible Updated",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwebu",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwebu",
+      "language": "eng"
+    },
+    {
+      "id": "eng_weu",
+      "name": "World English Bible British Edition with Deuterocanon",
+      "website": "https://ebible.org/Scriptures/details.php?id=eng-webbe",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=eng-webbe",
+      "language": "eng"
+    },
+    {
+      "id": "eng_wmb",
+      "name": "World Messianic Bible",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwmb",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwmb",
+      "language": "eng"
+    },
+    {
+      "id": "eng_wmu",
+      "name": "World Messianic Bible British Edition",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwmbb",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwmbb",
+      "language": "eng"
+    },
+    {
+      "id": "eng_wyc2017",
+      "name": "Wycliffe's Bible with Modern Spelling",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwyc2017",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwyc2017",
+      "language": "eng"
+    },
+    {
+      "id": "eng_wyc2018",
+      "name": "Wycliffe's Bible with Modern Spelling (Enhanced)",
+      "website": "https://ebible.org/Scriptures/details.php?id=engwyc2018",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engwyc2018",
+      "language": "eng"
+    },
+    {
+      "id": "eng_ylt",
+      "name": "Young's Literal Translation",
+      "website": "https://ebible.org/Scriptures/details.php?id=engylt",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=engylt",
+      "language": "eng"
+    },
+    {
+      "id": "jpn_loc",
+      "name": "新改訳新約聖書(1965年版)",
+      "website": "https://ebible.org/Scriptures/details.php?id=jpn1965",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=jpn1965",
+      "language": "jpn"
+    },
+    {
+      "id": "kor_old",
+      "name": "한국어 성경",
+      "website": "https://ebible.org/Scriptures/details.php?id=kor",
+      "licenseUrl": "https://ebible.org/Scriptures/details.php?id=kor",
+      "language": "kor"
+    },
+    {
+      "id": "rus_syn",
+      "name": "Синодальный перевод",
+      "website": "https://ebible.org/Scriptures/details.php?id=russyn",
+      "licenseUrl": "https://ebible.org/russyn/copyright.htm",
+      "language": "rus"
+    },
+    {
+      "id": "ukr_ufb",
+      "name": "Біблія свободи",
+      "website": "https://ebible.org/Scriptures/details.php?id=ukrfb",
+      "licenseUrl": "https://ebible.org/ukrfb/copyright.htm",
+      "language": "ukr"
+    },
+    {
+      "id": "ukr_pan",
+      "name": "Біблія в пер. П.Куліша та І.Пулюя, 1905",
+      "website": "https://ebible.org/Scriptures/details.php?id=ukr1871",
+      "licenseUrl": "https://ebible.org/ukr1871/copyright.htm",
+      "language": "ukr"
+    }
+  ]
+}

@@ -1064,6 +1064,76 @@
         }
       },
       "workItem": "selah-dynamic-country-regions-20261005"
+    },
+    {
+      "id": "SELAH-RUSSIAN-UKRAINIAN-BIBLE-READING",
+      "revision": 1,
+      "title": "러시아어·우크라이나어 성경 읽기와 현지어 진입 페이지",
+      "acceptance": [
+        "앱 언어와 성경 언어에서 러시아어와 우크라이나어를 선택할 수 있다",
+        "러시아어 시노달 성경과 우크라이나어 성경을 읽고 전체 다운로드하여 오프라인으로 사용할 수 있다",
+        "성경판의 출처와 퍼블릭 도메인 권리 정보를 표시한다",
+        "러시아어·우크라이나어 검색 진입 페이지를 사이트맵에 넣고 해당 언어로 성경 읽기를 연다"
+      ],
+      "paths": [
+        "index.html",
+        "ru/index.html",
+        "uk/index.html",
+        "bible-translations.json",
+        "bible-rights.json",
+        "assets/bible-book-catalogs.js",
+        "matthew-rus-syn.json",
+        "matthew-ukr-ufb.json",
+        "mobile/scripts/copy-web.mjs",
+        "mobile/www/index.html",
+        "mobile/www/ru/index.html",
+        "mobile/www/uk/index.html",
+        "SHARED_APP_BUILD.json",
+        "contracts/feature-parity.json",
+        "TODO.md",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "mobile/www/assets/bible-book-catalogs.js",
+        "mobile/www/bible-rights.json",
+        "mobile/www/bible-translations.json",
+        "mobile/www/matthew-rus-syn.json",
+        "mobile/www/matthew-ukr-ufb.json"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Shared Selah",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "selah-ru-uk-bible-20261005",
+          "build": "1.0.12 / build 56 shared source",
+          "evidence": "Russian and Ukrainian reader UI, discoverable language landing pages, rights-reviewed editions, and whole-Bible download support added. Web deployment not performed."
+        },
+        "windows": {
+          "owner": "Windows Selah maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared Selah UI and Windows app-shell",
+          "build": "1.0.12 / build 56 shared source",
+          "evidence": "Shared reader, Bible rights registry, and generated mobile/www bundle updated. Installed Windows app not verified."
+        },
+        "ios": {
+          "owner": "iOS Selah maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "shared Selah UI and generated mobile/www",
+          "build": "1.0.12 / build 56 shared source",
+          "evidence": "Shared reader and generated mobile/www bundle updated. iOS package and installed runtime not verified."
+        },
+        "macos": {
+          "owner": "Mac Selah maintainer - acknowledgement pending",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "macOS source and runtime acceptance not verified."
+        }
+      }
     }
   ]
 }
