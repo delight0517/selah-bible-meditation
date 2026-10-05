@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 13,
+      "revision": 14,
       "title": "번역본별 YouTube 성경 듣기·연속 재생·미니 플레이어",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -797,6 +797,7 @@
         "SHARED_APP_BUILD.json",
         "mobile/www/SHARED_APP_BUILD.json",
         "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "mobile/ios/App/CapApp-SPM/Package.swift",
         "mobile/www/scripts/unified-data.js",
         "scripts/test-unified-data.mjs",
         "youtube-player.html",
@@ -807,7 +808,7 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 13,
+          "appliedRevision": 14,
           "source": "index.html + generated Capacitor shared bundle",
           "build": "1.0.13 / build 61; deploy/readback pending",
           "evidence": "Revision 13 stacks audio guidance and controls on mobile; hosted runtime deployment/readback pending."
@@ -815,7 +816,7 @@
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 13,
+          "appliedRevision": 14,
           "source": "shared hosted reader source",
           "build": "1.0.13 / build 61; deploy/readback pending",
           "evidence": "Revision 13 stacks audio guidance and controls on mobile; hosted runtime deployment/readback pending."
@@ -830,7 +831,7 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 13,
+          "appliedRevision": 14,
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
           "build": "1.0.13 / build 61; iOS 26.4 simulator installed and visually checked",
           "evidence": "Simulator screenshot confirms the World English Bible label, non-overlapping vertical guidance/search control, and hidden empty source card. Live YouTube results still recommend an ESV playlist first; exact-version discovery remains unresolved. Physical iPhone, ad, Premium, and continuous playlist behavior were not verified in this run."
