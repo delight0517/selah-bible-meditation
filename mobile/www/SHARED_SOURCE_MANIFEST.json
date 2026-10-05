@@ -1,11 +1,11 @@
 {
   "appId": "selah",
   "version": "1.0.11",
-  "build": 51,
+  "build": 52,
   "dataContractVersion": 1,
   "source": "https://delight0517.github.io/selah-bible-meditation/",
   "files": {
-    "SHARED_APP_BUILD.json": "dc02580e69e6725b036b60b79aef7a546f9714c8312def28cbbdca6721ab9ded",
+    "SHARED_APP_BUILD.json": "98ffe9699bce331e5073c36a6ce4ac1e35bd9be0142fc6a34a75aba9d77da368",
     "assets/COUNTRY-REGION-DATA-LICENSE.txt": "a02cfcf8c0671fd1322ef45356e027407104305fc5222bf6a13a534e2f82e1b5",
     "assets/MATERIAL-ICONS-LICENSE.txt": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
     "assets/MATERIAL-ICONS-NOTICE.txt": "c783fe6c609e28c6442b3e8aece00e8a1a9afdcf5c78e1a9566877523d0cea78",
@@ -44,7 +44,7 @@
     "bible-rights.json": "94ca101dae74b197850c72120c2f4c52a462ab718c455df9a11dea88e7218f34",
     "bible-translations.json": "66c8e34c3d43bc464869d49303308cf394d8c8feaa744ef7b65fb806dd95f2c2",
     "home.html": "80b2ed335b021c3943c9e654318866a521f21383ec618c1ef7627891a2750c7d",
-    "index.html": "4ddd0e9752b579b70d4a6377ee95a50f8b92d387dc5442bac759c53d2a0ced31",
+    "index.html": "a3b8e75d7ccfa022f704e0bea44c67a2f3e9e3dc7899bca422efd368423f70e2",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
