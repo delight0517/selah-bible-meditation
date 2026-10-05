@@ -23,3 +23,7 @@ Mirrored copies in mobile web bundles retain the same terms. Downloadable transl
 - Capacitor and other dependency packages retain their upstream license files and notices. The mobile package manager must preserve those when building a distribution; they are not relicensed by Selah.
 
 The Windows launcher ZIP contains application launcher code and documentation only. It links to the hosted app and does not bundle Scripture datasets or third-party image/font assets.
+
+## Per-edition rights registry
+
+`bible-rights.json` records the reviewed edition identity, license/rights status, jurisdiction, redistribution and commercial-use status, required attribution, source URL, download decision, and conservative ad decision. `review_required` is not a legal conclusion; it means Selah has not verified enough source-specific evidence to enable new distribution. The library shows these terms for the selected text. Its ad policy suppresses ads on a device that stores a non-commercial or unreviewed edition. The website currently contains no live ad SDK/rendering code; any future provider must call `window.SelahBibleRights.canServeAds()` before requesting or rendering an ad. This registry is an operational summary, not legal advice. Recheck official sources before a new country/store release.
