@@ -460,6 +460,13 @@
       "items": {
         "$ref": "#/$defs/togetherRead"
       }
+    },
+    "bibleAudioLinks": {
+      "type": "array",
+      "description": "User-owned YouTube audio links saved separately for each selected Bible translation.",
+      "items": {
+        "$ref": "#/$defs/bibleAudioLink"
+      }
     }
   },
   "$defs": {
@@ -1001,6 +1008,45 @@
         "friendName": {
           "type": "string",
           "maxLength": 80
+        }
+      }
+    },
+    "bibleAudioLink": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "translationId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "translationName": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "language": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "mediaType": {
+          "enum": [
+            "video",
+            "playlist"
+          ]
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     }
