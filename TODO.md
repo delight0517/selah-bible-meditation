@@ -2,6 +2,7 @@
 - [x] 선택한 성경 번역본에 맞는 YouTube 영상/재생목록을 이름과 함께 저장하고, 번역본별로 분리해 재생·외부 열기·삭제할 수 있도록 공용 읽기 화면에 추가했다.
 - [x] 저장 항목은 기존 통합 데이터 동기화에 포함하고 Cloud state 스키마에도 옵션 필드로 등록했다. iframe은 요청 후 `youtube-nocookie.com`에서 클릭 후 로드한다. shared UI 버전을 build 37로 올렸다.
 - [x] YouTube Premium은 공식 YouTube 앱/사이트에서 사용자의 로그인 세션을 사용하도록 안내한다. Selah 내부 YouTube/Google OAuth, 비밀번호 수집은 구현하지 않는다.
+- [x] 공용 소스 동기화, 데이터 병합 회귀, 기능 계약 검사가 통과했다.
 - [ ] PR 검사와 GitHub Pages 반영 readback 확인. 실제 앱/브라우저 재생, iPhone 런타임은 아직 검증되지 않았다.
 
 ## 2026-10-05 · 언어별 무료 큐티 바로가기 카탈로그
