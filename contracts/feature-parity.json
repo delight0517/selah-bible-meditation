@@ -548,7 +548,7 @@
     },
     {
       "id": "SELAH-SCRIPTURE-PER-USER-HIGHLIGHTS",
-      "revision": 4,
+      "revision": 5,
       "title": "드래그 구절 개인 색상 하이라이트",
       "acceptance": [
         "웹과 iPhone Safari에서 성경 본문 글자를 드래그해 한 구절 또는 여러 구절의 선택 범위에 여섯 색 중 하나를 적용할 수 있다.",
@@ -556,6 +556,7 @@
         "선택한 색을 구절 도구막대에서 지울 수 있으며 겹친 범위의 나머지 하이라이트는 유지된다.",
         "친구와 함께 읽기 위치나 초대 링크에는 개인 하이라이트가 포함되지 않는다.",
         "하이라이트 선택 도구와 상태가 지원 UI 언어(한국어, 영어, 일본어, 중국어 간체·번체, 스페인어, 브라질 포르투갈어, 필리핀어)로 표시된다.",
+        "기본 본문이 시작 시 정상적으로 렌더링된다. 하이라이트 모듈이 없거나 실패해도 안전하게 이스케이프된 성경 본문을 계속 읽을 수 있다.",
         "비로그인 사용자가 하이라이트가 있는 상태에서 묵상을 마치면 계정 저장 안내를 본다. 가입 또는 로그인을 선택하면 현재 기기의 개인 하이라이트가 기존 BlueCloud 계정 동기화 경로로 보존되며, 나중에 닫을 수도 있다."
       ],
       "paths": [
@@ -565,6 +566,7 @@
         "contracts/selah-cloud-state.schema.json",
         "contracts/feature-parity.json",
         "scripts/test-scripture-highlights.mjs",
+        "scripts/test-reader-startup.cjs",
         "mobile/www/index.html",
         "mobile/www/assets/scripture-highlights.js",
         "mobile/www/scripts/unified-data.js",
@@ -576,20 +578,20 @@
       ],
       "platforms": {
         "web": {
-          "owner": "Selah reader feature task",
+          "owner": "Selah hosted reader task",
           "state": "implemented",
-          "appliedRevision": 4,
-          "source": "current task branch",
-          "build": "shared UI 1.0.11/build 36",
-          "evidence": "Guest finish/timeout/Escape with private highlights opens a localized sign-in/create-account prompt; existing BlueCloud account flow preserves local readerMarks through the unified merge. Source, focused tests, and shared-bundle checks pass; public deploy readback pending. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "appliedRevision": 5,
+          "source": "codex/selah-reader-render-fix-20261005 shared hosted reader",
+          "build": "shared UI 1.0.11/build 45",
+          "evidence": "Reader renderer now uses window.SelahScriptureHighlights, the module's actual exported name, and falls back to escaped plain verse text if optional highlighting is unavailable. Reader-startup regression verifies both paths. Browser runtime and public Pages deployment are pending."
         },
         "windows": {
           "owner": "Selah shared hosted reader",
           "state": "implemented",
-          "appliedRevision": 4,
-          "source": "delight0517/selah-bible-meditation shared hosted source",
-          "build": "shared UI 1.0.11/build 36",
-          "evidence": "Windows launcher uses the shared hosted reader; behavior follows web source after Pages deployment. Windows runtime not independently exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "appliedRevision": 5,
+          "source": "codex/selah-reader-render-fix-20261005 shared hosted source",
+          "build": "shared UI 1.0.11/build 45",
+          "evidence": "Windows launcher consumes the shared hosted reader; the corrected renderer will be available after Pages deployment. Store package generation and installed Windows runtime verification remain pending."
         },
         "macos": {
           "owner": "Mac Selah maintainer",
@@ -597,16 +599,16 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Standalone macOS reading implementation and runtime ownership still need confirmation; existing shared Apple parity work item remains the owner. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "evidence": "Revision 5 reassessed: the standalone macOS reader source and runtime owner remain unverified, so adoption of the renderer compatibility fix is pending with the existing shared Apple parity work item.",
           "workItem": "selah-apple-feature-parity-20261003"
         },
         "ios": {
           "owner": "Selah shared iPhone reader",
           "state": "implemented",
-          "appliedRevision": 4,
-          "source": "generated mobile/www from current task branch",
-          "build": "shared UI 1.0.11/build 36",
-          "evidence": "Capacitor bundle generated with localized guest save prompt; physical iPhone runtime not exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "appliedRevision": 5,
+          "source": "generated mobile/www from codex/selah-reader-render-fix-20261005",
+          "build": "shared UI 1.0.11/build 45",
+          "evidence": "Generated Capacitor source includes the matching highlight export and plain-text fallback; source and bundle parity checks pass, but physical iPhone runtime is not exercised."
         }
       }
     },
@@ -870,7 +872,7 @@
     },
     {
       "id": "SELAH-BIBLE-VERSION-RIGHTS",
-      "revision": 8,
+      "revision": 5,
       "title": "읽기 화면의 정확한 성경 판본명 표시와 판본별 권리 안내",
       "acceptance": [
         "각 개별 번역본과 앱 포함 판본은 고유 권리 기록, 출처 URL, 라이선스 상태, 관할 범위, 필수 표기를 가진다.",
@@ -879,8 +881,7 @@
         "비영리 전용 판본이 기기에 저장되면 어떤 화면에서도 광고용 SDK가 표시할 수 없도록 공통 정책 훅이 false를 반환한다.",
         "기본 한글 1961 판본과 Bible API의 Korean 1910 ID는 서로 다른 판본으로 취급한다.",
         "일반 본문·집중 묵상 화면에서 현재 선택된 번역본의 권리 목록상 정식 판본명을 항상 표시하며, 사용자 입력 본문은 판본 미확인으로 구분한다.",
-        "본문 및 집중 읽기 재렌더링 직후 판본 표시가 갱신되어, 권리 안내창의 비동기 완료 여부에 의존하지 않는다.",
-        "기본 번역본의 마태복음 장은 먼저 내장 데이터를 읽어 IndexedDB 상태와 네트워크 연결에 관계없이 표시한다."
+        "본문 및 집중 읽기 재렌더링 직후 판본 표시가 갱신되어, 권리 안내창의 비동기 완료 여부에 의존하지 않는다."
       ],
       "paths": [
         "index.html",
@@ -902,18 +903,18 @@
         "web": {
           "owner": "Selah shared web reader",
           "state": "implemented",
-          "appliedRevision": 8,
+          "appliedRevision": 5,
           "source": "shared web source",
-          "build": "1.0.11 / build 48",
-          "evidence": "Reader render refreshes the exact edition; bundled Matthew renders before IndexedDB/network fallback."
+          "build": "1.0.11 / build 49",
+          "evidence": "Reader render refreshes the exact edition label independently of asynchronous rights-notice rendering; native runtime proof is recorded separately."
         },
         "windows": {
           "owner": "Selah shared reader / Windows shell",
           "state": "implemented",
-          "appliedRevision": 8,
+          "appliedRevision": 5,
           "source": "shared web source",
-          "build": "1.0.11 / build 48",
-          "evidence": "Reader render refreshes the exact edition; bundled Matthew renders before IndexedDB/network fallback."
+          "build": "1.0.11 / build 49",
+          "evidence": "Reader render refreshes the exact edition label independently of asynchronous rights-notice rendering; native runtime proof is recorded separately."
         },
         "macos": {
           "owner": "Selah platform contract",
@@ -923,10 +924,10 @@
         "ios": {
           "owner": "Selah Capacitor iOS reader",
           "state": "implemented",
-          "appliedRevision": 8,
+          "appliedRevision": 5,
           "source": "generated mobile/www shared reader",
-          "build": "1.0.11 / build 48",
-          "evidence": "Reader render refreshes the exact edition; bundled Matthew renders before IndexedDB/network fallback."
+          "build": "1.0.11 / build 49",
+          "evidence": "Reader render refreshes the exact edition label independently of asynchronous rights-notice rendering; native runtime proof is recorded separately."
         }
       }
     },
