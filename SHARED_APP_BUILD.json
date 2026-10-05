@@ -1,8 +1,8 @@
 {
   "appId": "selah",
   "version": "1.0.11",
-  "build": 43,
+  "build": 44,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Per-edition Bible rights, attribution, download and ad eligibility registry"
+  "description": "Exact selected Bible edition name visible in both Scripture readers; per-edition rights registry"
 }
