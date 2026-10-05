@@ -1,8 +1,8 @@
 {
   "appId": "selah",
-  "version": "1.0.12",
-  "build": 56,
+  "version": "1.0.13",
+  "build": 57,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Russian and Ukrainian Bible reading and language support"
+  "description": "Dark theme contrast fixes"
 }
