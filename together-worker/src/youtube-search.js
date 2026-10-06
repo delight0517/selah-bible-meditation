@@ -62,6 +62,7 @@ export async function searchYouTube(request, env, reserveQuota) {
     const params=new URLSearchParams({part:'snippet',type:'video',videoEmbeddable:'true',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,snippet(title,description,channelTitle))'});
     const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
     if(response?.status===429){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}
+    if(response?.status===403){const data=await response.json().catch(()=>null),quotaExceeded=data?.error?.errors?.some(error=>error?.reason==='quotaExceeded');if(quotaExceeded){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}}
     if(!response?.ok)return{error:true};
     const data=await response.json().catch(()=>null);return{items:data?.items||[]};
   };
