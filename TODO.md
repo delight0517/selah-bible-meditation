@@ -776,3 +776,4 @@
 - [x] Record source parity revision 18 and prepare shared iOS/web source as build 65.
 - [ ] Verify in a browser that this action saves only the selected-translation copy, exposes cue controls, and that confirmed cues drive verse following during playback.
 - [ ] Build/install build 65 and verify the same flow on iPhone. Build 64 playback remains unverified; existing iPhone Mirroring action is still required.
+- [ ] Selah YouTube 성경 듣기: 확인된 NLT 마태복음 28개 챕터 시점으로 장·1절 동기화(build 66) 구현. 배포 readback과 실기기에서 실제 음성 재생·본문 따라가기 검증은 별도 완료 필요; 절별 세부 동기화는 사용자가 저장한 시점만 사용.

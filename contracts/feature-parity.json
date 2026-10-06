@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 18,
+      "revision": 19,
       "title": "번역본별 YouTube 성경 듣기·연속 재생·미니 플레이어",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -790,7 +790,8 @@
         "The Bible audio setup is collapsed by default on first load so it does not displace the passage; users can expand it with a localized native disclosure, and the saved-source quick play remains available.",
         "한국어 마태복음(MAT)에는 앱에서 미리 고른 마태복음 1–28장 전체 YouTube 낭독을 바로 재생할 수 있다. 출처와 낭독 번역본(개역개정 4판)을 분명히 표시하며, 현재 선택 성경(개역한글판 1961 등)과 판본이 다를 수 있음을 알린다. 타임스탬프가 검증되지 않은 상태에서는 절별 자동 추적이나 장 자동 이동을 표시하지 않는다.",
         "The curated-to-user-owned verse-sync action is localized in Korean, English, Japanese, Simplified and Traditional Chinese, Filipino, Spanish, and Brazilian Portuguese. No verse or chapter timestamp is invented or implied before the user records one.",
-        "Curated Matthew remains a read-only recommendation by default. An explicit localized verse-sync action creates or reuses a separate user-owned copy under the currently selected translation, without changing an existing explicit translation default; users can add confirmed verse timestamps to that copy and Selah follows only those saved cues."
+        "Curated Matthew remains a read-only recommendation by default. An explicit localized verse-sync action creates or reuses a separate user-owned copy under the currently selected translation, without changing an existing explicit translation default; users can add confirmed verse timestamps to that copy and Selah follows only those saved cues.",
+        "The separately curated NLT Matthew audio remains explicitly labeled NLT and may be followed while any Matthew Bible translation is selected. Its 28 chapter-start timestamps come from the public video description, are verified in order, and synchronize only to that chapter's verse 1; no within-chapter verse timings are claimed. The localized status distinguishes verified chapter starts from user-added verse timings."
       ],
       "paths": [
         "index.html",
@@ -814,18 +815,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 18,
+          "appliedRevision": 19,
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / build 65 source; deployment/runtime verification pending",
-          "evidence": "Revision 18 adds an explicit action that saves/reuses a user-owned copy of curated Korean Matthew for the currently selected translation, enabling manual verse-cue recording without changing the curated source or claiming exact-edition matching. Deployment and platform playback remain pending."
+          "build": "1.0.13 / build 66 source; deployment/runtime verification pending",
+          "evidence": "Revision 19 adds NLT Matthew chapter-start synchronization from 28 public description timestamps, localized chapter-only labeling, and retains user-owned manual verse cues. Deployment and playback runtime verification remain pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 18,
+          "appliedRevision": 19,
           "source": "shared hosted reader source",
-          "build": "1.0.13 / build 65 source; deployment/runtime verification pending",
-          "evidence": "Revision 18 adds an explicit action that saves/reuses a user-owned copy of curated Korean Matthew for the currently selected translation, enabling manual verse-cue recording without changing the curated source or claiming exact-edition matching. Deployment and platform playback remain pending."
+          "build": "1.0.13 / build 66 source; deployment/runtime verification pending",
+          "evidence": "Revision 19 adds NLT Matthew chapter-start synchronization from 28 public description timestamps, localized chapter-only labeling, and retains user-owned manual verse cues. Deployment and playback runtime verification remain pending."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -837,10 +838,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 18,
+          "appliedRevision": 19,
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 65 source; deployment/runtime verification pending",
-          "evidence": "Revision 18 adds an explicit action that saves/reuses a user-owned copy of curated Korean Matthew for the currently selected translation, enabling manual verse-cue recording without changing the curated source or claiming exact-edition matching. Deployment and platform playback remain pending."
+          "build": "1.0.13 / build 66 source; deployment/runtime verification pending",
+          "evidence": "Revision 19 adds NLT Matthew chapter-start synchronization from 28 public description timestamps, localized chapter-only labeling, and retains user-owned manual verse cues. Deployment and playback runtime verification remain pending."
         }
       }
     },
