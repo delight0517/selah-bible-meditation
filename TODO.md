@@ -6,7 +6,8 @@
 - [x] 실제 Worker→YouTube API 검색 1회가 HTTP 200으로 응답했다. 한국어 마태복음 1장에서 개역한글·개역개정·새번역·우리말성경은 각각 5개 후보, 공동번역은 0개였다. 반환된 20개 후보는 설명란에서 절/장 시점을 찾지 못했다.
 - [x] Worker fallback 분류 수정을 PR #285로 병합하고 Pages에 배포했다. 한국어 검색에서 오분류된 개역개정 결과가 공동번역 그룹에 섞이지 않게 막았다.
 - [ ] 쉬운성경을 여섯 번째 한국어 오디오 선택지로 추가했다. 실제 API 검색에서 후보 수와 정합성을 확인하고 부족한 판본을 계속 보완한다.
-- [x] Google Cloud Monitoring에서 직전 24시간 YouTube search.list 성공 100회와 HTTP 429 3회를 확인했다. Worker 한도를 70회로 낮추고 상류 429를 받으면 Pacific 자정까지 검색을 막았다. Google 공식 오류 문서는 일일 quota 초과를 `403 quotaExceeded`로도 정의한다. Worker가 이 응답도 같은 방식으로 막고 일반 403은 차단 사유로 취급하지 않게 보강했다. 합성 계약 테스트는 두 경우를 구분해 통과했다. Cloudflare 배포는 아직 남아 있다.
+- [x] Google Cloud Monitoring에서 직전 24시간 YouTube search.list 성공 100회와 HTTP 429 3회를 확인했다. Worker 한도를 70회로 낮추고 상류 429를 받으면 Pacific 자정까지 검색을 막았다. Google 공식 오류 문서는 일일 quota 초과를 `403 quotaExceeded`로도 정의한다. Worker가 이 응답도 같은 방식으로 막고 일반 403은 차단 사유로 취급하지 않게 보강했다. 합성 계약 테스트는 두 경우를 구분해 통과했다.
+- [x] PR #287을 merge commit `e753692864bedb1fb3e7518faf037e78e550f800`으로 병합하고, quotaExceeded 처리 코드를 Worker version `330e4231-c5fa-4518-a681-b20af6ab3130`으로 배포했다. Cloudflare deployment list에서 100% 적용을 확인했고, 웹 origin OPTIONS preflight는 HTTP 204를 반환했다. 일일 한도 리셋 전에는 실제 YouTube 검색을 더 호출하지 않았다.
 - [ ] 일일 quota reset 이후 새 한도에서 쉬운성경 실제 후보를 확인한다. reset 전에는 YouTube API를 다시 호출하지 않는다.
 - [ ] 웹에서 후보 저장→YouTube 재생→절 시점 저장→본문 따라가기까지 확인한다. 실제 검색 결과에서 timing cue는 없었고, 실제 재생/follow 및 언어별 5+ 완전 오디오 역본은 아직 검증되지 않았다.
 
