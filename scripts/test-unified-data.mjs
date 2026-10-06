@@ -102,7 +102,7 @@ test('personal highlight color preference synchronizes as its own account regist
 test('Bible audio favorites sync multiple sources and one last-write-wins default per translation', () => {
   const start = { ...base(), bibleAudioLinks: [], bibleAudioDefaults: [] };
   const pc = edit(start, 'Windows', 100, state => {
-    state.bibleAudioLinks.push({ id: 'source-video', translationId: 'WEB', url: 'https://youtu.be/abcdefghijk', title: 'Video' });
+    state.bibleAudioLinks.push({ id: 'source-video', translationId: 'WEB', language: 'ko', audioLanguage: 'es', audioEdition: 'Reina-Valera 1960', url: 'https://youtu.be/abcdefghijk', title: 'Video' });
     state.bibleAudioDefaults.push({ id: 'default-WEB', translationId: 'WEB', sourceId: 'source-video', updatedAt: 100 });
   });
   const phone = edit(start, 'iOS', 120, state => {
@@ -111,6 +111,10 @@ test('Bible audio favorites sync multiple sources and one last-write-wins defaul
   });
   const merged = data.merge(pc, phone);
   assert.equal(merged.bibleAudioLinks.length, 2);
+  const spanishAudio = merged.bibleAudioLinks.find(item => item.id === 'source-video');
+  assert.equal(spanishAudio.language, 'ko');
+  assert.equal(spanishAudio.audioLanguage, 'es', 'audio language remains independent when saved and merged with Bible text');
+  assert.equal(spanishAudio.audioEdition, 'Reina-Valera 1960');
   assert.equal(merged.bibleAudioDefaults.length, 1);
   assert.equal(merged.bibleAudioDefaults[0].sourceId, 'source-site');
   same(merged, data.merge(phone, pc));

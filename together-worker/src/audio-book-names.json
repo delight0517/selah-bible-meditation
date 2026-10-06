@@ -1,0 +1,2640 @@
+{
+  "schema": 1,
+  "locales": {
+    "en": {
+      "label": "English",
+      "books": {
+        "GEN": [
+          "Genesis",
+          "Genesis"
+        ],
+        "EXO": [
+          "Exodus",
+          "Exodus"
+        ],
+        "LEV": [
+          "Leviticus",
+          "Leviticus"
+        ],
+        "NUM": [
+          "Numbers",
+          "Numbers"
+        ],
+        "DEU": [
+          "Deuteronomy",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "Joshua",
+          "Joshua"
+        ],
+        "JDG": [
+          "Judges",
+          "Judges"
+        ],
+        "RUT": [
+          "Ruth",
+          "Ruth"
+        ],
+        "1SA": [
+          "1 Samuel",
+          "1 Samuel"
+        ],
+        "2SA": [
+          "2 Samuel",
+          "2 Samuel"
+        ],
+        "1KI": [
+          "1 Kings",
+          "1 Kings"
+        ],
+        "2KI": [
+          "2 Kings",
+          "2 Kings"
+        ],
+        "1CH": [
+          "1 Chronicles",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "2 Chronicles",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "Ezra",
+          "Ezra"
+        ],
+        "NEH": [
+          "Nehemiah",
+          "Nehemiah"
+        ],
+        "EST": [
+          "Esther",
+          "Esther"
+        ],
+        "JOB": [
+          "Job",
+          "Job"
+        ],
+        "PSA": [
+          "Psalms",
+          "Psalms"
+        ],
+        "PRO": [
+          "Proverbs",
+          "Proverbs"
+        ],
+        "ECC": [
+          "Ecclesiastes",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "Song of Solomon",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "Isaiah",
+          "Isaiah"
+        ],
+        "JER": [
+          "Jeremiah",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "Lamentations",
+          "Lamentations"
+        ],
+        "EZK": [
+          "Ezekiel",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "Daniel",
+          "Daniel"
+        ],
+        "HOS": [
+          "Hosea",
+          "Hosea"
+        ],
+        "JOL": [
+          "Joel",
+          "Joel"
+        ],
+        "AMO": [
+          "Amos",
+          "Amos"
+        ],
+        "OBA": [
+          "Obadiah",
+          "Obadiah"
+        ],
+        "JON": [
+          "Jonah",
+          "Jonah"
+        ],
+        "MIC": [
+          "Micah",
+          "Micah"
+        ],
+        "NAM": [
+          "Nahum",
+          "Nahum"
+        ],
+        "HAB": [
+          "Habakkuk",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "Zephaniah",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "Haggai",
+          "Haggai"
+        ],
+        "ZEC": [
+          "Zechariah",
+          "Zechariah"
+        ],
+        "MAL": [
+          "Malachi",
+          "Malachi"
+        ],
+        "MAT": [
+          "Matthew",
+          "Matthew"
+        ],
+        "MRK": [
+          "Mark",
+          "Mark"
+        ],
+        "LUK": [
+          "Luke",
+          "Luke"
+        ],
+        "JHN": [
+          "John",
+          "John"
+        ],
+        "ACT": [
+          "Acts",
+          "Acts"
+        ],
+        "ROM": [
+          "Romans",
+          "Romans"
+        ],
+        "1CO": [
+          "1 Corinthians",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "2 Corinthians",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "Galatians",
+          "Galatians"
+        ],
+        "EPH": [
+          "Ephesians",
+          "Ephesians"
+        ],
+        "PHP": [
+          "Philippians",
+          "Philippians"
+        ],
+        "COL": [
+          "Colossians",
+          "Colossians"
+        ],
+        "1TH": [
+          "1 Thessalonians",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "2 Thessalonians",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "1 Timothy",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "2 Timothy",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "Titus",
+          "Titus"
+        ],
+        "PHM": [
+          "Philemon",
+          "Philemon"
+        ],
+        "HEB": [
+          "Hebrews",
+          "Hebrews"
+        ],
+        "JAS": [
+          "James",
+          "James"
+        ],
+        "1PE": [
+          "1 Peter",
+          "1 Peter"
+        ],
+        "2PE": [
+          "2 Peter",
+          "2 Peter"
+        ],
+        "1JN": [
+          "1 John",
+          "1 John"
+        ],
+        "2JN": [
+          "2 John",
+          "2 John"
+        ],
+        "3JN": [
+          "3 John",
+          "3 John"
+        ],
+        "JUD": [
+          "Jude",
+          "Jude"
+        ],
+        "REV": [
+          "Revelation",
+          "Revelation"
+        ]
+      }
+    },
+    "ko": {
+      "label": "한국어",
+      "books": {
+        "GEN": [
+          "창세기",
+          "Genesis"
+        ],
+        "EXO": [
+          "출애굽기",
+          "Exodus"
+        ],
+        "LEV": [
+          "레위기",
+          "Leviticus"
+        ],
+        "NUM": [
+          "민수기",
+          "Numbers"
+        ],
+        "DEU": [
+          "신명기",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "여호수아",
+          "Joshua"
+        ],
+        "JDG": [
+          "사사기",
+          "Judges"
+        ],
+        "RUT": [
+          "룻기",
+          "Ruth"
+        ],
+        "1SA": [
+          "사무엘상",
+          "1 Samuel"
+        ],
+        "2SA": [
+          "사무엘하",
+          "2 Samuel"
+        ],
+        "1KI": [
+          "열왕기상",
+          "1 Kings"
+        ],
+        "2KI": [
+          "열왕기하",
+          "2 Kings"
+        ],
+        "1CH": [
+          "역대상",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "역대하",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "에스라",
+          "Ezra"
+        ],
+        "NEH": [
+          "느헤미야",
+          "Nehemiah"
+        ],
+        "EST": [
+          "에스더",
+          "Esther"
+        ],
+        "JOB": [
+          "욥기",
+          "Job"
+        ],
+        "PSA": [
+          "시편",
+          "Psalms"
+        ],
+        "PRO": [
+          "잠언",
+          "Proverbs"
+        ],
+        "ECC": [
+          "전도서",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "아가",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "이사야",
+          "Isaiah"
+        ],
+        "JER": [
+          "예레미야",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "예레미야 애가",
+          "Lamentations"
+        ],
+        "EZK": [
+          "에스겔",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "다니엘",
+          "Daniel"
+        ],
+        "HOS": [
+          "호세아",
+          "Hosea"
+        ],
+        "JOL": [
+          "요엘",
+          "Joel"
+        ],
+        "AMO": [
+          "아모스",
+          "Amos"
+        ],
+        "OBA": [
+          "오바댜",
+          "Obadiah"
+        ],
+        "JON": [
+          "요나",
+          "Jonah"
+        ],
+        "MIC": [
+          "미가",
+          "Micah"
+        ],
+        "NAM": [
+          "나훔",
+          "Nahum"
+        ],
+        "HAB": [
+          "하박국",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "스바냐",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "학개",
+          "Haggai"
+        ],
+        "ZEC": [
+          "스가랴",
+          "Zechariah"
+        ],
+        "MAL": [
+          "말라기",
+          "Malachi"
+        ],
+        "MAT": [
+          "마태복음",
+          "Matthew"
+        ],
+        "MRK": [
+          "마가복음",
+          "Mark"
+        ],
+        "LUK": [
+          "누가복음",
+          "Luke"
+        ],
+        "JHN": [
+          "요한복음",
+          "John"
+        ],
+        "ACT": [
+          "사도행전",
+          "Acts"
+        ],
+        "ROM": [
+          "로마서",
+          "Romans"
+        ],
+        "1CO": [
+          "고린도전서",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "고린도후서",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "갈라디아서",
+          "Galatians"
+        ],
+        "EPH": [
+          "에베소서",
+          "Ephesians"
+        ],
+        "PHP": [
+          "빌립보서",
+          "Philippians"
+        ],
+        "COL": [
+          "골로새서",
+          "Colossians"
+        ],
+        "1TH": [
+          "데살로니가전서",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "데살로니가후서",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "디모데전서",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "디모데후서",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "디도서",
+          "Titus"
+        ],
+        "PHM": [
+          "빌레몬서",
+          "Philemon"
+        ],
+        "HEB": [
+          "히브리서",
+          "Hebrews"
+        ],
+        "JAS": [
+          "야고보서",
+          "James"
+        ],
+        "1PE": [
+          "베드로전서",
+          "1 Peter"
+        ],
+        "2PE": [
+          "베드로후서",
+          "2 Peter"
+        ],
+        "1JN": [
+          "요한1서",
+          "1 John"
+        ],
+        "2JN": [
+          "요한2서",
+          "2 John"
+        ],
+        "3JN": [
+          "요한3서",
+          "3 John"
+        ],
+        "JUD": [
+          "유다서",
+          "Jude"
+        ],
+        "REV": [
+          "요한계시록",
+          "Revelation"
+        ]
+      }
+    },
+    "ja": {
+      "label": "日本語",
+      "books": {
+        "MAT": [
+          "マタイの福音書",
+          "Matthew"
+        ],
+        "MRK": [
+          "マルコの福音書",
+          "Mark"
+        ],
+        "LUK": [
+          "ルカの福音書",
+          "Luke"
+        ],
+        "JHN": [
+          "ヨハネの福音書",
+          "John"
+        ],
+        "ACT": [
+          "使徒の働き",
+          "Acts"
+        ],
+        "ROM": [
+          "ローマ人への手紙",
+          "Romans"
+        ],
+        "1CO": [
+          "コリント人への手紙第一",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "コリント人への手紙第二",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "ガラテヤ人への手紙",
+          "Galatians"
+        ],
+        "EPH": [
+          "エペソ人への手紙",
+          "Ephesians"
+        ],
+        "PHP": [
+          "ピリピ人への手紙",
+          "Philippians"
+        ],
+        "COL": [
+          "コロサイ人への手紙",
+          "Colossians"
+        ],
+        "1TH": [
+          "テサロニケ人への手紙第一",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "テサロニケ人への手紙第二",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "テモテへの手紙第一",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "テモテへの手紙第二",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "テトスへの手紙",
+          "Titus"
+        ],
+        "PHM": [
+          "ピレモンへの手紙",
+          "Philemon"
+        ],
+        "HEB": [
+          "ヘブル人への手紙",
+          "Hebrews"
+        ],
+        "JAS": [
+          "ヤコブの手紙",
+          "James"
+        ],
+        "1PE": [
+          "ペテロの手紙第一",
+          "1 Peter"
+        ],
+        "2PE": [
+          "ペテロの手紙第二",
+          "2 Peter"
+        ],
+        "1JN": [
+          "ヨハネの手紙第一",
+          "1 John"
+        ],
+        "2JN": [
+          "ヨハネの手紙第二",
+          "2 John"
+        ],
+        "3JN": [
+          "ヨハネの手紙第三",
+          "3 John"
+        ],
+        "JUD": [
+          "ユダの手紙",
+          "Jude"
+        ],
+        "REV": [
+          "ヨハネの黙示録",
+          "Revelation"
+        ],
+        "GEN": [
+          "Genesis"
+        ],
+        "EXO": [
+          "Exodus"
+        ],
+        "LEV": [
+          "Leviticus"
+        ],
+        "NUM": [
+          "Numbers"
+        ],
+        "DEU": [
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "Joshua"
+        ],
+        "JDG": [
+          "Judges"
+        ],
+        "RUT": [
+          "Ruth"
+        ],
+        "1SA": [
+          "1 Samuel"
+        ],
+        "2SA": [
+          "2 Samuel"
+        ],
+        "1KI": [
+          "1 Kings"
+        ],
+        "2KI": [
+          "2 Kings"
+        ],
+        "1CH": [
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "Ezra"
+        ],
+        "NEH": [
+          "Nehemiah"
+        ],
+        "EST": [
+          "Esther"
+        ],
+        "JOB": [
+          "Job"
+        ],
+        "PSA": [
+          "Psalms"
+        ],
+        "PRO": [
+          "Proverbs"
+        ],
+        "ECC": [
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "Isaiah"
+        ],
+        "JER": [
+          "Jeremiah"
+        ],
+        "LAM": [
+          "Lamentations"
+        ],
+        "EZK": [
+          "Ezekiel"
+        ],
+        "DAN": [
+          "Daniel"
+        ],
+        "HOS": [
+          "Hosea"
+        ],
+        "JOL": [
+          "Joel"
+        ],
+        "AMO": [
+          "Amos"
+        ],
+        "OBA": [
+          "Obadiah"
+        ],
+        "JON": [
+          "Jonah"
+        ],
+        "MIC": [
+          "Micah"
+        ],
+        "NAM": [
+          "Nahum"
+        ],
+        "HAB": [
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "Zephaniah"
+        ],
+        "HAG": [
+          "Haggai"
+        ],
+        "ZEC": [
+          "Zechariah"
+        ],
+        "MAL": [
+          "Malachi"
+        ]
+      }
+    },
+    "zh-CN": {
+      "label": "简体中文",
+      "books": {
+        "GEN": [
+          "创世记",
+          "Genesis"
+        ],
+        "EXO": [
+          "出埃及记",
+          "Exodus"
+        ],
+        "LEV": [
+          "利未记",
+          "Leviticus"
+        ],
+        "NUM": [
+          "民数记",
+          "Numbers"
+        ],
+        "DEU": [
+          "申命记",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "约书亚记",
+          "Joshua"
+        ],
+        "JDG": [
+          "士师记",
+          "Judges"
+        ],
+        "RUT": [
+          "路得记",
+          "Ruth"
+        ],
+        "1SA": [
+          "撒母耳记上",
+          "1 Samuel"
+        ],
+        "2SA": [
+          "撒母耳记下",
+          "2 Samuel"
+        ],
+        "1KI": [
+          "列王纪上",
+          "1 Kings"
+        ],
+        "2KI": [
+          "列王纪下",
+          "2 Kings"
+        ],
+        "1CH": [
+          "历代志上",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "历代志下",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "以斯拉记",
+          "Ezra"
+        ],
+        "NEH": [
+          "尼希米记",
+          "Nehemiah"
+        ],
+        "EST": [
+          "以斯帖记",
+          "Esther"
+        ],
+        "JOB": [
+          "约伯记",
+          "Job"
+        ],
+        "PSA": [
+          "诗篇",
+          "Psalms"
+        ],
+        "PRO": [
+          "箴言",
+          "Proverbs"
+        ],
+        "ECC": [
+          "传道书",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "雅歌",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "以赛亚书",
+          "Isaiah"
+        ],
+        "JER": [
+          "耶利米书",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "耶利米哀歌",
+          "Lamentations"
+        ],
+        "EZK": [
+          "以西结书",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "但以理书",
+          "Daniel"
+        ],
+        "HOS": [
+          "何西阿书",
+          "Hosea"
+        ],
+        "JOL": [
+          "约珥书",
+          "Joel"
+        ],
+        "AMO": [
+          "阿摩司书",
+          "Amos"
+        ],
+        "OBA": [
+          "俄巴底亚书",
+          "Obadiah"
+        ],
+        "JON": [
+          "约拿书",
+          "Jonah"
+        ],
+        "MIC": [
+          "弥迦书",
+          "Micah"
+        ],
+        "NAM": [
+          "那鸿书",
+          "Nahum"
+        ],
+        "HAB": [
+          "哈巴谷书",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "西番雅书",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "哈该书",
+          "Haggai"
+        ],
+        "ZEC": [
+          "撒迦利亚书",
+          "Zechariah"
+        ],
+        "MAL": [
+          "玛拉基书",
+          "Malachi"
+        ],
+        "MAT": [
+          "马太福音",
+          "Matthew"
+        ],
+        "MRK": [
+          "马可福音",
+          "Mark"
+        ],
+        "LUK": [
+          "路加福音",
+          "Luke"
+        ],
+        "JHN": [
+          "约翰福音",
+          "John"
+        ],
+        "ACT": [
+          "使徒行传",
+          "Acts"
+        ],
+        "ROM": [
+          "罗马书",
+          "Romans"
+        ],
+        "1CO": [
+          "哥林多前书",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "哥林多后书",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "加拉太书",
+          "Galatians"
+        ],
+        "EPH": [
+          "以弗所书",
+          "Ephesians"
+        ],
+        "PHP": [
+          "腓立比书",
+          "Philippians"
+        ],
+        "COL": [
+          "歌罗西书",
+          "Colossians"
+        ],
+        "1TH": [
+          "帖撒罗尼迦前书",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "帖撒罗尼迦后书",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "提摩太前书",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "提摩太后书",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "提多书",
+          "Titus"
+        ],
+        "PHM": [
+          "腓利门书",
+          "Philemon"
+        ],
+        "HEB": [
+          "希伯来书",
+          "Hebrews"
+        ],
+        "JAS": [
+          "雅各书",
+          "James"
+        ],
+        "1PE": [
+          "彼得前书",
+          "1 Peter"
+        ],
+        "2PE": [
+          "彼得后书",
+          "2 Peter"
+        ],
+        "1JN": [
+          "约翰一书",
+          "1 John"
+        ],
+        "2JN": [
+          "约翰二书",
+          "2 John"
+        ],
+        "3JN": [
+          "约翰三书",
+          "3 John"
+        ],
+        "JUD": [
+          "犹大书",
+          "Jude"
+        ],
+        "REV": [
+          "启示录",
+          "Revelation"
+        ]
+      }
+    },
+    "zh-TW": {
+      "label": "繁體中文",
+      "books": {
+        "GEN": [
+          "創世記",
+          "Genesis"
+        ],
+        "EXO": [
+          "出埃及記",
+          "Exodus"
+        ],
+        "LEV": [
+          "利未記",
+          "Leviticus"
+        ],
+        "NUM": [
+          "民數記",
+          "Numbers"
+        ],
+        "DEU": [
+          "申命記",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "約書亞記",
+          "Joshua"
+        ],
+        "JDG": [
+          "士師記",
+          "Judges"
+        ],
+        "RUT": [
+          "路得記",
+          "Ruth"
+        ],
+        "1SA": [
+          "撒母耳記上",
+          "1 Samuel"
+        ],
+        "2SA": [
+          "撒母耳記下",
+          "2 Samuel"
+        ],
+        "1KI": [
+          "列王紀上",
+          "1 Kings"
+        ],
+        "2KI": [
+          "列王紀下",
+          "2 Kings"
+        ],
+        "1CH": [
+          "歷代志上",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "歷代志下",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "以斯拉記",
+          "Ezra"
+        ],
+        "NEH": [
+          "尼希米記",
+          "Nehemiah"
+        ],
+        "EST": [
+          "以斯帖記",
+          "Esther"
+        ],
+        "JOB": [
+          "約伯記",
+          "Job"
+        ],
+        "PSA": [
+          "詩篇",
+          "Psalms"
+        ],
+        "PRO": [
+          "箴言",
+          "Proverbs"
+        ],
+        "ECC": [
+          "傳道書",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "雅歌",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "以賽亞書",
+          "Isaiah"
+        ],
+        "JER": [
+          "耶利米書",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "耶利米哀歌",
+          "Lamentations"
+        ],
+        "EZK": [
+          "以西結書",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "但以理書",
+          "Daniel"
+        ],
+        "HOS": [
+          "何西阿書",
+          "Hosea"
+        ],
+        "JOL": [
+          "約珥書",
+          "Joel"
+        ],
+        "AMO": [
+          "阿摩司書",
+          "Amos"
+        ],
+        "OBA": [
+          "俄巴底亞書",
+          "Obadiah"
+        ],
+        "JON": [
+          "約拿書",
+          "Jonah"
+        ],
+        "MIC": [
+          "彌迦書",
+          "Micah"
+        ],
+        "NAM": [
+          "那鴻書",
+          "Nahum"
+        ],
+        "HAB": [
+          "哈巴谷書",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "西番雅書",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "哈該書",
+          "Haggai"
+        ],
+        "ZEC": [
+          "撒迦利亞書",
+          "Zechariah"
+        ],
+        "MAL": [
+          "瑪拉基書",
+          "Malachi"
+        ],
+        "MAT": [
+          "馬太福音",
+          "Matthew"
+        ],
+        "MRK": [
+          "馬可福音",
+          "Mark"
+        ],
+        "LUK": [
+          "路加福音",
+          "Luke"
+        ],
+        "JHN": [
+          "約翰福音",
+          "John"
+        ],
+        "ACT": [
+          "使徒行傳",
+          "Acts"
+        ],
+        "ROM": [
+          "羅馬書",
+          "Romans"
+        ],
+        "1CO": [
+          "哥林多前書",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "哥林多後書",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "加拉太書",
+          "Galatians"
+        ],
+        "EPH": [
+          "以弗所書",
+          "Ephesians"
+        ],
+        "PHP": [
+          "腓立比書",
+          "Philippians"
+        ],
+        "COL": [
+          "歌羅西書",
+          "Colossians"
+        ],
+        "1TH": [
+          "帖撒羅尼迦前書",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "帖撒羅尼迦後書",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "提摩太前書",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "提摩太後書",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "提多書",
+          "Titus"
+        ],
+        "PHM": [
+          "腓利門書",
+          "Philemon"
+        ],
+        "HEB": [
+          "希伯來書",
+          "Hebrews"
+        ],
+        "JAS": [
+          "雅各書",
+          "James"
+        ],
+        "1PE": [
+          "彼得前書",
+          "1 Peter"
+        ],
+        "2PE": [
+          "彼得後書",
+          "2 Peter"
+        ],
+        "1JN": [
+          "約翰一書",
+          "1 John"
+        ],
+        "2JN": [
+          "約翰二書",
+          "2 John"
+        ],
+        "3JN": [
+          "約翰三書",
+          "3 John"
+        ],
+        "JUD": [
+          "猶大書",
+          "Jude"
+        ],
+        "REV": [
+          "啟示錄",
+          "Revelation"
+        ]
+      }
+    },
+    "ru": {
+      "label": "Русский",
+      "books": {
+        "GEN": [
+          "Бытие",
+          "Genesis"
+        ],
+        "EXO": [
+          "Исход",
+          "Exodus"
+        ],
+        "LEV": [
+          "Левит",
+          "Leviticus"
+        ],
+        "NUM": [
+          "Числа",
+          "Numbers"
+        ],
+        "DEU": [
+          "Второзаконие",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "Книга Иисуса Навина",
+          "Joshua"
+        ],
+        "JDG": [
+          "Книга Судей Израилевых",
+          "Judges"
+        ],
+        "RUT": [
+          "Книга Руфь",
+          "Ruth"
+        ],
+        "1SA": [
+          "Первая книга Царств",
+          "1 Samuel"
+        ],
+        "2SA": [
+          "Вторая книга Царств",
+          "2 Samuel"
+        ],
+        "1KI": [
+          "Третья книга Царств",
+          "1 Kings"
+        ],
+        "2KI": [
+          "Четвертая книга Царств",
+          "2 Kings"
+        ],
+        "1CH": [
+          "Первая книга Паралипоменон",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "Вторая книга Паралипоменон",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "Книга Ездры",
+          "Ezra"
+        ],
+        "NEH": [
+          "Неемия",
+          "Nehemiah"
+        ],
+        "EST": [
+          "Книга Есфирь",
+          "Esther"
+        ],
+        "JOB": [
+          "Книга Иова",
+          "Job"
+        ],
+        "PSA": [
+          "Псалтырь",
+          "Psalms"
+        ],
+        "PRO": [
+          "Притчи Соломона",
+          "Proverbs"
+        ],
+        "ECC": [
+          "Книга Екклесиаста",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "Песни Песней",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "Книга пророка Исаии",
+          "Isaiah"
+        ],
+        "JER": [
+          "Книга пророка Иеремии",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "Плач Иеремии",
+          "Lamentations"
+        ],
+        "EZK": [
+          "Книга пророка Иезекииля",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "Книга пророка Даниила",
+          "Daniel"
+        ],
+        "HOS": [
+          "Книга пророка Осии",
+          "Hosea"
+        ],
+        "JOL": [
+          "Книга пророка Иоиля",
+          "Joel"
+        ],
+        "AMO": [
+          "Книга пророка Амоса",
+          "Amos"
+        ],
+        "OBA": [
+          "Книга пророка Авдия",
+          "Obadiah"
+        ],
+        "JON": [
+          "Книга пророка Ионы",
+          "Jonah"
+        ],
+        "MIC": [
+          "Книга пророка Михея",
+          "Micah"
+        ],
+        "NAM": [
+          "Книга пророка Наума",
+          "Nahum"
+        ],
+        "HAB": [
+          "Книга пророка Аввакума",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "Книга пророка Софонии",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "Книга пророка Аггея",
+          "Haggai"
+        ],
+        "ZEC": [
+          "Книга пророка Захарии",
+          "Zechariah"
+        ],
+        "MAL": [
+          "Книга пророка Малахии",
+          "Malachi"
+        ],
+        "MAT": [
+          "Матфея",
+          "Евангелие от Матфея",
+          "Matthew"
+        ],
+        "MRK": [
+          "Евангелие от Марка",
+          "Mark"
+        ],
+        "LUK": [
+          "Евангелие от Луки",
+          "Luke"
+        ],
+        "JHN": [
+          "Евангелие от Иоанна",
+          "John"
+        ],
+        "ACT": [
+          "Деяния",
+          "Acts"
+        ],
+        "ROM": [
+          "Послание к Римлянам",
+          "Romans"
+        ],
+        "1CO": [
+          "Первое послание к Коринфянам",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "Второе послание к Коринфянам",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "Послание к Галатам",
+          "Galatians"
+        ],
+        "EPH": [
+          "Послание к Ефесянам",
+          "Ephesians"
+        ],
+        "PHP": [
+          "Послание к Филлиппийцам",
+          "Philippians"
+        ],
+        "COL": [
+          "Послание к Колоссянам",
+          "Colossians"
+        ],
+        "1TH": [
+          "Первое послание к Фессалоникийцам",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "Второе послание к Фессалоникийцам",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "Первое послание к Тимофею",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "Второе послание к Тимофею",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "Послание к Титу",
+          "Titus"
+        ],
+        "PHM": [
+          "Послание к Филимону",
+          "Philemon"
+        ],
+        "HEB": [
+          "Послание к Евреям",
+          "Hebrews"
+        ],
+        "JAS": [
+          "Послание Иакова",
+          "James"
+        ],
+        "1PE": [
+          "Первое послание Петра",
+          "1 Peter"
+        ],
+        "2PE": [
+          "Второе послание Петра",
+          "2 Peter"
+        ],
+        "1JN": [
+          "Первое послание Иоанна",
+          "1 John"
+        ],
+        "2JN": [
+          "Второе послание Иоанна",
+          "2 John"
+        ],
+        "3JN": [
+          "Третье послание Иоанна",
+          "3 John"
+        ],
+        "JUD": [
+          "Послание Иуды",
+          "Jude"
+        ],
+        "REV": [
+          "Откровение Иоанна Богослова",
+          "Revelation"
+        ]
+      }
+    },
+    "uk": {
+      "label": "Українська",
+      "books": {
+        "GEN": [
+          "ПЕРВА КНИГА МОЙСЕЯ",
+          "Genesis"
+        ],
+        "EXO": [
+          "ДРУГА КНИГА МОЙСЕЯ",
+          "Exodus"
+        ],
+        "LEV": [
+          "ТРЕТЯ КНИГА МОЙСЕЯ",
+          "Leviticus"
+        ],
+        "NUM": [
+          "ЧЕТВЕРТА КНИГА МОЙСЕЯ",
+          "Numbers"
+        ],
+        "DEU": [
+          "ПЯТА КНИГА МОЙСЕЯ",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "КНИГА ІСУСА НАВИНА",
+          "Joshua"
+        ],
+        "JDG": [
+          "КНИГА СУДДЇВ",
+          "Judges"
+        ],
+        "RUT": [
+          "КНИГА РУТИ",
+          "Ruth"
+        ],
+        "1SA": [
+          "ПЕРВА КНИГА САМУЇЛОВА",
+          "1 Samuel"
+        ],
+        "2SA": [
+          "ДРУГА КНИГА САМУЇЛОВА",
+          "2 Samuel"
+        ],
+        "1KI": [
+          "ПЕРВА КНИГА ЦАРІВ",
+          "1 Kings"
+        ],
+        "2KI": [
+          "ДРУГА КНИГА ЦАРІВ",
+          "2 Kings"
+        ],
+        "1CH": [
+          "ПЕРША КНИГА ПАРАЛИПОМЕНОН",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "ДРУГА КНИГА ПАРАЛИПОМЕНОН",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "КНИГА ЕЗДРИ",
+          "Ezra"
+        ],
+        "NEH": [
+          "КНИГА НЕЄМІЇ",
+          "Nehemiah"
+        ],
+        "EST": [
+          "КНИГА ЕСТЕРИ",
+          "Esther"
+        ],
+        "JOB": [
+          "КНИГА ЙОВА",
+          "Job"
+        ],
+        "PSA": [
+          "ПСАЛЬМА",
+          "Psalms"
+        ],
+        "PRO": [
+          "КНИГА ПРИПОВІСТОК СОЛОМОНОВИХ",
+          "Proverbs"
+        ],
+        "ECC": [
+          "КНИГА ЕККЛЕЗІАСТА",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "ПІСНЯ ПІСЕНЬ",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "КНИГА ПРОРОКА ІСАЇЇ",
+          "Isaiah"
+        ],
+        "JER": [
+          "КНИГА ПРОРОКА ЕРЕМІЇ",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "КНИГА ПЛАЧ ЕРЕМІЇ",
+          "Lamentations"
+        ],
+        "EZK": [
+          "КНИГА ЕЗЕКИЇЛА",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "КНИГА ПРОРОКА ДАНИЇЛА",
+          "Daniel"
+        ],
+        "HOS": [
+          "КНИГА ПРОРОКА ОСІЇ",
+          "Hosea"
+        ],
+        "JOL": [
+          "КНИГА ПРОРОКА ЙОІЛА",
+          "Joel"
+        ],
+        "AMO": [
+          "КНИГА ПРОРОКА АМОСА",
+          "Amos"
+        ],
+        "OBA": [
+          "КНИГА ПРОРОКА АВДІЯ.",
+          "Obadiah"
+        ],
+        "JON": [
+          "КНИГА ПРОРОКА ЙОНИ",
+          "Jonah"
+        ],
+        "MIC": [
+          "КНИГА ПРОРОКА МИХЕЯ",
+          "Micah"
+        ],
+        "NAM": [
+          "КНИГА ПРОРОКА НАУМА",
+          "Nahum"
+        ],
+        "HAB": [
+          "КНИГА ПРОРОКА АВВАКУМА",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "КНИГА ПРОРОКА СОФОНЇЇ",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "КНИГА ПРОРОКА АГГЕЯ",
+          "Haggai"
+        ],
+        "ZEC": [
+          "КНИГА ПРОРОКА ЗАХАРІЇ",
+          "Zechariah"
+        ],
+        "MAL": [
+          "КНИГА ПРОРОКА МАЛАХІЯ",
+          "Malachi"
+        ],
+        "MAT": [
+          "Матвія",
+          "ЄВАНГЕЛИЯ ВІД СЬВ. МАТТЕЯ",
+          "Matthew"
+        ],
+        "MRK": [
+          "ЄВАНГЕЛИЯ ВІД СЬВ. МАРКА",
+          "Mark"
+        ],
+        "LUK": [
+          "ЄВАНГЕЛИЯ ВІД СЬВ. ЛУКИ",
+          "Luke"
+        ],
+        "JHN": [
+          "ЄВАНГЕЛИЯ ВІД СЬВ. ЙОАНА",
+          "John"
+        ],
+        "ACT": [
+          "ДЇЯННЯ СЬВЯТИХ АПОСТОЛІВ",
+          "Acts"
+        ],
+        "ROM": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО РИМЛЯН",
+          "Romans"
+        ],
+        "1CO": [
+          "I. ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО КОРИНТЯН",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "II. ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО КОРИНТЯН",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ГАЛАТ",
+          "Galatians"
+        ],
+        "EPH": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ЄФЕСЯН",
+          "Ephesians"
+        ],
+        "PHP": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ФИЛИПЯН",
+          "Philippians"
+        ],
+        "COL": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО КОЛОСЯН",
+          "Colossians"
+        ],
+        "1TH": [
+          "I. ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО СОЛУНЯН",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "II. ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО СОЛУНЯН",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "I. ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ТИМОТЕЯ",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "II. ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ТИМОТЕЯ",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ТИТА",
+          "Titus"
+        ],
+        "PHM": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ФИЛИМОНА",
+          "Philemon"
+        ],
+        "HEB": [
+          "ПОСЛАННЄ СЬВ. АПОСТОЛА ПАВЛА ДО ЖИДІВ",
+          "Hebrews"
+        ],
+        "JAS": [
+          "СОБОРНЕ ПОСЛАННЄ СЬВ. АПОСТОЛА ЯКОВА",
+          "James"
+        ],
+        "1PE": [
+          "I. СОБОРНЕ ПОСЛАННЄ СЬВ. АПОСТОЛА ПЕТРА",
+          "1 Peter"
+        ],
+        "2PE": [
+          "II. СОБОРНЕ ПОСЛАННЄ СЬВ. АПОСТОЛА ПЕТРА",
+          "2 Peter"
+        ],
+        "1JN": [
+          "I. СОБОРНЕ ПОСЛАННЄ СЬВ. АПОСТОЛА ЙОАНА БОГОСЛОВА",
+          "1 John"
+        ],
+        "2JN": [
+          "II. СОБОРНЕ ПОСЛАННЄ СЬВ. АПОСТОЛА ЙОАНА БОГОСЛОВА",
+          "2 John"
+        ],
+        "3JN": [
+          "III. СОБОРНЕ ПОСЛАННЄ СЬВ. АПОСТОЛА ЙОАНА БОГОСЛОВА",
+          "3 John"
+        ],
+        "JUD": [
+          "СОБОРНЕ ПОСЛАННЄ СЬВ. АПОСТОЛА ЮДИ",
+          "Jude"
+        ],
+        "REV": [
+          "ОДКРИТТЄ СЬВ. ЙОАНА БОГОСЛОВА",
+          "Revelation"
+        ]
+      }
+    },
+    "es": {
+      "label": "Español",
+      "books": {
+        "GEN": [
+          "Génesis",
+          "Genesis"
+        ],
+        "EXO": [
+          "Éxodo",
+          "Exodus"
+        ],
+        "LEV": [
+          "Levítico",
+          "Leviticus"
+        ],
+        "NUM": [
+          "Números",
+          "Numbers"
+        ],
+        "DEU": [
+          "Deuteronomio",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "Josué",
+          "Joshua"
+        ],
+        "JDG": [
+          "Jueces",
+          "Judges"
+        ],
+        "RUT": [
+          "Rut",
+          "Ruth"
+        ],
+        "1SA": [
+          "1 Samuel"
+        ],
+        "2SA": [
+          "2 Samuel"
+        ],
+        "1KI": [
+          "1 Reyes",
+          "1 Kings"
+        ],
+        "2KI": [
+          "2 Reyes",
+          "2 Kings"
+        ],
+        "1CH": [
+          "1 Crónicas",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "2 Crónicas",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "Esdras",
+          "Ezra"
+        ],
+        "NEH": [
+          "Nehemías",
+          "Nehemiah"
+        ],
+        "EST": [
+          "Ester",
+          "Esther"
+        ],
+        "JOB": [
+          "Job"
+        ],
+        "PSA": [
+          "Salmos",
+          "Psalms"
+        ],
+        "PRO": [
+          "Proverbios",
+          "Proverbs"
+        ],
+        "ECC": [
+          "Eclesiastés",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "Cantares",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "Isaías",
+          "Isaiah"
+        ],
+        "JER": [
+          "Jeremías",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "Lamentaciones",
+          "Lamentations"
+        ],
+        "EZK": [
+          "Ezequiel",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "Daniel"
+        ],
+        "HOS": [
+          "Oseas",
+          "Hosea"
+        ],
+        "JOL": [
+          "Joel"
+        ],
+        "AMO": [
+          "Amós",
+          "Amos"
+        ],
+        "OBA": [
+          "Abdías",
+          "Obadiah"
+        ],
+        "JON": [
+          "Jonás",
+          "Jonah"
+        ],
+        "MIC": [
+          "Miqueas",
+          "Micah"
+        ],
+        "NAM": [
+          "Nahúm",
+          "Nahum"
+        ],
+        "HAB": [
+          "Habacuc",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "Sofonías",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "Hageo",
+          "Haggai"
+        ],
+        "ZEC": [
+          "Zacarías",
+          "Zechariah"
+        ],
+        "MAL": [
+          "Malaquías",
+          "Malachi"
+        ],
+        "MAT": [
+          "Mateo",
+          "Matthew"
+        ],
+        "MRK": [
+          "Marcos",
+          "Mark"
+        ],
+        "LUK": [
+          "Lucas",
+          "Luke"
+        ],
+        "JHN": [
+          "Juan",
+          "John"
+        ],
+        "ACT": [
+          "Hechos",
+          "Acts"
+        ],
+        "ROM": [
+          "Romanos",
+          "Romans"
+        ],
+        "1CO": [
+          "1 Corintios",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "2 Corintios",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "Gálatas",
+          "Galatians"
+        ],
+        "EPH": [
+          "Efesios",
+          "Ephesians"
+        ],
+        "PHP": [
+          "Filipenses",
+          "Philippians"
+        ],
+        "COL": [
+          "Colosenses",
+          "Colossians"
+        ],
+        "1TH": [
+          "1 Tesalonicenses",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "2 Tesalonicenses",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "1 Timoteo",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "2 Timoteo",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "Tito",
+          "Titus"
+        ],
+        "PHM": [
+          "Filemón",
+          "Philemon"
+        ],
+        "HEB": [
+          "Hebreos",
+          "Hebrews"
+        ],
+        "JAS": [
+          "Santiago",
+          "James"
+        ],
+        "1PE": [
+          "1 Pedro",
+          "1 Peter"
+        ],
+        "2PE": [
+          "2 Pedro",
+          "2 Peter"
+        ],
+        "1JN": [
+          "1 Juan",
+          "1 John"
+        ],
+        "2JN": [
+          "2 Juan",
+          "2 John"
+        ],
+        "3JN": [
+          "3 Juan",
+          "3 John"
+        ],
+        "JUD": [
+          "Judas",
+          "Jude"
+        ],
+        "REV": [
+          "Apocalipsis",
+          "Revelation"
+        ]
+      }
+    },
+    "pt-BR": {
+      "label": "Português",
+      "books": {
+        "GEN": [
+          "Gênesis",
+          "Genesis"
+        ],
+        "EXO": [
+          "Êxodo",
+          "Exodus"
+        ],
+        "LEV": [
+          "Levítico",
+          "Leviticus"
+        ],
+        "NUM": [
+          "Números",
+          "Numbers"
+        ],
+        "DEU": [
+          "Deuteronômio",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "Josué",
+          "Joshua"
+        ],
+        "JDG": [
+          "Juízes",
+          "Judges"
+        ],
+        "RUT": [
+          "Rute",
+          "Ruth"
+        ],
+        "1SA": [
+          "1 Samuel"
+        ],
+        "2SA": [
+          "2 Samuel"
+        ],
+        "1KI": [
+          "1 Reis",
+          "1 Kings"
+        ],
+        "2KI": [
+          "2 Reis",
+          "2 Kings"
+        ],
+        "1CH": [
+          "1 Crônicas",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "2 Crônicas",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "Esdras",
+          "Ezra"
+        ],
+        "NEH": [
+          "Neemias",
+          "Nehemiah"
+        ],
+        "EST": [
+          "Ester",
+          "Esther"
+        ],
+        "JOB": [
+          "Jó",
+          "Job"
+        ],
+        "PSA": [
+          "Salmos",
+          "Psalms"
+        ],
+        "PRO": [
+          "Provérbios",
+          "Proverbs"
+        ],
+        "ECC": [
+          "Eclesiastes",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "Cantares",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "Isaías",
+          "Isaiah"
+        ],
+        "JER": [
+          "Jeremias",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "Lamentações",
+          "Lamentations"
+        ],
+        "EZK": [
+          "Ezequiel",
+          "Ezekiel"
+        ],
+        "DAN": [
+          "Daniel"
+        ],
+        "HOS": [
+          "Oseias",
+          "Hosea"
+        ],
+        "JOL": [
+          "Joel"
+        ],
+        "AMO": [
+          "Amós",
+          "Amos"
+        ],
+        "OBA": [
+          "Obadias",
+          "Obadiah"
+        ],
+        "JON": [
+          "Jonas",
+          "Jonah"
+        ],
+        "MIC": [
+          "Miqueias",
+          "Micah"
+        ],
+        "NAM": [
+          "Naum",
+          "Nahum"
+        ],
+        "HAB": [
+          "Habacuque",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "Sofonias",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "Ageu",
+          "Haggai"
+        ],
+        "ZEC": [
+          "Zacarias",
+          "Zechariah"
+        ],
+        "MAL": [
+          "Malaquias",
+          "Malachi"
+        ],
+        "MAT": [
+          "Mateus",
+          "Matthew"
+        ],
+        "MRK": [
+          "Marcos",
+          "Mark"
+        ],
+        "LUK": [
+          "Lucas",
+          "Luke"
+        ],
+        "JHN": [
+          "João",
+          "John"
+        ],
+        "ACT": [
+          "Atos",
+          "Acts"
+        ],
+        "ROM": [
+          "Romanos",
+          "Romans"
+        ],
+        "1CO": [
+          "1 Coríntios",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "2 Coríntios",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "Gálatas",
+          "Galatians"
+        ],
+        "EPH": [
+          "Efésios",
+          "Ephesians"
+        ],
+        "PHP": [
+          "Filipenses",
+          "Philippians"
+        ],
+        "COL": [
+          "Colossenses",
+          "Colossians"
+        ],
+        "1TH": [
+          "1 Tessalonicenses",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "2 Tessalonicenses",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "1 Timóteo",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "2 Timóteo",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "Tito",
+          "Titus"
+        ],
+        "PHM": [
+          "Filemom",
+          "Philemon"
+        ],
+        "HEB": [
+          "Hebreus",
+          "Hebrews"
+        ],
+        "JAS": [
+          "Tiago",
+          "James"
+        ],
+        "1PE": [
+          "1 Pedro",
+          "1 Peter"
+        ],
+        "2PE": [
+          "2 Pedro",
+          "2 Peter"
+        ],
+        "1JN": [
+          "1 João",
+          "1 John"
+        ],
+        "2JN": [
+          "2 João",
+          "2 John"
+        ],
+        "3JN": [
+          "3 João",
+          "3 John"
+        ],
+        "JUD": [
+          "Judas",
+          "Jude"
+        ],
+        "REV": [
+          "Apocalipse",
+          "Revelation"
+        ]
+      }
+    },
+    "fil": {
+      "label": "Filipino",
+      "books": {
+        "GEN": [
+          "Genesis"
+        ],
+        "EXO": [
+          "Exodo",
+          "Exodus"
+        ],
+        "LEV": [
+          "Levitico",
+          "Leviticus"
+        ],
+        "NUM": [
+          "Mga Bilang",
+          "Numbers"
+        ],
+        "DEU": [
+          "Deuteronomio",
+          "Deuteronomy"
+        ],
+        "JOS": [
+          "Josue",
+          "Joshua"
+        ],
+        "JDG": [
+          "Mga Hukom",
+          "Judges"
+        ],
+        "RUT": [
+          "Ruth"
+        ],
+        "1SA": [
+          "I Samuel",
+          "1 Samuel"
+        ],
+        "2SA": [
+          "II Samuel",
+          "2 Samuel"
+        ],
+        "1KI": [
+          "I Mga Hari",
+          "1 Kings"
+        ],
+        "2KI": [
+          "II Mga Hari",
+          "2 Kings"
+        ],
+        "1CH": [
+          "I Cronica",
+          "1 Chronicles"
+        ],
+        "2CH": [
+          "II Cronica",
+          "2 Chronicles"
+        ],
+        "EZR": [
+          "Ezra"
+        ],
+        "NEH": [
+          "Nehemias",
+          "Nehemiah"
+        ],
+        "EST": [
+          "Ester",
+          "Esther"
+        ],
+        "JOB": [
+          "Job"
+        ],
+        "PSA": [
+          "Mga Awit",
+          "Psalms"
+        ],
+        "PRO": [
+          "Kawikaan",
+          "Proverbs"
+        ],
+        "ECC": [
+          "Mangangaral",
+          "Ecclesiastes"
+        ],
+        "SNG": [
+          "Awit ni Solomon",
+          "Song of Solomon"
+        ],
+        "ISA": [
+          "Isaias",
+          "Isaiah"
+        ],
+        "JER": [
+          "Jeremias",
+          "Jeremiah"
+        ],
+        "LAM": [
+          "Mga Panaghoy",
+          "Lamentations"
+        ],
+        "EZK": [
+          "Ezekiel"
+        ],
+        "DAN": [
+          "Daniel"
+        ],
+        "HOS": [
+          "Oseas",
+          "Hosea"
+        ],
+        "JOL": [
+          "Joel"
+        ],
+        "AMO": [
+          "Amos"
+        ],
+        "OBA": [
+          "Obadias",
+          "Obadiah"
+        ],
+        "JON": [
+          "Jonas",
+          "Jonah"
+        ],
+        "MIC": [
+          "Mikas",
+          "Micah"
+        ],
+        "NAM": [
+          "Nahum"
+        ],
+        "HAB": [
+          "Habakuk",
+          "Habakkuk"
+        ],
+        "ZEP": [
+          "Zefanias",
+          "Zephaniah"
+        ],
+        "HAG": [
+          "Hagai",
+          "Haggai"
+        ],
+        "ZEC": [
+          "Zacarias",
+          "Zechariah"
+        ],
+        "MAL": [
+          "Malakias",
+          "Malachi"
+        ],
+        "MAT": [
+          "Mateo",
+          "Matthew"
+        ],
+        "MRK": [
+          "Marcos",
+          "Mark"
+        ],
+        "LUK": [
+          "Lucas",
+          "Luke"
+        ],
+        "JHN": [
+          "Juan",
+          "John"
+        ],
+        "ACT": [
+          "Mga Gawa",
+          "Acts"
+        ],
+        "ROM": [
+          "Roma",
+          "Romans"
+        ],
+        "1CO": [
+          "I Corinto",
+          "1 Corinthians"
+        ],
+        "2CO": [
+          "II Corinto",
+          "2 Corinthians"
+        ],
+        "GAL": [
+          "Galacia",
+          "Galatians"
+        ],
+        "EPH": [
+          "Efeso",
+          "Ephesians"
+        ],
+        "PHP": [
+          "Filipos",
+          "Philippians"
+        ],
+        "COL": [
+          "Colosas",
+          "Colossians"
+        ],
+        "1TH": [
+          "I Tesalonica",
+          "1 Thessalonians"
+        ],
+        "2TH": [
+          "II Tesalonica",
+          "2 Thessalonians"
+        ],
+        "1TI": [
+          "I Timoteo",
+          "1 Timothy"
+        ],
+        "2TI": [
+          "II Timoteo",
+          "2 Timothy"
+        ],
+        "TIT": [
+          "Tito",
+          "Titus"
+        ],
+        "PHM": [
+          "Filemon",
+          "Philemon"
+        ],
+        "HEB": [
+          "Mga Hebreo",
+          "Hebrews"
+        ],
+        "JAS": [
+          "Santiago",
+          "James"
+        ],
+        "1PE": [
+          "I Pedro",
+          "1 Peter"
+        ],
+        "2PE": [
+          "II Pedro",
+          "2 Peter"
+        ],
+        "1JN": [
+          "I Juan",
+          "1 John"
+        ],
+        "2JN": [
+          "II Juan",
+          "2 John"
+        ],
+        "3JN": [
+          "III Juan",
+          "3 John"
+        ],
+        "JUD": [
+          "Judas",
+          "Jude"
+        ],
+        "REV": [
+          "Pahayag",
+          "Revelation"
+        ]
+      }
+    }
+  }
+}
