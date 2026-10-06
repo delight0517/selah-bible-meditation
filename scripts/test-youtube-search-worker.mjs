@@ -95,6 +95,13 @@ try {
   assert.match(readerHtml,/id:"youtube-live-"\+\(item\.playlistId\|\|item\.videoId\)/,'the reader gives playlist and video results distinct source IDs');
   assert.match(readerHtml,/mediaType:item\.mediaType==="playlist"\?"playlist":"video"/,'the reader keeps each result media type when saving');
   assert.match(readerHtml,/verseCues:item\.mediaType==="playlist"\?\[\]:item\.verseCues\|\|\[\]/,'the reader never treats playlist descriptions as video cues');
+  const currentVideoIdLine=readerHtml.split('\n').find(line=>line.startsWith('function youtubeAudioVideoId(value){'));
+  assert.ok(currentVideoIdLine,'the reader has a dedicated current-video ID parser');
+  const youtubeAudioVideoId=new Function('safeQtUrl',`${currentVideoIdLine};return youtubeAudioVideoId;`)(value=>value);
+  assert.equal(youtubeAudioVideoId('https://www.youtube.com/watch?v=abcdefghijk&list=PL1234567890'),'abcdefghijk','playlist playback follows the current video ID, not the playlist ID');
+  assert.equal(youtubeAudioVideoId('https://youtu.be/abcdefghijk?t=5'),'abcdefghijk');
+  assert.equal(youtubeAudioVideoId('https://www.youtube.com/playlist?list=PL1234567890'),'');
+  assert.equal((readerHtml.match(/youtubeAudioVideoId\(player\.getVideoUrl\(\)\)/g)||[]).length,2,'automatic verse following and manual cue marking use the current playlist video');
   let koreanApiCalls=0,videoNumber=0;
   globalThis.fetch=async()=>{
     koreanApiCalls++;

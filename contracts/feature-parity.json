@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 37,
+      "revision": 38,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -796,6 +796,7 @@
         "Edition matching folds Unicode diacritics and punctuation so common variants such as Reina-Valera 1960 / Reina Valera 1960 match; short edition IDs match only as whole metadata tokens, never as substrings of unrelated words.",
         "The hosted reader exposes ten separately selectable audio languages and at least five named audio editions for each. It groups current chapter results by edition and classifies common localized title and timestamp markers, including when the text Bible language differs. Empty groups mean no result was found for that edition and chapter; names alone do not claim complete audio Bible coverage.",
         "Search includes both video and playlist resources so complete audio Bible playlists can be found. Playlist results retain their playlist URL and edition label, but playlist-level descriptions are not treated as video verse timestamps; users may add cues to the currently playing video.",
+        "While a playlist plays, verse synchronization and manual cue marking use the current video's ID even when its URL also contains the playlist ID.",
         "Search runs on demand for the current book/chapter and all configured editions in one YouTube search.list call. A single second call targets editions with no classified candidate; one result per edition is sufficient to avoid an unnecessary fallback. Each call is independently quota-limited.",
         "Results are categorized by matching public metadata; the API key stays in a Cloudflare Worker secret, and requests are validated and rate limited.",
         "Search results are short-lived in browser memory and are not combined into a public cross-channel catalog. Results use the standard YouTube player with native user-started controls.",
@@ -834,22 +835,22 @@
           "owner": "Selah web audio task",
           "state": "implementing",
           "source": "index.html + assets/youtube-audio-book-names.json + together-worker/src/youtube-search.js + hosted YouTube player",
-          "build": "1.0.17 / build 81 source; revision 37 video and complete-playlist discovery in progress",
-          "evidence": "Revision 37 extends localized audio-edition discovery to YouTube videos and playlists while keeping playlist-level descriptions separate from video verse cues. Synthetic checks pass; the deployed live catalog, playback and verse-follow remain pending.",
-          "appliedRevision": 37
+          "build": "1.0.17 / build 82 source; revision 38 playlist cue matching in progress",
+          "evidence": "Revision 38 extracts the currently playing video ID independently from a playlist source URL so verified per-video cues match during playlist playback. Synthetic regression coverage passes; deployed live playback and verse-follow remain pending.",
+          "appliedRevision": 38
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "pending",
           "source": "shared hosted reader source",
-          "build": "1.0.17 / build 81 shared hosted reader source; live playlist catalog and runtime playback remain unverified",
-          "evidence": "Revision 37 is in the shared hosted-reader source path. Windows playback and scripture-follow behavior still require a current runtime review.",
-          "appliedRevision": 37
+          "build": "1.0.17 / build 82 shared hosted reader source; live playlist catalog and runtime playback remain unverified",
+          "evidence": "Revision 38 is in the shared hosted-reader source path. Windows playback and Scripture-follow behavior still require a current runtime review.",
+          "appliedRevision": 38
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Revision 37 changes the web-first audio search contract; separate macOS source and runtime adoption are still unverified.",
+          "evidence": "Revision 38 changes the web-first audio follow contract; separate macOS source and runtime adoption are still unverified.",
           "appliedRevision": 34,
           "build": "1.0.11 / shared reader UI build 55; platform validation pending"
         },
@@ -857,9 +858,9 @@
           "owner": "Selah shared iOS reader",
           "state": "implementing",
           "source": "generated mobile/www/index.html + hosted YouTube player",
-          "build": "1.0.17 / build 81 shared web source bundle",
-          "evidence": "Generated Capacitor bundle now carries revision 37 playlist discovery and cue separation. Platform source parity, installed iPhone playback and verse-follow remain to be checked.",
-          "appliedRevision": 37
+          "build": "1.0.17 / build 82 shared web source bundle",
+          "evidence": "Generated Capacitor bundle carries revision 38 current-video ID matching during playlist playback. Platform source parity, installed iPhone playback and verse-follow remain to be checked.",
+          "appliedRevision": 38
         }
       }
     },
