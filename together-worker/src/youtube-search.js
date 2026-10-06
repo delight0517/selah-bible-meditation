@@ -91,8 +91,7 @@ export async function verifyYouTubePlaylistCoverage(request, env) {
   if(!metadata)return Response.json({error:'playlist_not_found'},{status:404});
   const editions=editionList(input.locale),edition=editions.find(item=>item.id===input.editionId),metadataText=[metadata.snippet?.title,metadata.snippet?.description,metadata.snippet?.channelTitle].join(' ');
   const metadataEditionScore=editionScore(metadataText,true,edition.id,edition.name),otherMetadataScore=Math.max(0,...editions.filter(item=>item.id!==edition.id).map(item=>editionScore(metadataText,true,item.id,item.name)));
-  if(otherMetadataScore>=metadataEditionScore&&otherMetadataScore>0)return Response.json({error:'edition_mismatch'},{status:422});
-  const playlistEditionMatches=metadataEditionScore>0,itemCount=Number(metadata.contentDetails?.itemCount)||0;
+  const playlistEditionMatches=metadataEditionScore>otherMetadataScore&&metadataEditionScore>0,metadataConflict=otherMetadataScore>=metadataEditionScore&&otherMetadataScore>0,itemCount=Number(metadata.contentDetails?.itemCount)||0;
   if(itemCount>1200)return Response.json({status:'SCAN_LIMIT',playlistId:input.playlistId,itemCount},{headers:{'Cache-Control':'no-store'}});
   const playlistItems=[];let pageToken='';
   do{
@@ -103,21 +102,26 @@ export async function verifyYouTubePlaylistCoverage(request, env) {
     playlistItems.push(...(page.data.items||[]));pageToken=page.data.nextPageToken||'';
   }while(pageToken&&playlistItems.length<1200);
   if(pageToken||playlistItems.length!==itemCount)return Response.json({status:'SCAN_INCOMPLETE',playlistId:input.playlistId,itemCount,scannedItems:playlistItems.length},{headers:{'Cache-Control':'no-store'}});
+  const candidateItems=playlistItems.filter(item=>{
+    const videoId=item.snippet?.resourceId?.videoId;
+    if(!/^[\w-]{11}$/.test(videoId||''))return false;
+    const title=item.snippet?.title||'',selectedScore=editionScore(title,true,edition.id,edition.name),otherScore=Math.max(0,...editions.filter(candidate=>candidate.id!==edition.id).map(candidate=>editionScore(title,true,candidate.id,candidate.name)));
+    if(otherScore>=selectedScore&&otherScore>0)return false;
+    return playlistEditionMatches&&!metadataConflict||selectedScore>otherScore&&selectedScore>0;
+  });
+  if(!candidateItems.length)return Response.json({error:'edition_mismatch'},{status:422});
   const videos=[];
-  for(let start=0;start<playlistItems.length;start+=50){
-    const ids=playlistItems.slice(start,start+50).map(item=>item.snippet?.resourceId?.videoId).filter(id=>/^[\w-]{11}$/.test(id||''));
+  for(let start=0;start<candidateItems.length;start+=50){
+    const ids=candidateItems.slice(start,start+50).map(item=>item.snippet.resourceId.videoId);
     if(!ids.length)continue;
     const batch=await api('videos',{part:'snippet',id:ids.join(','),fields:'items(id,snippet(description))'});
     if(batch.error)return Response.json({error:batch.error},{status:batch.status});
     videos.push(...(batch.data.items||[]));
   }
   const descriptions=new Map(videos.map(video=>[video.id,video.snippet?.description||''])),chapterCues=[],verseCues=[],covered=new Set(),videoIds=[];let explicitVerseCueCount=0;
-  for(let index=0;index<playlistItems.length;index++){
-    const item=playlistItems[index],videoId=item.snippet?.resourceId?.videoId;
+  for(let index=0;index<candidateItems.length;index++){
+    const item=candidateItems[index],videoId=item.snippet.resourceId.videoId,itemTitle=item.snippet?.title||'';
     if(!/^[\w-]{11}$/.test(videoId||'')||!descriptions.has(videoId))continue;
-    const itemTitle=item.snippet?.title||'',itemEditionScore=editionScore(itemTitle,true,edition.id,edition.name),otherItemScore=Math.max(0,...editions.filter(candidate=>candidate.id!==edition.id).map(candidate=>editionScore(itemTitle,true,candidate.id,candidate.name)));
-    if(otherItemScore>=itemEditionScore&&otherItemScore>0)continue;
-    if(!playlistEditionMatches&&itemEditionScore===0)continue;
     videoIds.push(videoId);
     const playlistIndex=videoIds.length-1;
     for(const ref of playlistChapterRefs(itemTitle,input.locale)){
@@ -132,6 +136,7 @@ export async function verifyYouTubePlaylistCoverage(request, env) {
       for(const value of cues)verseCues.push({...value,playlistIndex});
     }
   }
+  if(!videoIds.length)return Response.json({error:'edition_mismatch'},{status:422});
   const missing=[];
   for(let i=0;i<BOOKS.length;i++)for(let chapter=1;chapter<=CHAPTERS[i];chapter++)if(!covered.has(`${BOOKS[i]}:${chapter}`))missing.push({bookId:BOOKS[i],chapter});
   const complete=missing.length===0;

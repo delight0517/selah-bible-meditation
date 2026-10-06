@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 40,
+      "revision": 41,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -809,7 +809,7 @@
         "For each edition group, verify at most one playlist candidate by reading all playlist items and checking available video titles against the 66-book/1,189-chapter list; show complete chapter-title coverage, partial coverage, or unverified status distinctly.",
         "Playlist title coverage means metadata/title coverage only; it does not claim the audio content itself was listened to or semantically verified.",
         "Verified chapter and verse cues retain playlist order and video IDs when saved and synced so playback can select the correct video and follow chapter/verse cues.",
-        "A playlist whose own title and description do not name the selected audio edition may use explicit edition evidence in each matched video title; an explicitly conflicting edition in playlist or video metadata cannot count toward coverage."
+        "When playlist metadata is ambiguous or names multiple editions, include only playlist tracks whose own titles explicitly identify the requested edition; exclude conflicting tracks and return edition_mismatch if none qualify. An unambiguous playlist edition may supply edition evidence to otherwise unlabeled tracks, but an explicitly conflicting track is always excluded."
       ],
       "paths": [
         "index.html",
@@ -840,7 +840,7 @@
           "state": "implementing",
           "source": "index.html + assets/youtube-audio-book-names.json + together-worker/src/youtube-search.js + hosted YouTube player",
           "build": "1.0.17 / build 83; playlist coverage verifier and chapter cue following",
-          "evidence": "Revision 40 allows generic playlist metadata only when matched video titles explicitly identify the requested edition; explicitly conflicting playlist or track editions are excluded. Synthetic full-coverage, generic-metadata, and conflicting-edition checks pass. Worker production deployment and actual playback remain pending.",
+          "evidence": "Revision 41 filters ambiguous or mixed-edition playlists per track, requires explicit requested-edition proof on included track titles, excludes conflicting tracks, and reports edition_mismatch when no track qualifies. Synthetic full-coverage, generic-metadata, mixed-track, and conflicting-edition checks pass. Worker production deployment and actual playback remain pending.",
           "appliedRevision": 39
         },
         "windows": {
@@ -848,7 +848,7 @@
           "state": "pending",
           "source": "shared hosted reader source",
           "build": "1.0.17 / build 83; playlist coverage verifier and chapter cue following",
-          "evidence": "Revision 40 allows generic playlist metadata only when matched video titles explicitly identify the requested edition; explicitly conflicting playlist or track editions are excluded. Synthetic full-coverage, generic-metadata, and conflicting-edition checks pass. Worker production deployment and actual playback remain pending.",
+          "evidence": "Revision 41 filters ambiguous or mixed-edition playlists per track, requires explicit requested-edition proof on included track titles, excludes conflicting tracks, and reports edition_mismatch when no track qualifies. Synthetic full-coverage, generic-metadata, mixed-track, and conflicting-edition checks pass. Worker production deployment and actual playback remain pending.",
           "appliedRevision": 39
         },
         "macos": {
@@ -863,7 +863,7 @@
           "state": "implementing",
           "source": "generated mobile/www/index.html + hosted YouTube player",
           "build": "1.0.17 / build 83; playlist coverage verifier and chapter cue following",
-          "evidence": "Revision 40 allows generic playlist metadata only when matched video titles explicitly identify the requested edition; explicitly conflicting playlist or track editions are excluded. Synthetic full-coverage, generic-metadata, and conflicting-edition checks pass. Worker production deployment and actual playback remain pending.",
+          "evidence": "Revision 41 filters ambiguous or mixed-edition playlists per track, requires explicit requested-edition proof on included track titles, excludes conflicting tracks, and reports edition_mismatch when no track qualifies. Synthetic full-coverage, generic-metadata, mixed-track, and conflicting-edition checks pass. Worker production deployment and actual playback remain pending.",
           "appliedRevision": 39
         }
       }
