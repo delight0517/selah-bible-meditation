@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
 import worker, { TogetherRoom } from '../together-worker/src/index.js';
-import { editionList, searchYouTube } from '../together-worker/src/youtube-search.js';
+import { audioLanguageList, editionList, searchYouTube } from '../together-worker/src/youtube-search.js';
 
 for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) assert.ok(editionList(locale).length>=5,`${locale} edition choices`);
+assert.deepEqual(audioLanguageList().map(language=>language.code),['en','ko','ja','zh-CN','zh-TW','ru','uk','es','pt-BR','fil'],'ten selectable audio languages');
 assert.equal(editionList('ko').length,6,'Korean has six configured audio editions');
 assert.equal(editionList('xx').length,0);
 
@@ -53,6 +54,25 @@ try {
     const localizedData=await localized.json();
     assert.equal(localizedData.editions.length,editionList(locale).length,`${locale} returns every configured group`);
     assert.equal(localizedData.editions.filter(group=>group.items.length===1).length,editionList(locale).length,`${locale} classifies every configured edition`);
+  }
+  let compactCalls=0;
+  globalThis.fetch=async url=>{compactCalls++;const locale=new URL(url).searchParams.get('relevanceLanguage'),selected=editionList(locale==='es'?'es':'ru');return Response.json({items:selected.map(({id,name},index)=>({id:{videoId:`one${String(index).padStart(8,'0')}`},snippet:{title:`${name} Mateo capítulo 1 audio`,description:'',channelTitle:name}}))})};
+  const compact=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'es',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  assert.equal(compact.status,200);assert.equal(compactCalls,1,'one result per edition does not trigger a five-video-per-edition quota-expensive fallback');
+  const compactData=await compact.json();assert.equal(compactData.editions.filter(group=>group.items.length).length,5);
+  let localizedCalls=0;
+  const localizedCases=[
+    {locale:'es',title:'RVR1960 Mateo capítulo 1',description:'00:00 Mateo 1:1 En el principio'},
+    {locale:'ru',title:'SYN Матфея глава 1',description:'00:00 Матфея глава 1 стих 1'},
+    {locale:'uk',title:'Огієнка Матвія розділ 1',description:'00:00 Матвія розділ 1 вірш 1'}
+  ];
+  for(const sample of localizedCases){
+    globalThis.fetch=async()=>{localizedCalls++;return Response.json({items:[{id:{videoId:`local${String(localizedCalls).padStart(6,'0')}`},snippet:{title:sample.title,description:sample.description,channelTitle:'Localized Bible'}}]})};
+    const localized=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:sample.locale,bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+    const grouped=(await localized.json()).editions.flatMap(group=>group.items);
+    assert.equal(grouped.length,1,`${sample.locale} recognizes localized audio title with Korean text book name`);
+    assert.equal(grouped[0].chapterMatch,true,`${sample.locale} recognizes localized chapter markers`);
+    assert.equal(grouped[0].verseCues[0]?.verse,1,`${sample.locale} extracts localized verse timestamps`);
   }
   let koreanApiCalls=0,videoNumber=0;
   globalThis.fetch=async()=>{

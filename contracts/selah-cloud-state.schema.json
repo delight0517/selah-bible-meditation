@@ -1042,7 +1042,8 @@
         },
         "language": {
           "type": "string",
-          "maxLength": 16
+          "maxLength": 16,
+          "description": "Language of the selected Bible text edition; audioLanguage may differ."
         },
         "title": {
           "type": "string",
@@ -1070,6 +1071,27 @@
           "items": {
             "$ref": "#/$defs/bibleAudioVerseCue"
           }
+        },
+        "audioLanguage": {
+          "type": "string",
+          "enum": [
+            "en",
+            "ko",
+            "ja",
+            "zh-CN",
+            "zh-TW",
+            "fil",
+            "es",
+            "pt-BR",
+            "ru",
+            "uk"
+          ],
+          "description": "Language of the audio edition, independent of the selected text Bible language."
+        },
+        "audioEdition": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Human-readable audio translation or edition name."
         }
       }
     },
