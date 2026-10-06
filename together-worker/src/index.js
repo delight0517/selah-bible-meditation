@@ -1,3 +1,4 @@
+import { searchYouTube } from './youtube-search.js';
 const TTL = 86400000, ACTIVE = 15000;
 const chapters = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
 const books = 'GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV'.split(' ');
@@ -30,6 +31,14 @@ export default {
     try {
       const url=new URL(request.url);
       if(request.method==='OPTIONS') response=new Response(null,{status:204});
+      else if(url.pathname==='/youtube/search' && request.method==='POST') {
+        const limit=await env.YOUTUBE_SEARCH_LIMITER?.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
+        if(env.YOUTUBE_SEARCH_LIMITER && !limit.success) fail(429,'rate_limited');
+        response=await searchYouTube(request,env,async()=>{
+          const quota=await env.ROOMS.get(env.ROOMS.idFromName('youtube-search-quota-v1')).fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}));
+          return quota.ok?null:json({error:quota.status===429?'daily_search_limit':'search_unavailable'},quota.status);
+        });
+      }
       else if(url.pathname==='/rooms' && request.method==='POST') {
         const input=await body(request),roomId=secret(16),hostToken=secret(32),now=Date.now();
         const room={roomId,hostToken,passage:passage(input.passage),timer:timer(input.timer,now),createdAt:now,expiresAt:now+TTL,revision:1};
@@ -59,6 +68,13 @@ export class TogetherRoom {
         const room=await request.json();
         await this.ctx.storage.put('room',room);
         await this.ctx.storage.setAlarm(room.expiresAt);
+        return json({ok:true});
+      }
+      if(url.pathname==='/internal/youtube-search-quota' && request.method==='POST') {
+        const now=Date.now(),parts=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now).filter(part=>part.type!=='literal').map(part=>[part.type,part.value])),day=`${parts.year}-${parts.month}-${parts.day}`;
+        const saved=await this.ctx.storage.get('youtube-search-quota'),count=saved?.day===day?Number(saved.count)||0:0;
+        if(count>=90) return json({error:'daily_search_limit'},429);
+        await this.ctx.storage.put('youtube-search-quota',{day,count:count+1});
         return json({ok:true});
       }
       const room=await this.ctx.storage.get('room');

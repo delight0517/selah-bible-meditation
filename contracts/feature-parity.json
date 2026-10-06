@@ -767,15 +767,14 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 29,
-      "title": "자동 발견 다국어 YouTube 성경 듣기와 장 따라가기",
+      "revision": 31,
+      "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
         "YouTube search uses the selected language, translation, book, and chapter. The localized setup tells users to verify the video title matches the selected translation before saving; mismatched external reading links are not presented as matching.",
         "각 번역본마다 여러 YouTube 채널·영상·재생목록을 저장하고, 원하는 출처를 기본 선택할 수 있다. 실제 YouTube 구독으로 표현하지 않는다.",
         "YouTube 영상은 YouTube 표준 임베드 플레이어에서 재생한다. 광고 노출과 로그인 상태는 YouTube와 각 영상의 설정이 결정하며 Selah가 광고를 강제하거나 차단하지 않는다.",
         "처음 재생은 YouTube 플레이어의 표준 재생 컨트롤을 사용한다. Selah는 플레이어를 자동 재생하거나 영상·오디오를 분리하지 않는다.",
-        "For generated playlists, the HTTPS host calls cuePlaylist with the zero-based item for the currently selected Bible chapter while autoplay stays disabled; the user starts audio with YouTube's native controls.",
         "iOS Capacitor apps load the standard YouTube player through the Selah HTTPS player page so YouTube receives a valid HTTPS Referer; playback status, time, and video ID return only through source-, origin-, and token-checked messages. The player remains user-started with YouTube controls.",
         "여러 장을 끊김 없이 듣고 싶은 사용자는 해당 번역본의 연속 재생목록을 저장할 수 있고, YouTube 플레이어가 목록 다음 영상으로 이어 재생한다. 단일 영상은 영상 끝에서 정상 종료한다.",
         "현재 재생 영상·재생목록을 YouTube 공식 앱 또는 youtube.com에서 열 수 있다. Google/YouTube 로그인과 Premium 자격은 사용자의 공식 YouTube 세션에서 처리하며 Selah는 Google 비밀번호·토큰을 받거나 저장하지 않는다. 별도 성경 낭독 사이트 링크는 선택한 번역본과 일치가 확인된 경우에만 보여 준다.",
@@ -794,14 +793,15 @@
         "Curated Matthew remains a read-only recommendation by default. An explicit localized verse-sync action creates or reuses a separate user-owned copy under the currently selected translation, without changing an existing explicit translation default; users can add confirmed verse timestamps to that copy and Selah follows only those saved cues.",
         "The separately curated NLT Matthew audio remains explicitly labeled NLT and may be followed while any Matthew Bible translation is selected. Its 28 chapter-start timestamps come from the public video description, are verified in order, and synchronize only to that chapter's verse 1; no within-chapter verse timings are claimed. The localized status distinguishes verified chapter starts from user-added verse timings.",
         "When no user-saved source/default exists, the quick-listening and default-source path prefers the curated Matthew NLT audio with verified chapter-start following; the title and edition stay explicitly labeled NLT. An existing user-selected default remains preferred.",
-        "A weekly catalog uses 50 mixed playlist/video searches for five named editions in each of ten content languages, then inspects public embeddable playlists and matching channels' public uploads within a 9,500-unit budget for non-search endpoints. The scheduled run starts after Pacific midnight, and concurrent runs are serialized.",
-        "Search results return up to 50 mixed candidates. Playlist metadata ranks candidates by length; matched video results identify likely chapter/book-level channels. Only canonical book/chapter titles and explicit timestamped chapter or verse references become cues.",
         "Edition matching folds Unicode diacritics and punctuation so common variants such as Reina-Valera 1960 / Reina Valera 1960 match; short edition IDs match only as whole metadata tokens, never as substrings of unrelated words.",
-        "Each generated source keeps verified video IDs in canonical Bible order. The hosted player receives the queue through origin- and token-checked postMessage (not a long URL), then cues the selected chapter index and explicit start time using YouTube's native controls with autoplay disabled.",
-        "A source is counted as a complete Bible edition only if cues cover all 66 books and all 1,189 canonical chapter positions. Partial playlists may be offered with an explicit partial-coverage label but never count toward the five-complete-editions-per-language target.",
-        "The web reader loads only the selected content language's catalog file. It can follow cues from playlist chapters, chapter videos, or book-length videos only when their public descriptions explicitly timestamp chapter or verse starts; missing cues are never inferred.",
-        "Catalog metadata is refreshed weekly and rejected by the client after 30 days; the YouTube Data API key stays in GitHub Actions secrets. Separate language files reduce each reader's download. The report shows discovered edition, book, and chapter coverage for each language. A target of five editions per language is not represented as achieved unless five valid sources are actually returned.",
-        "Goal completion requires at least five distinct complete Bible editions in every supported language, full-Bible chapter-follow coverage per language, correct start-at-current-chapter behavior, and observed YouTube audio playback plus matching scripture movement in the web reader."
+        "The hosted reader searches five named audio editions in one query for each of its ten supported Bible content languages and automatically groups returned videos by edition. Empty groups mean no result was found for that edition and chapter; names alone do not claim complete audio Bible coverage.",
+        "Search runs on demand for the current book/chapter and all five configured audio editions in one YouTube search.list call. Results are categorized by matching public metadata; the API key stays in a Cloudflare Worker secret, and requests are validated and rate limited.",
+        "Search results are short-lived in browser memory and are not combined into a public cross-channel catalog. Results use the standard YouTube player with native user-started controls.",
+        "Verse following uses only explicit timestamped verse references from a public video description. A clearly matching chapter title may provide only a chapter-start cue; otherwise no sync cue is claimed.",
+        "The selected Bible text edition remains independent from the audio edition. Current passage follows only the selected video’s verified cue points; any missing timing remains unsynchronized.",
+        "Goal completion requires evidence of five distinct, complete audio editions per language and observed playback plus scripture following in the web reader; the names shown in the search selector alone do not satisfy this threshold.",
+        "The Worker reserves at most 90 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving quota headroom under the default 100 daily search request limit; excess requests fail closed.",
+        "One search.list call requests up to 50 embeddable video results and the Worker groups at most five matching videos per configured audio edition. It does not fetch a second page or persist a shared cross-channel catalog."
       ],
       "paths": [
         "index.html",
@@ -821,33 +821,30 @@
         "youtube-player.html",
         "mobile/scripts/copy-web.mjs",
         "mobile/www/youtube-player.html",
-        "scripts/refresh-youtube-bible-audio-catalog.mjs",
-        "scripts/check-youtube-player.mjs",
-        ".github/workflows/refresh-youtube-bible-audio-catalog.yml",
-        "youtube-bible-audio-catalog/"
+        "scripts/check-youtube-player.mjs"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
           "state": "implementing",
-          "source": "index.html + youtube-player.html + weekly YouTube catalog workflow",
-          "build": "1.0.14 / build 75 source; live catalog and runtime playback remain unverified",
-          "evidence": "Revision 29 source adds mixed playlist/video discovery, public channel-upload scans, canonical verified video queues, and a serialized weekly refresh after Pacific midnight. No complete language catalog or live playback/read-along is claimed.",
-          "appliedRevision": 29
+          "source": "index.html + together-worker/src/youtube-search.js + hosted YouTube player",
+          "build": "1.0.14 / build 77 source; Worker and Pages deployment and live playback remain pending",
+          "evidence": "Revision 31 searches all five configured editions in one on-demand query and automatically groups current-chapter candidates. Results remain ephemeral; live API playback and deployed runtime are not yet verified.",
+          "appliedRevision": 31
         },
         "windows": {
           "owner": "Selah hosted reader",
-          "state": "implementing",
+          "state": "pending",
           "source": "shared hosted reader source",
           "build": "1.0.14 / build 75 source; live catalog and runtime playback remain unverified",
-          "evidence": "Revision 29 source adds mixed playlist/video discovery, public channel-upload scans, canonical verified video queues, and a serialized weekly refresh after Pacific midnight. No complete language catalog or live playback/read-along is claimed.",
-          "appliedRevision": 29
+          "evidence": "Revision 31 changes the web-first audio search flow; this platform requires separate source/runtime parity review.",
+          "appliedRevision": 31
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Revision 29 retains a pending macOS-specific runtime check; shared source adds mixed YouTube discovery and schedules quota refresh after Pacific midnight.",
-          "appliedRevision": 29,
+          "evidence": "Revision 31 changes the web-first audio search flow; this platform requires separate source/runtime parity review.",
+          "appliedRevision": 31,
           "build": "1.0.11 / shared reader UI build 55; platform validation pending"
         },
         "ios": {
@@ -855,8 +852,8 @@
           "state": "implementing",
           "source": "generated mobile/www + hosted youtube-player.html",
           "build": "1.0.14 / build 75 source; live catalog and runtime playback remain unverified",
-          "evidence": "Revision 29 source adds mixed playlist/video discovery, public channel-upload scans, canonical verified video queues, and a serialized weekly refresh after Pacific midnight. No complete language catalog or live playback/read-along is claimed.",
-          "appliedRevision": 29
+          "evidence": "Revision 31 shared reader source includes automatic grouping from one multi-edition current-chapter search; native runtime verification is pending.",
+          "appliedRevision": 31
         }
       }
     },
