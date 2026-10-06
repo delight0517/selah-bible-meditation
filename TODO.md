@@ -1,8 +1,8 @@
 ## 2026-10-06 · 최근 7일 이용 지도와 쉬운 방문 집계 문구
 - [x] 방문 지도 데이터를 날짜별 방문 합계에서 최근 7일 익명 브라우저 중복 제거로 바꾸고, 기간 내 여러 지역에서 이용한 브라우저는 가장 최근 지역에만 표시하도록 웹/서버 원본을 수정했다. 완전한 7일 데이터가 쌓이기 전에는 지도 집계를 준비 중으로 표시한다.
 - [x] “오늘/이번 달 이 앱을 이용한 사람”으로 제목을 쉽게 바꾸고, 익명 브라우저 기준 추정치라 실제 사람 수와 다를 수 있음을 함께 설명한다.
-- [x] ReleasePilot analytics worker PR #15를 병합하고 2026-10-06 Cloudflare Worker `cloud-account-storage` 버전 `4b3b14af-5b41-4f94-99f2-6419c8f0e30f`으로 배포했다. 공개 API는 HTTP 200이지만 아직 호환 이벤트가 없어 주간 값은 null, coverage는 false다.
-- [ ] Selah UI PR #269 병합 및 Pages 배포 후 지도 화면과 API 연결을 확인한다. 완전한 최근 7일 이벤트가 쌓이기 전에는 활성 브라우저 수를 표시하지 않는다. Capacitor 66개 공유 파일 패리티 검사는 통과했으며 iOS 재패키징·실행 확인은 별도다.
+- [x] ReleasePilot analytics worker PR #15를 병합하고 2026-10-06 Cloudflare Worker `cloud-account-storage` 버전 `4b3b14af-5b41-4f94-99f2-6419c8f0e30f`으로 배포했다. 공개 API는 HTTP 200이며 호환 가능한 데이터가 완전한 7일치 쌓이지 않아 주간 값은 null, coverage는 false다.
+- [x] Selah UI PR #269를 `ada6f7f`로 병합하고 Pages 배포(run `37412549429`)와 공개 화면 HTTP 200을 확인했다. API 주간 coverage는 아직 false이며 값은 null이라 완전한 최근 7일 이벤트가 쌓이기 전에는 활성 브라우저 수를 표시하지 않는다. Capacitor 66개 공유 파일 패리티는 통과했으며 iOS 재패키징·실행 확인은 별도다.
 
 ## 2026-10-06 · 성경 듣기 축소 화면과 다국어 설정 문구
 - [x] iOS 26.4 Selah QA Simulator에 1.0.13/build 62를 설치했다. World English Bible 선택과 한국어 앱 안내, 번역본 일치 확인 안내, 공식 YouTube에서 Premium을 사용한다는 설명을 확인했다.
