@@ -1,3 +1,9 @@
+## 2026-10-07 · Selah 웹 실시간 YouTube 성경 오디오 연결
+- [x] YouTube 정책 검토 후 공개 주간 집계형 카탈로그 대신, 현재 장에서 다섯 오디오 역본을 한 번에 검색해 역본별로 자동 분류하는 웹 우선 구조를 구현했다. API 키는 브라우저로 보내지 않고 Worker secret에서만 읽으며, Pacific 자정 기준 하루 90회 검색 한도로 YouTube 기본 검색 할당량 일부를 보호한다.
+- [x] 읽기 화면에서 현재 장과 본문 언어에 맞춰 다섯 역본을 하나의 OR 검색으로 찾고 결과를 자동 분류한다. 한 API 요청에서 최대 50개 검색 결과를 받고, 역본별 상위 5개를 임시 표시하며 YouTube 표준 플레이어에서 재생한다.
+- [x] `selah-together.imdisablebutgodisable.workers.dev`에 Worker를 배포하고 기존 YouTube 전용 API 키를 Worker secret으로 연결했다. Cloudflare deployment version `de63f7cc-d4cd-481c-be28-7cc11534853a`; 웹 origin OPTIONS 응답 HTTP 204 및 allowlist readback을 확인했다.
+- [ ] YouTube 일일 검색 한도 리셋(2026-10-07 16:00 KST) 후 실제 검색 결과·재생·본문 따라가기와 다국어 커버리지를 확인하고 Pages에 웹을 배포한다. 실제 검색 결과가 없는 역본은 빈 그룹으로 남으며, 5개 완전한 성경 음원 역본/언어가 확인된 것은 아니다.
+
 ## 2026-10-06 · 미국 영어권 묵상 기록 진입 실험
 - [x] 공개 영어 검색 결과에서 “Bible journal에 무엇을 쓸까?”라는 초보자 질문을 확인했다. 최근 안내 페이지와 저널링 서비스가 이미 경쟁 중이다. 이는 검색 의도와 경쟁 콘텐츠의 증거이지 월 검색량이나 Selah 수요의 증거가 아니다.
 - [x] 미국/영어권 `global-funnel-v1` 최근 30일 기준을 확인했다: 노출 이벤트 2, CTA·읽기·저장·가입·재방문 0. 두 이벤트는 사람 수가 아니며 모두 `unattributed` 경로다.
@@ -777,6 +783,38 @@
 - [ ] Verify in a browser that this action saves only the selected-translation copy, exposes cue controls, and that confirmed cues drive verse following during playback.
 - [ ] Build/install build 65 and verify the same flow on iPhone. Build 64 playback remains unverified; existing iPhone Mirroring action is still required.
 - [ ] Selah YouTube 성경 듣기: 확인된 NLT 마태복음 28개 챕터 시점으로 장·1절 동기화(build 66) 구현. 배포 readback과 실기기에서 실제 음성 재생·본문 따라가기 검증은 별도 완료 필요; 절별 세부 동기화는 사용자가 저장한 시점만 사용.
+
+
+## 2026-10-06 · YouTube 다국어 성경 낭독 자동 카탈로그
+- [x] 10개 콘텐츠 언어에서 각 5개 번역판을 정해진 검색어로 찾고, YouTube API 공개·임베드 가능·긴 영상 및 판본 표기를 검증하는 무LLM 주간 갱신기를 추가한다.
+- [x] 본문 화면은 최신 카탈로그를 자동으로 읽고, 장 시점이 확인된 출처를 우선 추천하며, YouTube 설명란에서 확인한 장 시점만 본문 따라가기에 쓴다. 장·절 시점을 추정해 만들지 않는다.
+- [x] API 응답 데이터는 주간 새로고침하고 30일 지난 카탈로그를 거부한다. API 키는 GitHub Actions secret으로만 읽도록 구성한다.
+- [x] Dedicated Google Cloud project enables only YouTube Data API v3; an API-only restricted key is stored as the GitHub repository secret `YOUTUBE_DATA_API_KEY` and its name was confirmed by metadata readback.
+- [ ] 첫 자동 갱신에서 10개 언어 각각 5개 이상의 실제 번역판과 언어별 장 따라가기 출처 1개 이상이 발견되는지 확인한다. API 영상 재생과 본문 이동 검증 전까지 목표는 미완료다.
+
+## 2026-10-06 · YouTube 전권 재생목록 자동 발견
+- [x] Matthew 한 장편 영상 검색을 전체 성경 재생목록 탐색으로 바꾼다. 10개 언어 × 5개 역본에 YouTube 공식 검색 50회를 주간 실행하고, 버전별 최대 3개 재생목록 후보를 점검해 가장 넓은 장 coverage를 고른다.
+- [x] 재생목록·영상 공개 및 임베드 가능성을 확인하고, 제목의 책·장과 설명란의 명시적 절 타임스탬프만 cue로 만든다. 전체 언어의 발견 역본·책·장 coverage를 기록하고, 5개 목표를 검색 전부터 달성했다고 표시하지 않는다.
+- [x] 웹은 현재 선택한 성경 언어의 카탈로그 파일만 불러온다. 재생 중 영상 ID의 검증된 절 cue가 있으면 절을, 그렇지 않으면 장 첫 절을 따라간다. 오디오 다운로드나 LLM 토큰 호출은 하지 않는다.
+- [x] 로컬에서 한국어·영어·일본어·중국어 책·장 분류 및 영상 설명 절 타임스탬프 self-check와 Node 구문 검사를 통과했다.
+- [x] YouTube Data API v3 restricted key를 Actions secret에서 읽도록 연결했다. 첫 실제 검색에서 일부 부분 출처만 발견됐고, 완전 역본은 0개라 성공으로 처리하지 않았다.
+- [ ] 변경 사항과 `.github/workflows`를 원격 브랜치에 올리는 GitHub workflow OAuth 권한은 기존 `Drive·Windows 전달 중 Mac 담당 작업 실행` 대기에서 사용자 Resume 후 재확인한다. 기존 대기 카드가 있으므로 중복 인증 요청은 보내지 않는다.
+
+## 2026-10-06 · 현재 장부터 재생 및 전권 기준 검증
+- [x] 수집한 재생목록 cue마다 YouTube playlist의 0 기준 item index를 보관하고, 자동 발견된 재생목록은 사용자가 현재 읽는 책·장 item부터 표준 YouTube 플레이어로 재생되게 한다. 수동 저장한 재생목록은 기존 동작을 유지한다.
+- [x] 장 cue 66권·1,189장 전부가 확인된 역본만 `complete Bible`로 계산한다. 부분 목록은 UI에서 부분 커버리지로 표시하며 5개 전권 역본 목표에 넣지 않는다.
+- [x] 가짜 API 응답 fixture로 검색 50회, 공개·임베드 검증, 번역본 격리, 장 cue와 설명란 절 cue, playlist 시작 index를 함께 확인했다.
+- [x] hosted player fixture로 현재 장의 zero-based cuePlaylist 위치를 전달하고 autoplay를 끈 채 YouTube 기본 컨트롤로 시작하는 경로를 검증했다.
+- [x] 50개 역본 검색은 그대로 두고 검색당 최대 50개 후보 메타데이터를 비교한 뒤, 재생 항목 수가 1,189개에 가장 가까운 공개 재생목록 하나만 역본별로 상세 스캔한다.
+- [x] YouTube 역본명 일치 검사에서 악센트·구두점을 정규화하고, 약어는 단어 경계가 맞을 때만 허용한다. 실제 영상 제목의 `Reina Valera 1960` 표기를 `Reina-Valera 1960` 검색과 연결하는 회귀 fixture를 추가했다.
+- [x] 검색을 50개 혼합 playlist/video 조회로 유지하고, 장·책 제목이 판본과 일치하는 공개 채널에서 업로드를 자동 검사한다. 영상 설명에 명시된 chapter/verse 타임스탬프만 cue로 만든다.
+- [x] 검증된 영상 ID는 성경 순서의 queue로 정렬한다. 전체 queue는 URL에 넣지 않고 hosted player 준비 후 origin·token 검사 메시지로 전달해 URL 길이 한도를 피한다. 현재 장과 명시된 시작 초부터 cue하고 자동 재생은 하지 않는다.
+- [x] 타임스탬프 장편 영상, 채널 업로드, mixed search 및 메시지 기반 큐를 fixture로 검증했다. YouTube API 검색은 50회/실행, 기타 endpoint는 9,500 quota units 이하로 제한한다.
+- [ ] 태평양 일일 quota reset 후 자동 갱신을 한 번 수행해 실제 판본·장 coverage를 읽는다. 여러 언어에서 5개 완전 역본을 찾을 때까지 검색·후보 품질을 조정한다; 현재는 0개 확인.
+- [x] Selah 전용 Google Cloud 프로젝트를 만들고 YouTube Data API v3만 허용한 키를 GitHub Actions의 `YOUTUBE_DATA_API_KEY` secret으로 저장했으며 이름 metadata readback을 확인했다. 키 문자열은 로그에 남기지 않는다.
+- [x] 주간 자동 갱신을 미국 태평양 자정 이후로 옮기고 동시 실행을 직렬화해 Search Queries 일일 한도를 앞당겨 소진하거나 중복 실행하지 않게 한다 (feature parity revision 29).
+- [ ] 첫 실제 API 갱신은 일부 후보만 찾아 완전 역본 0개였다. 상위 50개 혼합 영상·재생목록 결과와 공개 채널 업로드의 장/절 타임스탬프 발견으로 개선했다. 같은 날 추가 검색은 HTTP 429 `Search Queries per day`였으므로 태평양 기준 일일 reset 뒤 한 번 갱신한다.
+- [ ] 생성 카탈로그 원격 게시, 웹 배포와 실제 재생·본문 이동은 기존 GitHub workflow OAuth 권한 Resume 및 quota reset 후 확인한다.
 
 
 ## 2026-10-06 · 성경 읽기 화면 테마·글꼴 컨트롤

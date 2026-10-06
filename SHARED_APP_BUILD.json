@@ -1,8 +1,8 @@
 {
   "appId": "selah",
-  "version": "1.0.13",
-  "build": 69,
+  "version": "1.0.14",
+  "build": 77,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Translation-aware YouTube Bible audio with verified Matthew chapter sync and opt-in verse timing"
+  "description": "On-demand multilingual YouTube Bible audio search with explicit chapter and verse following"
 }
