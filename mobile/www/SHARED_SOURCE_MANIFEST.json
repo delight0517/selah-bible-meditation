@@ -1,11 +1,11 @@
 {
   "appId": "selah",
   "version": "1.0.13",
-  "build": 72,
+  "build": 74,
   "dataContractVersion": 1,
   "source": "https://delight0517.github.io/selah-bible-meditation/",
   "files": {
-    "SHARED_APP_BUILD.json": "520db1e204f0b3891a4bdb75aaaea255086f7f68c8448dd8b7c5ccec5876cb9d",
+    "SHARED_APP_BUILD.json": "e35ab144026cd9bfa58e7f2e8283684585843c02bac9fcacbe192bdb9a2f4fb0",
     "assets/COUNTRY-REGION-DATA-LICENSE.txt": "a02cfcf8c0671fd1322ef45356e027407104305fc5222bf6a13a534e2f82e1b5",
     "assets/MATERIAL-ICONS-LICENSE.txt": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
     "assets/MATERIAL-ICONS-NOTICE.txt": "c783fe6c609e28c6442b3e8aece00e8a1a9afdcf5c78e1a9566877523d0cea78",

@@ -105,7 +105,7 @@ async function discover(key, bookCatalogs, fetcher = globalThis.fetch) {
   const candidates = [];
   for (const [locale, language] of Object.entries(LANGUAGES)) {
     for (const [edition, name] of language.editions) {
-      const data = await api('search', { part: 'snippet', type: 'playlist', maxResults: '3', relevanceLanguage: language.queryLanguage, q: `${language.phrase} "${name}"` }, key, fetcher);
+      const data = await api('search', { part: 'snippet', type: 'playlist', maxResults: '50', relevanceLanguage: language.queryLanguage, q: `${language.phrase} "${name}"` }, key, fetcher);
       for (const item of data.items || []) {
         const playlistId = item.id?.playlistId;
         if (playlistId && /^[\w-]+$/.test(playlistId)) candidates.push({ locale, edition, name, playlistId, searchTitle: item.snippet?.title || '', searchDescription: item.snippet?.description || '' });
@@ -130,7 +130,15 @@ async function discover(key, bookCatalogs, fetcher = globalThis.fetch) {
     if (details?.status?.privacyStatus !== 'public' || !editionText.includes(candidate.name.normalize('NFKC').toLocaleLowerCase())) continue;
     accepted.push(candidate);
   }
-  const sources = await mapLimit(accepted, 8, async candidate => {
+  const bestCandidatePerEdition = new Map();
+  for (const candidate of accepted) {
+    const editionKey = `${candidate.locale}:${candidate.edition}`;
+    const previous = bestCandidatePerEdition.get(editionKey);
+    const itemCount = Number(playlistDetails.get(candidate.playlistId)?.contentDetails?.itemCount) || 0;
+    const previousCount = Number(playlistDetails.get(previous?.playlistId)?.contentDetails?.itemCount) || 0;
+    if (!previous || Math.abs(itemCount - totalChapterCount) < Math.abs(previousCount - totalChapterCount)) bestCandidatePerEdition.set(editionKey, candidate);
+  }
+  const sources = await mapLimit([...bestCandidatePerEdition.values()], 8, async candidate => {
     const details = playlistDetails.get(candidate.playlistId);
     const localizedBooks = bookCatalogs[LANGUAGES[candidate.locale].catalog] || [];
     const localizedById = new Map(localizedBooks.map(book => [book.id, book]));
@@ -225,6 +233,7 @@ async function fixtureSelfCheck(bookCatalogs) {
   const chapters = [];
   const fullVideoIds = [];
   let position = 0;
+  let searchResultLimit = 0;
   for (const book of bookCatalogs.ENGWEBP) {
     for (let chapter = 1; chapter <= book.numberOfChapters; chapter++) {
       const videoId = String(position).padStart(11, '0');
@@ -241,10 +250,11 @@ async function fixtureSelfCheck(bookCatalogs) {
     let body;
     if (url.pathname.endsWith('/search')) {
       searchCalls++;
+      searchResultLimit = Math.max(searchResultLimit, Number(params.get('maxResults')) || 0);
       const matches = params.get('q')?.includes('"King James Version"');
       body = { items: matches ? [partialPlaylistId, fullPlaylistId].map((playlistId, index) => ({ id: { playlistId }, snippet: { title: `King James Version ${index ? 'full' : 'partial'} Bible audio`, description: 'King James Version' } })) : [] };
     } else if (url.pathname.endsWith('/playlists')) {
-      body = { items: [partialPlaylistId, fullPlaylistId].map((id, index) => ({ id, snippet: { title: `King James Version ${index ? 'full' : 'partial'} Bible audio`, description: 'King James Version', channelTitle: 'Fixture channel' }, status: { privacyStatus: 'public' } })) };
+      body = { items: [partialPlaylistId, fullPlaylistId].map((id, index) => ({ id, snippet: { title: `King James Version ${index ? 'full' : 'partial'} Bible audio`, description: 'King James Version', channelTitle: 'Fixture channel' }, contentDetails: { itemCount: index ? 1189 : 1 }, status: { privacyStatus: 'public' } })) };
     } else if (url.pathname.endsWith('/playlistItems')) {
       const all = params.get('playlistId') === fullPlaylistId ? chapters : [{ snippet: { position: 0, title: 'John Chapter 3', resourceId: { videoId: 'PARTIAL0001' } } }];
       const offset = Number(params.get('pageToken') || 0);
@@ -263,9 +273,9 @@ async function fixtureSelfCheck(bookCatalogs) {
   const kjv = english.editions.find(edition => edition.id === 'KJV');
   const source = kjv.sources[0];
   const matthew = source?.verseCues.find(cue => cue.bookId === 'MAT' && cue.chapter === 2 && cue.verse === 2);
-  if (searchCalls !== 50 || kjv.sources.length !== 1 || !source?.completeBible || source.playlistId !== fullPlaylistId || source.chapterCoverage !== 1189 || source.bookCoverage !== 66 || matthew?.seconds !== 45 || matthew.playlistIndex !== matthewPosition) throw new Error('complete-Bible catalog fixture self-check failed');
+  if (searchCalls !== 50 || searchResultLimit !== 50 || kjv.sources.length !== 1 || !source?.completeBible || source.playlistId !== fullPlaylistId || source.chapterCoverage !== 1189 || source.bookCoverage !== 66 || matthew?.seconds !== 45 || matthew.playlistIndex !== matthewPosition) throw new Error('complete-Bible catalog fixture self-check failed');
   if (english.editions.find(edition => edition.id === 'NIV').sources.length || catalog.languages.ko.editions.some(edition => edition.sources.length)) throw new Error('edition isolation fixture self-check failed');
-  console.log('PASS: mocked 50-search API selects the complete 66-book/1,189-chapter edition, follows explicit verse timestamps, preserves the chapter playlist index, and rejects partial editions as complete');
+  console.log('PASS: mocked 50-search API selects the complete 66-book/1,189-chapter edition from up to 50 results per query, follows explicit verse timestamps, preserves the chapter playlist index, and rejects partial editions as complete');
 }
 
 const bookCatalogs = readBookCatalogs(await readFile('assets/bible-book-catalogs.js', 'utf8'));
