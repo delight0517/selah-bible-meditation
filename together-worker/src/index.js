@@ -34,8 +34,8 @@ export default {
       else if(url.pathname==='/youtube/search' && request.method==='POST') {
         const limit=await env.YOUTUBE_SEARCH_LIMITER?.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
         if(env.YOUTUBE_SEARCH_LIMITER && !limit.success) fail(429,'rate_limited');
-        response=await searchYouTube(request,env,async()=>{
-          const quota=await env.ROOMS.get(env.ROOMS.idFromName('youtube-search-quota-v1')).fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}));
+        response=await searchYouTube(request,env,async(upstreamLimit=false)=>{
+          const quota=await env.ROOMS.get(env.ROOMS.idFromName('youtube-search-quota-v1')).fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST',headers:upstreamLimit?{'x-youtube-quota-exhausted':'1'}:{}}));
           return quota.ok?null:json({error:quota.status===429?'daily_search_limit':'search_unavailable'},quota.status);
         });
       }
@@ -73,8 +73,9 @@ export class TogetherRoom {
       if(url.pathname==='/internal/youtube-search-quota' && request.method==='POST') {
         const now=Date.now(),parts=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now).filter(part=>part.type!=='literal').map(part=>[part.type,part.value])),day=`${parts.year}-${parts.month}-${parts.day}`;
         const saved=await this.ctx.storage.get('youtube-search-quota'),count=saved?.day===day?Number(saved.count)||0:0;
-        if(count>=90) return json({error:'daily_search_limit'},429);
-        await this.ctx.storage.put('youtube-search-quota',{day,count:count+1});
+        if(request.headers.get('x-youtube-quota-exhausted')==='1') { await this.ctx.storage.put('youtube-search-quota',{day,count,blocked:true}); return json({ok:true}); }
+        if(saved?.day===day && saved.blocked || count>=70) return json({error:'daily_search_limit'},429);
+        await this.ctx.storage.put('youtube-search-quota',{day,count:count+1,blocked:false});
         return json({ok:true});
       }
       const room=await this.ctx.storage.get('room');

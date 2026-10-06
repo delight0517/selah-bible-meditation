@@ -1,6 +1,6 @@
 const EDITIONS = {
   en: [['KJV','King James Version'],['NIV','New International Version'],['ESV','English Standard Version'],['NKJV','New King James Version'],['NLT','New Living Translation']],
-  ko: [['KRV','개역한글'],['NKRV','개역개정'],['KSB','새번역'],['KCB','공동번역'],['KLB','우리말성경']],
+  ko: [['KRV','개역한글'],['NKRV','개역개정'],['KSB','새번역'],['KCB','공동번역'],['KLB','우리말성경'],['EASY','쉬운성경']],
   ja: [['JPN1965','口語訳'],['新改訳','新改訳聖書'],['新共同訳','新共同訳'],['聖書協会共同訳','聖書協会共同訳'],['リビングバイブル','リビングバイブル']],
   'zh-CN': [['CUV-S','和合本 简体'],['CNV-S','新译本 简体'],['当代译本','当代译本'],['中文标准译本','中文标准译本'],['环球圣经译本','环球圣经译本']],
   'zh-TW': [['CUV-T','和合本 繁體'],['CNV-T','新譯本'],['現代中文譯本','現代中文譯本'],['環球聖經譯本','環球聖經譯本'],['呂振中譯本','呂振中譯本']],
@@ -61,6 +61,7 @@ export async function searchYouTube(request, env, reserveQuota) {
     const quota=await reserveQuota?.();if(quota)return{quota};
     const params=new URLSearchParams({part:'snippet',type:'video',videoEmbeddable:'true',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,snippet(title,description,channelTitle))'});
     const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
+    if(response?.status===429){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}
     if(!response?.ok)return{error:true};
     const data=await response.json().catch(()=>null);return{items:data?.items||[]};
   };
