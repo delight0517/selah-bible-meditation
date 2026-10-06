@@ -721,3 +721,10 @@
 - [x] Shorten the localized match reminder and apply an explicit `[hidden]` rule to the primary audio source card so an empty default cannot occupy the reading screen.
 - [x] Rebuilt and installed build 61 in the iOS 26.4 simulator. Fresh screen capture confirms the translation-match reminder and YouTube search control are separated; the empty default-source card stays hidden. Evidence run `34cb8a12-3d3b-448c-91fa-41ed6ab2d388` is in `/tmp/selah-youtube-player-evidence.jsonl`.
 - [ ] The live YouTube search for World English Bible Matthew 1 still recommends an ESV playlist first. No source was saved; exact-version discovery, playlist continuity, physical iPhone, ad, and Premium outcomes remain separate checks.
+
+## 2026-10-06 · 내부 방문 집계 제외와 활성 이용자 지표
+- [x] 개발자 통계 안에 이 브라우저의 이후 방문·기능·실험 이벤트 전송을 끄고 다시 켜는 선택을 추가했다. 설정은 해당 사이트의 이 기기 브라우저 저장소에만 남는다. 과거 집계는 소급 변경되지 않는다.
+- [x] QA 쿼리 제외와 브라우저 선택 제외를 페이지뷰, 기능, 지역 실험, 글로벌 퍼널, Filipino 경로 실험의 이벤트 전송 전에 확인한다. 10개 UI 언어 문구와 iOS 공유 웹 번들을 동기화했다.
+- [x] executable inline JavaScript 구문 검사, Filipino analytics 스크립트 구문 검사, 66개 웹/iOS 공유 파일 패리티 검사, `git diff --check`, iOS Simulator Debug build를 통과했다.
+- [ ] Simulator는 부팅 상태였으나 새 빌드 설치 명령이 응답 없이 멈춰 앱 화면·저장 동작은 검증하지 못했다. CoreSimulator를 재시작하거나 반복 제어하지 않는다.
+- [ ] 주간 활성 사용자를 정확히 세고 로그인 계정과 익명 브라우저 중복을 합치는 Worker 변경은 배포 소스 저장소와 소유 경로를 찾지 못해 별도 대기한다. 현재 `period=week` 요청은 주간 기준 증명이 아니다.
