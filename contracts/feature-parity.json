@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 15,
+      "revision": 16,
       "title": "번역본별 YouTube 성경 듣기·연속 재생·미니 플레이어",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -786,7 +786,8 @@
         "The translation-match reminder is localized in Korean, English, Japanese, Simplified and Traditional Chinese, Filipino, Spanish, and Brazilian Portuguese.",
         "When no source is saved for the selected translation, the empty default-source card stays hidden. Localized match guidance fits without overlapping the YouTube search control.",
         "Listening setup labels and guidance follow the app UI language, independently of the selected Bible content language and edition.",
-        "On phone layouts, the minimized floating player is no wider than 240 CSS px while the embedded YouTube player retains its 200×200 minimum for controls."
+        "On phone layouts, the minimized floating player is no wider than 240 CSS px while the embedded YouTube player retains its 200×200 minimum for controls.",
+        "The Bible audio setup is collapsed by default on first load so it does not displace the passage; users can expand it with a localized native disclosure, and the saved-source quick play remains available."
       ],
       "paths": [
         "index.html",
@@ -810,18 +811,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 15,
+          "appliedRevision": 16,
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / build 62; source and generated iOS bundle updated; hosted deployment pending",
-          "evidence": "Revision 15 separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
+          "build": "1.0.13 / build 63 source; hosted deployment and browser verification pending",
+          "evidence": "Revision 16 keeps the audio setup collapsed until opened and separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 15,
+          "appliedRevision": 16,
           "source": "shared hosted reader source",
-          "build": "1.0.13 / build 62; source and generated iOS bundle updated; hosted deployment pending",
-          "evidence": "Revision 15 separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
+          "build": "1.0.13 / build 63 source; hosted deployment and browser verification pending",
+          "evidence": "Revision 16 keeps the audio setup collapsed until opened and separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -833,10 +834,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 15,
+          "appliedRevision": 16,
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 62; installed on iOS 26.4 Selah QA Simulator",
-          "evidence": "Simulator build 62 shows Korean audio guidance with World English Bible selected, and an opened WEB Matthew 1 test source collapses into a 240 CSS px card while retaining the 200 px-minimum YouTube iframe. Named simulator test source was removed after capture. Audio output, playlist continuation, YouTube Premium state, and physical iPhone were not verified."
+          "build": "1.0.13 / build 63 source; simulator packaging and runtime verification pending",
+          "evidence": "Build 62 previously verified the compact player. Revision 16 changes the default disclosure state in shared HTML and generated iOS source; simulator packaging, first-screen visual behavior, audio output, playlist continuation, YouTube Premium state, and physical iPhone remain unverified."
         }
       }
     },
@@ -1050,8 +1051,8 @@
           "state": "implemented",
           "appliedRevision": 2,
           "source": "codex/selah-weekly-active-map-20261006 + ReleasePilot analytics worker PR #15",
-          "build": "Source change; Pages deployment pending",
-          "evidence": "Map now uses rolling 7-day deduplicated anonymous browser IDs and latest observed region. Coverage remains hidden until complete; deployment/readback pending."
+          "build": "Selah UI PR #269 pending; analytics Worker deployed as 4b3b14af-5b41-4f94-99f2-6419c8f0e30f",
+          "evidence": "Map uses rolling 7-day deduplicated anonymous browser IDs and latest observed region. Worker API readback returned HTTP 200; weekly value is null and coverage false until compatible UI events populate a complete window. Pages readback pending."
         },
         "windows": {
           "owner": "Windows platform contract",
@@ -1076,8 +1077,8 @@
           "state": "implemented",
           "appliedRevision": 2,
           "source": "generated mobile/www shared bundle",
-          "build": "Generated during required parity copy; native packaging pending",
-          "evidence": "Shared web source copied into Capacitor bundle; installation/runtime proof is separate and pending."
+          "build": "Generated 1.0.13 / build 63 during required 66-file parity copy; native packaging pending",
+          "evidence": "Shared web source copied into the Capacitor bundle and platform parity passed; installation/runtime proof is separate and pending."
         }
       },
       "workItem": "selah-dynamic-country-regions-20261005"
