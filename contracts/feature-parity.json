@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 32,
+      "revision": 34,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -794,15 +794,15 @@
         "The separately curated NLT Matthew audio remains explicitly labeled NLT and may be followed while any Matthew Bible translation is selected. Its 28 chapter-start timestamps come from the public video description, are verified in order, and synchronize only to that chapter's verse 1; no within-chapter verse timings are claimed. The localized status distinguishes verified chapter starts from user-added verse timings.",
         "When no user-saved source/default exists, the quick-listening and default-source path prefers the curated Matthew NLT audio with verified chapter-start following; the title and edition stay explicitly labeled NLT. An existing user-selected default remains preferred.",
         "Edition matching folds Unicode diacritics and punctuation so common variants such as Reina-Valera 1960 / Reina Valera 1960 match; short edition IDs match only as whole metadata tokens, never as substrings of unrelated words.",
-        "The hosted reader searches five named audio editions in one query for each of its ten supported Bible content languages and automatically groups returned videos by edition. Empty groups mean no result was found for that edition and chapter; names alone do not claim complete audio Bible coverage.",
-        "Search runs on demand for the current book/chapter and all five configured audio editions in one YouTube search.list call. If any edition has fewer than five candidates, one second search.list call targets only the incomplete editions; each call is independently quota-limited.",
+        "The hosted reader searches at least five named audio editions in one query for each of its ten supported Bible content languages and automatically groups returned videos by edition; Korean offers six configured editions. Empty groups mean no result was found for that edition and chapter; names alone do not claim complete audio Bible coverage.",
+        "Search runs on demand for the current book/chapter and all configured audio editions in one YouTube search.list call. If any edition has fewer than five candidates, one second search.list call targets only the incomplete editions; each call is independently quota-limited.",
         "Results are categorized by matching public metadata; the API key stays in a Cloudflare Worker secret, and requests are validated and rate limited.",
         "Search results are short-lived in browser memory and are not combined into a public cross-channel catalog. Results use the standard YouTube player with native user-started controls.",
         "Verse following uses only explicit timestamped verse references from a public video description. A clearly matching chapter title may provide only a chapter-start cue; otherwise no sync cue is claimed.",
         "A user may explicitly save a generated search result under the selected Bible text edition while retaining the audio edition label. This exposes the existing localized verse-timestamp control when a public video description lacks cues; no missing timestamp is invented.",
         "The selected Bible text edition remains independent from the audio edition. Current passage follows only the selected video’s verified cue points; any missing timing remains unsynchronized.",
         "Goal completion requires evidence of five distinct, complete audio editions per language and observed playback plus scripture following in the web reader; the names shown in the search selector alone do not satisfy this threshold.",
-        "The Worker reserves at most 90 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving quota headroom under the default 100 daily search request limit; excess requests fail closed.",
+        "The Worker reserves at most 70 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving 30 requests of headroom for other consumers of the shared API key under the default 100-query daily limit. If YouTube returns HTTP 429, the Worker blocks further searches until the next Pacific calendar day.",
         "Each search.list call requests up to 50 embeddable video results and the Worker groups at most five matching videos per configured audio edition. If any edition has fewer than five candidates, one targeted second search is allowed within the per-search and daily quota caps; results are checked against all configured editions before they can fill a missing group, and search results are not persisted as a shared catalog."
       ],
       "paths": [
@@ -830,32 +830,32 @@
           "owner": "Selah web audio task",
           "state": "implementing",
           "source": "index.html + together-worker/src/youtube-search.js + hosted YouTube player",
-          "build": "1.0.15 / build 78 source; Worker deployed, Pages publication pending",
-          "evidence": "Worker version 8d01fe3f-900b-4a93-8e9d-9fcb6078d978 returned HTTP 200 for live Korean Matthew 1 search: KRV 5, NKRV 5, KSB 5, KCB 0, KLB 4. The second search no longer misclassifies an NKRV video as KCB. No returned candidate had chapter/verse timestamp cues. The UI supports explicitly saving a candidate and marking verse starts; Pages publication and actual playback/follow behavior remain unverified.",
-          "appliedRevision": 32
+          "build": "1.0.17 / build 80 source; quota-aware 70-request cap and sixth Korean edition pending live verification and Pages publication",
+          "evidence": "Revision 33 added Easy Bible as a sixth Korean choice; its live search attempt returned HTTP 502. Google Cloud Monitoring showed 100 successful youtube.search.list calls and three HTTP 429 responses in the prior 24 hours for the shared API key; the 502 is consistent with quota saturation. Worker revision 821bd8ce-518e-4175-8961-d20d876156b5 lowers the cap to 70 requests/day and persists upstream 429 exhaustion until Pacific reset. Pages publication and playback/follow remain pending.",
+          "appliedRevision": 34
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "pending",
           "source": "shared hosted reader source",
-          "build": "1.0.15 / build 78 source; live catalog and runtime playback remain unverified",
-          "evidence": "Revision 32 changes the shared audio search and follow setup; this platform requires separate source/runtime parity review.",
-          "appliedRevision": 32
+          "build": "1.0.17 / build 80 source; live catalog and runtime playback remain unverified",
+          "evidence": "Revision 34 changes the shared search quota policy and audio edition list; this platform requires separate source/runtime parity review.",
+          "appliedRevision": 34
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Revision 32 changes the web-first audio search flow; this platform requires separate source/runtime parity review.",
-          "appliedRevision": 32,
+          "evidence": "Revision 34 changes the web-first audio search flow; this platform requires separate source/runtime parity review.",
+          "appliedRevision": 34,
           "build": "1.0.11 / shared reader UI build 55; platform validation pending"
         },
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implementing",
           "source": "generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.15 / build 78 source; live catalog and runtime playback remain unverified",
-          "evidence": "Revision 32 shared reader source includes an incomplete-edition fallback and explicit save-for-verse-follow action; native runtime verification is pending.",
-          "appliedRevision": 32
+          "build": "1.0.17 / build 80 source; live catalog and runtime playback remain unverified",
+          "evidence": "Revision 34 shared reader source includes an additional Korean audio edition, dynamic edition counts, and explicit save-for-verse-follow; native runtime verification is pending.",
+          "appliedRevision": 34
         }
       }
     },

@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import worker, { TogetherRoom } from '../together-worker/src/index.js';
 import { editionList, searchYouTube } from '../together-worker/src/youtube-search.js';
 
-for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) assert.equal(editionList(locale).length,5,`${locale} edition choices`);
+for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) assert.ok(editionList(locale).length>=5,`${locale} edition choices`);
+assert.equal(editionList('ko').length,6,'Korean has six configured audio editions');
 assert.equal(editionList('xx').length,0);
 
 const originalFetch=globalThis.fetch;
@@ -26,7 +27,7 @@ try {
   const result=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'never-return-this-key'});
   assert.equal(result.status,200);
   const data=await result.json();
-  assert.equal(data.editions.length,5);
+  assert.equal(data.editions.length,editionList('en').length);
   const niv=data.editions.find(item=>item.id==='NIV'),kjv=data.editions.find(item=>item.id==='KJV');
   assert.equal(calls.length,2,'one focused fallback search fills editions missing from the first result page');
   assert.equal(data.editions.every(group=>group.items.length>0),true,'initial and fallback results fill all five editions');
@@ -50,8 +51,8 @@ try {
     globalThis.fetch=async()=>Response.json({items:editionList(locale).map((edition,index)=>({id:{videoId:`id${locale}${index}`.replace(/[^\w-]/g,'').slice(0,11).padEnd(11,'x')},snippet:{title:`${edition.name} Matthew 1 audio`,description:'',channelTitle:'Test'}}))});
     const localized=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale,bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
     const localizedData=await localized.json();
-    assert.equal(localizedData.editions.length,5,`${locale} returns five categorized groups`);
-    assert.equal(localizedData.editions.filter(group=>group.items.length===1).length,5,`${locale} classifies every configured edition`);
+    assert.equal(localizedData.editions.length,editionList(locale).length,`${locale} returns every configured group`);
+    assert.equal(localizedData.editions.filter(group=>group.items.length===1).length,editionList(locale).length,`${locale} classifies every configured edition`);
   }
   let koreanApiCalls=0,videoNumber=0;
   globalThis.fetch=async()=>{
@@ -63,6 +64,7 @@ try {
   };
   const korean=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
   const koreanData=await korean.json(),kcb=koreanData.editions.find(group=>group.id==='KCB');
+  assert.equal(koreanData.editions.find(group=>group.id==='EASY').items.length,5,'Easy Bible is an additional Korean audio-edition choice');
   assert.equal(koreanApiCalls,2,'one targeted fallback runs when an edition is absent');
   assert.equal(kcb.items.length,1,'metadata identifying a different configured edition is excluded from the missing edition');
   assert.equal(kcb.items[0].title,'공동번역 마태복음 전체듣기');
@@ -74,9 +76,18 @@ try {
   const invalid=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:29})}),{YOUTUBE_DATA_API_KEY:'unused'});
   assert.equal(invalid.status,400);
 
+  let markedQuotaExhausted=false;
+  globalThis.fetch=async()=>new Response(JSON.stringify({error:{errors:[{reason:'quotaExceeded'}]}}),{status:429});
+  const upstreamLimited=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{markedQuotaExhausted=exhausted;return null;});
+  assert.equal(upstreamLimited.status,429);
+  assert.equal(markedQuotaExhausted,true,'an upstream daily limit blocks later Worker searches');
+
   const values=new Map(),room=new TogetherRoom({storage:{get:key=>values.get(key),put:(key,value)=>values.set(key,value)}});
-  for(let count=0;count<90;count++) assert.equal((await room.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,200);
-  assert.equal((await room.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,429,'daily quota fails closed at 90 searches');
+  for(let count=0;count<70;count++) assert.equal((await room.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,200);
+  assert.equal((await room.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,429,'daily quota preserves headroom at 70 searches');
+  const blockedValues=new Map(),blockedRoom=new TogetherRoom({storage:{get:key=>blockedValues.get(key),put:(key,value)=>blockedValues.set(key,value)}});
+  assert.equal((await blockedRoom.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST',headers:{'x-youtube-quota-exhausted':'1'}}))).status,200);
+  assert.equal((await blockedRoom.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,429,'upstream quota exhaustion blocks further API requests until reset');
 
   let apiCalls=0;
   globalThis.fetch=async()=>{apiCalls++;return Response.json({items:[]})};
@@ -84,7 +95,7 @@ try {
   const env={ROOMS:namespace,YOUTUBE_DATA_API_KEY:'route-key',YOUTUBE_SEARCH_LIMITER:{limit:async()=>({success:true})}};
   const route=await worker.fetch(new Request('https://worker.test/youtube/search',{method:'POST',headers:{Origin:'https://delight0517.github.io','Content-Type':'application/json'},body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),env);
   assert.equal(route.status,200);
-  assert.equal((await route.json()).editions.length,5);
+  assert.equal((await route.json()).editions.length,editionList('ko').length);
   const denied=await worker.fetch(new Request('https://worker.test/youtube/search',{method:'POST',headers:{Origin:'https://evil.example','Content-Type':'application/json'},body:'{}'}),env);
   assert.equal(denied.status,403,'origin allowlist applies to the search endpoint');
   assert.equal(apiCalls,2,'one initial and one missing-edition fallback request run; rejected origins consume neither');
