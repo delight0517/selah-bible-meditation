@@ -1,9 +1,10 @@
 ## 2026-10-07 · Selah 웹 실시간 YouTube 성경 오디오 연결
 - [x] YouTube 정책 검토 후 공개 주간 집계형 카탈로그 대신, 현재 장에서 다섯 오디오 역본을 한 번에 검색해 역본별로 자동 분류하는 웹 우선 구조를 구현했다. API 키는 브라우저로 보내지 않고 Worker secret에서만 읽으며, Pacific 자정 기준 하루 90회 검색 한도로 YouTube 기본 검색 할당량 일부를 보호한다.
-- [x] 읽기 화면에서 현재 장과 본문 언어에 맞춰 다섯 역본을 하나의 OR 검색으로 찾고 결과를 자동 분류한다. 한 API 요청에서 최대 50개 검색 결과를 받고, 역본별 상위 5개를 임시 표시하며 YouTube 표준 플레이어에서 재생한다.
+- [x] 읽기 화면에서 본문 언어의 다섯 오디오 역본을 한 번에 검색·분류한다. 첫 검색에서 역본별 결과가 5개 미만이면 부족한 역본만 묶어 한 번 더 검색하며, 두 요청 모두 최대 50개 결과를 확인하고 역본별 상위 5개를 임시 표시한다.
 - [x] `selah-together.imdisablebutgodisable.workers.dev`에 Worker를 배포하고 기존 YouTube 전용 API 키를 Worker secret으로 연결했다. Cloudflare deployment version `de63f7cc-d4cd-481c-be28-7cc11534853a`; 웹 origin OPTIONS 응답 HTTP 204 및 allowlist readback을 확인했다.
 - [x] PR #283 병합 commit `24c3b965046d2c0eb1bbbc7014db07a06350ff39`, GitHub Pages 배포 run `37508204180` 성공. 공개 Selah 페이지 HTTP 200에서 새 Worker 주소와 검색 문구를 읽어 확인했다.
-- [ ] YouTube 일일 검색 한도 리셋(2026-10-07 16:00 KST) 후 실제 검색 응답·영상 재생·본문 따라가기와 다국어 커버리지를 확인한다. 실제 검색 결과가 없는 역본은 빈 그룹으로 남으며, 5개 완전한 성경 음원 역본/언어가 확인된 것은 아니다.
+- [x] 실제 Worker→YouTube API 검색 1회가 HTTP 200으로 응답했다. 한국어 마태복음 1장에서 개역한글·개역개정·새번역·우리말성경은 각각 5개 후보, 공동번역은 0개였다. 반환된 20개 후보는 설명란에서 절/장 시점을 찾지 못했다.
+- [ ] 부족한 역본 targeted fallback을 Worker에 배포하고, 웹에서 후보 저장→YouTube 재생→수동/자동 절 시점 저장→본문 따라가기까지 확인한다. 실제 검색에서 없는 공동번역 및 언어별 5개 완전 음원 역본은 여전히 검증되지 않았다.
 
 ## 2026-10-06 · 미국 영어권 묵상 기록 진입 실험
 - [x] 공개 영어 검색 결과에서 “Bible journal에 무엇을 쓸까?”라는 초보자 질문을 확인했다. 최근 안내 페이지와 저널링 서비스가 이미 경쟁 중이다. 이는 검색 의도와 경쟁 콘텐츠의 증거이지 월 검색량이나 Selah 수요의 증거가 아니다.
@@ -811,11 +812,12 @@
 - [x] 검색을 50개 혼합 playlist/video 조회로 유지하고, 장·책 제목이 판본과 일치하는 공개 채널에서 업로드를 자동 검사한다. 영상 설명에 명시된 chapter/verse 타임스탬프만 cue로 만든다.
 - [x] 검증된 영상 ID는 성경 순서의 queue로 정렬한다. 전체 queue는 URL에 넣지 않고 hosted player 준비 후 origin·token 검사 메시지로 전달해 URL 길이 한도를 피한다. 현재 장과 명시된 시작 초부터 cue하고 자동 재생은 하지 않는다.
 - [x] 타임스탬프 장편 영상, 채널 업로드, mixed search 및 메시지 기반 큐를 fixture로 검증했다. YouTube API 검색은 50회/실행, 기타 endpoint는 9,500 quota units 이하로 제한한다.
-- [ ] 태평양 일일 quota reset 후 자동 갱신을 한 번 수행해 실제 판본·장 coverage를 읽는다. 여러 언어에서 5개 완전 역본을 찾을 때까지 검색·후보 품질을 조정한다; 현재는 0개 확인.
+- [x] 태평양 일일 quota reset 후 실제 Worker 검색을 실행했다. 한국어 마태복음 1장 검색은 KRV 5, NKRV 5, KSB 5, KCB 0, KLB 4개였고, 분류 수정 뒤 KCB로 잘못 들어가던 NKRV 영상은 제거됐다. 현재 검색 후보 기준 5개 완전 역본은 3개뿐이며 장·절 cue는 0개다.
 - [x] Selah 전용 Google Cloud 프로젝트를 만들고 YouTube Data API v3만 허용한 키를 GitHub Actions의 `YOUTUBE_DATA_API_KEY` secret으로 저장했으며 이름 metadata readback을 확인했다. 키 문자열은 로그에 남기지 않는다.
 - [x] 주간 자동 갱신을 미국 태평양 자정 이후로 옮기고 동시 실행을 직렬화해 Search Queries 일일 한도를 앞당겨 소진하거나 중복 실행하지 않게 한다 (feature parity revision 29).
-- [ ] 첫 실제 API 갱신은 일부 후보만 찾아 완전 역본 0개였다. 상위 50개 혼합 영상·재생목록 결과와 공개 채널 업로드의 장/절 타임스탬프 발견으로 개선했다. 같은 날 추가 검색은 HTTP 429 `Search Queries per day`였으므로 태평양 기준 일일 reset 뒤 한 번 갱신한다.
-- [ ] 생성 카탈로그 원격 게시, 웹 배포와 실제 재생·본문 이동은 기존 GitHub workflow OAuth 권한 Resume 및 quota reset 후 확인한다.
+- [x] 배포 Worker revision `8d01fe3f-900b-4a93-8e9d-9fcb6078d978`의 실시간 검색은 HTTP 200을 반환했다. 불충분 판본은 제한된 두 번째 YouTube 검색으로 보충하되, 제목·설명·채널이 다른 판본을 명시하면 해당 후보를 제외한다. 검색별 최대 2회·일 90회 제한은 유지한다.
+- [ ] 10개 언어의 완전판·장 coverage를 자동 갱신해 측정하고, 한국어 공동번역 등 부족 판본 검색을 보완한다. 실제 검색 메타데이터는 번역본 정합성 단서이지 영상 본문/저작권/전체 재생 검증이 아니다.
+- [ ] 생성 카탈로그 게시, Pages 배포, YouTube 사용자 재생 및 본문 따라가기는 별도 확인한다. 실제 결과에는 verse/chapter timestamp가 없어서 절별 따라가기는 아직 검증되지 않았다.
 
 
 ## 2026-10-06 · 성경 읽기 화면 테마·글꼴 컨트롤
