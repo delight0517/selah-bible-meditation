@@ -1014,14 +1014,17 @@
     },
     {
       "id": "SELAH-DYNAMIC-COUNTRY-REGION-VISITS",
-      "revision": 1,
-      "title": "신규 국가 국기와 1단계 지역 방문 자동 표시",
+      "revision": 2,
+      "title": "최근 7일 활성 익명 이용자의 국가·지역 지도와 쉬운 방문 문구",
       "acceptance": [
         "방문 요약에 새 ISO 국가가 나타나면 별도 국가 목록 수정 없이 현지화 이름과 국기를 표시한다.",
         "선택 국가의 양수 방문 지역 코드를 국가별 ISO 3166-2 첫 단계 행정구역 이름에 연결해 표시한다.",
         "한국·미국의 기존 지도와 지역 표시는 유지하고, 데이터가 없는 지역은 숫자를 만들어내지 않는다.",
         "국가와 regionCode 외에 도시·구·좌표·우편번호를 수집하거나 추정하지 않는다.",
-        "광역 지역 설명은 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어로 제공한다."
+        "광역 지역 설명은 한국어·영어·일본어·중국어 간체/번체·필리핀어·스페인어·브라질 포르투갈어로 제공한다.",
+        "지도 국가·지역 수는 최근 7일 동안 한 번 이상 이용한 익명 브라우저 ID를 중복 제거해 계산하고, 같은 브라우저가 여러 지역에서 접속하면 가장 최근 확인된 지역 한 곳에만 표시한다.",
+        "새 주간 집계 기준이 완전한 7일간 쌓이기 전에는 과거 브라우저·일 수치를 주간 활성 수처럼 표시하지 않고 수집 중 상태를 안내한다.",
+        "오늘·이번 달 숫자는 쉬운 이용자 중심 표현으로 표시하되 익명 브라우저 기반 추정치이며 실제 사람/계정 수가 아님을 함께 알린다."
       ],
       "paths": [
         "index.html",
@@ -1036,16 +1039,19 @@
         "mobile/www/assets/COUNTRY-REGION-DATA-LICENSE.txt",
         "mobile/www/SHARED_SOURCE_MANIFEST.json",
         "mobile/www/SHARED_APP_BUILD.json",
-        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "apps/cloud-account/worker/worker.js",
+        "assets/visitor-explanation.js",
+        "mobile/www/assets/visitor-explanation.js"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web maintainer",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "codex/selah-dynamic-country-visits-20261005",
-          "build": "1.0.11 / 50; Pages deployment pending",
-          "evidence": "Visitor country rows derive from the summary response. ISO country flags and first-level subdivision labels are rendered from response codes; Korea and US maps remain specialized. Live deployment readback pending."
+          "appliedRevision": 2,
+          "source": "codex/selah-weekly-active-map-20261006 + ReleasePilot analytics worker PR #15",
+          "build": "Source change; Pages deployment pending",
+          "evidence": "Map now uses rolling 7-day deduplicated anonymous browser IDs and latest observed region. Coverage remains hidden until complete; deployment/readback pending."
         },
         "windows": {
           "owner": "Windows platform contract",
@@ -1068,10 +1074,10 @@
         "ios": {
           "owner": "Selah iOS shared-web maintainer",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "generated mobile/www bundle",
-          "build": "shared UI 1.0.11 / build 50; native packaging pending",
-          "evidence": "The shared Capacitor source bundle will include the same country/region rendering and dataset. Build 50 source parity is tracked separately from device installation and runtime proof."
+          "appliedRevision": 2,
+          "source": "generated mobile/www shared bundle",
+          "build": "Generated during required parity copy; native packaging pending",
+          "evidence": "Shared web source copied into Capacitor bundle; installation/runtime proof is separate and pending."
         }
       },
       "workItem": "selah-dynamic-country-regions-20261005"
