@@ -1,8 +1,8 @@
 {
   "appId": "selah",
-  "version": "1.0.13",
-  "build": 74,
+  "version": "1.0.14",
+  "build": 75,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Quota-aware complete-Bible YouTube discovery with start-at-chapter playback and verified verse following"
+  "description": "Automated YouTube channel and playlist discovery with timestamped chapter following"
 }

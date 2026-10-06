@@ -8,15 +8,16 @@ assert.ok(script, 'hosted player script exists');
 
 function loadPlayer(query) {
   const messages = [], calls = [];
+  let onMessage;
   const parent = { postMessage: (data, origin) => messages.push({ data, origin }) };
-  const window = { parent, location: { search: query, origin: 'https://selah.example' }, addEventListener() {} };
+  const window = { parent, location: { search: query, origin: 'https://selah.example' }, addEventListener: (_type, listener) => { onMessage = listener; } };
   class Player {
     constructor(_target, options) {
       this.options = options;
       calls.playerOptions = options;
       options.events.onReady({ target: this });
     }
-    cuePlaylist(value) { calls.push(['cuePlaylist', value]); }
+    cuePlaylist(...args) { calls.push(['cuePlaylist', ...args]); }
     playVideo() { calls.push(['playVideo']); }
   }
   const YT = { Player, PlayerState: { PLAYING: 1 } };
@@ -25,15 +26,22 @@ function loadPlayer(query) {
     head: { append: () => window.onYouTubeIframeAPIReady() },
   };
   vm.runInNewContext(script, { window, document, location: window.location, URL, URLSearchParams, YT, setInterval, clearInterval });
-  return { calls, messages, playerOptions: calls.playerOptions };
+  return { calls, messages, playerOptions: calls.playerOptions, cueQueue: (token, data) => onMessage({ source: parent, origin: 'https://selah.example', data: { channel: 'selah-youtube-player', token, command: 'cuePlaylist', ...data } }) };
 }
 
 const playlist = loadPlayer('?playlist=PLfixture&index=7&token=t&parentOrigin=https%3A%2F%2Fselah.example');
-assert.equal(JSON.stringify(playlist.calls), JSON.stringify([['cuePlaylist', { listType: 'playlist', list: 'PLfixture', index: 7 }]]));
+assert.equal(JSON.stringify(playlist.calls), JSON.stringify([['cuePlaylist', { listType: 'playlist', list: 'PLfixture', index: 7, startSeconds: 0 }]]));
 assert.equal(playlist.playerOptions.playerVars.autoplay, 0);
 assert.equal(playlist.messages.at(-1).data.type, 'ready');
 const video = loadPlayer('?video=abcdefghijk&token=t&parentOrigin=https%3A%2F%2Fselah.example');
 assert.equal(video.calls.length, 0);
 assert.equal(video.playerOptions.videoId, 'abcdefghijk');
 assert.equal(video.playerOptions.playerVars.autoplay, 0);
-console.log('PASS: hosted player cues the selected playlist index without autoplay and loads standalone videos with YouTube controls');
+const queued = loadPlayer('?video=abcdefghijk&token=t&parentOrigin=https%3A%2F%2Fselah.example');
+assert.equal(queued.calls.length, 0);
+queued.cueQueue('t', { videoIds: ['abcdefghijk', '12345678901'], index: 1, startSeconds: 80 });
+assert.equal(JSON.stringify(queued.calls), JSON.stringify([['cuePlaylist', ['abcdefghijk', '12345678901'], 1, 80]]));
+queued.cueQueue('wrong-token', { videoIds: ['abcdefghijk'], index: 0, startSeconds: 0 });
+assert.equal(queued.calls.length, 1, 'rejects a queue from another player token');
+assert.equal(queued.playerOptions.playerVars.autoplay, 0);
+console.log('PASS: hosted player cues playlist/video queues at the selected chapter and timestamp without autoplay');
