@@ -728,3 +728,9 @@
 - [x] executable inline JavaScript 구문 검사, Filipino analytics 스크립트 구문 검사, 66개 웹/iOS 공유 파일 패리티 검사, `git diff --check`, iOS Simulator Debug build를 통과했다.
 - [ ] Simulator는 부팅 상태였으나 새 빌드 설치 명령이 응답 없이 멈춰 앱 화면·저장 동작은 검증하지 못했다. CoreSimulator를 재시작하거나 반복 제어하지 않는다.
 - [ ] 주간 활성 사용자를 정확히 세고 로그인 계정과 익명 브라우저 중복을 합치는 Worker 변경은 배포 소스 저장소와 소유 경로를 찾지 못해 별도 대기한다. 현재 `period=week` 요청은 주간 기준 증명이 아니다.
+
+
+## 2026-10-06 · 성경 듣기 설정 첫 화면 접기
+- [x] 성경 읽기 화면의 번역본별 오디오 설정을 native disclosure로 감싸 첫 진입 시 접어 둔다. 제목은 선택한 언어와 번역본에 맞추며 저장한 오디오의 빠른 재생 링크는 유지한다.
+- [x] 공유 HTML을 iOS 번들에도 복사하고 feature parity revision 16으로 기록했다.
+- [ ] 웹 배포와 브라우저 첫 화면 확인, iOS 시뮬레이터·실기기 검증은 별도 남아 있다.
