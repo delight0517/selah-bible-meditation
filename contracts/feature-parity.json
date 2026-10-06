@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 25,
+      "revision": 26,
       "title": "자동 발견 다국어 YouTube 성경 듣기와 장 따라가기",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -775,6 +775,7 @@
         "각 번역본마다 여러 YouTube 채널·영상·재생목록을 저장하고, 원하는 출처를 기본 선택할 수 있다. 실제 YouTube 구독으로 표현하지 않는다.",
         "YouTube 영상은 YouTube 표준 임베드 플레이어에서 재생한다. 광고 노출과 로그인 상태는 YouTube와 각 영상의 설정이 결정하며 Selah가 광고를 강제하거나 차단하지 않는다.",
         "처음 재생은 YouTube 플레이어의 표준 재생 컨트롤을 사용한다. Selah는 플레이어를 자동 재생하거나 영상·오디오를 분리하지 않는다.",
+        "For generated playlists, the HTTPS host calls cuePlaylist with the zero-based item for the currently selected Bible chapter while autoplay stays disabled; the user starts audio with YouTube's native controls.",
         "iOS Capacitor apps load the standard YouTube player through the Selah HTTPS player page so YouTube receives a valid HTTPS Referer; playback status, time, and video ID return only through source-, origin-, and token-checked messages. The player remains user-started with YouTube controls.",
         "여러 장을 끊김 없이 듣고 싶은 사용자는 해당 번역본의 연속 재생목록을 저장할 수 있고, YouTube 플레이어가 목록 다음 영상으로 이어 재생한다. 단일 영상은 영상 끝에서 정상 종료한다.",
         "현재 재생 영상·재생목록을 YouTube 공식 앱 또는 youtube.com에서 열 수 있다. Google/YouTube 로그인과 Premium 자격은 사용자의 공식 YouTube 세션에서 처리하며 Selah는 Google 비밀번호·토큰을 받거나 저장하지 않는다. 별도 성경 낭독 사이트 링크는 선택한 번역본과 일치가 확인된 경우에만 보여 준다.",
@@ -793,7 +794,7 @@
         "Curated Matthew remains a read-only recommendation by default. An explicit localized verse-sync action creates or reuses a separate user-owned copy under the currently selected translation, without changing an existing explicit translation default; users can add confirmed verse timestamps to that copy and Selah follows only those saved cues.",
         "The separately curated NLT Matthew audio remains explicitly labeled NLT and may be followed while any Matthew Bible translation is selected. Its 28 chapter-start timestamps come from the public video description, are verified in order, and synchronize only to that chapter's verse 1; no within-chapter verse timings are claimed. The localized status distinguishes verified chapter starts from user-added verse timings.",
         "When no user-saved source/default exists, the quick-listening and default-source path prefers the curated Matthew NLT audio with verified chapter-start following; the title and edition stay explicitly labeled NLT. An existing user-selected default remains preferred.",
-        "A weekly runtime catalog searches YouTube playlists for five named editions in each of ten content languages (50 search.list calls per refresh), checks up to three candidates per edition, verifies public playlists and public embeddable videos, and derives chapter starts from video titles without asking users to add URLs.",
+        "A weekly runtime catalog searches YouTube playlists for five named editions in each of ten content languages (50 search.list calls per refresh), compares up to 50 public playlist candidates by metadata, then fully verifies the closest-length candidate's public embeddable videos and derives chapter starts from video titles without asking users to add URLs.",
         "Each edition search returns up to 50 candidates; public playlist metadata selects the candidate whose reported item count is closest to 1,189 before video details are fetched. At most 50 edition playlists are fully scanned per refresh, keeping the ten-language run within the dedicated project's default quota budget.",
         "The same edition-specific playlist is discovered without manual per-video import; when listening starts, the hosted web player queues the zero-based playlist item matching the currently selected book and chapter. Verified chapter-title cues then follow the current video and move the reader to that chapter's first verse. Explicit verse timestamps in public video descriptions add verse-level cues.",
         "A source is counted as a complete Bible edition only if cues cover all 66 books and all 1,189 canonical chapter positions. Partial playlists may be offered with an explicit partial-coverage label but never count toward the five-complete-editions-per-language target.",
@@ -820,6 +821,7 @@
         "mobile/scripts/copy-web.mjs",
         "mobile/www/youtube-player.html",
         "scripts/refresh-youtube-bible-audio-catalog.mjs",
+        "scripts/check-youtube-player.mjs",
         ".github/workflows/refresh-youtube-bible-audio-catalog.yml",
         "youtube-bible-audio-catalog/"
       ],
@@ -828,15 +830,15 @@
           "owner": "Selah web audio task",
           "state": "implementing",
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / build 72 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 25 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, and up to 50 metadata-ranked candidates per edition. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
+          "build": "1.0.13 / build 74 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 26 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implementing",
           "source": "shared hosted reader source",
-          "build": "1.0.13 / build 72 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 25 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, and up to 50 metadata-ranked candidates per edition. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
+          "build": "1.0.13 / build 74 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 26 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -849,8 +851,8 @@
           "owner": "Selah shared iOS reader",
           "state": "implementing",
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 72 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 25 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, and up to 50 metadata-ranked candidates per edition. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
+          "build": "1.0.13 / build 74 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 26 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
         }
       }
     },

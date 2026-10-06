@@ -798,6 +798,7 @@
 - [x] 수집한 재생목록 cue마다 YouTube playlist의 0 기준 item index를 보관하고, 자동 발견된 재생목록은 사용자가 현재 읽는 책·장 item부터 표준 YouTube 플레이어로 재생되게 한다. 수동 저장한 재생목록은 기존 동작을 유지한다.
 - [x] 장 cue 66권·1,189장 전부가 확인된 역본만 `complete Bible`로 계산한다. 부분 목록은 UI에서 부분 커버리지로 표시하며 5개 전권 역본 목표에 넣지 않는다.
 - [x] 가짜 API 응답 fixture로 검색 50회, 공개·임베드 검증, 번역본 격리, 장 cue와 설명란 절 cue, playlist 시작 index를 함께 확인했다.
+- [x] hosted player fixture로 현재 장의 zero-based cuePlaylist 위치를 전달하고 autoplay를 끈 채 YouTube 기본 컨트롤로 시작하는 경로를 검증했다.
 - [x] 50개 역본 검색은 그대로 두고 검색당 최대 50개 후보 메타데이터를 비교한 뒤, 재생 항목 수가 1,189개에 가장 가까운 공개 재생목록 하나만 역본별로 상세 스캔한다.
 - [x] Selah 전용 Google Cloud 프로젝트를 만들고 YouTube Data API v3만 허용한 키를 GitHub Actions의 `YOUTUBE_DATA_API_KEY` secret으로 저장했으며 이름 metadata readback을 확인했다. 키 문자열은 로그에 남기지 않는다.
 - [ ] 첫 실제 API 갱신은 검색 상위 3개 후보만 검사해 전 언어 5개 완역본을 찾지 못했다. 최대 50개 결과를 비교하는 알고리즘으로 개선했으나, 같은 날 재실행 시 YouTube API가 HTTP 429 `Search Queries per day`를 반환했다. quota reset 후 주간 workflow 1회 실행으로 확인한다.
