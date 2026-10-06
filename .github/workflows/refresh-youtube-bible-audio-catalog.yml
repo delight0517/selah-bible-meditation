@@ -28,11 +28,11 @@ jobs:
       - if: steps.api-key.outputs.available == 'true'
         env:
           YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
-          CATALOG_OUTPUT: ${{ runner.temp }}/youtube-bible-audio-catalog.json
+          CATALOG_OUTPUT_DIR: ${{ runner.temp }}/youtube-bible-audio-catalog
         run: node scripts/refresh-youtube-bible-audio-catalog.mjs
       - if: steps.api-key.outputs.available == 'true'
         env:
-          CATALOG_OUTPUT: ${{ runner.temp }}/youtube-bible-audio-catalog.json
+          CATALOG_OUTPUT_DIR: ${{ runner.temp }}/youtube-bible-audio-catalog
           GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name 'github-actions[bot]'
@@ -44,8 +44,10 @@ jobs:
             git switch --orphan audio-catalog
             git rm -r --cached --ignore-unmatch .
           fi
-          cp "$CATALOG_OUTPUT" youtube-bible-audio-catalog.json
-          git add youtube-bible-audio-catalog.json
+          rm -f youtube-bible-audio-catalog.json
+          mkdir -p youtube-bible-audio-catalog
+          cp -R "$CATALOG_OUTPUT_DIR"/. youtube-bible-audio-catalog/
+          git add -A
           if git diff --cached --quiet; then
             echo 'Catalog unchanged.' >> "$GITHUB_STEP_SUMMARY"
             exit 0

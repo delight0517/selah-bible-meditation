@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 21,
+      "revision": 22,
       "title": "자동 발견 다국어 YouTube 성경 듣기와 장 따라가기",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -793,13 +793,15 @@
         "Curated Matthew remains a read-only recommendation by default. An explicit localized verse-sync action creates or reuses a separate user-owned copy under the currently selected translation, without changing an existing explicit translation default; users can add confirmed verse timestamps to that copy and Selah follows only those saved cues.",
         "The separately curated NLT Matthew audio remains explicitly labeled NLT and may be followed while any Matthew Bible translation is selected. Its 28 chapter-start timestamps come from the public video description, are verified in order, and synchronize only to that chapter's verse 1; no within-chapter verse timings are claimed. The localized status distinguishes verified chapter starts from user-added verse timings.",
         "When no user-saved source/default exists, the quick-listening and default-source path prefers the curated Matthew NLT audio with verified chapter-start following; the title and edition stay explicitly labeled NLT. An existing user-selected default remains preferred.",
-        "A weekly, token-free runtime catalog job searches five named Matthew audio editions in each of the ten supported Bible content languages, verifies public and embeddable long videos plus edition-name evidence, and publishes refreshed metadata without asking users to add video URLs.",
-        "The app fetches the latest catalog automatically, prefers a chapter-synchronized result when one exists, labels every result with its translation and sync coverage, and follows only chapter starts parsed from the public video description; missing cues are never invented.",
-        "Catalog metadata is refreshed weekly and rejected by the client after 30 days; the scheduled job uses the YouTube Data API key only as a repository secret, never ships it to the browser, and reports per-language edition and chapter-sync coverage.",
-        "Goal completion requires at least five distinct discovered editions in every supported language and at least one verified chapter-follow source per language; actual playback and text-following remain separately verified runtime gates."
+        "A weekly runtime catalog searches YouTube playlists for five named editions in each of ten content languages (50 search.list calls per refresh), checks up to three candidates per edition, verifies public playlists and public embeddable videos, and derives chapter starts from video titles without asking users to add URLs.",
+        "The same edition-specific playlist is discovered without manual per-video import; verified chapter-title cues follow the playlist's current video and move the reader to that chapter's first verse. Explicit verse timestamps in public video descriptions add verse-level cues. The catalog covers all Bible books available in the reader, not Matthew alone.",
+        "The web reader loads only the selected content language's catalog file. It displays edition-matched playlists with verified chapter coverage and follows explicit chapter or verse starts parsed from playlist item titles and public video descriptions; missing cues are never invented.",
+        "Catalog metadata is refreshed weekly and rejected by the client after 30 days; the YouTube Data API key stays in GitHub Actions secrets. Separate language files reduce each reader's download. The report shows discovered edition, book, and chapter coverage for each language. A target of five editions per language is not represented as achieved unless five valid sources are actually returned.",
+        "Goal completion requires at least five distinct discovered editions in every supported language, at least one full-Bible chapter-follow playlist per language, and observed YouTube audio playback plus matching text movement in the web reader."
       ],
       "paths": [
         "index.html",
+        "assets/bible-book-catalogs.js",
         "scripts/unified-data.js",
         "contracts/selah-cloud-state.schema.json",
         "contracts/feature-parity.json",
@@ -816,22 +818,23 @@
         "mobile/scripts/copy-web.mjs",
         "mobile/www/youtube-player.html",
         "scripts/refresh-youtube-bible-audio-catalog.mjs",
-        ".github/workflows/refresh-youtube-bible-audio-catalog.yml"
+        ".github/workflows/refresh-youtube-bible-audio-catalog.yml",
+        "youtube-bible-audio-catalog/"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
           "state": "implementing",
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / build 70 source; automatic catalog requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 21 adds deterministic 10-language catalog refresh and client loading; no YouTube API key is configured, so generated catalog coverage and playback have not been verified."
+          "build": "1.0.13 / build 71 source; full-Bible playlist discovery requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 22 changes discovery to chapter-per-video full-Bible playlists and verifies public embeddable items. Local parser self-check passes; no YouTube API key is configured, so real edition coverage and playback remain unverified."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implementing",
           "source": "shared hosted reader source",
-          "build": "1.0.13 / build 70 source; automatic catalog requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 21 adds deterministic 10-language catalog refresh and client loading; no YouTube API key is configured, so generated catalog coverage and playback have not been verified."
+          "build": "1.0.13 / build 71 source; full-Bible playlist discovery requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 22 changes discovery to chapter-per-video full-Bible playlists and verifies public embeddable items. Local parser self-check passes; no YouTube API key is configured, so real edition coverage and playback remain unverified."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -844,8 +847,8 @@
           "owner": "Selah shared iOS reader",
           "state": "implementing",
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 70 source; automatic catalog requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 21 adds deterministic 10-language catalog refresh and client loading; no YouTube API key is configured, so generated catalog coverage and playback have not been verified."
+          "build": "1.0.13 / build 71 source; full-Bible playlist discovery requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 22 changes discovery to chapter-per-video full-Bible playlists and verifies public embeddable items. Local parser self-check passes; no YouTube API key is configured, so real edition coverage and playback remain unverified."
         }
       }
     },
