@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 26,
+      "revision": 27,
       "title": "자동 발견 다국어 YouTube 성경 듣기와 장 따라가기",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -796,6 +796,7 @@
         "When no user-saved source/default exists, the quick-listening and default-source path prefers the curated Matthew NLT audio with verified chapter-start following; the title and edition stay explicitly labeled NLT. An existing user-selected default remains preferred.",
         "A weekly runtime catalog searches YouTube playlists for five named editions in each of ten content languages (50 search.list calls per refresh), compares up to 50 public playlist candidates by metadata, then fully verifies the closest-length candidate's public embeddable videos and derives chapter starts from video titles without asking users to add URLs.",
         "Each edition search returns up to 50 candidates; public playlist metadata selects the candidate whose reported item count is closest to 1,189 before video details are fetched. At most 50 edition playlists are fully scanned per refresh, keeping the ten-language run within the dedicated project's default quota budget.",
+        "Edition matching folds Unicode diacritics and punctuation so common variants such as Reina-Valera 1960 / Reina Valera 1960 match; short edition IDs match only as whole metadata tokens, never as substrings of unrelated words.",
         "The same edition-specific playlist is discovered without manual per-video import; when listening starts, the hosted web player queues the zero-based playlist item matching the currently selected book and chapter. Verified chapter-title cues then follow the current video and move the reader to that chapter's first verse. Explicit verse timestamps in public video descriptions add verse-level cues.",
         "A source is counted as a complete Bible edition only if cues cover all 66 books and all 1,189 canonical chapter positions. Partial playlists may be offered with an explicit partial-coverage label but never count toward the five-complete-editions-per-language target.",
         "The web reader loads only the selected content language's catalog file. It displays edition-matched playlists with verified chapter coverage and follows explicit chapter or verse starts parsed from playlist item titles and public video descriptions; missing cues are never invented.",
@@ -831,14 +832,14 @@
           "state": "implementing",
           "source": "index.html + generated Capacitor shared bundle",
           "build": "1.0.13 / build 74 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 26 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
+          "evidence": "Revision 27 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, Unicode-safe edition matching, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implementing",
           "source": "shared hosted reader source",
           "build": "1.0.13 / build 74 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 26 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
+          "evidence": "Revision 27 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, Unicode-safe edition matching, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -852,7 +853,7 @@
           "state": "implementing",
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
           "build": "1.0.13 / build 74 source; complete-Bible playlist discovery requires the YouTube API secret and live playback/readback",
-          "evidence": "Revision 26 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
+          "evidence": "Revision 27 adds exact current-chapter playlist positioning, strict 66-book/1,189-chapter completeness accounting, up to 50 metadata-ranked candidates per edition, Unicode-safe edition matching, and a hosted-player cue/control self-check. The restricted YouTube Data API key is stored as a GitHub Actions secret. Initial live search exhausted the project's daily search quota before full-candidate discovery; catalog, deployment, and playback remain pending."
         }
       }
     },
