@@ -746,6 +746,6 @@
 - [x] 10월 1–6 UTC 공개 요약에서 96 page-view events / 약식 익명 브라우저 55개를 읽었다. 국가 귀속 coverage는 10/5–6만 완전했고 두 날짜 KR만 보였다. 7일 window는 coverage false이며 검증된 사람 수는 아니다.
 - [x] 최근 30일 실험 집계: 한국어 `global-funnel-v1` 노출 17 / CTA 6 / 읽기 시작 10 / 30초 9 / 120초 7 / 묵상 저장 0 / 가입 0; 한국 홈 카피 A/B 노출 19/17, CTA 5/5, 읽기 시작 5/5, 묵상 저장·가입 0/0. 표본이 작고 이벤트 분모가 달라 승자·전환율을 만들지 않았다.
 - [x] 현지 경쟁 제품 페이지를 조사해 Tagalog와 브라질에서 무료 성경·오디오·플랜·메모가 이미 널리 제시되는 범주임을 기록했다. 기능 수나 성경 제공만을 Selah 차별점으로 홍보하지 않는다.
-- [ ] Search Console 최신 settled-through 및 exact Selah URL/query/country 결과를 재확인한다. 기존 API 토큰은 Search Console read scope 부족, 브라우저는 이번 세션에서 직접 확인 불가 상태라 이미 실행 중인 읽기 전용 Antigravity 확인 결과를 기다린다. 인증이 필요한 경우 다른 분석은 계속하고 기존 계정/세션을 바꾸지 않는다.
+- [ ] Search Console 최신 settled-through 및 exact Selah URL/query/country 결과를 재확인한다. 기존 API 토큰은 Search Console read scope 부족이고, 읽기 전용 Antigravity job `d8e08c5f-1195-4996-9844-54bd6b50b6c9`도 timeout되어 새 검색 값을 주지 않았다. Search Console/사이트맵 변경이나 반복 재요청은 하지 않았다. 브라우저 UI를 사용할 수 있는 안전한 Aside 경로가 생길 때 한 번 확인하고, 인증이 필요하면 기존 계정/세션을 바꾸지 않는다.
 - [ ] 비개인 공개 배포 채널을 확인해 국가·언어별 실제 링크 유입을 만들고, referral → 읽기 지속 → 첫 기록을 같은 기간의 익명 집계로 대조한다. 개인 Instagram `vivid_wave`는 제외한다.
 - [ ] 현재 copy 실험을 50:50으로 유지한다. Search Console settled data와 유효 노출 및 첫 기록 표본이 늘기 전에 지역/UI/썸네일 승자를 고르거나 유료 집행하지 않는다. 이번 확인에서 검증된 가입/활성 사용자는 0명.
