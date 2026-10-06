@@ -93,20 +93,20 @@ export async function searchYouTube(request, env, reserveQuota) {
   const queryFor=selected=>[selected.flatMap(([id,name])=>[`"${name}"`,id]).join('|'),bookNames[0],chapter,phrase].join(' ');
   const requestSearch=async query=>{
     const quota=await reserveQuota?.();if(quota)return{quota};
-    const params=new URLSearchParams({part:'snippet',type:'video',videoEmbeddable:'true',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,snippet(title,description,channelTitle))'});
+    const params=new URLSearchParams({part:'snippet',type:'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,playlistId,snippet(title,description,channelTitle))'});
     const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
     if(response?.status===429){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}
     if(response?.status===403){const data=await response.json().catch(()=>null),quotaExceeded=data?.error?.errors?.some(error=>error?.reason==='quotaExceeded');if(quotaExceeded){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}}
     if(!response?.ok)return{error:true};
     const data=await response.json().catch(()=>null);return{items:data?.items||[]};
   };
-  const classify=(raw,selected)=>raw.filter(item=>/^[\w-]{11}$/.test(item?.id?.videoId||'')).map(item=>{
-    const videoId=item.id.videoId,title=clean(item.snippet?.title,180),description=String(item.snippet?.description||"").slice(0,5000);
+  const classify=(raw,selected)=>raw.filter(item=>/^[\w-]{11}$/.test(item?.id?.videoId||'')||/^[\w-]{10,128}$/.test(item?.id?.playlistId||'')).map(item=>{
+    const videoId=item.id.videoId||null,playlistId=item.id.playlistId||null,assetId=videoId||playlistId,mediaType=playlistId?'playlist':'video',title=clean(item.snippet?.title,180),description=String(item.snippet?.description||"").slice(0,5000);
     const chapterMatch=matchesChapterAfterBook(title,bookNames,input.locale,chapter);
-    const parsed=parseCues(description,bookNames,input.locale,input.bookId,chapter,videoId,chapterMatch),cueKind=parsed.cues.length?'verse':parsed.chapterSeconds!==null?'chapter':'none',verseCues=parsed.cues;
+    const parsed=videoId?parseCues(description,bookNames,input.locale,input.bookId,chapter,videoId,chapterMatch):{cues:[],chapterSeconds:null},cueKind=parsed.cues.length?'verse':parsed.chapterSeconds!==null?'chapter':'none',verseCues=parsed.cues;
     if(cueKind==='chapter') verseCues.push({bookId:input.bookId,chapter,verse:1,seconds:parsed.chapterSeconds,videoId});
     const channelTitle=clean(item.snippet?.channelTitle,100),matches=selected.map(([id,name],index)=>({id,name,index,score:editionScore(title,true,id,name)*2+editionScore(description,false,id,name)+editionScore(channelTitle,false,id,name)})).filter(match=>match.score>0).sort((a,b)=>b.score-a.score||a.index-b.index);
-    return {videoId,title,channelTitle,url:`https://www.youtube.com/watch?v=${videoId}`,verseCues,chapterMatch,cueKind,editionId:matches[0]?.id||null};
+    return {videoId,playlistId,mediaType,title,channelTitle,url:playlistId?`https://www.youtube.com/playlist?list=${playlistId}`:`https://www.youtube.com/watch?v=${videoId}`,verseCues,chapterMatch,cueKind,editionId:matches[0]?.id||null,_assetId:assetId};
   });
   const first=await requestSearch(queryFor(editions));
   if(first.quota)return first.quota;
@@ -119,9 +119,9 @@ export async function searchYouTube(request, env, reserveQuota) {
     if(fallback.quota)fallbackLimited=true;
     else if(!fallback.error){
       const missingIds=new Set(missing.map(([id])=>id));
-      for(const item of classify(fallback.items,editions))if(missingIds.has(item.editionId)&&!items.some(existing=>existing.videoId===item.videoId))items.push(item);
+      for(const item of classify(fallback.items,editions))if(missingIds.has(item.editionId)&&!items.some(existing=>existing._assetId===item._assetId))items.push(item);
     }
   }
-  const groups=editions.map(([id,name])=>({id,name,items:items.filter(item=>item.editionId===id).slice(0,5)}));
+  const groups=editions.map(([id,name])=>({id,name,items:items.filter(item=>item.editionId===id).slice(0,5).map(({_assetId,...item})=>item)}));
   return Response.json({locale:input.locale,bookId:input.bookId,chapter,editions:groups,...(fallbackLimited?{fallbackLimited:true}:{})},{headers:{'Cache-Control':'no-store'}});
 }
