@@ -89,9 +89,10 @@ export async function verifyYouTubePlaylistCoverage(request, env) {
   if(playlist.error)return Response.json({error:playlist.error},{status:playlist.status});
   const metadata=playlist.data.items?.[0];
   if(!metadata)return Response.json({error:'playlist_not_found'},{status:404});
-  const edition=editionList(input.locale).find(item=>item.id===input.editionId),metadataText=[metadata.snippet?.title,metadata.snippet?.description,metadata.snippet?.channelTitle].join(' ');
-  if(!editionScore(metadataText,true,edition.id,edition.name))return Response.json({error:'edition_mismatch'},{status:422});
-  const itemCount=Number(metadata.contentDetails?.itemCount)||0;
+  const editions=editionList(input.locale),edition=editions.find(item=>item.id===input.editionId),metadataText=[metadata.snippet?.title,metadata.snippet?.description,metadata.snippet?.channelTitle].join(' ');
+  const metadataEditionScore=editionScore(metadataText,true,edition.id,edition.name),otherMetadataScore=Math.max(0,...editions.filter(item=>item.id!==edition.id).map(item=>editionScore(metadataText,true,item.id,item.name)));
+  if(otherMetadataScore>=metadataEditionScore&&otherMetadataScore>0)return Response.json({error:'edition_mismatch'},{status:422});
+  const playlistEditionMatches=metadataEditionScore>0,itemCount=Number(metadata.contentDetails?.itemCount)||0;
   if(itemCount>1200)return Response.json({status:'SCAN_LIMIT',playlistId:input.playlistId,itemCount},{headers:{'Cache-Control':'no-store'}});
   const playlistItems=[];let pageToken='';
   do{
@@ -114,9 +115,12 @@ export async function verifyYouTubePlaylistCoverage(request, env) {
   for(let index=0;index<playlistItems.length;index++){
     const item=playlistItems[index],videoId=item.snippet?.resourceId?.videoId;
     if(!/^[\w-]{11}$/.test(videoId||'')||!descriptions.has(videoId))continue;
+    const itemTitle=item.snippet?.title||'',itemEditionScore=editionScore(itemTitle,true,edition.id,edition.name),otherItemScore=Math.max(0,...editions.filter(candidate=>candidate.id!==edition.id).map(candidate=>editionScore(itemTitle,true,candidate.id,candidate.name)));
+    if(otherItemScore>=itemEditionScore&&otherItemScore>0)continue;
+    if(!playlistEditionMatches&&itemEditionScore===0)continue;
     videoIds.push(videoId);
     const playlistIndex=videoIds.length-1;
-    for(const ref of playlistChapterRefs(item.snippet?.title,input.locale)){
+    for(const ref of playlistChapterRefs(itemTitle,input.locale)){
       const key=`${ref.bookId}:${ref.chapter}`;
       if(covered.has(key))continue;
       const names=audioBookNames.locales[input.locale]?.books[ref.bookId]||[];
