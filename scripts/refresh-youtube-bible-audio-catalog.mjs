@@ -67,10 +67,10 @@ function parseVerseTimestamps(description, book, chapter, videoId) {
   return cues;
 }
 
-async function api(path, params, key) {
+async function api(path, params, key, fetcher = globalThis.fetch) {
   const url = new URL(`${API}/${path}`);
   for (const [name, value] of Object.entries({ ...params, key })) url.searchParams.set(name, value);
-  const response = await fetch(url, { signal: AbortSignal.timeout(25000) });
+  const response = await fetcher(url, { signal: AbortSignal.timeout(25000) });
   if (!response.ok) throw new Error(`YouTube API ${path} returned HTTP ${response.status}: ${(await response.text()).slice(0, 240)}`);
   return response.json();
 }
@@ -87,11 +87,11 @@ async function mapLimit(items, limit, action) {
   return result;
 }
 
-async function playlistItems(playlistId, key) {
+async function playlistItems(playlistId, key, fetcher = globalThis.fetch) {
   const items = [];
   let pageToken = '';
   do {
-    const data = await api('playlistItems', { part: 'snippet', playlistId, maxResults: '50', ...(pageToken ? { pageToken } : {}) }, key);
+    const data = await api('playlistItems', { part: 'snippet', playlistId, maxResults: '50', ...(pageToken ? { pageToken } : {}) }, key, fetcher);
     items.push(...(data.items || []));
     pageToken = data.nextPageToken || '';
     if (items.length >= 1500) break;
@@ -99,11 +99,13 @@ async function playlistItems(playlistId, key) {
   return items;
 }
 
-async function discover(key, bookCatalogs) {
+async function discover(key, bookCatalogs, fetcher = globalThis.fetch) {
+  const totalBookCount = bookCatalogs.ENGWEBP.length;
+  const totalChapterCount = bookCatalogs.ENGWEBP.reduce((sum, book) => sum + Number(book.numberOfChapters || 0), 0);
   const candidates = [];
   for (const [locale, language] of Object.entries(LANGUAGES)) {
     for (const [edition, name] of language.editions) {
-      const data = await api('search', { part: 'snippet', type: 'playlist', maxResults: '3', relevanceLanguage: language.queryLanguage, q: `${language.phrase} "${name}"` }, key);
+      const data = await api('search', { part: 'snippet', type: 'playlist', maxResults: '3', relevanceLanguage: language.queryLanguage, q: `${language.phrase} "${name}"` }, key, fetcher);
       for (const item of data.items || []) {
         const playlistId = item.id?.playlistId;
         if (playlistId && /^[\w-]+$/.test(playlistId)) candidates.push({ locale, edition, name, playlistId, searchTitle: item.snippet?.title || '', searchDescription: item.snippet?.description || '' });
@@ -114,7 +116,7 @@ async function discover(key, bookCatalogs) {
   const playlistDetails = new Map();
   for (let index = 0; index < unique.length; index += 50) {
     const ids = [...new Set(unique.slice(index, index + 50).map(item => item.playlistId))];
-    const data = await api('playlists', { part: 'snippet,contentDetails,status', id: ids.join(',') }, key);
+    const data = await api('playlists', { part: 'snippet,contentDetails,status', id: ids.join(',') }, key, fetcher);
     for (const item of data.items || []) playlistDetails.set(item.id, item);
   }
   const languages = Object.fromEntries(Object.entries(LANGUAGES).map(([locale, language]) => [locale, {
@@ -133,11 +135,11 @@ async function discover(key, bookCatalogs) {
     const localizedBooks = bookCatalogs[LANGUAGES[candidate.locale].catalog] || [];
     const localizedById = new Map(localizedBooks.map(book => [book.id, book]));
     const books = bookCatalogs.ENGWEBP.map(book => ({ ...book, ...(localizedById.get(book.id) || {}), numberOfChapters: Number(bookCatalogs.ENGWEBP.find(item => item.id === book.id)?.numberOfChapters) || 0 }));
-    const items = await playlistItems(candidate.playlistId, key);
+    const items = await playlistItems(candidate.playlistId, key, fetcher);
     const videoIds = [...new Set(items.map(item => item.snippet?.resourceId?.videoId).filter(id => /^[\w-]{11}$/.test(id || '')))];
     const videoDetails = new Map();
     for (let index = 0; index < videoIds.length; index += 50) {
-      const response = await api('videos', { part: 'snippet,status', id: videoIds.slice(index, index + 50).join(',') }, key);
+      const response = await api('videos', { part: 'snippet,status', id: videoIds.slice(index, index + 50).join(',') }, key, fetcher);
       for (const video of response.items || []) if (video.status?.privacyStatus === 'public' && video.status?.embeddable === true) videoDetails.set(video.id, video);
     }
     const cues = [];
@@ -151,8 +153,10 @@ async function discover(key, bookCatalogs) {
       const chapterKey = `${parsed.bookId}:${parsed.chapter}`;
       if (seenChapters.has(chapterKey)) continue;
       seenChapters.add(chapterKey);
-      cues.push({ ...parsed, verse: 1, seconds: 0, videoId });
-      cues.push(...parseVerseTimestamps(video.snippet?.description || '', bookById.get(parsed.bookId), parsed.chapter, videoId));
+      const playlistIndex = Number(item.snippet?.position);
+      const cueIndex = Number.isInteger(playlistIndex) && playlistIndex >= 0 ? playlistIndex : null;
+      cues.push({ ...parsed, verse: 1, seconds: 0, videoId, playlistIndex: cueIndex });
+      cues.push(...parseVerseTimestamps(video.snippet?.description || '', bookById.get(parsed.bookId), parsed.chapter, videoId).map(cue => ({ ...cue, playlistIndex: cueIndex })));
     }
     if (!cues.length) return null;
     const coverage = new Set(cues.map(cue => cue.bookId)).size;
@@ -168,6 +172,7 @@ async function discover(key, bookCatalogs) {
         chapterSync: cues.length >= 2,
         chapterCoverage: new Set(cues.map(cue => `${cue.bookId}:${cue.chapter}`)).size,
         bookCoverage: coverage,
+        completeBible: coverage === totalBookCount && new Set(cues.map(cue => `${cue.bookId}:${cue.chapter}`)).size === totalChapterCount,
         verseCues: cues,
       },
     };
@@ -185,7 +190,7 @@ async function discover(key, bookCatalogs) {
   for (const language of Object.values(languages)) {
     for (const edition of language.editions) edition.sources.sort((a, b) => b.bookCoverage - a.bookCoverage || b.chapterCoverage - a.chapterCoverage);
   }
-  return { schemaVersion: 2, generatedAt: new Date().toISOString(), freshnessDays: 30, discovery: { searchCalls: Object.keys(LANGUAGES).reduce((sum, locale) => sum + LANGUAGES[locale].editions.length, 0), editionTarget: 5, minimumVerifiedEditionsPerLanguage: 0 }, languages };
+  return { schemaVersion: 2, generatedAt: new Date().toISOString(), freshnessDays: 30, discovery: { searchCalls: Object.keys(LANGUAGES).reduce((sum, locale) => sum + LANGUAGES[locale].editions.length, 0), editionTarget: 5, totalBookCount, totalChapterCount, minimumVerifiedEditionsPerLanguage: 0 }, languages };
 }
 
 function selfCheck(bookCatalogs) {
@@ -214,15 +219,67 @@ function selfCheck(bookCatalogs) {
   if (verseCues.length !== 3 || verseCues[1].verse !== 2 || verseCues[1].seconds !== 32) throw new Error('verse timestamp self-check failed');
 }
 
+async function fixtureSelfCheck(bookCatalogs) {
+  const fullPlaylistId = 'PLfullfixture';
+  const partialPlaylistId = 'PLpartialfixture';
+  const chapters = [];
+  const fullVideoIds = [];
+  let position = 0;
+  for (const book of bookCatalogs.ENGWEBP) {
+    for (let chapter = 1; chapter <= book.numberOfChapters; chapter++) {
+      const videoId = String(position).padStart(11, '0');
+      fullVideoIds.push(videoId);
+      chapters.push({ snippet: { position, title: `${book.name} Chapter ${chapter}`, resourceId: { videoId } } });
+      position++;
+    }
+  }
+  const matthewPosition = chapters.findIndex(item => item.snippet.title === 'Matthew Chapter 2');
+  let searchCalls = 0;
+  const fetcher = async input => {
+    const url = new URL(input);
+    const params = url.searchParams;
+    let body;
+    if (url.pathname.endsWith('/search')) {
+      searchCalls++;
+      const matches = params.get('q')?.includes('"King James Version"');
+      body = { items: matches ? [partialPlaylistId, fullPlaylistId].map((playlistId, index) => ({ id: { playlistId }, snippet: { title: `King James Version ${index ? 'full' : 'partial'} Bible audio`, description: 'King James Version' } })) : [] };
+    } else if (url.pathname.endsWith('/playlists')) {
+      body = { items: [partialPlaylistId, fullPlaylistId].map((id, index) => ({ id, snippet: { title: `King James Version ${index ? 'full' : 'partial'} Bible audio`, description: 'King James Version', channelTitle: 'Fixture channel' }, status: { privacyStatus: 'public' } })) };
+    } else if (url.pathname.endsWith('/playlistItems')) {
+      const all = params.get('playlistId') === fullPlaylistId ? chapters : [{ snippet: { position: 0, title: 'John Chapter 3', resourceId: { videoId: 'PARTIAL0001' } } }];
+      const offset = Number(params.get('pageToken') || 0);
+      const items = all.slice(offset, offset + 50);
+      const nextPage = offset + 50 < all.length ? String(offset + 50) : undefined;
+      body = { items, ...(nextPage ? { nextPageToken: nextPage } : {}) };
+    } else if (url.pathname.endsWith('/videos')) {
+      body = { items: params.get('id').split(',').map(id => ({ id, status: { privacyStatus: 'public', embeddable: true }, snippet: { description: id === fullVideoIds[matthewPosition] ? '0:00 Matthew 2:1\n0:45 Matthew 2:2' : '' } })) };
+    } else {
+      throw new Error(`unexpected fixture API path ${url.pathname}`);
+    }
+    return { ok: true, json: async () => body };
+  };
+  const catalog = await discover('fixture-key', bookCatalogs, fetcher);
+  const english = catalog.languages.en;
+  const kjv = english.editions.find(edition => edition.id === 'KJV');
+  const source = kjv.sources[0];
+  const matthew = source?.verseCues.find(cue => cue.bookId === 'MAT' && cue.chapter === 2 && cue.verse === 2);
+  if (searchCalls !== 50 || kjv.sources.length !== 1 || !source?.completeBible || source.playlistId !== fullPlaylistId || source.chapterCoverage !== 1189 || source.bookCoverage !== 66 || matthew?.seconds !== 45 || matthew.playlistIndex !== matthewPosition) throw new Error('complete-Bible catalog fixture self-check failed');
+  if (english.editions.find(edition => edition.id === 'NIV').sources.length || catalog.languages.ko.editions.some(edition => edition.sources.length)) throw new Error('edition isolation fixture self-check failed');
+  console.log('PASS: mocked 50-search API selects the complete 66-book/1,189-chapter edition, follows explicit verse timestamps, preserves the chapter playlist index, and rejects partial editions as complete');
+}
+
 const bookCatalogs = readBookCatalogs(await readFile('assets/bible-book-catalogs.js', 'utf8'));
-if (process.argv.includes('--self-check')) {
+if (process.argv.includes('--fixture-self-check')) {
+  selfCheck(bookCatalogs);
+  await fixtureSelfCheck(bookCatalogs);
+} else if (process.argv.includes('--self-check')) {
   selfCheck(bookCatalogs);
   console.log('PASS: localized playlist titles map to book and chapter cues');
 } else {
   const key = process.env.YOUTUBE_DATA_API_KEY;
   if (!key) throw new Error('Set YOUTUBE_DATA_API_KEY in the scheduled workflow secret.');
   const catalog = await discover(key, bookCatalogs);
-  const verified = Object.values(catalog.languages).map(language => language.editions.filter(edition => edition.sources.length).length);
+  const verified = Object.values(catalog.languages).map(language => language.editions.filter(edition => edition.sources.some(source => source.completeBible)).length);
   catalog.discovery.minimumVerifiedEditionsPerLanguage = Math.min(...verified);
   await mkdir(CATALOG_OUTPUT_DIR, { recursive: true });
   for (const [locale, language] of Object.entries(catalog.languages)) {
@@ -232,9 +289,10 @@ if (process.argv.includes('--self-check')) {
   const totals = Object.entries(catalog.languages).map(([locale, item]) => ({
     locale,
     editions: item.editions.filter(edition => edition.sources.length).length,
+    completeEditions: item.editions.filter(edition => edition.sources.some(source => source.completeBible)).length,
     books: item.editions.reduce((sum, edition) => sum + Math.max(0, ...edition.sources.map(source => source.bookCoverage)), 0),
     chapters: item.editions.reduce((sum, edition) => sum + edition.sources.reduce((count, source) => count + source.chapterCoverage, 0), 0),
   }));
-  if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, `## YouTube Bible audio catalog\n\nSearch API calls: ${catalog.discovery.searchCalls}/100. Minimum verified editions in one language: ${catalog.discovery.minimumVerifiedEditionsPerLanguage}/5.\n\n| Language | Verified editions | Book coverage | Chapter cues |\n|---|---:|---:|---:|\n${totals.map(item => `| ${item.locale} | ${item.editions}/5 | ${item.books} | ${item.chapters} |`).join('\n')}\n`);
-  console.log(`Catalog refreshed ${catalog.generatedAt}; ${totals.map(item => `${item.locale}:${item.editions}/5 editions, ${item.books} books across editions, ${item.chapters} chapter cues`).join(' | ')}`);
+  if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, `## YouTube Bible audio catalog\n\nSearch API calls: ${catalog.discovery.searchCalls}/100. Complete Bible editions in every language: ${catalog.discovery.minimumVerifiedEditionsPerLanguage}/5 minimum.\n\n| Language | Complete editions | Other matches | Book coverage | Chapter cues |\n|---|---:|---:|---:|---:|\n${totals.map(item => `| ${item.locale} | ${item.completeEditions}/5 | ${item.editions - item.completeEditions} | ${item.books} | ${item.chapters} |`).join('\n')}\n`);
+  console.log(`Catalog refreshed ${catalog.generatedAt}; ${totals.map(item => `${item.locale}:${item.completeEditions}/5 complete Bible editions, ${item.editions - item.completeEditions} partial matches, ${item.books} books across editions, ${item.chapters} chapter cues`).join(' | ')}`);
 }

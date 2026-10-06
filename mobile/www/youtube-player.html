@@ -17,6 +17,7 @@
       const params = new URLSearchParams(location.search);
       const videoId = params.get("video") || "";
       const playlistId = params.get("playlist") || "";
+      const playlistIndex = params.has("index") ? Number(params.get("index")) : null;
       const token = params.get("token") || "";
       let parentOrigin = "";
       try { parentOrigin = new URL(params.get("parentOrigin") || "").origin; } catch {}
@@ -56,7 +57,10 @@
             ...(params.get("hl") ? { hl: params.get("hl") } : {})
           },
           events: {
-            onReady: () => send("ready"),
+            onReady: event => {
+              if (playlistId && Number.isInteger(playlistIndex) && playlistIndex >= 0) event.target.cuePlaylist({ listType: "playlist", list: playlistId, index: playlistIndex });
+              send("ready");
+            },
             onStateChange: event => {
               state = event.data;
               if (state === YT.PlayerState.PLAYING) {
