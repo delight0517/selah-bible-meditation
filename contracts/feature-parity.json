@@ -767,8 +767,8 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 20,
-      "title": "번역본별 YouTube 성경 듣기·연속 재생·미니 플레이어",
+      "revision": 21,
+      "title": "자동 발견 다국어 YouTube 성경 듣기와 장 따라가기",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
         "YouTube search uses the selected language, translation, book, and chapter. The localized setup tells users to verify the video title matches the selected translation before saving; mismatched external reading links are not presented as matching.",
@@ -792,7 +792,11 @@
         "The curated-to-user-owned verse-sync action is localized in Korean, English, Japanese, Simplified and Traditional Chinese, Filipino, Spanish, and Brazilian Portuguese. No verse or chapter timestamp is invented or implied before the user records one.",
         "Curated Matthew remains a read-only recommendation by default. An explicit localized verse-sync action creates or reuses a separate user-owned copy under the currently selected translation, without changing an existing explicit translation default; users can add confirmed verse timestamps to that copy and Selah follows only those saved cues.",
         "The separately curated NLT Matthew audio remains explicitly labeled NLT and may be followed while any Matthew Bible translation is selected. Its 28 chapter-start timestamps come from the public video description, are verified in order, and synchronize only to that chapter's verse 1; no within-chapter verse timings are claimed. The localized status distinguishes verified chapter starts from user-added verse timings.",
-        "When no user-saved source/default exists, the quick-listening and default-source path prefers the curated Matthew NLT audio with verified chapter-start following; the title and edition stay explicitly labeled NLT. An existing user-selected default remains preferred."
+        "When no user-saved source/default exists, the quick-listening and default-source path prefers the curated Matthew NLT audio with verified chapter-start following; the title and edition stay explicitly labeled NLT. An existing user-selected default remains preferred.",
+        "A weekly, token-free runtime catalog job searches five named Matthew audio editions in each of the ten supported Bible content languages, verifies public and embeddable long videos plus edition-name evidence, and publishes refreshed metadata without asking users to add video URLs.",
+        "The app fetches the latest catalog automatically, prefers a chapter-synchronized result when one exists, labels every result with its translation and sync coverage, and follows only chapter starts parsed from the public video description; missing cues are never invented.",
+        "Catalog metadata is refreshed weekly and rejected by the client after 30 days; the scheduled job uses the YouTube Data API key only as a repository secret, never ships it to the browser, and reports per-language edition and chapter-sync coverage.",
+        "Goal completion requires at least five distinct discovered editions in every supported language and at least one verified chapter-follow source per language; actual playback and text-following remain separately verified runtime gates."
       ],
       "paths": [
         "index.html",
@@ -810,24 +814,24 @@
         "scripts/test-unified-data.mjs",
         "youtube-player.html",
         "mobile/scripts/copy-web.mjs",
-        "mobile/www/youtube-player.html"
+        "mobile/www/youtube-player.html",
+        "scripts/refresh-youtube-bible-audio-catalog.mjs",
+        ".github/workflows/refresh-youtube-bible-audio-catalog.yml"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
-          "state": "implemented",
-          "appliedRevision": 20,
+          "state": "implementing",
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / build 69 source; public deployment and live playback verification tracked separately",
-          "evidence": "Revision 20 makes the curated chapter-synchronized NLT source the first recommended source when no user-owned default exists; existing saved defaults retain precedence. Public deployment and browser audio playback/follow behavior remain unverified."
+          "build": "1.0.13 / build 70 source; automatic catalog requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 21 adds deterministic 10-language catalog refresh and client loading; no YouTube API key is configured, so generated catalog coverage and playback have not been verified."
         },
         "windows": {
           "owner": "Selah hosted reader",
-          "state": "implemented",
-          "appliedRevision": 20,
+          "state": "implementing",
           "source": "shared hosted reader source",
-          "build": "1.0.13 / build 69 source; public deployment and live playback verification tracked separately",
-          "evidence": "Revision 20 makes the curated chapter-synchronized NLT source the first recommended source when no user-owned default exists; existing saved defaults retain precedence. Public deployment and browser audio playback/follow behavior remain unverified."
+          "build": "1.0.13 / build 70 source; automatic catalog requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 21 adds deterministic 10-language catalog refresh and client loading; no YouTube API key is configured, so generated catalog coverage and playback have not been verified."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -838,11 +842,10 @@
         },
         "ios": {
           "owner": "Selah shared iOS reader",
-          "state": "implemented",
-          "appliedRevision": 20,
+          "state": "implementing",
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 69 source; public deployment and live playback verification tracked separately",
-          "evidence": "Revision 20 makes the curated chapter-synchronized NLT source the first recommended source when no user-owned default exists; existing saved defaults retain precedence. Public deployment and browser audio playback/follow behavior remain unverified."
+          "build": "1.0.13 / build 70 source; automatic catalog requires the YouTube API secret and live playback/readback",
+          "evidence": "Revision 21 adds deterministic 10-language catalog refresh and client loading; no YouTube API key is configured, so generated catalog coverage and playback have not been verified."
         }
       }
     },

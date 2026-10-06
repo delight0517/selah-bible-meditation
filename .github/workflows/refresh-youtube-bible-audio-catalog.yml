@@ -1,0 +1,54 @@
+name: Refresh YouTube Bible audio catalog
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 3 * * 1'
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - id: api-key
+        env:
+          YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
+        run: |
+          if [ -z "$YOUTUBE_DATA_API_KEY" ]; then
+            echo 'available=false' >> "$GITHUB_OUTPUT"
+            echo 'YOUTUBE_DATA_API_KEY is not configured; catalog refresh was skipped.' >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'available=true' >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.api-key.outputs.available == 'true'
+        env:
+          YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
+          CATALOG_OUTPUT: ${{ runner.temp }}/youtube-bible-audio-catalog.json
+        run: node scripts/refresh-youtube-bible-audio-catalog.mjs
+      - if: steps.api-key.outputs.available == 'true'
+        env:
+          CATALOG_OUTPUT: ${{ runner.temp }}/youtube-bible-audio-catalog.json
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git ls-remote --exit-code --heads origin audio-catalog >/dev/null 2>&1; then
+            git fetch origin audio-catalog
+            git switch --track -c audio-catalog origin/audio-catalog
+          else
+            git switch --orphan audio-catalog
+            git rm -r --cached --ignore-unmatch .
+          fi
+          cp "$CATALOG_OUTPUT" youtube-bible-audio-catalog.json
+          git add youtube-bible-audio-catalog.json
+          if git diff --cached --quiet; then
+            echo 'Catalog unchanged.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git commit -m 'data: refresh YouTube Bible audio catalog'
+          git push origin audio-catalog
