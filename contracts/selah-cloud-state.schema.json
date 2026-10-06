@@ -1092,7 +1092,16 @@
           "type": "string",
           "maxLength": 120,
           "description": "Human-readable audio translation or edition name."
-        }
+        },
+        "videoIds": {
+          "type": "array",
+          "maxItems": 1200,
+          "items": { "type": "string", "pattern": "^[-A-Za-z0-9_]{11}$" }
+        },
+        "chapterSync": { "type": "boolean" },
+        "chapterCoverage": { "type": "integer", "minimum": 0, "maximum": 1189 },
+        "coverageStatus": { "enum": ["COMPLETE_CHAPTER_COVERAGE", "PARTIAL_COVERAGE", "UNVERIFIED"] },
+        "completeChapterCoverage": { "type": "boolean" }
       }
     },
     "bibleAudioDefault": {
@@ -1150,7 +1159,8 @@
         "videoId": {
           "type": "string",
           "pattern": "^[-A-Za-z0-9_]{11}$"
-        }
+        },
+        "playlistIndex": { "type": "integer", "minimum": 0, "maximum": 1199 }
       }
     }
   },

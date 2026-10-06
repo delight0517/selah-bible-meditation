@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 38,
+      "revision": 39,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -805,7 +805,10 @@
         "The selected Bible text edition remains independent from the audio edition. Current passage follows only the selected video’s verified cue points; any missing timing remains unsynchronized.",
         "Goal completion requires evidence of five distinct, complete audio editions per language and observed playback plus scripture following in the web reader; the names shown in the search selector alone do not satisfy this threshold.",
         "The Worker reserves at most 70 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving 30 requests of headroom for other consumers of the shared API key under the default 100-query daily limit. If YouTube returns HTTP 429 or a 403 containing the quotaExceeded reason, the Worker blocks further searches until the next Pacific calendar day; unrelated 403 errors do not trigger the daily quota block.",
-        "One targeted fallback search fills editions with no classified candidate; a single valid candidate per edition does not trigger a second request. Each request remains separately quota-limited."
+        "One targeted fallback search fills editions with no classified candidate; a single valid candidate per edition does not trigger a second request. Each request remains separately quota-limited.",
+        "For each edition group, verify at most one playlist candidate by reading all playlist items and checking available video titles against the 66-book/1,189-chapter list; show complete chapter-title coverage, partial coverage, or unverified status distinctly.",
+        "Playlist title coverage means metadata/title coverage only; it does not claim the audio content itself was listened to or semantically verified.",
+        "Verified chapter and verse cues retain playlist order and video IDs when saved and synced so playback can select the correct video and follow chapter/verse cues."
       ],
       "paths": [
         "index.html",
@@ -835,22 +838,22 @@
           "owner": "Selah web audio task",
           "state": "implementing",
           "source": "index.html + assets/youtube-audio-book-names.json + together-worker/src/youtube-search.js + hosted YouTube player",
-          "build": "1.0.17 / build 82 source; revision 38 playlist cue matching in progress",
-          "evidence": "Revision 38 extracts the currently playing video ID independently from a playlist source URL so verified per-video cues match during playlist playback. Synthetic regression coverage passes; deployed live playback and verse-follow remain pending.",
-          "appliedRevision": 38
+          "build": "1.0.17 / build 83; playlist coverage verifier and chapter cue following",
+          "evidence": "Source verifies one playlist candidate per edition using playlistItems and videos metadata, persists ordered video IDs and chapter/verse cues, and distinguishes complete title coverage from partial/unverified candidates. Synthetic Worker coverage passes; real API quota window, public deployment, playback and Scripture-follow remain pending.",
+          "appliedRevision": 39
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "pending",
           "source": "shared hosted reader source",
-          "build": "1.0.17 / build 82 shared hosted reader source; live playlist catalog and runtime playback remain unverified",
-          "evidence": "Revision 38 is in the shared hosted-reader source path. Windows playback and Scripture-follow behavior still require a current runtime review.",
-          "appliedRevision": 38
+          "build": "1.0.17 / build 83; playlist coverage verifier and chapter cue following",
+          "evidence": "Source verifies one playlist candidate per edition using playlistItems and videos metadata, persists ordered video IDs and chapter/verse cues, and distinguishes complete title coverage from partial/unverified candidates. Synthetic Worker coverage passes; real API quota window, public deployment, playback and Scripture-follow remain pending.",
+          "appliedRevision": 39
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Revision 38 changes the web-first audio follow contract; separate macOS source and runtime adoption are still unverified.",
+          "evidence": "Shared web-first playlist coverage contract updated to revision 39; standalone macOS source and runtime adoption remain unverified.",
           "appliedRevision": 34,
           "build": "1.0.11 / shared reader UI build 55; platform validation pending"
         },
@@ -858,9 +861,9 @@
           "owner": "Selah shared iOS reader",
           "state": "implementing",
           "source": "generated mobile/www/index.html + hosted YouTube player",
-          "build": "1.0.17 / build 82 shared web source bundle",
-          "evidence": "Generated Capacitor bundle carries revision 38 current-video ID matching during playlist playback. Platform source parity, installed iPhone playback and verse-follow remain to be checked.",
-          "appliedRevision": 38
+          "build": "1.0.17 / build 83; playlist coverage verifier and chapter cue following",
+          "evidence": "Source verifies one playlist candidate per edition using playlistItems and videos metadata, persists ordered video IDs and chapter/verse cues, and distinguishes complete title coverage from partial/unverified candidates. Synthetic Worker coverage passes; real API quota window, public deployment, playback and Scripture-follow remain pending.",
+          "appliedRevision": 39
         }
       }
     },

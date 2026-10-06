@@ -1,4 +1,4 @@
-import { searchYouTube } from './youtube-search.js';
+import { searchYouTube, verifyYouTubePlaylistCoverage } from './youtube-search.js';
 const TTL = 86400000, ACTIVE = 15000;
 const chapters = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
 const books = 'GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV'.split(' ');
@@ -38,6 +38,11 @@ export default {
           const quota=await env.ROOMS.get(env.ROOMS.idFromName('youtube-search-quota-v1')).fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST',headers:upstreamLimit?{'x-youtube-quota-exhausted':'1'}:{}}));
           return quota.ok?null:json({error:quota.status===429?'daily_search_limit':'search_unavailable'},quota.status);
         });
+      }
+      else if(url.pathname==='/youtube/playlist-coverage' && request.method==='POST') {
+        const limit=await env.YOUTUBE_SEARCH_LIMITER?.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
+        if(env.YOUTUBE_SEARCH_LIMITER && !limit.success) fail(429,'rate_limited');
+        response=await verifyYouTubePlaylistCoverage(request,env);
       }
       else if(url.pathname==='/rooms' && request.method==='POST') {
         const input=await body(request),roomId=secret(16),hostToken=secret(32),now=Date.now();
