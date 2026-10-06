@@ -68,7 +68,20 @@ function playlistChapterRefs(title, locale) {
     for(const chapter of chapters)matches.push({bookId,chapter,aliasLength});
   }
   const longest=Math.max(0,...matches.map(match=>match.aliasLength));
-  return matches.filter(match=>match.aliasLength===longest).map(({bookId,chapter})=>({bookId,chapter}));
+  const chapterRefs=matches.filter(match=>match.aliasLength===longest).map(({bookId,chapter})=>({bookId,chapter}));
+  if(chapterRefs.length)return chapterRefs;
+  if(!/(?:audio|bible|scripture|聖書|圣经|성경|biblia|bibliya|аудио|біблі)/iu.test(title))return [];
+  const source=` ${captionText(title)} `,bookMatches=[];
+  for(const bookId of BOOKS){
+    const aliases=audioBookNames.locales[locale]?.books[bookId]||[];
+    const alias=aliases.map(captionText).filter(value=>value&&source.includes(` ${value} `)).sort((a,b)=>b.length-a.length)[0];
+    if(alias)bookMatches.push({bookId,aliasLength:alias.length});
+  }
+  const bookLength=Math.max(0,...bookMatches.map(match=>match.aliasLength));
+  const bookIds=[...new Set(bookMatches.filter(match=>match.aliasLength===bookLength).map(match=>match.bookId))];
+  if(bookIds.length!==1)return [];
+  const bookId=bookIds[0],count=CHAPTERS[BOOKS.indexOf(bookId)];
+  return Array.from({length:count},(_,index)=>({bookId,chapter:index+1,wholeBook:true}));
 }
 
 export async function verifyYouTubePlaylistCoverage(request, env) {
@@ -129,7 +142,9 @@ export async function verifyYouTubePlaylistCoverage(request, env) {
       if(covered.has(key))continue;
       const names=audioBookNames.locales[input.locale]?.books[ref.bookId]||[];
       const parsed=parseCues(descriptions.get(videoId),names,input.locale,ref.bookId,ref.chapter,videoId,true);
-      const cue={...ref,verse:1,seconds:parsed.chapterSeconds??0,videoId,playlistIndex};
+      if(ref.wholeBook&&parsed.chapterSeconds===null)continue;
+      const {wholeBook,...chapterRef}=ref;
+      const cue={...chapterRef,verse:1,seconds:parsed.chapterSeconds??0,videoId,playlistIndex};
       covered.add(key);chapterCues.push(cue);
       explicitVerseCueCount+=parsed.cues.length;
       const cues=ref.bookId===currentBookId&&ref.chapter===currentChapter&&parsed.cues.length?parsed.cues:[cue];

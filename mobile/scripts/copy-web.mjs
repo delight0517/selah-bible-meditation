@@ -42,7 +42,7 @@ files.splice(0, files.length, ...discovered);
 files.sort();
 const hashes = {};
 for (const file of files) {
-  const canonical = bytes => /\.(?:html|js|css|json|webmanifest|svg|txt)$/.test(file) ? Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n')) : bytes;
+  const canonical = bytes => /\.(?:html|js|css|json|webmanifest|svg|txt|gitkeep)$/.test(file) ? Buffer.from(bytes.toString('utf8').replace(/\r\n/g, '\n')) : bytes;
   const content = canonical(await readFile(resolve(repoDir, file)));
   hashes[file] = createHash('sha256').update(content).digest('hex');
   const target = resolve(webDir, file);

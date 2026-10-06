@@ -191,6 +191,27 @@ try {
   assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,929);
   assert.equal(coverageData.verseCues.find(cue=>cue.verse===2).seconds,20);
   assert.equal(verificationCalls,49,'full coverage uses 1 metadata call, 24 item pages and 24 50-video batches, below the 50 external-subrequest limit');
+  const bookTracks=books.map((book,index)=>({videoId:`book${String(index).padStart(7,'0')}`,book,chapters:chapterCounts[index],title:`${audioBookNames.locales.en.books[book][0]} Audio Bible NIV`}));
+  globalThis.fetch=async raw=>{
+    const url=new URL(String(raw));
+    if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'NIV Audio Bible',description:'',channelTitle:'NIV'},contentDetails:{itemCount:bookTracks.length}}]});
+    if(url.pathname.endsWith('/playlistItems')){
+      const start=Number(url.searchParams.get('pageToken')||0),page=bookTracks.slice(start,start+50);
+      return Response.json({items:page.map((track,index)=>({snippet:{title:track.title,position:start+index,resourceId:{videoId:track.videoId}}})),...(start+50<bookTracks.length?{nextPageToken:String(start+50)}:{})});
+    }
+    if(url.pathname.endsWith('/videos'))return Response.json({items:url.searchParams.get('id').split(',').map(id=>{
+      const track=bookTracks.find(item=>item.videoId===id);
+      return {id,snippet:{description:Array.from({length:track.chapters},(_,index)=>`${String(Math.floor(index/2)).padStart(2,'0')}:${index%2?'30':'00'} Chapter ${index+1}`).join('\n')}};
+    })});
+    throw Error(`Unexpected YouTube API path: ${url.pathname}`);
+  };
+  const bookCoverage=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'NIV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const bookCoverageData=await bookCoverage.json();
+  assert.equal(bookCoverageData.status,'COMPLETE_CHAPTER_COVERAGE','timestamped one-video-per-book playlists cover all chapters');
+  assert.equal(bookCoverageData.videoIds.length,66);
+  assert.equal(bookCoverageData.coveredChapters,1189);
+  assert.equal(bookCoverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,39);
+  assert.equal(bookCoverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===2).seconds,30);
   globalThis.fetch=async raw=>new URL(String(raw)).pathname.endsWith('/playlists')?Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'NIV Audio Bible',description:'',channelTitle:'NIV'},contentDetails:{itemCount:0}}]}):Response.json({items:[]});
   const mismatched=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
   assert.equal(mismatched.status,422,'a playlist labeled as another translation cannot count for the requested edition');
