@@ -19,8 +19,9 @@ const PHRASES = {ko:'성경 오디오 낭독',en:'Bible audio reading',ja:'聖�
 const CHAPTER_WORDS = {en:'chapter|chap(?:ter)?|ch',ko:'chapter|장|ch',ja:'chapter|第','zh-CN':'chapter|第','zh-TW':'chapter|第',fil:'chapter|kabanata|kab',es:'chapter|capitulo|cap','pt-BR':'chapter|capitulo|cap',ru:'chapter|глава|гл',uk:'chapter|глава|гл|розділ|розд'};
 const VERSE_WORDS = {en:'verse|v',ko:'verse|절',ja:'verse|節','zh-CN':'verse|节','zh-TW':'verse|節',fil:'verse|talata',es:'verse|versiculo|v', 'pt-BR':'verse|versiculo|v',ru:'verse|стих|ст',uk:'verse|вірш|ст'};
 const clean = (value, max) => String(value || '').replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim().slice(0,max);
-const normalized = value => String(value||'').normalize('NFKD').toLocaleLowerCase().replace(/\p{M}/gu,'').replace(/[^\p{L}\p{N}]/gu,'');
-const captionText = value => String(value||'').normalize('NFKD').toLowerCase().replace(/\p{M}/gu,'').replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+const foldLatinMarks = value => String(value||'').normalize('NFKD').replace(/([\p{Script=Latin}])\p{M}+/gu,'$1').normalize('NFC');
+const normalized = value => foldLatinMarks(value).toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
+const captionText = value => foldLatinMarks(value).toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
 const escapeRegExp = value => value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 
 export function editionList(locale) {
@@ -68,7 +69,7 @@ function parseCues(description, bookNames, locale, bookId, chapter, videoId, exa
     const parts=match[1].split(':').map(Number),seconds=parts.length===3?parts[0]*3600+parts[1]*60+parts[2]:parts[0]*60+parts[1];
     if(hasChapterMarker(label,locale,chapter)||(exactChapter&&new RegExp(`(?:^|\\s)${chapter}(?=\\s|[:.]|章|장|$)`,'u').test(label)))chapterSeconds??=seconds;
     let reference=null;
-    for(const name of bookNames){const alias=captionText(name);if(alias&&label.startsWith(alias+' ')){const words=CHAPTER_WORDS[locale]||CHAPTER_WORDS.en,verses=VERSE_WORDS[locale]||VERSE_WORDS.en;reference=new RegExp(`^${escapeRegExp(alias)}\\s+(?:(?:${words})\\s*)?${chapter}(?:\\s+(?:(?:${verses})\\s*)?(\\d{1,3}))?(?:\\s|$)`,'u').exec(label);if(reference?.[1])break;}}
+    for(const name of bookNames){const alias=captionText(name);if(alias&&label.startsWith(alias+' ')){const words=CHAPTER_WORDS[locale]||CHAPTER_WORDS.en,verses=VERSE_WORDS[locale]||VERSE_WORDS.en;reference=new RegExp(`^${escapeRegExp(alias)}\\s+(?:(?:${words})\\s*)?(?:第\\s*)?${chapter}(?:\\s*(?:章|장|节|節))?\\s*(?:(?:(?:第|${verses})\\s*)?(\\d{1,3})(?:\\s*(?:절|节|節))?)?(?:\\s|$)`,'u').exec(label);if(reference?.[1])break;}}
     if(!reference&&exactChapter)reference=new RegExp(`^${chapter}\\s+(\\d{1,3})(?:\\s|$)`,'u').exec(label);
     const verseLabel=/^(?:verse|v|절|節|стих|вірш|versiculo|verso|talata)\s*(\d{1,3})(?:\s|$)/u.exec(label);
     const verse=Number(reference?.[1]||(exactChapter?verseLabel?.[1]:0)||0);
