@@ -777,3 +777,9 @@
 - [ ] Verify in a browser that this action saves only the selected-translation copy, exposes cue controls, and that confirmed cues drive verse following during playback.
 - [ ] Build/install build 65 and verify the same flow on iPhone. Build 64 playback remains unverified; existing iPhone Mirroring action is still required.
 - [ ] Selah YouTube 성경 듣기: 확인된 NLT 마태복음 28개 챕터 시점으로 장·1절 동기화(build 66) 구현. 배포 readback과 실기기에서 실제 음성 재생·본문 따라가기 검증은 별도 완료 필요; 절별 세부 동기화는 사용자가 저장한 시점만 사용.
+
+
+## 2026-10-06 · 성경 읽기 화면 테마·글꼴 컨트롤
+- [x] 성경 읽기 본문 선택 영역에 다크 모드 토글과 글꼴 선택기를 표시하고 집중 읽기 상단에서도 테마를 전환할 수 있게 한다. 글꼴 선택값을 본문 CSS 변수에 연결해 저장된 선택이 유지되도록 수정한다.
+- [x] 공유 소스 빌드를 1.0.13 / build 67로 올리고 feature parity revision 1을 등록한다.
+- [ ] 웹 브라우저에서 읽기 화면의 밝기 전환, 글꼴 변경 및 새로고침 후 유지, 집중 읽기 화면 토글을 확인한다. iOS·macOS 패키지와 Windows 런타임 검증은 별도로 남아 있다.

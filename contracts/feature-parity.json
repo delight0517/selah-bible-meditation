@@ -1217,6 +1217,63 @@
         }
       },
       "workItem": "selah-internal-analytics-optout-20261006"
+    },
+    {
+      "id": "SELAH-READER-DISPLAY-CONTROLS",
+      "revision": 1,
+      "title": "성경 읽기 화면의 테마와 글꼴 설정",
+      "acceptance": [
+        "성경 본문 선택 영역에서 별도 설정 화면을 열지 않고 글꼴 선택기와 다크 모드 전환 버튼을 볼 수 있다.",
+        "읽기 화면의 다크 모드 버튼은 전역 설정과 같은 테마를 즉시 전환하고 양쪽 컨트롤의 상태를 동기화한다.",
+        "읽기 화면의 글꼴 선택은 선택한 언어별 글꼴 목록을 제공하고 저장한 글꼴을 성경 본문에 실제 적용하며 새로고침 후에도 유지한다.",
+        "집중 읽기 화면에서도 테마를 전환할 수 있고 기존 A−/A+ 본문 크기 조절은 계속 동작한다.",
+        "웹과 생성된 iOS 공유 웹 번들은 같은 컨트롤, 로컬라이즈된 라벨 및 저장 동작을 제공한다."
+      ],
+      "paths": [
+        "index.html",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "contracts/feature-parity.json",
+        "TODO.md",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-reader-display-controls-20261006",
+          "build": "1.0.13 / build 67",
+          "evidence": "Source adds visible reader font and theme controls, connects the font selection to the persisted reader preference and verse font, and synchronizes reader/focus theme toggles. Live browser verification pending."
+        },
+        "windows": {
+          "owner": "Windows platform contract",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Web-first behavior is being implemented in shared web source; separate Windows runtime/package parity has not been verified."
+        },
+        "macos": {
+          "owner": "macOS platform contract",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Generated shared web source will be included; native packaging/runtime verification remains pending."
+        },
+        "ios": {
+          "owner": "Selah iOS shared-web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated mobile/www bundle",
+          "build": "1.0.13 / build 67",
+          "evidence": "Shared source will be copied into mobile/www; simulator and physical device runtime verification remain pending."
+        }
+      },
+      "workItem": "selah-reader-display-controls-20261006"
     }
   ]
 }
