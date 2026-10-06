@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 16,
+      "revision": 17,
       "title": "번역본별 YouTube 성경 듣기·연속 재생·미니 플레이어",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -787,7 +787,9 @@
         "When no source is saved for the selected translation, the empty default-source card stays hidden. Localized match guidance fits without overlapping the YouTube search control.",
         "Listening setup labels and guidance follow the app UI language, independently of the selected Bible content language and edition.",
         "On phone layouts, the minimized floating player is no wider than 240 CSS px while the embedded YouTube player retains its 200×200 minimum for controls.",
-        "The Bible audio setup is collapsed by default on first load so it does not displace the passage; users can expand it with a localized native disclosure, and the saved-source quick play remains available."
+        "The Bible audio setup is collapsed by default on first load so it does not displace the passage; users can expand it with a localized native disclosure, and the saved-source quick play remains available.",
+        "한국어 마태복음(MAT)에는 앱에서 미리 고른 마태복음 1–28장 전체 YouTube 낭독을 바로 재생할 수 있다. 출처와 낭독 번역본(개역개정 4판)을 분명히 표시하며, 현재 선택 성경(개역한글판 1961 등)과 판본이 다를 수 있음을 알린다. 타임스탬프가 검증되지 않은 상태에서는 절별 자동 추적이나 장 자동 이동을 표시하지 않는다.",
+        "Curated Matthew source uses YouTube standard player; it is not saved as user-owned content, cannot be removed or mislabeled as an exact-translation default, and is available across supported UI locales whenever Korean Matthew is selected."
       ],
       "paths": [
         "index.html",
@@ -811,18 +813,18 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "appliedRevision": 16,
+          "appliedRevision": 17,
           "source": "index.html + generated Capacitor shared bundle",
-          "build": "1.0.13 / build 63 source; hosted deployment and browser verification pending",
-          "evidence": "Revision 16 keeps the audio setup collapsed until opened and separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
+          "build": "1.0.13 / build 64 source; deployment/runtime verification pending",
+          "evidence": "Revision 17 adds a curated, user-started YouTube video covering Korean Matthew 1–28, labels its Korean Revised Version 4 edition, and does not claim unverified verse/chapter timing. Deployment/runtime status remains as recorded until separately verified."
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "appliedRevision": 16,
+          "appliedRevision": 17,
           "source": "shared hosted reader source",
-          "build": "1.0.13 / build 63 source; hosted deployment and browser verification pending",
-          "evidence": "Revision 16 keeps the audio setup collapsed until opened and separates UI locale from Bible content locale and limits phone mini-player width to 240 CSS px; iOS Simulator build 62 confirms the labels and compact player. Pages deployment and browser runtime remain pending."
+          "build": "1.0.13 / build 64 source; deployment/runtime verification pending",
+          "evidence": "Revision 17 adds a curated, user-started YouTube video covering Korean Matthew 1–28, labels its Korean Revised Version 4 edition, and does not claim unverified verse/chapter timing. Deployment/runtime status remains as recorded until separately verified."
         },
         "macos": {
           "owner": "Selah macOS maintainer",
@@ -834,10 +836,10 @@
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "appliedRevision": 16,
+          "appliedRevision": 17,
           "source": "index.html + generated mobile/www + hosted youtube-player.html",
-          "build": "1.0.13 / build 63 source; simulator packaging and runtime verification pending",
-          "evidence": "Build 62 previously verified the compact player. Revision 16 changes the default disclosure state in shared HTML and generated iOS source; simulator packaging, first-screen visual behavior, audio output, playlist continuation, YouTube Premium state, and physical iPhone remain unverified."
+          "build": "1.0.13 / build 64 source; deployment/runtime verification pending",
+          "evidence": "Revision 17 adds a curated, user-started YouTube video covering Korean Matthew 1–28, labels its Korean Revised Version 4 edition, and does not claim unverified verse/chapter timing. Deployment/runtime status remains as recorded until separately verified."
         }
       }
     },
