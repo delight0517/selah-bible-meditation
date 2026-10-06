@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import worker, { TogetherRoom } from '../together-worker/src/index.js';
 import { audioLanguageList, editionList, searchYouTube } from '../together-worker/src/youtube-search.js';
 
@@ -42,6 +43,8 @@ try {
   assert.equal(data.editions.every(group=>group.items.every(item=>item.videoId!=='xyzabcdefgh')),true,'unclassified video does not claim a translation');
   const query=new URL(calls[0].url).searchParams,fallbackQuery=new URL(captured.url).searchParams;
   assert.equal(query.get('maxResults'),'50');
+  assert.equal(query.get('type'),'video,playlist','edition searches include complete audio playlists and videos');
+  assert.equal(query.has('videoEmbeddable'),false,'playlist discovery is not filtered out by a video-only parameter');
   assert.equal(query.get('q').includes('|'),true,'all five editions share one OR search');
   assert.equal(fallbackQuery.get('q').includes('New King James Version'),true,'fallback includes a missing edition');
   assert.equal(fallbackQuery.get('q').includes('New International Version'),false,'fallback omits editions already found');
@@ -81,6 +84,17 @@ try {
     assert.equal(grouped[0].chapterMatch,true,`${sample.locale} recognizes localized chapter markers`);
     assert.equal(grouped[0].verseCues[0]?.verse,1,`${sample.locale} extracts localized verse timestamps`);
   }
+  globalThis.fetch=async()=>Response.json({items:[{id:{playlistId:'PL12345678901234567890'},snippet:{title:'KJV Matthew Complete Audio Bible',description:'Full Bible reading',channelTitle:'Bible audio'}}]});
+  const playlist=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const playlistItem=(await playlist.json()).editions.find(group=>group.id==='KJV').items[0];
+  assert.equal(playlistItem.mediaType,'playlist','complete edition playlists remain selectable');
+  assert.equal(playlistItem.playlistId,'PL12345678901234567890');
+  assert.equal(playlistItem.url,'https://www.youtube.com/playlist?list=PL12345678901234567890');
+  assert.deepEqual(playlistItem.verseCues,[],'playlist-level timestamps are not mistaken for video verse cues');
+  const readerHtml=await readFile(new URL('../index.html',import.meta.url),'utf8');
+  assert.match(readerHtml,/id:"youtube-live-"\+\(item\.playlistId\|\|item\.videoId\)/,'the reader gives playlist and video results distinct source IDs');
+  assert.match(readerHtml,/mediaType:item\.mediaType==="playlist"\?"playlist":"video"/,'the reader keeps each result media type when saving');
+  assert.match(readerHtml,/verseCues:item\.mediaType==="playlist"\?\[\]:item\.verseCues\|\|\[\]/,'the reader never treats playlist descriptions as video cues');
   let koreanApiCalls=0,videoNumber=0;
   globalThis.fetch=async()=>{
     koreanApiCalls++;
