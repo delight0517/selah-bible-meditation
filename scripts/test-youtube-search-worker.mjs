@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import worker, { TogetherRoom } from '../together-worker/src/index.js';
-import { audioLanguageList, editionList, searchYouTube } from '../together-worker/src/youtube-search.js';
+import { audioLanguageList, editionList, searchYouTube, verifyYouTubePlaylistCoverage } from '../together-worker/src/youtube-search.js';
+import audioBookNames from '../together-worker/src/audio-book-names.json' with {type:'json'};
 
 for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) assert.ok(editionList(locale).length>=5,`${locale} edition choices`);
 assert.deepEqual(audioLanguageList().map(language=>language.code),['en','ko','ja','zh-CN','zh-TW','ru','uk','es','pt-BR','fil'],'ten selectable audio languages');
@@ -94,7 +95,9 @@ try {
   const readerHtml=await readFile(new URL('../index.html',import.meta.url),'utf8');
   assert.match(readerHtml,/id:"youtube-live-"\+\(item\.playlistId\|\|item\.videoId\)/,'the reader gives playlist and video results distinct source IDs');
   assert.match(readerHtml,/mediaType:item\.mediaType==="playlist"\?"playlist":"video"/,'the reader keeps each result media type when saving');
-  assert.match(readerHtml,/verseCues:item\.mediaType==="playlist"\?\[\]:item\.verseCues\|\|\[\]/,'the reader never treats playlist descriptions as video cues');
+  assert.match(readerHtml,/\/youtube\/playlist-coverage/,'the reader verifies one playlist candidate per edition before labeling its coverage');
+  assert.match(readerHtml,/verseCues:audioSource\?\.verseCues\|\|\(item\.mediaType==="playlist"\?\[\]:item\.verseCues\|\|\[\]\)/,'playlist cues come only from verified per-video descriptions, never the playlist description');
+  assert.match(readerHtml,/coverageStatus:audioSource\?\.status\|\|"UNVERIFIED"/,'unverified playlist candidates remain explicitly unverified');
   const currentVideoIdLine=readerHtml.split('\n').find(line=>line.startsWith('function youtubeAudioVideoId(value){'));
   assert.ok(currentVideoIdLine,'the reader has a dedicated current-video ID parser');
   const youtubeAudioVideoId=new Function('safeQtUrl',`${currentVideoIdLine};return youtubeAudioVideoId;`)(value=>value);
@@ -157,5 +160,45 @@ try {
   const denied=await worker.fetch(new Request('https://worker.test/youtube/search',{method:'POST',headers:{Origin:'https://evil.example','Content-Type':'application/json'},body:'{}'}),env);
   assert.equal(denied.status,403,'origin allowlist applies to the search endpoint');
   assert.equal(apiCalls,2,'one initial and one missing-edition fallback request run; rejected origins consume neither');
+
+  const books='GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV'.split(' ');
+  const chapterCounts=[50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
+  const tracks=[];let position=0;
+  for(let book=0;book<books.length;book++)for(let chapter=1;chapter<=chapterCounts[book];chapter++){
+    const videoId=`v${String(position).padStart(10,'0')}`;
+    tracks.push({videoId,title:`${audioBookNames.locales.en.books[books[book]][0]} Chapter ${chapter} Audio Bible`});position++;
+  }
+  let verificationCalls=0;
+  globalThis.fetch=async raw=>{
+    verificationCalls++;const url=new URL(String(raw));
+    if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'KJV King James Version full audio Bible',description:'',channelTitle:'KJV Audio'},contentDetails:{itemCount:tracks.length}}]});
+    if(url.pathname.endsWith('/playlistItems')){
+      const start=Number(url.searchParams.get('pageToken')||0),page=tracks.slice(start,start+50);
+      return Response.json({items:page.map((track,index)=>({snippet:{title:track.title,position:start+index,resourceId:{videoId:track.videoId}}})),...(start+50<tracks.length?{nextPageToken:String(start+50)}:{})});
+    }
+    if(url.pathname.endsWith('/videos'))return Response.json({items:url.searchParams.get('id').split(',').map(id=>({id,snippet:{description:'00:00 Verse 1\n00:20 Verse 2'}}))});
+    throw Error(`Unexpected YouTube API path: ${url.pathname}`);
+  };
+  const coverage=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const coverageData=await coverage.json();
+  assert.equal(coverage.status,200);
+  assert.equal(coverageData.status,'COMPLETE_CHAPTER_COVERAGE',`all 1,189 explicit book/chapter tracks are required for a complete status (${coverageData.coveredChapters} found; ${coverageData.missingChapters?.slice(0,5).map(ref=>ref.bookId+':'+ref.chapter).join(',')})`);
+  assert.equal(coverageData.coveredChapters,1189);
+  assert.equal(coverageData.missingChapters.length,0);
+  assert.equal(coverageData.videoIds.length,1189);
+  assert.equal(coverageData.chapterSync,true,'chapter cues remain available across the complete playlist');
+  assert.ok(coverageData.verseCues.length>=1189&&coverageData.verseCues.length<1200,'all chapter starts plus only the selected chapter verse timestamps stay within cloud cue limits');
+  assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,929);
+  assert.equal(coverageData.verseCues.find(cue=>cue.verse===2).seconds,20);
+  assert.equal(verificationCalls,49,'full coverage uses 1 metadata call, 24 item pages and 24 50-video batches, below the 50 external-subrequest limit');
+  globalThis.fetch=async()=>Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'NIV Audio Bible',description:'',channelTitle:'NIV'},contentDetails:{itemCount:0}}]});
+  const mismatched=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  assert.equal(mismatched.status,422,'a playlist labeled as another translation cannot count for the requested edition');
+  globalThis.fetch=async raw=>{const url=new URL(String(raw));if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'KJV King James Version full audio Bible',description:'',channelTitle:'KJV Audio'},contentDetails:{itemCount:tracks.length}}]});if(url.pathname.endsWith('/playlistItems')){const start=Number(url.searchParams.get('pageToken')||0),page=tracks.slice(start,start+50);return Response.json({items:page.map((track,index)=>({snippet:{title:track.title,position:start+index,resourceId:{videoId:track.videoId}}})),...(start+50<tracks.length?{nextPageToken:String(start+50)}:{})})}if(url.pathname.endsWith('/videos'))return Response.json({items:url.searchParams.get('id').split(',').filter(id=>id!==tracks[0].videoId).map(id=>({id,snippet:{description:''}}))});throw Error(`Unexpected YouTube API path: ${url.pathname}`)};
+  const partial=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const partialData=await partial.json();
+  assert.equal(partialData.status,'PARTIAL_COVERAGE','unavailable video metadata cannot count as a complete chapter');
+  assert.equal(partialData.coveredChapters,1188);
+  assert.equal(partialData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,928,'playlist positions are compacted when unavailable entries are skipped');
 } finally { globalThis.fetch=originalFetch; }
 console.log('YouTube Worker search contract passed.');

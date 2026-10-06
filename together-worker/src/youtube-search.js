@@ -59,6 +59,81 @@ function matchesChapterAfterBook(title, bookNames, locale, chapter) {
   });
 }
 
+function playlistChapterRefs(title, locale) {
+  const numbers=[...new Set(String(title||'').match(/\d{1,3}/g)||[])].map(Number),matches=[];
+  for(const bookId of BOOKS){
+    const names=audioBookNames.locales[locale]?.books[bookId]||[];
+    const aliasLength=Math.max(0,...names.filter(name=>numbers.some(chapter=>matchesChapterAfterBook(title,[name],locale,chapter))).map(name=>captionText(name).length));
+    const chapters=numbers.filter(chapter=>chapter>=1&&chapter<=CHAPTERS[BOOKS.indexOf(bookId)]&&matchesChapterAfterBook(title,names,locale,chapter));
+    for(const chapter of chapters)matches.push({bookId,chapter,aliasLength});
+  }
+  const longest=Math.max(0,...matches.map(match=>match.aliasLength));
+  return matches.filter(match=>match.aliasLength===longest).map(({bookId,chapter})=>({bookId,chapter}));
+}
+
+export async function verifyYouTubePlaylistCoverage(request, env) {
+  const text=await request.text();
+  if(text.length>2048)return Response.json({error:'payload_too_large'},{status:413});
+  const input=await Promise.resolve().then(()=>JSON.parse(text)).catch(()=>null);
+  if(!input||!Object.hasOwn(EDITIONS,input.locale)||!editionList(input.locale).some(item=>item.id===input.editionId)||!/^[-\w]{10,128}$/.test(input.playlistId||''))return Response.json({error:'invalid_playlist'},{status:400});
+  const currentChapter=Number(input.chapter),currentBookId=String(input.bookId||'');
+  if(!BOOKS.includes(currentBookId)||!Number.isInteger(currentChapter)||currentChapter<1||currentChapter>CHAPTERS[BOOKS.indexOf(currentBookId)])return Response.json({error:'invalid_passage'},{status:400});
+  if(!env.YOUTUBE_DATA_API_KEY)return Response.json({error:'service_unavailable'},{status:503});
+  const api=async(path,params)=>{
+    const query=new URLSearchParams(params);query.set('key',env.YOUTUBE_DATA_API_KEY);
+    const response=await fetch(`https://www.googleapis.com/youtube/v3/${path}?${query}`,{signal:AbortSignal.timeout(10000)}).catch(()=>null);
+    if(!response?.ok)return{error:response?.status===403||response?.status===429?'youtube_quota_unavailable':'youtube_request_failed',status:response?.status||502};
+    const data=await response.json().catch(()=>null);return data?{data}:{error:'youtube_request_failed',status:502};
+  };
+  const playlist=await api('playlists',{part:'snippet,contentDetails',id:input.playlistId,fields:'items(id,snippet(title,description,channelTitle),contentDetails/itemCount)'});
+  if(playlist.error)return Response.json({error:playlist.error},{status:playlist.status});
+  const metadata=playlist.data.items?.[0];
+  if(!metadata)return Response.json({error:'playlist_not_found'},{status:404});
+  const edition=editionList(input.locale).find(item=>item.id===input.editionId),metadataText=[metadata.snippet?.title,metadata.snippet?.description,metadata.snippet?.channelTitle].join(' ');
+  if(!editionScore(metadataText,true,edition.id,edition.name))return Response.json({error:'edition_mismatch'},{status:422});
+  const itemCount=Number(metadata.contentDetails?.itemCount)||0;
+  if(itemCount>1200)return Response.json({status:'SCAN_LIMIT',playlistId:input.playlistId,itemCount},{headers:{'Cache-Control':'no-store'}});
+  const playlistItems=[];let pageToken='';
+  do{
+    const params={part:'snippet',maxResults:'50',playlistId:input.playlistId,fields:'nextPageToken,items(snippet(title,position,resourceId/videoId))'};
+    if(pageToken)params.pageToken=pageToken;
+    const page=await api('playlistItems',params);
+    if(page.error)return Response.json({error:page.error},{status:page.status});
+    playlistItems.push(...(page.data.items||[]));pageToken=page.data.nextPageToken||'';
+  }while(pageToken&&playlistItems.length<1200);
+  if(pageToken||playlistItems.length!==itemCount)return Response.json({status:'SCAN_INCOMPLETE',playlistId:input.playlistId,itemCount,scannedItems:playlistItems.length},{headers:{'Cache-Control':'no-store'}});
+  const videos=[];
+  for(let start=0;start<playlistItems.length;start+=50){
+    const ids=playlistItems.slice(start,start+50).map(item=>item.snippet?.resourceId?.videoId).filter(id=>/^[\w-]{11}$/.test(id||''));
+    if(!ids.length)continue;
+    const batch=await api('videos',{part:'snippet',id:ids.join(','),fields:'items(id,snippet(description))'});
+    if(batch.error)return Response.json({error:batch.error},{status:batch.status});
+    videos.push(...(batch.data.items||[]));
+  }
+  const descriptions=new Map(videos.map(video=>[video.id,video.snippet?.description||''])),chapterCues=[],verseCues=[],covered=new Set(),videoIds=[];let explicitVerseCueCount=0;
+  for(let index=0;index<playlistItems.length;index++){
+    const item=playlistItems[index],videoId=item.snippet?.resourceId?.videoId;
+    if(!/^[\w-]{11}$/.test(videoId||'')||!descriptions.has(videoId))continue;
+    videoIds.push(videoId);
+    const playlistIndex=videoIds.length-1;
+    for(const ref of playlistChapterRefs(item.snippet?.title,input.locale)){
+      const key=`${ref.bookId}:${ref.chapter}`;
+      if(covered.has(key))continue;
+      const names=audioBookNames.locales[input.locale]?.books[ref.bookId]||[];
+      const parsed=parseCues(descriptions.get(videoId),names,input.locale,ref.bookId,ref.chapter,videoId,true);
+      const cue={...ref,verse:1,seconds:parsed.chapterSeconds??0,videoId,playlistIndex};
+      covered.add(key);chapterCues.push(cue);
+      explicitVerseCueCount+=parsed.cues.length;
+      const cues=ref.bookId===currentBookId&&ref.chapter===currentChapter&&parsed.cues.length?parsed.cues:[cue];
+      for(const value of cues)verseCues.push({...value,playlistIndex});
+    }
+  }
+  const missing=[];
+  for(let i=0;i<BOOKS.length;i++)for(let chapter=1;chapter<=CHAPTERS[i];chapter++)if(!covered.has(`${BOOKS[i]}:${chapter}`))missing.push({bookId:BOOKS[i],chapter});
+  const complete=missing.length===0;
+  return Response.json({status:complete?'COMPLETE_CHAPTER_COVERAGE':'PARTIAL_COVERAGE',locale:input.locale,editionId:edition.id,playlistId:input.playlistId,channelTitle:metadata.snippet?.channelTitle||'',itemCount,coveredChapters:covered.size,totalChapters:1189,explicitVerseCueCount,missingChapters:missing,videoIds,chapterSync:chapterCues.length>0,verseCues},{headers:{'Cache-Control':'no-store'}});
+}
+
 function parseCues(description, bookNames, locale, bookId, chapter, videoId, exactChapter) {
   const cues=[];
   let chapterSeconds=null;
