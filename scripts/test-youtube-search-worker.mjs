@@ -78,9 +78,19 @@ try {
 
   let markedQuotaExhausted=false;
   globalThis.fetch=async()=>new Response(JSON.stringify({error:{errors:[{reason:'quotaExceeded'}]}}),{status:429});
-  const upstreamLimited=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{markedQuotaExhausted=exhausted;return null;});
+  const upstreamLimited=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{if(exhausted)markedQuotaExhausted=true;return null;});
   assert.equal(upstreamLimited.status,429);
   assert.equal(markedQuotaExhausted,true,'an upstream daily limit blocks later Worker searches');
+  markedQuotaExhausted=false;
+  globalThis.fetch=async()=>Response.json({error:{errors:[{reason:'quotaExceeded'}]}},{status:403});
+  const quota403=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{if(exhausted)markedQuotaExhausted=true;return null;});
+  assert.equal(quota403.status,429,'YouTube quotaExceeded is returned as a daily-search limit');
+  assert.equal(markedQuotaExhausted,true,'an upstream quotaExceeded 403 blocks later Worker searches');
+  markedQuotaExhausted=false;
+  globalThis.fetch=async()=>Response.json({error:{errors:[{reason:'forbidden'}]}},{status:403});
+  const forbidden=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{if(exhausted)markedQuotaExhausted=true;return null;});
+  assert.equal(forbidden.status,502,'an unrelated forbidden 403 remains a generic upstream error');
+  assert.equal(markedQuotaExhausted,false,'an unrelated forbidden 403 does not lock the daily quota');
 
   const values=new Map(),room=new TogetherRoom({storage:{get:key=>values.get(key),put:(key,value)=>values.set(key,value)}});
   for(let count=0;count<70;count++) assert.equal((await room.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,200);

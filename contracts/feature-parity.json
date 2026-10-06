@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 34,
+      "revision": 35,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "현재 선택한 성경 언어·번역본·책·장의 이름으로 YouTube 낭독 검색을 만들고, 각 저장 항목을 해당 번역본 ID에만 연결한다.",
@@ -802,7 +802,7 @@
         "A user may explicitly save a generated search result under the selected Bible text edition while retaining the audio edition label. This exposes the existing localized verse-timestamp control when a public video description lacks cues; no missing timestamp is invented.",
         "The selected Bible text edition remains independent from the audio edition. Current passage follows only the selected video’s verified cue points; any missing timing remains unsynchronized.",
         "Goal completion requires evidence of five distinct, complete audio editions per language and observed playback plus scripture following in the web reader; the names shown in the search selector alone do not satisfy this threshold.",
-        "The Worker reserves at most 70 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving 30 requests of headroom for other consumers of the shared API key under the default 100-query daily limit. If YouTube returns HTTP 429, the Worker blocks further searches until the next Pacific calendar day.",
+        "The Worker reserves at most 70 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving 30 requests of headroom for other consumers of the shared API key under the default 100-query daily limit. If YouTube returns HTTP 429 or a 403 containing the quotaExceeded reason, the Worker blocks further searches until the next Pacific calendar day; unrelated 403 errors do not trigger the daily quota block.",
         "Each search.list call requests up to 50 embeddable video results and the Worker groups at most five matching videos per configured audio edition. If any edition has fewer than five candidates, one targeted second search is allowed within the per-search and daily quota caps; results are checked against all configured editions before they can fill a missing group, and search results are not persisted as a shared catalog."
       ],
       "paths": [
@@ -823,16 +823,18 @@
         "youtube-player.html",
         "mobile/scripts/copy-web.mjs",
         "mobile/www/youtube-player.html",
-        "scripts/check-youtube-player.mjs"
+        "scripts/check-youtube-player.mjs",
+        "together-worker/src/youtube-search.js",
+        "scripts/test-youtube-search-worker.mjs"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
           "state": "implementing",
           "source": "index.html + together-worker/src/youtube-search.js + hosted YouTube player",
-          "build": "1.0.17 / build 80 source; quota-aware 70-request cap and sixth Korean edition pending live verification and Pages publication",
-          "evidence": "Revision 33 added Easy Bible as a sixth Korean choice; its live search attempt returned HTTP 502. Google Cloud Monitoring showed 100 successful youtube.search.list calls and three HTTP 429 responses in the prior 24 hours for the shared API key; the 502 is consistent with quota saturation. Worker revision 821bd8ce-518e-4175-8961-d20d876156b5 lowers the cap to 70 requests/day and persists upstream 429 exhaustion until Pacific reset. Pages publication and playback/follow remain pending.",
-          "appliedRevision": 34
+          "build": "1.0.17 / build 80 source; quota-aware 70-request cap with upstream 429 and quotaExceeded 403 lockout; live verification and Pages publication pending",
+          "evidence": "Revision 35 recognizes the documented YouTube quotaExceeded 403 response, persists the upstream daily block until Pacific reset, and leaves unrelated 403 errors unblocked. Synthetic tests cover quotaExceeded and non-quota 403s. The prior Worker revision still blocks HTTP 429; this fix is not deployed yet. Live Easy Bible classification, Pages publication, and playback/follow remain pending.",
+          "appliedRevision": 35
         },
         "windows": {
           "owner": "Selah hosted reader",
