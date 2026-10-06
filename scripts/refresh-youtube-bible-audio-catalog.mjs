@@ -143,8 +143,19 @@ function parseTimedChapterCues(description, books, videoId, initialChapter = nul
 async function api(path, params, key, fetcher = globalThis.fetch) {
   const url = new URL(`${API}/${path}`);
   for (const [name, value] of Object.entries({ ...params, key })) url.searchParams.set(name, value);
-  const response = await fetcher(url, { signal: AbortSignal.timeout(25000) });
-  if (!response.ok) throw new Error(`YouTube API ${path} returned HTTP ${response.status}: ${(await response.text()).slice(0, 240)}`);
+  let response;
+  try {
+    response = await fetcher(url, { signal: AbortSignal.timeout(25000) });
+  } catch (error) {
+    throw new Error(`YouTube API ${path} request failed (${error?.name || 'network error'})`);
+  }
+  if (!response.ok) {
+    let detail = '';
+    try {
+      detail = (await response.text()).slice(0, 240).replaceAll(key, '[redacted]').replaceAll(encodeURIComponent(key), '[redacted]');
+    } catch {}
+    throw new Error(`YouTube API ${path} returned HTTP ${response.status}${detail ? `: ${detail}` : ''}`);
+  }
   return response.json();
 }
 
@@ -485,7 +496,16 @@ async function fixtureSelfCheck(bookCatalogs) {
   const genesis2 = nlt?.verseCues.find(cue => cue.bookId === 'GEN' && cue.chapter === 2 && cue.verse === 1);
   if (searchCalls !== 50 || searchResultLimit !== 50 || !mixedResourceTypes || kjv.sources.length !== 1 || !source?.completeBible || source.playlistId !== fullPlaylistId || source.videoIds.length !== 1189 || source.chapterCoverage !== 1189 || source.bookCoverage !== 66 || matthew?.seconds !== 45 || matthew.playlistIndex !== matthewPosition || nlt?.chapterCoverage !== 2 || nlt.videoIds[0] !== 'VIDEO000001' || genesis2?.seconds !== 80 || genesis2.playlistIndex !== 0) throw new Error('complete-Bible catalog fixture self-check failed');
   if (english.editions.find(edition => edition.id === 'NIV').sources.length || catalog.languages.ko.editions.some(edition => edition.sources.length)) throw new Error('edition isolation fixture self-check failed');
-  console.log('PASS: mixed-resource discovery keeps the complete 66-book/1,189-chapter playlist, indexes its video queue, reads chapter timestamps from a book-level channel upload, and rejects partial editions as complete');
+  const secret = 'fixture-secret-api-key';
+  for (const failingFetcher of [
+    async url => { throw new Error(`connection failed: ${url.href}`); },
+    async () => ({ ok: false, status: 403, text: async () => `invalid key ${secret}` }),
+  ]) {
+    let failure;
+    try { await api('videos', {}, secret, failingFetcher); } catch (error) { failure = error; }
+    if (!failure || failure.message.includes(secret)) throw new Error('API key error-redaction fixture self-check failed');
+  }
+  console.log('PASS: 50-query multilingual discovery, complete-Bible playlist queue, channel-upload verse timestamps, partial-edition rejection, and API-key error redaction');
 }
 
 const bookCatalogs = readBookCatalogs(await readFile('assets/bible-book-catalogs.js', 'utf8'));
