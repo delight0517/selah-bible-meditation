@@ -842,7 +842,9 @@
         "scripts/refresh-youtube-audio-catalog.mjs",
         "scripts/test-youtube-audio-catalog.mjs",
         "assets/youtube-audio-catalog",
-        "mobile/www/assets/youtube-audio-catalog"
+        "assets/youtube-audio-catalog/.gitkeep",
+        "mobile/www/assets/youtube-audio-catalog",
+        "mobile/www/assets/youtube-audio-catalog/.gitkeep"
       ],
       "platforms": {
         "web": {
