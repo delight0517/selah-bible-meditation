@@ -806,6 +806,7 @@
 - [x] 타임스탬프 장편 영상, 채널 업로드, mixed search 및 메시지 기반 큐를 fixture로 검증했다. YouTube API 검색은 50회/실행, 기타 endpoint는 9,500 quota units 이하로 제한한다.
 - [ ] 태평양 일일 quota reset 후 자동 갱신을 한 번 수행해 실제 판본·장 coverage를 읽는다. 여러 언어에서 5개 완전 역본을 찾을 때까지 검색·후보 품질을 조정한다; 현재는 0개 확인.
 - [x] Selah 전용 Google Cloud 프로젝트를 만들고 YouTube Data API v3만 허용한 키를 GitHub Actions의 `YOUTUBE_DATA_API_KEY` secret으로 저장했으며 이름 metadata readback을 확인했다. 키 문자열은 로그에 남기지 않는다.
+- [x] 주간 자동 갱신을 미국 태평양 자정 이후로 옮기고 동시 실행을 직렬화해 Search Queries 일일 한도를 앞당겨 소진하거나 중복 실행하지 않게 한다 (feature parity revision 29).
 - [ ] 첫 실제 API 갱신은 일부 후보만 찾아 완전 역본 0개였다. 상위 50개 혼합 영상·재생목록 결과와 공개 채널 업로드의 장/절 타임스탬프 발견으로 개선했다. 같은 날 추가 검색은 HTTP 429 `Search Queries per day`였으므로 태평양 기준 일일 reset 뒤 한 번 갱신한다.
 - [ ] 생성 카탈로그 원격 게시, 웹 배포와 실제 재생·본문 이동은 기존 GitHub workflow OAuth 권한 Resume 및 quota reset 후 확인한다.
 

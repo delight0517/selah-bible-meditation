@@ -2,7 +2,10 @@ name: Refresh YouTube Bible audio catalog
 on:
   workflow_dispatch:
   schedule:
-    - cron: '23 3 * * 1'
+    - cron: '23 9 * * 1'
+concurrency:
+  group: selah-youtube-bible-audio-catalog
+  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
