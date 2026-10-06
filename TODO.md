@@ -743,11 +743,13 @@
 
 ## 2026-10-06 · 검색 유입과 첫 묵상 저장 병목 재확인
 - [x] 공개 페이지 루트·묵상 가이드·필리핀어·브라질 포르투갈어 HTTP 200 및 실제 HTML title/description/H1을 읽었다. HTML 응답은 Google이 표시한 snippet이나 모바일 시각 검증과 다르다.
-- [x] 10월 1–6 UTC 공개 요약에서 96 page-view events / 약식 익명 브라우저 55개를 읽었다. 국가 귀속 coverage는 10/5–6만 완전했고 두 날짜 KR만 보였다. 7일 window는 coverage false이며 검증된 사람 수는 아니다.
+- [x] 10월 1–6 UTC 달력월 요약은 96 page-view events / 약식 익명 브라우저 55개였다. 7일 rolling 요약(9/30–10/6)은 258 page-view events / 약식 익명 브라우저 245개였으며 국가 page-view 이벤트 KR 242 / US 15 / LU 1이다. 일별 국가 고유 coverage는 10/5–6만 완전하고 두 날 모두 KR; 7일 활성 coverage는 false다. 이 수치는 사람 수가 아니다.
 - [x] 최근 30일 실험 집계: 한국어 `global-funnel-v1` 노출 17 / CTA 6 / 읽기 시작 10 / 30초 9 / 120초 7 / 묵상 저장 0 / 가입 0; 한국 홈 카피 A/B 노출 19/17, CTA 5/5, 읽기 시작 5/5, 묵상 저장·가입 0/0. 표본이 작고 이벤트 분모가 달라 승자·전환율을 만들지 않았다.
 - [x] 현지 경쟁 제품 페이지를 조사해 Tagalog와 브라질에서 무료 성경·오디오·플랜·메모가 이미 널리 제시되는 범주임을 기록했다. 기능 수나 성경 제공만을 Selah 차별점으로 홍보하지 않는다.
 - [x] 기존 Search Console URL-prefix 속성에서 Selah 경로의 2026-09-04–10-03 정착 검색 결과를 확인했다: 노출/클릭 0, 페이지/검색어 행 0. 사이트맵은 GSC에 `Couldn't fetch`로 보인다.
 - [x] Googlebot User-Agent로 공개 사이트맵과 robots.txt를 확인했다: XML HTTP 200, 파싱 통과, 16개 URL 모두 HTTP 200, robots.txt가 같은 사이트맵을 선언한다.
-- [ ] 정상 응답하는 기존 Selah 사이트맵을 Search Console에 한 번 재제출한 뒤, 이력과 상태를 확인한다. 재제출 job `348f23f4-564d-40e9-bc7b-6e02b61f2423`의 terminal readback 대기 중; 중복 요청하지 않는다.
+- [x] 2026-10-06 기존 URL-prefix 속성에서 Selah 사이트맵 재제출을 한 번 수행했고 Search Console이 접수를 확인했다. 접수 후에도 상태 `Couldn't fetch`, 상세 표기 `Sitemap could not be read`, 발견 페이지 0이다. 재제출 전 공개 Googlebot 요청은 XML HTTP 200·유효한 16 URL이었으므로 이 응답만으로 Search Console 수신 성공을 주장하지 않는다.
+- [x] Antigravity 읽기 전용 상세 조회 `d4d151e5-cc68-4de8-b4c1-8360625d3b80`는 `agent_timeout`으로 종료됐다. 추가 HTTP 상태나 원인은 얻지 못했으며, 제출 성공이나 sitemap 처리 성공으로 해석하지 않는다.
+- [ ] 공개 XML·robots 응답은 정상인데 Search Console 상세 오류는 확인되지 않았다. 같은 제출을 반복하지 않고 crawler 상태를 관찰한다. 구체 원인이 계속 필요하면 GSC Wizard 등 실제 연결된 검색 도구의 관리 정책을 확인해야 한다.
 - [ ] 비개인 공개 배포 채널을 확인해 국가·언어별 실제 링크 유입을 만들고, referral → 읽기 지속 → 첫 기록을 같은 기간의 익명 집계로 대조한다. 개인 Instagram `vivid_wave`는 제외한다.
 - [ ] 현재 copy 실험을 50:50으로 유지한다. Search Console settled data와 유효 노출 및 첫 기록 표본이 늘기 전에 지역/UI/썸네일 승자를 고르거나 유료 집행하지 않는다. 이번 확인에서 검증된 가입/활성 사용자는 0명.
