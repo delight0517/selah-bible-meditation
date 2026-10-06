@@ -1274,6 +1274,62 @@
         }
       },
       "workItem": "selah-reader-display-controls-20261006"
+    },
+    {
+      "id": "SELAH-WEB-FULLSCREEN-REENTRY",
+      "revision": 1,
+      "title": "웹 성경 읽기 전체 화면 재진입",
+      "acceptance": [
+        "성경 읽기와 집중 읽기 화면에서 브라우저 전체 화면 전환 버튼을 사용할 수 있다.",
+        "브라우저가 Escape 등으로 전체 화면을 종료하면 fullscreenchange 상태를 읽어 버튼 라벨이 다시 전체 화면 진입으로 바뀐다.",
+        "사용자가 버튼을 눌러야 전체 화면 진입을 요청하며 거부/미지원 브라우저에서는 읽기 집중 화면을 대체 경로로 제공한다.",
+        "생성된 iOS 공유 웹 번들은 같은 UI를 포함하고 플랫폼별 설치 동작은 별도로 확인한다."
+      ],
+      "paths": [
+        "index.html",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "contracts/feature-parity.json",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-reader-fullscreen-20261006",
+          "build": "1.0.13 / build 68",
+          "evidence": "Adds fullscreen controls in Scripture and focused-reading headers, request/exit on click and fullscreenchange label sync; live browser interaction remains pending."
+        },
+        "windows": {
+          "owner": "Windows platform contract",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Shared hosted web control is implemented; Windows runtime/package parity remains unverified."
+        },
+        "macos": {
+          "owner": "macOS platform contract",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Shared hosted web control is implemented; native packaging/runtime parity remains unverified."
+        },
+        "ios": {
+          "owner": "Selah iOS shared-web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated mobile/www bundle",
+          "build": "1.0.13 / build 68",
+          "evidence": "Shared source is generated into mobile/www; iOS Safari and installed-app runtime behavior remain unverified."
+        }
+      },
+      "workItem": "selah-reader-fullscreen-20261006"
     }
   ]
 }
