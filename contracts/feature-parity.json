@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 43,
+      "revision": 44,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -814,7 +814,8 @@
         "Coverage scanning supports both chapter-per-video playlists and one-audio-video-per-book playlists when the book title is unambiguous and its description contains timestamped chapter starts.",
         "Playlist title coverage means metadata/title coverage only; it does not claim the audio content itself was listened to or semantically verified.",
         "Verified chapter and verse cues retain playlist order and video IDs when saved and synced so playback can select the correct video and follow chapter/verse cues.",
-        "When playlist metadata is ambiguous or names multiple editions, include only playlist tracks whose own titles explicitly identify the requested edition; exclude conflicting tracks and return edition_mismatch if none qualify. An unambiguous playlist edition may supply edition evidence to otherwise unlabeled tracks, but an explicitly conflicting track is always excluded."
+        "When playlist metadata is ambiguous or names multiple editions, include only playlist tracks whose own titles explicitly identify the requested edition; exclude conflicting tracks and return edition_mismatch if none qualify. An unambiguous playlist edition may supply edition evidence to otherwise unlabeled tracks, but an explicitly conflicting track is always excluded.",
+        "If the Cloudflare workers.dev hostname is unavailable, the browser uses a Cloudflare Pages Function on pages.dev with a service binding to the existing audio Worker; the proxy forwards only the search, playlist-coverage, and catalog routes, and the Worker continues validating origins and rate limits."
       ],
       "paths": [
         "index.html",
@@ -844,16 +845,20 @@
         "assets/youtube-audio-catalog",
         "assets/youtube-audio-catalog/.gitkeep",
         "mobile/www/assets/youtube-audio-catalog",
-        "mobile/www/assets/youtube-audio-catalog/.gitkeep"
+        "mobile/www/assets/youtube-audio-catalog/.gitkeep",
+        "together-worker/pages-proxy/wrangler.toml",
+        "together-worker/pages-proxy/functions/youtube/[[path]].js",
+        "together-worker/pages-proxy/public/index.html",
+        "scripts/test-pages-audio-proxy.mjs"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
           "state": "implementing",
-          "source": "index.html + assets/youtube-audio-catalog/*.json + together-worker/src/youtube-search.js + together-worker/src/youtube-audio-catalog.js + Cloudflare Worker Cron + hosted YouTube player",
-          "build": "1.0.17 / build 84; daily rotating Worker catalog and chapter cue following",
-          "evidence": "Revision 43 implements a daily Cloudflare Cron locale rotation, compact Durable Object catalog snapshots, and dynamic Worker-first web loading. Synthetic discovery/storage/API contract tests pass. Live deployment, scheduled catalog result, and browser playback remain pending.",
-          "appliedRevision": 43
+          "source": "index.html + assets/youtube-audio-catalog/*.json + together-worker/src/youtube-search.js + together-worker/src/youtube-audio-catalog.js + Cloudflare Worker Cron + hosted YouTube player + Cloudflare Pages service-binding proxy",
+          "build": "1.0.17 / build 84; Worker Cron and pages.dev service-binding API route",
+          "evidence": "Cloudflare Pages production deployment 8737132e-efa0-40ff-b69f-bca7bb9129e0 on selah-youtube-api-gateway.pages.dev invokes the existing Worker through its Service Binding. Live catalog GET reached the Worker and returned catalog_not_found; Selah Origin received CORS headers, evil Origin received 403 origin_not_allowed, and invalid search input was rejected by the Worker. The current source branch and synchronized mobile bundle now target pages.dev; GitHub Pages publication, catalog refresh, and playback remain pending.",
+          "appliedRevision": 44
         },
         "windows": {
           "owner": "Selah hosted reader",
@@ -875,8 +880,8 @@
           "state": "implementing",
           "source": "generated mobile/www/index.html + hosted YouTube player",
           "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "Revision 43 is included in generated Capacitor source parity; native build/install and device playback remain pending.",
-          "appliedRevision": 43
+          "evidence": "Generated mobile/www bundle now targets the Pages service-binding API and platform source parity passes; native build/install and iPhone playback/follow remain unverified.",
+          "appliedRevision": 44
         }
       }
     },

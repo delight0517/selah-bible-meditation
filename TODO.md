@@ -9,7 +9,10 @@
 - [x] Google Cloud Monitoring에서 직전 24시간 YouTube search.list 성공 100회와 HTTP 429 3회를 확인했다. Worker 한도를 70회로 낮추고 상류 429를 받으면 Pacific 자정까지 검색을 막았다. Google 공식 오류 문서는 일일 quota 초과를 `403 quotaExceeded`로도 정의한다. Worker가 이 응답도 같은 방식으로 막고 일반 403은 차단 사유로 취급하지 않게 보강했다. 합성 계약 테스트는 두 경우를 구분해 통과했다.
 - [x] PR #287을 merge commit `e753692864bedb1fb3e7518faf037e78e550f800`으로 병합하고, quotaExceeded 처리 코드를 Worker version `330e4231-c5fa-4518-a681-b20af6ab3130`으로 배포했다. Cloudflare deployment list에서 100% 적용을 확인했고, 웹 origin OPTIONS preflight는 HTTP 204를 반환했다. 일일 한도 리셋 전에는 실제 YouTube 검색을 더 호출하지 않았다.
 - [ ] 일일 quota reset 이후 새 한도에서 쉬운성경 실제 후보를 확인한다. reset 전에는 YouTube API를 다시 호출하지 않는다.
-- [ ] 웹에서 후보 저장→YouTube 재생→절 시점 저장→본문 따라가기까지 확인한다. 실제 검색 결과에서 timing cue는 없었고, 실제 재생/follow 및 언어별 5+ 완전 오디오 역본은 아직 검증되지 않았다.
+- [x] 재확인 결과 Cloudflare가 권한 DNS 응답으로 `selah-together.imdisablebutgoddisable.workers.dev`와 계정 하위 도메인 모두에 NXDOMAIN을 반환했다. Wrangler에서도 Worker 배포는 100% 활성 상태지만 공개 요청은 DNS 단계에서 막혔다.
+- [x] `selah-youtube-api-gateway.pages.dev`에 Pages Function을 배포하고 기존 `selah-together` Worker에 내부 Service Binding을 연결했다. 공개 GET은 Worker까지 도달해 현재 카탈로그 없음(`catalog_not_found`)을 반환했고, Selah Origin CORS·OPTIONS preflight 통과, 타 Origin은 403, 잘못된 검색 입력은 Worker 400으로 확인했다. 배포 `8737132e-efa0-40ff-b69f-bca7bb9129e0`; 기존 API 키와 Durable Object는 Worker 안에 유지한다.
+- [ ] 새 `pages.dev` endpoint를 쓰는 Selah 웹 소스 변경을 PR에 병합하고 GitHub Pages 배포에서 검색·카탈로그 경로를 확인한다. Cron 실행 후 실제 오디오 목록, YouTube 재생, 본문 따라가기를 확인한다.
+- [ ] 웹에서 후보 저장→YouTube 재생→절 시점 저장→본문 따라가기까지 확인한다. 실제 재생/follow 및 언어별 5개 완전 오디오 역본은 아직 검증되지 않았다.
 
 ## 2026-10-06 · 미국 영어권 묵상 기록 진입 실험
 - [x] 공개 영어 검색 결과에서 “Bible journal에 무엇을 쓸까?”라는 초보자 질문을 확인했다. 최근 안내 페이지와 저널링 서비스가 이미 경쟁 중이다. 이는 검색 의도와 경쟁 콘텐츠의 증거이지 월 검색량이나 Selah 수요의 증거가 아니다.
