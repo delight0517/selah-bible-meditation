@@ -55,23 +55,38 @@ export async function searchYouTube(request, env, reserveQuota) {
   const bookIndex=BOOKS.indexOf(input.bookId),chapter=Number(input.chapter),bookName=clean(input.bookName,80);
   if(bookIndex<0 || !Number.isInteger(chapter) || chapter<1 || chapter>CHAPTERS[bookIndex] || !bookName) return Response.json({error:'invalid_passage'},{status:400});
   if(!env.YOUTUBE_DATA_API_KEY) return Response.json({error:'service_unavailable'},{status:503});
-  const editionTerms=editions.flatMap(([id,name])=>[`"${name}"`,id]).join('|');
-  const query=[editionTerms,bookName,chapter,input.locale==='ko'?'성경 오디오 낭독':input.locale.startsWith('zh')?'有声圣经':input.locale==='ja'?'聖書 音声朗読':'Bible audio reading'].join(' ');
-  const params=new URLSearchParams({part:'snippet',type:'video',videoEmbeddable:'true',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,snippet(title,description,channelTitle))'});
-  const quota=await reserveQuota?.();
-  if(quota) return quota;
-  const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
-  if(!response?.ok) return Response.json({error:'youtube_search_failed'},{status:502});
-  const data=await response.json().catch(()=>null);
-  const items=(data?.items||[]).filter(item=>/^[\w-]{11}$/.test(item?.id?.videoId||'')).map(item=>{
+  const phrase=input.locale==='ko'?'성경 오디오 낭독':input.locale.startsWith('zh')?'有声圣经':input.locale==='ja'?'聖書 音声朗読':'Bible audio reading';
+  const queryFor=selected=>[selected.flatMap(([id,name])=>[`"${name}"`,id]).join('|'),bookName,chapter,phrase].join(' ');
+  const requestSearch=async query=>{
+    const quota=await reserveQuota?.();if(quota)return{quota};
+    const params=new URLSearchParams({part:'snippet',type:'video',videoEmbeddable:'true',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,snippet(title,description,channelTitle))'});
+    const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
+    if(!response?.ok)return{error:true};
+    const data=await response.json().catch(()=>null);return{items:data?.items||[]};
+  };
+  const classify=(raw,selected)=>raw.filter(item=>/^[\w-]{11}$/.test(item?.id?.videoId||'')).map(item=>{
     const videoId=item.id.videoId,title=clean(item.snippet?.title,180),description=String(item.snippet?.description||"").slice(0,5000);
     const normalizedTitle=title.normalize('NFKC').toLocaleLowerCase(),normalizedBook=bookName.normalize('NFKC').toLocaleLowerCase();
     const chapterMatch=normalizedTitle.includes(normalizedBook) && new RegExp(`(?:chapter|chap(?:ter)?\\.?|ch\\.?|第)?\\s*${chapter}(?:章|장)?(?:$|[^\\p{L}\\p{N}])`,'iu').test(normalizedTitle.slice(normalizedTitle.indexOf(normalizedBook)+normalizedBook.length));
     const parsed=parseCues(description,bookName,input.bookId,chapter,videoId,chapterMatch),cueKind=parsed.cues.length?'verse':parsed.chapterSeconds!==null?'chapter':'none',verseCues=parsed.cues;
     if(cueKind==='chapter') verseCues.push({bookId:input.bookId,chapter,verse:1,seconds:parsed.chapterSeconds,videoId});
-    const channelTitle=clean(item.snippet?.channelTitle,100),matches=editions.map(([id,name],index)=>({id,name,index,score:editionScore(title,true,id,name)*2+editionScore(description,false,id,name)+editionScore(channelTitle,false,id,name)})).filter(match=>match.score>0).sort((a,b)=>b.score-a.score||a.index-b.index);
+    const channelTitle=clean(item.snippet?.channelTitle,100),matches=selected.map(([id,name],index)=>({id,name,index,score:editionScore(title,true,id,name)*2+editionScore(description,false,id,name)+editionScore(channelTitle,false,id,name)})).filter(match=>match.score>0).sort((a,b)=>b.score-a.score||a.index-b.index);
     return {videoId,title,channelTitle,url:`https://www.youtube.com/watch?v=${videoId}`,verseCues,chapterMatch,cueKind,editionId:matches[0]?.id||null};
   });
+  const first=await requestSearch(queryFor(editions));
+  if(first.quota)return first.quota;
+  if(first.error)return Response.json({error:'youtube_search_failed'},{status:502});
+  const items=classify(first.items,editions);
+  const missing=editions.filter(([id])=>items.filter(item=>item.editionId===id).length<5);
+  let fallbackLimited=false;
+  if(missing.length){
+    const fallback=await requestSearch(queryFor(missing));
+    if(fallback.quota)fallbackLimited=true;
+    else if(!fallback.error){
+      const missingIds=new Set(missing.map(([id])=>id));
+      for(const item of classify(fallback.items,editions))if(missingIds.has(item.editionId)&&!items.some(existing=>existing.videoId===item.videoId))items.push(item);
+    }
+  }
   const groups=editions.map(([id,name])=>({id,name,items:items.filter(item=>item.editionId===id).slice(0,5)}));
-  return Response.json({locale:input.locale,bookId:input.bookId,chapter,editions:groups},{headers:{'Cache-Control':'no-store'}});
+  return Response.json({locale:input.locale,bookId:input.bookId,chapter,editions:groups,...(fallbackLimited?{fallbackLimited:true}:{})},{headers:{'Cache-Control':'no-store'}});
 }
