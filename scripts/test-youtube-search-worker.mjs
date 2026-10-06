@@ -62,7 +62,14 @@ try {
   const compactData=await compact.json();assert.equal(compactData.editions.filter(group=>group.items.length).length,5);
   let localizedCalls=0;
   const localizedCases=[
-    {locale:'es',title:'RVR1960 Mateo capítulo 1',description:'00:00 Mateo 1:1 En el principio'},
+    {locale:'en',title:'KJV Matthew Chapter 1',description:'00:00 Matthew Chapter 1 Verse 1'},
+    {locale:'ko',title:'KRV 마태복음 1장',description:'00:00 마태복음 1장 1절'},
+    {locale:'ja',title:'JPN1965 マタイの福音書 第1章',description:'00:00 マタイの福音書 第1章 第1節'},
+    {locale:'zh-CN',title:'CUV-S 马太福音 第1章',description:'00:00 马太福音 第1章 第1节'},
+    {locale:'zh-TW',title:'CUV-T 馬太福音 第1章',description:'00:00 馬太福音 第1章 第1節'},
+    {locale:'fil',title:'AB1905 Mateo kabanata 1',description:'00:00 Mateo kabanata 1 talata 1'},
+    {locale:'es',title:'RVR1960 Mateo capítulo 1',description:'00:00 Mateo capítulo 1 versículo 1'},
+    {locale:'pt-BR',title:'ARC Mateus capítulo 1',description:'00:00 Mateus capítulo 1 versículo 1'},
     {locale:'ru',title:'SYN Матфея глава 1',description:'00:00 Матфея глава 1 стих 1'},
     {locale:'uk',title:'Огієнка Матвія розділ 1',description:'00:00 Матвія розділ 1 вірш 1'}
   ];
