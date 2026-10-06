@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 42,
+      "revision": 43,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -799,9 +799,9 @@
         "While a playlist plays, verse synchronization and manual cue marking use the current video's ID even when its URL also contains the playlist ID.",
         "Search runs on demand for the current book/chapter and all configured editions in one YouTube search.list call. A single second call targets editions with no classified candidate; one result per edition is sufficient to avoid an unnecessary fallback. Each call is independently quota-limited.",
         "Results are categorized by matching public metadata; the API key stays in a Cloudflare Worker secret, and requests are validated and rate limited.",
-        "On a weekly schedule after the Pacific quota reset, the worker searches all ten audio languages together by configured editions, verifies at most one playlist per edition, and writes compact locale catalog snapshots without human selection. Worker requests are paced below the existing rate limit, and rejected edition evidence is never made playable.",
+        "A Cloudflare Worker Cron runs once daily after the Pacific quota reset and refreshes one audio locale per run, rotating through all ten locales. It searches configured editions, checks up to five playlist candidates per edition, and writes compact snapshots to Durable Object storage without human selection.",
         "The web reader loads only its selected audio-language catalog automatically, keeps text and audio editions independent, and offers matching full or partial playlist results without requiring a fresh manual search. YouTube playback still starts only after a user presses the player control.",
-        "The reader rejects malformed or older-than-30-days catalog snapshots so a failed weekly refresh cannot leave stale automatic recommendations indefinitely.",
+        "The web reader fetches the current locale catalog from the Worker endpoint first and uses the checked-in static catalog as a network-failure fallback. It rejects malformed or older-than-30-days snapshots.",
         "A refreshed catalog is metadata evidence, not proof that the audio content was listened to or semantically matched. Five complete editions per language and observed web playback plus scripture following remain the completion threshold.",
         "On-demand search results remain short-lived in browser memory and are not used as catalog evidence. Results use the standard YouTube player with native user-started controls.",
         "Verse following uses only explicit timestamped verse references from a public video description. A clearly matching chapter title may provide only a chapter-start cue; otherwise no sync cue is claimed.",
@@ -837,10 +837,10 @@
         "scripts/check-youtube-player.mjs",
         "together-worker/src/youtube-search.js",
         "scripts/test-youtube-search-worker.mjs",
+        "together-worker/src/youtube-audio-catalog.js",
+        "scripts/test-youtube-audio-catalog-worker.mjs",
+        "together-worker/wrangler.toml",
         "together-worker/src/audio-book-names.json",
-        ".github/workflows/youtube-audio-catalog.yml",
-        "scripts/refresh-youtube-audio-catalog.mjs",
-        "scripts/test-youtube-audio-catalog.mjs",
         "assets/youtube-audio-catalog",
         "assets/youtube-audio-catalog/.gitkeep",
         "mobile/www/assets/youtube-audio-catalog",
@@ -850,17 +850,17 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implementing",
-          "source": "index.html + scripts/refresh-youtube-audio-catalog.mjs + assets/youtube-audio-catalog/*.json + together-worker/src/youtube-search.js + hosted YouTube player",
-          "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "Local revision 43 retries up to five candidates per edition and indexes timestamped chapters from book-length videos; synthetic chapter-per-video/book-per-video coverage checks pass. GitHub workflow scope, hosted Worker deployment, scheduled live catalog, and browser playback remain pending.",
-          "appliedRevision": 41
+          "source": "index.html + assets/youtube-audio-catalog/*.json + together-worker/src/youtube-search.js + together-worker/src/youtube-audio-catalog.js + Cloudflare Worker Cron + hosted YouTube player",
+          "build": "1.0.17 / build 84; daily rotating Worker catalog and chapter cue following",
+          "evidence": "Revision 43 implements a daily Cloudflare Cron locale rotation, compact Durable Object catalog snapshots, and dynamic Worker-first web loading. Synthetic discovery/storage/API contract tests pass. Live deployment, scheduled catalog result, and browser playback remain pending.",
+          "appliedRevision": 43
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "pending",
           "source": "shared hosted reader source",
           "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "The hosted reader loads weekly verified audio-language catalog results; Windows shell/runtime adoption remains pending.",
+          "evidence": "The hosted reader loads the daily Worker catalog with static fallback; Windows shell/runtime adoption remains pending.",
           "appliedRevision": 39
         },
         "macos": {
@@ -875,8 +875,8 @@
           "state": "implementing",
           "source": "generated mobile/www/index.html + hosted YouTube player",
           "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "Revision 42 is included in generated Capacitor source parity; native build/install and device playback remain pending.",
-          "appliedRevision": 41
+          "evidence": "Revision 43 is included in generated Capacitor source parity; native build/install and device playback remain pending.",
+          "appliedRevision": 43
         }
       }
     },

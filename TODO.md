@@ -863,3 +863,10 @@
 - [ ] PR #296 병합과 Pages build 84 배포 후 공개 카탈로그 로딩·웹 재생·본문 따라가기를 확인한다. iPhone build/install/runtime은 별도다.
 - [ ] 첫 자동 YouTube 검색은 일일 한도 재설정 뒤 실행한다. 10개 언어 각각 실제 완전 커버리지 역본 5개, 재생과 본문 따라가기를 확인할 때까지 목표는 미완료다.
 - [ ] 새 Worker 코드가 배포되면 66개 책별 영상 playlist를 재검증해 장별 timestamp cue가 실제 본문과 함께 움직이는지 확인한다. 현재 NIV 후보는 itemCount 66, Worker PARTIAL_COVERAGE 0/1,189, cue 0으로 아직 플레이 가능한 검증 결과가 아니다.
+
+### 2026-10-07 후속: 무인 Worker 카탈로그 갱신
+- [x] GitHub Actions의 workflow scope handoff를 기다리지 않고, 이미 설정된 Worker API 키로 Cloudflare Cron이 매일 언어 하나씩 순환 갱신하도록 경로를 바꿨다. 10개 언어 전체는 10일마다 순환하며, 각 언어의 다섯 역본에서 최대 다섯 재생목록 후보를 확인한다.
+- [x] 웹은 Worker의 최신 언어별 카탈로그를 먼저 요청하고, Worker에 결과가 없거나 통신이 실패하면 저장소 내 정적 카탈로그로 대체한다. 검색 API 키는 계속 Worker 안에만 둔다.
+- [x] 합성 discovery, 후보 재시도, Durable Object 저장/읽기, 같은 날 중복 방지, 언어 순환과 CORS 계약 테스트를 통과했다.
+- [ ] Worker 배포와 Cron trigger readback, 첫 일일 실행 및 실제 후보 커버리지를 확인한다. 언어별 다섯 개 완전 성경 역본 목표는 실데이터 확인 전 미완료다.
+- [ ] 웹 화면에서 YouTube 사용자 재생을 시작하고 실제 소리와 확인된 cue에 따른 본문 따라가기를 확인한다. Aside 브라우저 제어가 가능해지기 전까지 HTTP 배포 확인은 화면·소리 증거를 대신하지 않는다.
