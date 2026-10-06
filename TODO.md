@@ -770,3 +770,9 @@
 - [ ] 50 eligible exposure/28일 기준에 도달하기 전에는 한국 카피 A/B 승자를 고르지 않는다. 새 국가/지역은 지역 퍼널 증거와 그 시장의 구체적 검색 필요가 함께 확인될 때 우선한다. 검증된 신규 고유 활성 사용자 증가: 0명.
 
 - [x] 한국어 마태복음 1–28장 전체 YouTube 낭독을 추천 출처로 바로 재생할 수 있게 연결하고 낭독 판본을 구분 표기. 영상 절별 타임스탬프가 검증되지 않아 절 자동 추적은 주장하지 않음 (feature parity revision 17).
+
+## 2026-10-06 · Curated Matthew YouTube verse-follow setup
+- [x] Add an explicit localized action that saves or reuses the curated Matthew video as a separate user-owned source for the selected Bible translation, exposing the existing manual verse-cue controls without changing the curated source or claiming the editions match.
+- [x] Record source parity revision 18 and prepare shared iOS/web source as build 65.
+- [ ] Verify in a browser that this action saves only the selected-translation copy, exposes cue controls, and that confirmed cues drive verse following during playback.
+- [ ] Build/install build 65 and verify the same flow on iPhone. Build 64 playback remains unverified; existing iPhone Mirroring action is still required.
