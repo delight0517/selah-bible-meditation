@@ -107,7 +107,8 @@ export async function refreshNextAudioCatalog(env, {
   if (!claimResponse.ok) throw new Error(claim?.error || 'catalog_claim_failed');
   if (!claim?.claimed) return { refreshed: false, reason: 'already_claimed_today' };
 
-  const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota });
+  const coverageImpl = (request, _env, reserveQuotaForCoverage) => verifyScheduledPlaylistCoverage(request, env, reserveQuotaForCoverage, store);
+  const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota, coverageImpl });
   for (const edition of catalog.editions) {
     const saved = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/save-edition', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -122,6 +123,19 @@ export async function refreshNextAudioCatalog(env, {
   const result = await committed.json().catch(() => null);
   if (!committed.ok) throw new Error(result?.error || 'catalog_commit_failed');
   return { refreshed: true, locale: claim.locale, generatedAt: catalog.generatedAt, editionCount: catalog.editions.length };
+}
+
+export async function verifyScheduledPlaylistCoverage(request, env, reserveQuota, store = audioCatalogStub(env)) {
+  const quota = await reserveQuota?.();
+  if (quota) return quota;
+  const response = await store.fetch(new Request('https://room/internal/youtube-audio-coverage', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-youtube-data-api-key': env.YOUTUBE_DATA_API_KEY },
+    body: await request.text()
+  }));
+  const result = await response.clone().json().catch(() => null);
+  if (response.status === 429 && result?.error === 'youtube_quota_unavailable') await reserveQuota?.(true);
+  return response;
 }
 
 export class TogetherRoom {
@@ -160,6 +174,11 @@ export class TogetherRoom {
         counts[key]++;
         await this.ctx.storage.put('youtube-search-quota',{day,...counts,searchBlocked:blocked.search,coverageBlocked:blocked.coverage,count:counts.interactiveSearchCount+counts.scheduledSearchCount,blocked:blocked.search});
         return json({ok:true});
+      }
+      if(url.pathname==='/internal/youtube-audio-coverage' && request.method==='POST') {
+        const key=request.headers.get('x-youtube-data-api-key');
+        if(!key)return json({error:'service_unavailable'},503);
+        return verifyYouTubePlaylistCoverage(new Request('https://worker/youtube/playlist-coverage',{method:'POST',headers:{'Content-Type':'application/json'},body:await request.text()}),{YOUTUBE_DATA_API_KEY:key});
       }
       if(url.pathname==='/internal/youtube-audio-catalog/claim' && request.method==='POST') {
         const input=await request.json().catch(()=>null);

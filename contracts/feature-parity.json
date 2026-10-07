@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 45,
+      "revision": 46,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -817,7 +817,8 @@
         "When playlist metadata is ambiguous or names multiple editions, include only playlist tracks whose own titles explicitly identify the requested edition; exclude conflicting tracks and return edition_mismatch if none qualify. An unambiguous playlist edition may supply edition evidence to otherwise unlabeled tracks, but an explicitly conflicting track is always excluded.",
         "If the Cloudflare workers.dev hostname is unavailable, the browser uses a Cloudflare Pages Function on pages.dev with a service binding to the existing audio Worker; the proxy forwards only the search, playlist-coverage, and catalog routes, and the Worker continues validating origins and rate limits.",
         "일일 YouTube `search.list` 한도를 사용자 70회와 자동 Cron 30회로 분리해 자동 카탈로그 검색 몫을 보존한다.",
-        "재생목록 검증은 최대 49 비검색 단위/후보를 예약하고, 사용자 150개와 자동 Cron 30개로 제한해 기본 일일 10,000 비검색 단위 중 최소 1,180 단위 여유를 둔다."
+        "재생목록 검증은 최대 49 비검색 단위/후보를 예약하고, 사용자 150개와 자동 Cron 30개로 제한해 기본 일일 10,000 비검색 단위 중 최소 1,180 단위 여유를 둔다.",
+        "자동 Cron은 후보 재생목록 하나씩 Durable Object 별도 요청에서 검증해 무료 Workers 실행당 50개 외부 요청 제한을 넘지 않는다."
       ],
       "paths": [
         "index.html",
@@ -859,9 +860,9 @@
           "owner": "Selah web audio task",
           "state": "implementing",
           "source": "index.html + Worker search/coverage quota reservation + Cloudflare Cron + hosted YouTube player + Pages service-binding proxy",
-          "build": "Selah shared UI 1.0.17/build 85; Worker quota guard pending deployment",
-          "evidence": "Revision 45 bounds search.list to 70 interactive plus 30 scheduled calls and reserves the scheduled calls ahead of users. Playlist scans reserve at most 49 non-search quota units each; 150 interactive plus 30 scheduled scans cap worst-case use at 8,820 of the default 10,000-unit bucket. Search and catalog contract tests pass; deployment and live audio refresh remain pending.",
-          "appliedRevision": 44
+          "build": "Selah shared UI 1.0.17/build 85; Worker revision 45 deployed, revision 46 scan isolation pending",
+          "evidence": "Revision 46 adds a Durable Object request boundary for each scheduled playlist scan so no Cron invocation exceeds the Workers Free 50 external-subrequest limit. Search.list remains 70 interactive plus 30 scheduled calls; playlist scans reserve at most 49 non-search quota units each, with 150 interactive plus 30 scheduled scans capped at 8,820 of the default 10,000-unit bucket. Contract tests pass; this revision deployment and live catalog refresh remain pending.",
+          "appliedRevision": 45
         },
         "windows": {
           "owner": "Selah hosted reader",
