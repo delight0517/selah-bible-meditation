@@ -1291,7 +1291,7 @@
     },
     {
       "id": "SELAH-READER-DISPLAY-CONTROLS",
-      "revision": 2,
+      "revision": 3,
       "title": "성경 읽기 화면의 테마와 글꼴 설정",
       "acceptance": [
         "성경 본문 선택 영역에서 별도 설정 화면을 열지 않고 글꼴 선택기와 다크 모드 전환 버튼을 볼 수 있다.",
@@ -1299,7 +1299,8 @@
         "읽기 화면 글꼴 선택은 공통 UI 글꼴 스타일의 영향을 받지 않고 성경 본문에 적용되며 새로고침 후에도 유지된다.",
         "집중 읽기 화면에서도 테마를 전환할 수 있고 기존 A−/A+ 본문 크기 조절은 계속 동작한다.",
         "웹과 생성된 iOS 공유 웹 번들은 같은 컨트롤, 로컬라이즈된 라벨 및 저장 동작을 제공한다.",
-        "집중 읽기 화면의 글꼴 선택 카드와 글꼴 추가 동작이 표시되고 사용할 수 있다."
+        "집중 읽기 화면의 글꼴 선택 카드와 글꼴 추가 동작이 표시되고 사용할 수 있다.",
+        "320–760px 화면에서 책·장 선택, 글꼴·테마 설정, 글자 크기 조절이 각각 별도 Grid 행을 사용해 겹치지 않고, 390px 이하 집중 읽기에서도 설정과 글자 크기 조절을 분리한다."
       ],
       "paths": [
         "index.html",
@@ -1315,10 +1316,10 @@
         "web": {
           "owner": "Selah web maintainer",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-reader-controls-20261007",
-          "build": "1.0.17 / build 85",
-          "evidence": "Removed the global !important font override from Scripture text and font previews; removed the rule hiding reader font controls and focus font cards. Static UI contract passes; live web browser verification remains pending."
+          "appliedRevision": 3,
+          "source": "codex/selah-responsive-reader-fix-20261007",
+          "build": "web source branch; Pages deployment pending",
+          "evidence": "Narrow reader grid now gives display settings a full-width row and places zoom controls after it; no browser-rendered viewport proof or public deployment yet."
         },
         "windows": {
           "owner": "Windows platform contract",
@@ -1326,7 +1327,7 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Web-first behavior is being implemented in shared web source; separate Windows runtime/package parity has not been verified."
+          "evidence": "Shared hosted page source is corrected; deployment and Windows browser/runtime behavior remain unverified."
         },
         "macos": {
           "owner": "macOS platform contract",
@@ -1334,15 +1335,15 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Generated shared web source will be included; native packaging/runtime verification remains pending."
+          "evidence": "Shared hosted page source is corrected; deployment and macOS wrapper/browser behavior remain unverified."
         },
         "ios": {
           "owner": "Selah iOS shared-web maintainer",
           "state": "implemented",
-          "appliedRevision": 2,
+          "appliedRevision": 3,
           "source": "generated mobile/www bundle",
-          "build": "1.0.17 / build 85 shared source bundle",
-          "evidence": "Generated mobile/www contains the corrected shared source and matches its SHA-256 manifest. Installed iOS runtime verification remains pending."
+          "build": "1.0.18 / build 86 shared source bundle",
+          "evidence": "Generated mobile/www copied the revised narrow reader grid and its SHA-256 manifest passed source parity checks. Installed iOS runtime remains unverified."
         }
       },
       "workItem": "selah-reader-display-controls-20261006"
