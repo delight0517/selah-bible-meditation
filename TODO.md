@@ -21,13 +21,20 @@
 - [x] 회귀 검사에서 영어·한국어 모두 run당 10회 상한, 한국어 추가 슬롯 회전, 3개 예약과 10개 언어 순환을 확인한다. `search.list` 일일 한도와 coverage quota는 늘리지 않는다.
 - [x] 기능 parity revision 53, PR #309 필수 CI를 확인해 merge commit `a2a8710bbdce742f7b37258240ce86d0d1324520`으로 병합했다. Cloudflare Worker version `7dce34b9-9403-4729-9cf4-8473b0f600e5`가 100% 적용됐고 Cron `20 0`, `20 8`, `20 16` UTC를 읽어 확인했다.
 - [x] 배포 직후 공개 카탈로그 GET은 HTTP 404 `catalog_not_found`였다. 이는 다음 Cron 전 빈 상태로 확인됐으며, 아직 자동 수집 성공 증거는 아니다.
-- [ ] 실제 10개 언어 카탈로그에서 완전판 5개씩, 공개 웹 YouTube 재생과 본문 따라가기를 확인한다. 실제 화면 검증은 Aside에 대한 Terminal 접근성 권한 허용 후 Resume가 필요하다.
+- [x] PR #313 merge `0319917b119f316e2b59d0987afd236411d6ebd6`와 Worker version `8b2f2421-1eae-4cc7-ab52-34e0c4d3a40e` 배포·100% 적용을 확인했다. 다음 Cron 전 공개 카탈로그 10개 locale은 모두 `catalog_not_found`였다.
+- [ ] 다음 Cron 뒤 10개 locale 카탈로그, 역본별 완료 커버리지와 절 cue를 GET으로 확인한다. 공개 웹 재생 및 본문 따라가기 화면 검증은 기존 Terminal 접근성 권한 알림 Resume 후 진행한다.
 
 ## 2026-10-07 · YouTube 카탈로그 검색·후보 순환
 - [x] locale별 YouTube broad search `nextPageToken`, fallback query별 별도 cursor, 역본별 후보 scan offset을 Durable Object에 저장하고 다음 예약 회차에서 재개한다. 커서는 30일 뒤 함께 만료시킨다.
 - [x] 새 결과가 기존 검증 결과보다 약하면 기존 역본의 playlist와 커버리지를 유지한다.
 - [x] 검색·카탈로그 회귀 테스트, `check-feature-parity`, `check-platform-source`, `git diff --check`를 통과했다.
-- [ ] PR 병합과 Worker 배포 뒤 다음 Cron의 실제 카탈로그 readback 및 웹 재생·본문 따라가기를 확인한다. 화면 QA는 기존 Aside 접근성 알림을 완료하고 Resume해야 한다.
+- [x] PR #313 병합과 Worker 배포를 확인했다. Cloudflare deployment readback에서 새 버전 100%와 예약 Cron `20 0`, `20 8`, `20 16` UTC를 확인했다.
+- [ ] 다음 Cron 카탈로그 readback은 아직 대기 중이며, 웹에서 실제 영상 재생과 본문 따라가기도 확인되지 않았다.
+
+## 2026-10-07 · 전체 성경의 명시적 절 타임스탬프 보존
+- [x] Worker가 요청한 검색 장 바깥의 playlist chapter descriptions에서 찾은 명시적 절 시점을 버리던 문제를 고쳤다. 절 cue가 없는 장은 기존 chapter-start cue를 유지하고, 시점을 새로 만들지 않는다.
+- [x] Worker 검색 회귀 검사에서 창세기 1장부터 요한계시록 22장까지 영상 설명에 존재하는 절 시점을 모두 보존하는지 확인한다.
+- [ ] 병합·Worker 재배포 후 공개 카탈로그의 절 cue를 readback하고 실제 화면 재생·본문 따라가기를 확인한다.
 
 ## 2026-10-06 · 미국 영어권 묵상 기록 진입 실험
 - [x] 공개 영어 검색 결과에서 “Bible journal에 무엇을 쓸까?”라는 초보자 질문을 확인했다. 최근 안내 페이지와 저널링 서비스가 이미 경쟁 중이다. 이는 검색 의도와 경쟁 콘텐츠의 증거이지 월 검색량이나 Selah 수요의 증거가 아니다.

@@ -232,7 +232,7 @@ try {
       const start=Number(url.searchParams.get('pageToken')||0),page=tracks.slice(start,start+50);
       return Response.json({items:page.map((track,index)=>({snippet:{title:track.title,position:start+index,resourceId:{videoId:track.videoId}}})),...(start+50<tracks.length?{nextPageToken:String(start+50)}:{})});
     }
-    if(url.pathname.endsWith('/videos'))return Response.json({items:url.searchParams.get('id').split(',').map(id=>({id,snippet:{description:'00:00 Verse 1\n00:20 Verse 2'}}))});
+    if(url.pathname.endsWith('/videos'))return Response.json({items:url.searchParams.get('id').split(',').map(id=>({id,snippet:{description:id==='v0000000000'?'00:20 Verse 2':'00:00 Verse 1\n00:20 Verse 2'}}))});
     throw Error(`Unexpected YouTube API path: ${url.pathname}`);
   };
   const coverage=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
@@ -243,9 +243,13 @@ try {
   assert.equal(coverageData.missingChapters.length,0);
   assert.equal(coverageData.videoIds.length,1189);
   assert.equal(coverageData.chapterSync,true,'chapter cues remain available across the complete playlist');
-  assert.ok(coverageData.verseCues.length>=1189&&coverageData.verseCues.length<1200,'all chapter starts plus only the selected chapter verse timestamps stay within cloud cue limits');
+  assert.equal(coverageData.verseCues.length,2378,'explicit verse timestamps from every covered chapter are retained');
   assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,929);
   assert.equal(coverageData.verseCues.find(cue=>cue.verse===2).seconds,20);
+  assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='GEN'&&cue.chapter===1&&cue.verse===2).playlistIndex,0,'verse cues from chapters outside the requested Matthew chapter remain available for playback');
+  assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='GEN'&&cue.chapter===1&&cue.verse===1).seconds,0,'a missing verse-one marker keeps the verified chapter-start cue before later verse markers');
+  assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='REV'&&cue.chapter===22&&cue.verse===2).playlistIndex,1188,'the final Bible chapter retains its verse cue');
+  assert.ok(JSON.stringify(coverageData).length<1_900_000,'all explicit test cues fit the existing Durable Object edition-value limit');
   assert.equal(verificationCalls,49,'full coverage uses 1 metadata call, 24 item pages and 24 50-video batches, below the 50 external-subrequest limit');
   globalThis.fetch=async raw=>{
     const url=new URL(String(raw));
