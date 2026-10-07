@@ -19,7 +19,8 @@
 - [x] 예약 Cron을 00:20·08:20·16:20 UTC, 하루 3회로 분리해 언어별 카탈로그 순환을 10일에서 약 4일로 단축한다. 세 번 모두 Pacific 일일 quota reset 뒤 실행된다.
 - [x] 기존 일일 검증 30회 안에서 각 locale run은 최대 10개 후보를 확인한다. 5개 역본 locale은 역본당 최대 2개, 한국어는 6개 역본에 10개 검증을 공평하게 배분하고 Durable Object cycle마다 남은 4개 슬롯을 회전한다.
 - [x] 회귀 검사에서 영어·한국어 모두 run당 10회 상한, 한국어 추가 슬롯 회전, 3개 예약과 10개 언어 순환을 확인한다. `search.list` 일일 한도와 coverage quota는 늘리지 않는다.
-- [ ] 기능 parity revision 53과 PR #309 필수 CI를 확인해 병합하고 Worker 배포/Cron schedule readback을 검증한다.
+- [x] 기능 parity revision 53, PR #309 필수 CI를 확인해 merge commit `a2a8710bbdce742f7b37258240ce86d0d1324520`으로 병합했다. Cloudflare Worker version `7dce34b9-9403-4729-9cf4-8473b0f600e5`가 100% 적용됐고 Cron `20 0`, `20 8`, `20 16` UTC를 읽어 확인했다.
+- [x] 배포 직후 공개 카탈로그 GET은 HTTP 404 `catalog_not_found`였다. 이는 다음 Cron 전 빈 상태로 확인됐으며, 아직 자동 수집 성공 증거는 아니다.
 - [ ] 실제 10개 언어 카탈로그에서 완전판 5개씩, 공개 웹 YouTube 재생과 본문 따라가기를 확인한다. 실제 화면 검증은 Aside에 대한 Terminal 접근성 권한 허용 후 Resume가 필요하다.
 
 ## 2026-10-06 · 미국 영어권 묵상 기록 진입 실험
