@@ -16,7 +16,8 @@
 - [ ] 웹에서 후보 저장→YouTube 재생→절 시점 저장→본문 따라가기까지 확인한다. 실제 재생/follow 및 언어별 5개 완전 오디오 역본은 아직 검증되지 않았다.
 - [x] 본문 듣기 버튼을 실제로 눌렀을 때만 선택한 본문 cue로 YouTube autoplay=1을 요청하고 오른쪽 아래 미니 플레이어를 연다. 페이지 로드/일반 렌더링에서는 자동 재생하지 않고, 브라우저 차단 시 사용할 YouTube 표준 컨트롤은 계속 보인다. 실제 audible PLAYING 증거는 별도 대기 중이다.
 - [x] 미니 플레이어에 접근 가능한 닫기 버튼과 오른쪽 스와이프 닫기를 추가했다. 둘 다 임베드 재생을 중지하며, 숨긴 플레이어에서 오디오만 계속 재생하지 않는다.
-- [ ] Pages 배포 후 모바일 웹에서 본문 버튼→미니 플레이어→YouTube 재생→본문 따라가기와 스와이프 닫기를 확인한다. iPhone 런타임 및 Premium 공식 YouTube 앱 동작은 별도 검증이 필요하다.
+- [x] PR #330을 merge commit bca62c4로 병합하고 Pages run 37618455859 성공 및 최신 Pages commit을 확인했다. 공개 reader와 hosted player GET 200 응답에서 본문 버튼의 autoplay 요청, YouTube 기본 컨트롤, selected-passage cue 구문을 확인했다.
+- [ ] 새 공개 Selah 탭에서 본문 듣기 버튼을 실제로 눌러 autoplay, 오른쪽 아래 축소 크기, 본문 따라가기와 우측 스와이프 닫기를 검증한다. 브라우저가 autoplay를 막으면 YouTube ▶로 재생한다. 기존 Aside 재생 확인 알림은 그대로 사용하며 중복 알림을 보내지 않는다. iPhone 런타임과 YouTube Premium 공식 앱의 백그라운드 동작은 별도 검증이 필요하다.
 
 ## 2026-10-07 · 하루 3회 언어별 YouTube 오디오 카탈로그 회전
 - [x] 예약 Cron을 00:20·08:20·16:20 UTC, 하루 3회로 분리해 언어별 카탈로그 순환을 10일에서 약 4일로 단축한다. 세 번 모두 Pacific 일일 quota reset 뒤 실행된다.

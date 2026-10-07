@@ -2,7 +2,7 @@
 
 | 경로 | 기록일 | 삭제 예정일 | 제목 |
 |---|---|---|---|
-| TODO.md | 2026-10-07 | 2027-10-07 | Reader 글꼴 회귀 및 YouTube API 카탈로그 확인 |
+| TODO.md | 2026-10-07 | 2027-10-07 | Reader 글꼴 회귀·YouTube API·본문 오디오 재생 배포 확인 |
 | TODO.md | 2026-10-07 | 2027-10-07 | YouTube API quota guard and reserved Cron capacity |
 | TODO.md | 2026-10-07 | 2027-10-07 | Split Cron playlist scans into bounded Worker invocations |
 | TODO.md | 2026-10-07 | 2027-10-07 | YouTube 장 검색의 무관한 결과 숨김 |
