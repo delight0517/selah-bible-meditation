@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import assert from 'node:assert/strict';
 
+await import("./check-semantic-theme-contrast.mjs");
+
 // Exercise the generator in an isolated fixture, never mutate a working tree.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const fixture = await mkdtemp(resolve(tmpdir(), 'selah-bundle-'));
