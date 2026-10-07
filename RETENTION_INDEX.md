@@ -4,3 +4,4 @@
 |---|---|---|---|
 | TODO.md | 2026-10-07 | 2027-10-07 | Reader 글꼴 회귀 및 YouTube API 카탈로그 확인 |
 | TODO.md | 2026-10-07 | 2027-10-07 | YouTube API quota guard and reserved Cron capacity |
+| TODO.md | 2026-10-07 | 2027-10-07 | Split Cron playlist scans into bounded Worker invocations |

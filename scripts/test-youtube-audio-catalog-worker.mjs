@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import worker, { TogetherRoom, refreshNextAudioCatalog } from '../together-worker/src/index.js';
+import worker, { TogetherRoom, refreshNextAudioCatalog, verifyScheduledPlaylistCoverage } from '../together-worker/src/index.js';
 import { audioLanguageList, editionList } from '../together-worker/src/youtube-search.js';
 import { discoverAudioCatalogLocale } from '../together-worker/src/youtube-audio-catalog.js';
 
@@ -51,16 +51,64 @@ const rooms = {
   idFromName: name => name,
   get: () => ({ fetch: request => room.fetch(request) })
 };
-const env = { ROOMS: rooms };
+const env = { ROOMS: rooms, YOUTUBE_DATA_API_KEY: 'test-only-key' };
+const coverageBody = { locale: 'en', editionId: 'KJV', playlistId: playlist(9), bookId: 'MAT', chapter: 1 };
+const scheduledCoverageReservations = [];
+const coverageDispatch = await verifyScheduledPlaylistCoverage(
+  new Request('https://worker/youtube/playlist-coverage', { method: 'POST', body: JSON.stringify(coverageBody) }),
+  { YOUTUBE_DATA_API_KEY: 'test-only-key' },
+  async exhausted => { scheduledCoverageReservations.push(!!exhausted); return null; },
+  { fetch: async request => {
+    assert.equal(new URL(request.url).pathname, '/internal/youtube-audio-coverage');
+    assert.equal(request.headers.get('x-youtube-data-api-key'), 'test-only-key');
+    assert.deepEqual(await request.json(), coverageBody);
+    return Response.json({ status: 'PARTIAL_COVERAGE' });
+  } }
+);
+assert.equal(coverageDispatch.status, 200);
+assert.deepEqual(scheduledCoverageReservations, [false], 'scheduled coverage reserves quota before dispatching one isolated scan');
+const upstreamQuotaReservations = [];
+await verifyScheduledPlaylistCoverage(
+  new Request('https://worker/youtube/playlist-coverage', { method: 'POST', body: JSON.stringify(coverageBody) }),
+  { YOUTUBE_DATA_API_KEY: 'test-only-key' },
+  async exhausted => { upstreamQuotaReservations.push(!!exhausted); return null; },
+  { fetch: async () => Response.json({ error: 'youtube_quota_unavailable' }, { status: 429 }) }
+);
+assert.deepEqual(upstreamQuotaReservations, [false, true], 'provider quota errors block later scheduled coverage calls');
+const originalFetch = globalThis.fetch;
+globalThis.fetch = async request => {
+  const url = new URL(String(request));
+  assert.equal(url.searchParams.get('key'), 'test-only-key', 'the internal API key reaches YouTube only from the Durable Object scan');
+  if (url.pathname.endsWith('/playlists')) return Response.json({ items: [{ id: coverageBody.playlistId, snippet: { title: 'King James Version Audio Bible', channelTitle: 'Test' }, contentDetails: { itemCount: 1 } }] });
+  if (url.pathname.endsWith('/playlistItems')) return Response.json({ items: [{ snippet: { title: 'King James Version Matthew chapter 1', position: 0, resourceId: { videoId: 'abcdefghijk' } } }] });
+  if (url.pathname.endsWith('/videos')) return Response.json({ items: [{ id: 'abcdefghijk', snippet: { description: '00:10 Matthew 1' } }] });
+  throw Error(`unexpected YouTube endpoint:${url.pathname}`);
+};
+try {
+  const isolatedScan = await room.fetch(new Request('https://room/internal/youtube-audio-coverage', {
+    method: 'POST', headers: { 'x-youtube-data-api-key': 'test-only-key' }, body: JSON.stringify(coverageBody)
+  }));
+  assert.equal(isolatedScan.status, 200, 'playlist scan executes through its isolated Durable Object route');
+  const isolatedData = await isolatedScan.json();
+  assert.equal(isolatedData.status, 'PARTIAL_COVERAGE');
+  assert.equal(isolatedData.coveredChapters, 1);
+  assert.equal(isolatedData.verseCues[0].seconds, 10);
+} finally {
+  globalThis.fetch = originalFetch;
+}
+assert.equal((await room.fetch(new Request('https://room/internal/youtube-audio-coverage', { method: 'POST', body: JSON.stringify(coverageBody) }))).status, 503, 'isolated scan rejects missing internal API key');
 const firstTime = Date.parse('2026-10-07T08:20:00Z');
 let refreshCount = 0;
 const refresh = (scheduledTime, localeResult) => refreshNextAudioCatalog(env, {
   scheduledTime,
-  discover: async ({ locale, reserveQuota, reserveCoverageQuota }) => {
+  discover: async ({ locale, reserveQuota, reserveCoverageQuota, coverageImpl }) => {
     refreshCount++;
     assert.equal(locale, localeResult);
     assert.equal(await reserveQuota(), null,'scheduled searches use their reserved daily bucket');
-    assert.equal(await reserveCoverageQuota(), null,'scheduled playlist scans use their reserved daily bucket');
+    const scheduledReservations = [];
+    const isolatedCoverage = await coverageImpl(new Request('https://worker/youtube/playlist-coverage', { method: 'POST', body: JSON.stringify({ ...coverageBody, playlistId: 'bad' }) }), env, async exhausted => { scheduledReservations.push(!!exhausted); return null; });
+    assert.equal(isolatedCoverage.status, 400, 'catalog refresh sends each candidate scan to the Durable Object request boundary');
+    assert.deepEqual(scheduledReservations, [false], 'scheduled playlist scans reserve quota before dispatch');
     return { ...discovered, locale, editions: editionList(locale).map((edition, index) => ({ ...edition, status: 'PARTIAL_COVERAGE', coveredChapters: index + 1 })) };
   }
 });
