@@ -354,6 +354,21 @@ try {
   assert.equal(rangedBookData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===14).seconds,13*60,'chapter starts use timestamps from the matching video description');
   globalThis.fetch=async raw=>{
     const url=new URL(String(raw));
+    if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'NIV Audio Bible',description:'',channelTitle:'NIV'},contentDetails:{itemCount:2}}]});
+    if(url.pathname.endsWith('/playlistItems'))return Response.json({items:[
+      {snippet:{title:'Genesis Chapter 1 Audio NIV',position:0,resourceId:{videoId:'reptvideo01'}}},
+      {snippet:{title:'Genesis Chapter 50 Audio NIV',position:1,resourceId:{videoId:'reptvideo01'}}},
+    ]});
+    if(url.pathname.endsWith('/videos'))return Response.json({items:[{id:'reptvideo01',snippet:{description:'00:00 Genesis Chapter 1\n00:00 Genesis Chapter 50'}}]});
+    throw Error(`Unexpected YouTube API path: ${url.pathname}`);
+  };
+  const repeatedVideoCoverage=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'NIV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const repeatedVideoData=await repeatedVideoCoverage.json();
+  assert.equal(repeatedVideoData.coveredChapters,1,'a repeated video without chapter timestamps cannot claim a second chapter at the same zero-second offset');
+  assert.ok(repeatedVideoData.missingChapters.some(ref=>ref.bookId==='GEN'&&ref.chapter===50),'the unaligned repeated chapter remains explicitly missing');
+  assert.equal(repeatedVideoData.verseCues.filter(cue=>cue.videoId==='reptvideo01'&&cue.seconds===0).length,1,'only one inferred zero-second start is emitted per video');
+  globalThis.fetch=async raw=>{
+    const url=new URL(String(raw));
     if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'새번역 오디오 성경',description:'',channelTitle:'새번역'},contentDetails:{itemCount:1}}]});
     if(url.pathname.endsWith('/playlistItems'))return Response.json({items:[{snippet:{title:'새번역 마태복음서 1장~28장 오디오 성경',position:0,resourceId:{videoId:'kobookvid01'}}}]});
     if(url.pathname.endsWith('/videos'))return Response.json({items:[{id:'kobookvid01',snippet:{description:Array.from({length:28},(_,index)=>`${String(index).padStart(2,'0')}:00 ${index+1}장`).join('\n')}}]});
