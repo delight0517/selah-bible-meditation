@@ -34,7 +34,8 @@
 ## 2026-10-07 · 언어별 카탈로그 일일 갱신
 - [x] 같은 하루 30개 playlist 검증 및 scheduled search 30회 한도 안에서 매 Cron에 4개 locale을 갱신하도록 배분한다. 실행당 검증 후보는 3·3·2·2개, 최대 8회 search.list(광역+역본 fallback)로 제한한다.
 - [x] Durable Object가 run sequence를 중복·순서 검증해 재전송에서 이미 끝난 locale을 다시 게시하지 않게 한다.
-- [ ] 회귀 테스트, 플랫폼 소스·기능 parity 검사를 통과시키고 PR/Worker 배포 후 세 번의 Cron이 10개 locale을 매일 최소 1회 갱신하는지 공개 카탈로그로 읽어 확인한다.
+- [x] Worker 회귀·검색·Pages proxy·catalog client 검사와 platform source/parity 검사를 통과했다. PR #316이 commit `c0044bd`로 병합됐고 Worker version `825d743c-c217-471d-a433-ba521653bb61`가 100% 적용됐다. Cron `20 0`, `20 8`, `20 16` UTC와 기존 YouTube secret을 읽어 확인했다.
+- [ ] 다음 Cron 뒤 공개 GET으로 10개 locale 카탈로그와 역본 커버리지·절 cue를 읽어, 매일 전체 언어가 갱신되는지 확인한다. 배포 전에 조회한 10개 카탈로그는 모두 HTTP 404 `catalog_not_found`였다.
 - [ ] 각 언어의 5개 이상 완전 오디오 역본과 브라우저에서 YouTube 재생→검증된 타임스탬프→본문 따라가기를 확인한다. 기존 macOS Accessibility 사용자 조치 전까지 Aside 화면 QA는 보류한다.
 
 ## 2026-10-07 · 전체 성경의 명시적 절 타임스탬프 보존
