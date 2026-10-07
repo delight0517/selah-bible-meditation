@@ -335,6 +335,27 @@ try {
   assert.equal(bookCoverageData.coveredChapters,1189);
   assert.equal(bookCoverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,39);
   assert.equal(bookCoverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===2).seconds,30);
+  globalThis.fetch=async raw=>{
+    const url=new URL(String(raw));
+    if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'NIV Audio Bible',description:'',channelTitle:'NIV'},contentDetails:{itemCount:1}}]});
+    if(url.pathname.endsWith('/playlistItems'))return Response.json({items:[{snippet:{title:'NIV Matthew 1-28 Audio Bible',position:0,resourceId:{videoId:'rangvideo01'}}}]});
+    if(url.pathname.endsWith('/videos'))return Response.json({items:[{id:'rangvideo01',snippet:{description:Array.from({length:28},(_,index)=>`${String(index).padStart(2,'0')}:00 Chapter ${index+1}`).join('\n')}}]});
+    throw Error(`Unexpected YouTube API path: ${url.pathname}`);
+  };
+  const rangedBookCoverage=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'NIV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const rangedBookData=await rangedBookCoverage.json();
+  assert.equal(rangedBookData.coveredChapters,28,'a video titled for Matthew 1-28 can align all chapter timestamps in its description');
+  assert.equal(rangedBookData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===14).seconds,13*60,'chapter starts use timestamps from the matching video description');
+  globalThis.fetch=async raw=>{
+    const url=new URL(String(raw));
+    if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'새번역 오디오 성경',description:'',channelTitle:'새번역'},contentDetails:{itemCount:1}}]});
+    if(url.pathname.endsWith('/playlistItems'))return Response.json({items:[{snippet:{title:'새번역 마태복음서 1장~28장 오디오 성경',position:0,resourceId:{videoId:'kobookvid01'}}}]});
+    if(url.pathname.endsWith('/videos'))return Response.json({items:[{id:'kobookvid01',snippet:{description:Array.from({length:28},(_,index)=>`${String(index).padStart(2,'0')}:00 ${index+1}장`).join('\n')}}]});
+    throw Error(`Unexpected YouTube API path: ${url.pathname}`);
+  };
+  const koreanRangedBook=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'ko',editionId:'KSB',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const koreanRangedData=await koreanRangedBook.json();
+  assert.equal(koreanRangedData.coveredChapters,28,'Korean 새번역 video title ranges also parse every description chapter start');
   globalThis.fetch=async raw=>new URL(String(raw)).pathname.endsWith('/playlists')?Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'NIV Audio Bible',description:'',channelTitle:'NIV'},contentDetails:{itemCount:0}}]}):Response.json({items:[]});
   const mismatched=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
   assert.equal(mismatched.status,422,'a playlist labeled as another translation cannot count for the requested edition');
