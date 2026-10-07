@@ -777,7 +777,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 54,
+      "revision": 55,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -816,6 +816,7 @@
         "A refreshed catalog is metadata evidence, not proof that the audio content was listened to or semantically matched. Five complete editions per language and observed web playback plus scripture following remain the completion threshold.",
         "On-demand search results remain short-lived in browser memory and are not used as catalog evidence. Results use the standard YouTube player with native user-started controls.",
         "Verse following uses only explicit timestamped verse references from a public video description. A clearly matching chapter title may provide only a chapter-start cue; otherwise no sync cue is claimed.",
+        "Playlist verification retains explicit verse timestamps from matched chapters, not only the requested search passage, up to the existing 5,000-cue storage cap. Chapters without explicit verse markers keep their chapter-start cue; missing timestamps are never invented.",
         "A user may explicitly save a generated search result under the selected Bible text edition while retaining the audio edition label. This exposes the existing localized verse-timestamp control when a public video description lacks cues; no missing timestamp is invented.",
         "The selected Bible text edition remains independent from the audio edition. Current passage follows only the selected video’s verified cue points; any missing timing remains unsynchronized.",
         "Goal completion requires evidence of five distinct, complete audio editions per language and observed playback plus scripture following in the web reader; the names shown in the search selector alone do not satisfy this threshold.",

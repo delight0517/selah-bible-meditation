@@ -153,7 +153,7 @@ export async function verifyYouTubePlaylistCoverage(request, env, reserveQuota) 
       const cue={...chapterRef,verse:1,seconds:parsed.chapterSeconds??0,videoId,playlistIndex};
       covered.add(key);chapterCues.push(cue);
       explicitVerseCueCount+=parsed.cues.length;
-      const cues=ref.bookId===currentBookId&&ref.chapter===currentChapter&&parsed.cues.length?parsed.cues:[cue];
+      const cues=parsed.cues.some(value=>value.verse===1)?parsed.cues:[cue,...parsed.cues];
       for(const value of cues)verseCues.push({...value,playlistIndex});
     }
   }
