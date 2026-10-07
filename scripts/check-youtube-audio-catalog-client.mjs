@@ -7,6 +7,8 @@ for (const label of ['닫고 재생 중지', 'Close and stop playback', '閉じ�
   assert.ok(html.includes(`dismiss:"${label}"`), `audio dismissal is localized: ${label}`);
 }
 assert.ok(html.includes('playingBibleAudio=source.id;setBibleAudioMinimized(true);renderBibleAudioSetup({autoplayRequested:true})}'), 'the reading-page audio control opens the visible lower-right mini player and explicitly requests YouTube playback');
+assert.ok(html.includes('playingBibleAudio=sourceId;setBibleAudioMinimized(true);renderBibleAudioSetup()}'), 'playing a saved source starts in the compact player instead of expanding a large video in the reading setup');
+assert.ok(html.includes('playingBibleAudio=record.id;setBibleAudioMinimized(true);renderBibleAudioSetup();'), 'saving a YouTube source also keeps its initial player compact');
 assert.ok(html.includes('function renderBibleAudioSetup({autoplayRequested=false}={})'), 'autoplay stays opt-in and is disabled for page-load and ordinary rerenders');
 assert.ok(html.includes('if(autoplayRequested)hostUrl.searchParams.set("autoplay","1")'), 'the hosted player receives autoplay only for an explicit reader play request');
 assert.ok(html.includes('if(autoplayRequested)params.set("autoplay","1")'), 'direct YouTube embeds receive autoplay only for an explicit reader play request');

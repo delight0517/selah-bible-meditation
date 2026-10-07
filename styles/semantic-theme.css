@@ -1,6 +1,6 @@
 /* Theme colors are assigned by semantic role, not by individual glyph. */
 :root { color-scheme: light; }
-:root[data-theme="dark"] { color-scheme: dark; --ink:#eef2ed; --muted:#bdc6bb; --paper:#111612; --card:#1b231d; --green:#a9c5a7; --line:#39443c; --gold:#e5c477; --soft:#29362d; }
+:root[data-theme="dark"] { color-scheme: dark; --ink:#d9ded8; --muted:#aeb8ad; --paper:#141815; --card:#1d2420; --green:#91aa91; --line:#39443c; --gold:#cbb77e; --soft:#28312b; }
 body, .meditation { color: var(--ink-on-paper, var(--ink)); }
 label, .experience-form legend { color: var(--muted-on-paper, var(--muted)); }
 :is(.card, .fold, .saved, .dialog, .experience-entry, .promo-dialog, .reader-settings[open], #highlightSaveDialog) { color: var(--ink-on-card, var(--ink)); }
@@ -57,6 +57,37 @@ label, .experience-form legend { color: var(--muted-on-paper, var(--muted)); }
 :root .verse-card .reader-zoom-controls button:not(#readerZoomToggle) { color: var(--text-on-accent, var(--on-accent)) !important; }
 :root .verse-card :is(.reader-theme-toggle, .reader-fullscreen-toggle) { color: var(--ink-on-soft, var(--ink)) !important; }
 :root .verse-card .reader-zoom-controls #readerZoomToggle { background: var(--soft) !important; border-color: var(--line) !important; }
+/* Keep the reader from turning into a large, bright accent swatch in dark mode. */
+:root[data-theme="dark"] .verse-card {
+  background: var(--card) !important;
+  color: var(--ink) !important;
+}
+:root[data-theme="dark"] .verse-card :is(.verse, .reference, .bible-verse-num, .eyebrow) {
+  color: var(--ink) !important;
+}
+:root[data-theme="dark"] .verse-card :is(.bible-audio-disclosure > summary, .audio-link, .bible-library > summary, .bible-library label, .bible-library .note, .reader-display-controls label, .reader-zoom-controls output) {
+  color: var(--muted) !important;
+}
+:root[data-theme="dark"] .verse-card :is(.reader-focus-toggle, .reader-zoom-controls button, .reader-theme-toggle, .reader-fullscreen-toggle) {
+  background: var(--soft) !important;
+  border-color: var(--line) !important;
+  color: var(--ink) !important;
+}
+:root[data-theme="dark"] .verse-card .reader-display-controls select {
+  background: var(--soft) !important;
+  border-color: var(--line) !important;
+  color: var(--ink) !important;
+}
+/* Keep a playing YouTube video secondary to the Scripture reading surface. */
+:root #bibleAudioPlayer:not(.is-minimized) #bibleAudioPlayerVideo iframe {
+  width: min(100%, 360px) !important;
+  max-width: 360px;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9;
+  margin: 10px auto 0;
+}
 :root body.mobile-reading-focus .verse-card { background: var(--paper) !important; color: var(--ink-on-paper, var(--ink)) !important; }
 :root body.mobile-reading-focus .verse-card .verse { color: var(--ink-on-paper, var(--ink)) !important; }
 :root body.mobile-reading-focus .verse-card :is(.reference, .bible-verse-num, .eyebrow) { color: var(--ink-on-paper, var(--ink)) !important; }
