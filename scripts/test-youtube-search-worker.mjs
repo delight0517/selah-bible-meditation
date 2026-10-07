@@ -53,6 +53,14 @@ try {
   assert.equal(captured.options.headers['x-goog-api-key'],'never-return-this-key');
   assert.equal(captured.url.includes('never-return-this-key'),false);
   assert.equal(JSON.stringify(data).includes('never-return-this-key'),false);
+  let playlistOnlyUrls=[];
+  globalThis.fetch=async url=>{playlistOnlyUrls.push(String(url));return Response.json({items:[{id:{playlistId:'PL12345678901234567890'},snippet:{title:'KJV Matthew complete audio Bible playlist',description:'',channelTitle:'KJV Audio'}}]})};
+  const playlistOnly=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},undefined,{playlistOnly:true});
+  const playlistOnlyData=await playlistOnly.json();
+  assert.equal(playlistOnlyUrls.length,2,'playlist discovery makes one focused fallback for editions missing a playlist');
+  assert.equal(playlistOnlyUrls.every(url=>new URL(url).searchParams.get('type')==='playlist'),true,'the scheduled search and fallback stay playlist-only');
+  assert.equal(new URL(playlistOnlyUrls[0]).searchParams.get('q').endsWith(' playlist'),true,'playlist-only discovery adds a playlist search term');
+  assert.equal(playlistOnlyData.editions.find(group=>group.id==='KJV').items[0].mediaType,'playlist');
   for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) {
     globalThis.fetch=async()=>Response.json({items:editionList(locale).map((edition,index)=>({id:{videoId:`id${locale}${index}`.replace(/[^\w-]/g,'').slice(0,11).padEnd(11,'x')},snippet:{title:`${edition.name} Matthew 1 audio`,description:'',channelTitle:'Test'}}))});
     const localized=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale,bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
