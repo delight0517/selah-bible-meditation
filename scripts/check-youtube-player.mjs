@@ -32,6 +32,7 @@ function loadPlayer(query) {
 
 const playlist = loadPlayer('?playlist=PLfixture&index=7&token=t&parentOrigin=https%3A%2F%2Fselah.example');
 assert.equal(JSON.stringify(playlist.calls), JSON.stringify([['cuePlaylist', { listType: 'playlist', list: 'PLfixture', index: 7, startSeconds: 0 }]]));
+assert.equal(Object.hasOwn(playlist.playerOptions, 'videoId'), false, 'playlist initialization omits an undefined videoId');
 assert.equal(playlist.playerOptions.playerVars.autoplay, 0);
 assert.equal(playlist.messages.at(-1).data.type, 'ready');
 const video = loadPlayer('?video=abcdefghijk&token=t&parentOrigin=https%3A%2F%2Fselah.example');

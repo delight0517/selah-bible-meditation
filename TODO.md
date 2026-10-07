@@ -30,7 +30,9 @@
 - [x] 플레이어 직접 영상·시작 시각 회귀검사와 KSB 다중 장 cue 회귀검사를 추가한다.
 - [x] 같은 영상·시각의 cue가 겹칠 때 본문 따라가기는 가장 이른 정경 위치를 선택하고 이후 시각에서는 해당 절로 이동한다.
 - [x] PR #323을 merge commit `c0546cbc1971c507e3a67f9097e1fd6496630802`으로 병합했다. Pages workflow `37600826545` 성공과 Worker version `f2573a59-587b-41f4-ac03-c68857d3f32f` 배포를 확인했다. 공개 KSB 검사 API는 78장 부분 커버리지, JHN 1:1 0초를 반환했고 JHN 21은 0초 cue로 반환되지 않았다.
+- [x] YouTube playlist player는 단일 video가 없는 경우 `videoId: undefined`를 넘기지 않도록 수정했다. Aside 로컬 페이지에서 KSB playlist/index 42의 YouTube iframe 생성과 track 제목을 확인했고, hosted-player 회귀 검사 통과 및 `mobile/www` 원본 동기화를 확인했다.
 - [ ] 예약 카탈로그 publication 뒤 GET 결과를 읽고, Aside에서 실제 재생 상태·본문 따라가기를 확인한다. 현재 공개 저장 카탈로그는 이전 generation이다.
+- [ ] YouTube 컨트롤을 눌러 `PLAYING` 상태와 실제 성경 절 따라가기를 확인한다. iframe 생성만으로 재생 완료를 주장하지 않는다.
 
 ## 2026-10-07 · YouTube 카탈로그 검색·후보 순환
 - [x] locale별 YouTube broad search `nextPageToken`, fallback query별 별도 cursor, 역본별 후보 scan offset을 Durable Object에 저장하고 다음 예약 회차에서 재개한다. 커서는 30일 뒤 함께 만료시킨다.
