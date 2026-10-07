@@ -1,8 +1,8 @@
 {
   "appId": "selah",
-  "version": "1.0.18",
-  "build": 86,
+  "version": "1.0.19",
+  "build": 87,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Weekly verified multilingual YouTube Bible audio catalog with Scripture following"
+  "description": "QR invitations for live shared Scripture reading"
 }

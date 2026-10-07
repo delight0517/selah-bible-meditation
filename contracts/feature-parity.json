@@ -286,8 +286,8 @@
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 7,
-      "title": "초대 URL 함께 읽기 및 계정별 기록·친구 별명",
+      "revision": 8,
+      "title": "QR 초대 및 계정별 기록·친구 별명 함께 읽기",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
         "상대 URL 입장 시 같은 번역본·책·장으로 열린다",
@@ -297,7 +297,9 @@
         "로그인한 참가자는 함께 읽은 본문·시작 시각·참여 인원을 본인 BlueCloud 기록에 저장한다",
         "방 ID 원문·계정 정보·묵상과 기도는 함께 읽기 Worker나 다른 참가자에게 전송하지 않는다",
         "각 계정에서 함께 읽은 기록의 친구 별명을 수정하고 여러 기기에서 동기화한다",
-        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다"
+        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다",
+        "함께 읽기 초대 화면에 QR을 생성해 보여주고, 휴대폰 카메라로 스캔하면 같은 읽기 방에 입장한다",
+        "QR은 브라우저 안에서 생성하며 초대 URL을 QR 외부 서비스에 전송하지 않는다"
       ],
       "paths": [
         "index.html",
@@ -314,25 +316,28 @@
         "scripts/test-unified-data.mjs",
         "scripts/test-together-reading.mjs",
         "assets/together-history.js",
-        "scripts/test-together-history.mjs"
+        "scripts/test-together-history.mjs",
+        "assets/qrcode-generator.js",
+        "THIRD_PARTY_NOTICES.md",
+        "SHARED_APP_BUILD.json"
       ],
       "platforms": {
         "web": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 8,
+          "source": "codex/selah-together-reading-qr-20261007",
+          "build": "shared UI 1.0.19/87",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained. QR invitation generated locally in the shared web client and copied to mobile/www; browser scan-to-join and native runtime remain unverified.",
           "workItem": "selah-live-together-20261003"
         },
         "windows": {
           "owner": "Windows together-reading task",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 8,
+          "source": "codex/selah-together-reading-qr-20261007",
+          "build": "shared UI 1.0.19/87",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained. QR invitation generated locally in the shared web client and copied to mobile/www; browser scan-to-join and native runtime remain unverified.",
           "workItem": "selah-live-together-20261003"
         },
         "macos": {
@@ -347,10 +352,10 @@
         "ios": {
           "owner": "Mac maintainer - request pending",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 8,
+          "source": "codex/selah-together-reading-qr-20261007",
+          "build": "shared UI 1.0.19/87",
+          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained. QR invitation generated locally in the shared web client and copied to mobile/www; browser scan-to-join and native runtime remain unverified.",
           "workItem": "selah-live-together-20261003"
         }
       }
