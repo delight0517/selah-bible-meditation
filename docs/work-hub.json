@@ -375,20 +375,22 @@
     },
     {
       "id": "selah-live-together-20261003",
-      "summary": "Live invite same passage peer positions and shared timer",
-      "owner": "windows",
-      "status": "waiting_external",
+      "summary": "QR invite to the existing live Scripture reading room",
+      "owner": "mac",
+      "status": "in_progress",
       "claimVersion": 2,
       "scopes": [
         "selah.features.live-together"
       ],
-      "branch": "codex/selah-together-promo-20261004",
+      "branch": "codex/selah-together-reading-qr-20261007",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
-      "threadId": "01a1020d-68fc-74c2-b27d-458e67a868fb",
-      "baseCommit": "fa751b7",
+      "threadId": "01a0f2d1-3975-7151-8fab-8df338f3c9ea",
+      "baseCommit": "2b4da8d1359a3ef1a8afffd651751bef0caf6ae9",
       "files": [
-        "home.html",
         "assets/together-reading.js",
+        "assets/together-reading.css",
+        "assets/qrcode-generator.js",
+        "THIRD_PARTY_NOTICES.md",
         "SHARED_APP_BUILD.json",
         "contracts/feature-parity.json",
         "mobile/www/",
@@ -398,9 +400,10 @@
         "Live server two-participant tests and Node mock tests pass; web UI validation pending",
         "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc",
         "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated.",
-        "PR #181 merged d5692245c17f8993a9359d13597015b3c3cffb7d; Pages public SHARED_APP_BUILD 1.0.10/32 and Korean home promo readback verified. Client integration and Worker tests pass; browser UI and Mac/iOS device evidence pending."
+        "PR #181 merged d5692245c17f8993a9359d13597015b3c3cffb7d; Pages public SHARED_APP_BUILD 1.0.10/32 and Korean home promo readback verified. Client integration and Worker tests pass; browser UI and Mac/iOS device evidence pending.",
+        "2026-10-07 Mac scope update: locally generated QR now uses the existing live room invitation URL; shared UI 1.0.19/build87 source change in progress; device/browser scan remains unverified."
       ],
-      "nextAction": "Browser and Mac/iOS device acceptance remain pending; docs/work-hub.json is released for independent tasks; source feature paths remain owned for follow-up fixes.",
+      "nextAction": "Review QR invitation source and mobile bundle checks; browser/native scan-to-join evidence remains pending.",
       "feedback": [
         {
           "from": "windows",

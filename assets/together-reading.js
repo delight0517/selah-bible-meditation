@@ -4,18 +4,27 @@
   const endpoint = 'https://selah-together.rogan2534.workers.dev';
   const $ = id => document.getElementById(id);
   const texts = {
-    ko: ['함께 읽기', '친구와 함께 동시에 성경 읽기 초대', '이 URL을 보내면 같은 말씀 페이지에서 함께 읽어요. 상대의 읽는 위치가 옅게 표시되고, 시간 묵상은 같은 종료 시각을 사용해요.', '링크 복사', '닫기', '함께 읽기 나가기', '상대 참여를 기다리는 중', '함께 읽는 중', '연결을 다시 확인하는 중…', '초대 링크를 만들지 못했어요. 연결을 확인하고 다시 눌러 주세요.', '링크를 가진 사람은 본문과 읽는 위치를 볼 수 있어요. 묵상·기도·계정 정보는 공유하지 않으며 방은 24시간 후 만료돼요.', '상대', '읽는 위치', '공유 시간이 끝났어요.', '초대 링크가 만료됐거나 방에 연결할 수 없어요.'],
-    en: ['Read together', 'Invite a friend to read Scripture together', 'Send this URL to open the same Scripture page. Faint markers show where others are reading. Timed meditation uses one shared end time.', 'Copy link', 'Close', 'Leave together reading', 'Waiting for someone to join', 'Reading together', 'Reconnecting…', 'Could not create a link. Check your connection and try again.', 'Anyone with this link can see the passage and reading positions. Notes, prayers and account details stay private. Rooms expire after 24 hours.', 'Reader', 'Reading position', 'The shared timer has ended.', 'This invitation expired or the room could not be reached.'],
-    ja: ['一緒に読む', '友だちとの共同朗読に招待', 'URLを送ると同じ聖書ページが開きます。相手の読んでいる位置を薄く表示し、時間黙想は終了時刻を共有します。', 'リンクをコピー', '閉じる', '共同朗読を退出', '参加を待っています', '一緒に読んでいます', '再接続中…', 'リンクを作成できません。接続を確認してください。', 'リンクを持つ人は聖書箇所と読書位置を確認できます。黙想・祈り・アカウント情報は共有しません。24時間で期限切れです。', '参加者', '読書位置', '共有時間が終了しました。', '招待が期限切れか、接続できません。'],
-    'zh-CN': ['一起阅读', '邀请朋友一起读圣经', '发送URL即可打开同一经文页面。淡色标记显示对方阅读的位置，定时默想使用相同结束时间。', '复制链接', '关闭', '退出一起阅读', '等待对方加入', '正在一起阅读', '重新连接中…', '无法创建链接，请检查网络。', '持有链接的人可以看到经文和阅读位置。默想、祷告和账户信息不会共享。房间24小时后到期。', '读者', '阅读位置', '共同计时已结束。', '邀请已过期或无法连接。'],
-    'zh-TW': ['一起閱讀', '邀請朋友一起讀聖經', '傳送URL即可開啟同一經文頁面。淡色標記顯示對方閱讀的位置，定時默想使用相同結束時間。', '複製連結', '關閉', '退出一起閱讀', '等待對方加入', '正在一起閱讀', '重新連線中…', '無法建立連結，請檢查網路。', '持有連結的人可以看到經文和閱讀位置。默想、禱告和帳戶資訊不會共享。房間24小時後到期。', '讀者', '閱讀位置', '共同計時已結束。', '邀請已到期或無法連線。']
+    ko: ['함께 읽기', '친구와 함께 동시에 성경 읽기 초대', '이 URL을 보내면 같은 말씀 페이지에서 함께 읽어요. 상대의 읽는 위치가 옅게 표시되고, 시간 묵상은 같은 종료 시각을 사용해요.', '링크 복사', '닫기', '함께 읽기 나가기', '상대 참여를 기다리는 중', '함께 읽는 중', '연결을 다시 확인하는 중…', '초대 링크를 만들지 못했어요. 연결을 확인하고 다시 눌러 주세요.', '링크를 가진 사람은 본문과 읽는 위치를 볼 수 있어요. 묵상·기도·계정 정보는 공유하지 않으며 방은 24시간 후 만료돼요.', '상대', '읽는 위치', '공유 시간이 끝났어요.', '초대 링크가 만료됐거나 방에 연결할 수 없어요.', "함께 읽기 QR 초대", "친구가 휴대폰 카메라로 QR을 찍으면 같은 성경 읽기 방에 들어와요.", "함께 읽기 초대 QR 코드", "QR을 만들지 못했어요. 아래 링크를 복사해 보내 주세요.", "카메라로 스캔해 참여"],
+    en: ['Read together', 'Invite a friend to read Scripture together', 'Send this URL to open the same Scripture page. Faint markers show where others are reading. Timed meditation uses one shared end time.', 'Copy link', 'Close', 'Leave together reading', 'Waiting for someone to join', 'Reading together', 'Reconnecting…', 'Could not create a link. Check your connection and try again.', 'Anyone with this link can see the passage and reading positions. Notes, prayers and account details stay private. Rooms expire after 24 hours.', 'Reader', 'Reading position', 'The shared timer has ended.', 'This invitation expired or the room could not be reached.', "Read together QR invite", "Your friend can scan this QR code with their phone camera to join the same Scripture room.", "Read together invitation QR code", "Could not generate the QR code. Copy and send the link below.", "Scan to join"],
+    ja: ['一緒に読む', '友だちとの共同朗読に招待', 'URLを送ると同じ聖書ページが開きます。相手の読んでいる位置を薄く表示し、時間黙想は終了時刻を共有します。', 'リンクをコピー', '閉じる', '共同朗読を退出', '参加を待っています', '一緒に読んでいます', '再接続中…', 'リンクを作成できません。接続を確認してください。', 'リンクを持つ人は聖書箇所と読書位置を確認できます。黙想・祈り・アカウント情報は共有しません。24時間で期限切れです。', '参加者', '読書位置', '共有時間が終了しました。', '招待が期限切れか、接続できません。', "一緒に読む QR 招待", "友だちはスマートフォンのカメラでQRを読み取り、同じ聖書ルームに参加できます。", "共同朗読の招待QRコード", "QRコードを作成できませんでした。下のリンクをコピーして送ってください。", "スキャンして参加"],
+    'zh-CN': ['一起阅读', '邀请朋友一起读圣经', '发送URL即可打开同一经文页面。淡色标记显示对方阅读的位置，定时默想使用相同结束时间。', '复制链接', '关闭', '退出一起阅读', '等待对方加入', '正在一起阅读', '重新连接中…', '无法创建链接，请检查网络。', '持有链接的人可以看到经文和阅读位置。默想、祷告和账户信息不会共享。房间24小时后到期。', '读者', '阅读位置', '共同计时已结束。', '邀请已过期或无法连接。', "一起阅读 QR 邀请", "朋友用手机相机扫描此二维码即可加入同一个圣经阅读房间。", "一起阅读邀请二维码", "无法生成二维码。请复制下方链接发送。", "扫码加入"],
+    'zh-TW': ['一起閱讀', '邀請朋友一起讀聖經', '傳送URL即可開啟同一經文頁面。淡色標記顯示對方閱讀的位置，定時默想使用相同結束時間。', '複製連結', '關閉', '退出一起閱讀', '等待對方加入', '正在一起閱讀', '重新連線中…', '無法建立連結，請檢查網路。', '持有連結的人可以看到經文和閱讀位置。默想、禱告和帳戶資訊不會共享。房間24小時後到期。', '讀者', '閱讀位置', '共同計時已結束。', '邀請已到期或無法連線。', "一起閱讀 QR 邀請", "朋友用手機相機掃描此 QR Code 即可加入同一個聖經閱讀房間。", "一起閱讀邀請 QR Code", "無法產生 QR Code。請複製下方連結傳送。", "掃描加入"]
   };
   const t = i => (texts[bridge.locale()] || texts.en)[i];
-  let session = null, snapshot = null, timerKey = '', passageKey = '', busy = false, poll = 0, offset = 0;
+  let session = null, snapshot = null, timerKey = '', passageKey = '', busy = false, poll = 0, offset = 0, qrLibraryPromise = null;
+  const togetherScriptUrl = document.currentScript?.src || location.href;
+  function loadQrLibrary() {
+    if (typeof window.qrcode === 'function') return Promise.resolve();
+    if (!qrLibraryPromise) qrLibraryPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script'); script.src = new URL('./qrcode-generator.js', togetherScriptUrl).href;
+      script.onload = resolve; script.onerror = () => { script.remove(); qrLibraryPromise = null; reject(Error('QR library unavailable')); }; document.head.append(script);
+    });
+    return qrLibraryPromise;
+  }
   const hex = bytes => [...crypto.getRandomValues(new Uint8Array(bytes))].map(n => n.toString(16).padStart(2, '0')).join('');
   const modal = document.createElement('div'); modal.className = 'modal'; modal.id = 'togetherInviteModal';
   modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true'); modal.setAttribute('aria-labelledby', 'togetherInviteTitle');
-  modal.innerHTML = '<div class="dialog together-invite-dialog"><h2 id="togetherInviteTitle"></h2><p id="togetherInviteHelp"></p><label for="togetherInviteUrl">URL</label><input id="togetherInviteUrl" readonly><p id="togetherInvitePrivacy" class="note"></p><p id="togetherInviteResult" role="status"></p><div class="dialog-actions"><button id="copyTogetherInvite" type="button" class="btn"></button><button id="closeTogetherInvite" type="button" class="btn secondary"></button></div></div>';
+  modal.innerHTML = '<div class="dialog together-invite-dialog"><h2 id="togetherInviteTitle"></h2><p id="togetherInviteHelp"></p><div class="together-invite-qr"><img id="togetherInviteQr" width="240" height="240" hidden><p id="togetherInviteQrLabel"></p></div><label for="togetherInviteUrl">URL</label><input id="togetherInviteUrl" readonly><p id="togetherInvitePrivacy" class="note"></p><p id="togetherInviteResult" role="status"></p><div class="dialog-actions"><button id="copyTogetherInvite" type="button" class="btn"></button><button id="closeTogetherInvite" type="button" class="btn secondary"></button></div></div>';
   document.body.append(modal);
   const bars = [];
   for (const readerId of ['verseText', 'meditationVerse']) {
@@ -43,10 +52,13 @@
     if(new URLSearchParams(location.search).get('selah_qa') === '1') url.searchParams.set('selah_qa','1');
     return url.href;
   }
-  function showInvite() {
+  async function showInvite() {
     if(!session) return;
-    $('togetherInviteTitle').textContent=t(1); $('togetherInviteHelp').textContent=t(2); $('togetherInvitePrivacy').textContent=t(10);
-    $('copyTogetherInvite').textContent=t(3); $('closeTogetherInvite').textContent=t(4); $('togetherInviteUrl').value=inviteUrl(); $('togetherInviteResult').textContent='';
+    const url=inviteUrl(), qrImage=$('togetherInviteQr');
+    $('togetherInviteTitle').textContent=t(15); $('togetherInviteHelp').textContent=t(16); $('togetherInviteQrLabel').textContent=t(19); $('togetherInvitePrivacy').textContent=t(10);
+    $('copyTogetherInvite').textContent=t(3); $('closeTogetherInvite').textContent=t(4); $('togetherInviteUrl').value=url; $('togetherInviteResult').textContent='';
+    try { await loadQrLibrary(); const qr=window.qrcode(0,'M'); qr.addData(url); qr.make(); qrImage.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(qr.createSvgTag({cellSize:5,margin:4,scalable:true})); qrImage.alt=t(17); qrImage.hidden=false; }
+    catch { qrImage.removeAttribute('src'); qrImage.hidden=true; $('togetherInviteResult').textContent=t(18); }
     modal.style.display='flex'; $('copyTogetherInvite').focus();
   }
   async function request(path, method='GET', data, host=false) {
