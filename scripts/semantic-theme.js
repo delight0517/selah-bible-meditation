@@ -16,8 +16,8 @@
     return (light + 0.05) / (dark + 0.05);
   };
   const bestBlackOrWhite = (background) => {
-    const dark = [0.125, 0.145, 0.122], light = [0.96, 0.973, 0.961];
-    return contrast(dark, background) >= contrast(light, background) ? "#20251f" : "#f5f8f5";
+    const dark = [0, 0, 0], light = [1, 1, 1];
+    return contrast(dark, background) >= contrast(light, background) ? "#000000" : "#ffffff";
   };
   const safeForeground = (preferred, background) => {
     const foreground = rgb(preferred);

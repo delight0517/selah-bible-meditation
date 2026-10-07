@@ -669,37 +669,47 @@
     },
     {
       "id": "SELAH-SEMANTIC-THEME-CONTRAST",
-      "revision": 4,
+      "revision": 8,
       "title": "공통 역할 기반 테마 색상과 최소 대비 보정",
       "acceptance": [
         "system/light/dark 설정에 맞게 root color-scheme과 브라우저 기본 컨트롤이 함께 바뀐다.",
         "본문·보조 글자·강조 글자를 종이·카드·부드러운 배경별로 계산하고, 선택한 색이 배경 대비 4.5:1 미만이면 읽을 수 있는 전경색을 사용한다.",
         "공통 화면 컴포넌트는 역할 토큰을 사용해 개별 글자 색 수정 없이 다크 모드 가독성을 유지한다.",
-        "성경 카드의 장·절 표시는 카드 표면/그라디언트 위에서 읽을 수 있고, 기본·보조 버튼과 출석 표시는 각 테마의 실제 표면 대비가 4.5:1 이상이다."
+        "성경 카드의 장·절 표시는 카드 표면에서 읽을 수 있고, 기본·보조 버튼과 출석 표시는 각 테마의 실제 표면 대비가 4.5:1 이상이다.",
+        "사용자 지정 단색 테마에서 선택한 전경색이 4.5:1 미만이면 모든 불투명 배경색에 대해 4.5:1 이상인 대체색을 선택하고, 회색조 전체와 대표 색상에서 회귀 검사를 통과한다.",
+        "성경 읽기 카드와 내부 오디오·번역본 안내 글자는 실제 표면에 계산된 전경색을 사용하고, 대비 검증과 맞지 않는 그라디언트는 사용하지 않는다.",
+        "성경 본문은 읽기 카드와 읽기 열 내부에 남도록 오디오 설정 섹션의 HTML 중첩이 균형을 이룬다.",
+        "데스크톱 성경 읽기 카드는 상단 읽기 도구와 같은 콘텐츠 열 너비를 쓰며 양쪽 여백이 정렬된다.",
+        "iPhone 폭에서는 본문 설정 컨트롤이 서로 겹치지 않고 같은 행에 정렬되며 화면에 보이는 라벨은 VoiceOver에서도 유지된다.",
+        "iOS 상태 막대 아래의 안전 영역은 문서를 스크롤해도 배경 표면으로 가려져 본문 글자가 상태 막대와 겹치지 않는다.",
+        "모바일 집중 읽기에서는 기본 오디오 재생·설정 링크를 숨기고 남은 뷰포트 높이를 성경 본문 스크롤 영역에 배정해 도구·오디오·본문이 겹치지 않는다."
       ],
       "paths": [
         "index.html",
         "scripts/semantic-theme.js",
+        "scripts/check-semantic-theme-contrast.mjs",
+        "styles/desktop-polish.css",
         "styles/semantic-theme.css",
+        ".github/workflows/shared-app.yml",
         "mobile/ios/App/App.xcodeproj/project.pbxproj",
         "mobile/www/"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web task",
-          "state": "implemented",
-          "appliedRevision": 4,
-          "source": "current task branch",
-          "build": "GitHub Pages shared source",
-          "evidence": "PR #226 merged as 602850a9fcbf050eadd614c5b0a108ca096f2080; Pages run 37228235251 succeeded. Dark-mode browser audit found under-contrast chapter labels, verse numbers, and secondary/primary controls; revision 4 binds these colors to their rendered surfaces."
+          "state": "pending",
+          "appliedRevision": 8,
+          "source": "codex/selah-theme-contrast-guard-20261007",
+          "build": "shared source; Pages deployment pending",
+          "evidence": "Revision 8 assigns the focus-reader flexible Grid track to Scripture and hides secondary audio links. Pages deployment and live-browser visual confirmation pending."
         },
         "windows": {
           "owner": "selah-windows-feature-runtime-20261003",
-          "state": "implemented",
-          "evidence": "Windows shares the deployed hosted reader and theme source; Pages source readback passed. Installed Windows shell rendering was not separately exercised. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
-          "appliedRevision": 4,
+          "state": "pending",
+          "evidence": "Windows consumes the shared hosted reader; revision 8 awaits Pages deployment and Windows shell rendering evidence.",
+          "appliedRevision": 8,
           "source": "current task branch shared hosted reader",
-          "build": "Selah shared UI 1.0.13/build 57"
+          "build": "shared hosted source; deployment pending"
         },
         "macos": {
           "owner": "selah-apple-feature-parity-20261003",
@@ -709,10 +719,10 @@
         "ios": {
           "owner": "Selah shared UI task",
           "state": "implemented",
-          "appliedRevision": 4,
-          "source": "current task branch mobile/www",
-          "build": "shared UI 1.0.13/build 57 source bundle",
-          "evidence": "Generated Capacitor web bundle copied and hash-checked against the shared source; dark-mode surface contrast rules are included. Installed iPhone runtime remains unverified."
+          "appliedRevision": 8,
+          "source": "codex/selah-theme-contrast-guard-20261007 mobile/www",
+          "build": "Selah shared UI 1.0.18/build 86; iOS 26.4 iPhone and iPad Simulators",
+          "evidence": "Capacitor web bundle synced, xcodebuild succeeded, installed and opened in iOS 26.4 Simulator. Fresh iPhone portrait/landscape and iPad portrait/landscape captures show no secondary-audio overlap; Scripture text occupies the flexible reader region. Physical iPhone, Pages deployment, and store release remain unverified."
         }
       }
     },
