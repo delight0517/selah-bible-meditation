@@ -71,6 +71,17 @@ function hasExplicitVerseRange(title, bookNames, locale, chapter) {
   });
 }
 
+function hasExplicitChapterRange(title, bookNames, locale, chapter) {
+  const text=foldLatinMarks(title).toLocaleLowerCase().replace(/[^\p{L}\p{N}:\p{Pd}~〜]+/gu,' ').trim(),words=CHAPTER_WORDS[locale]||CHAPTER_WORDS.en;
+  const range=new RegExp(`(?:^|\\s)(?:(?:${words})\\s*)?${chapter}\\s*(?:章|장)?\\s*[-–~〜]\\s*(?:(?:${words})\\s*)?\\d{1,3}\\s*(?:章|장)?(?=\\s|$)`,'u');
+  return bookNames.some(name=>{
+    const book=foldLatinMarks(name).toLocaleLowerCase().replace(/[^\p{L}\p{N}:\p{Pd}~〜]+/gu,' ').trim();if(!book)return false;
+    let start=text.indexOf(book);
+    while(start>=0){if(range.test(text.slice(start+book.length)))return true;start=text.indexOf(book,start+book.length)}
+    return false;
+  });
+}
+
 function playlistChapterRefs(title, locale) {
   const numbers=[...new Set(String(title||'').match(/\d{1,3}/g)||[])].map(Number),matches=[];
   for(const bookId of BOOKS){
@@ -224,7 +235,7 @@ export async function searchYouTube(request, env, reserveQuota, { playlistOnly =
   };
   const classify=(raw,selected)=>raw.filter(item=>/^[\w-]{11}$/.test(item?.id?.videoId||'')||/^[\w-]{10,128}$/.test(item?.id?.playlistId||'')).map(item=>{
     const videoId=item.id.videoId||null,playlistId=item.id.playlistId||null,assetId=videoId||playlistId,mediaType=playlistId?'playlist':'video',title=clean(item.snippet?.title,180),description=String(item.snippet?.description||"").slice(0,5000);
-    const chapterMatch=matchesChapterAfterBook(title,bookNames,input.locale,chapter),fullChapterMatch=chapterMatch&&!hasExplicitVerseRange(title,bookNames,input.locale,chapter);
+    const chapterMatch=matchesChapterAfterBook(title,bookNames,input.locale,chapter),fullChapterMatch=chapterMatch&&!hasExplicitVerseRange(title,bookNames,input.locale,chapter)&&!hasExplicitChapterRange(title,bookNames,input.locale,chapter);
     const parsed=videoId?parseCues(description,bookNames,input.locale,input.bookId,chapter,videoId,chapterMatch):{cues:[],chapterSeconds:null},cueKind=parsed.cues.length?'verse':parsed.chapterSeconds!==null?'chapter':'none',verseCues=parsed.cues;
     if(cueKind==='chapter') verseCues.push({bookId:input.bookId,chapter,verse:1,seconds:parsed.chapterSeconds,videoId});
     const channelTitle=clean(item.snippet?.channelTitle,100),matches=selected.map(([id,name],index)=>({id,name,index,score:editionScore(title,true,id,name)*2+editionScore(description,false,id,name)+editionScore(channelTitle,false,id,name)})).filter(match=>match.score>0).sort((a,b)=>b.score-a.score||a.index-b.index);

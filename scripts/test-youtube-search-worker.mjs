@@ -18,6 +18,7 @@ globalThis.fetch=async (url,options)=>{
   return Response.json({items:calls.length===1?[
     {id:{videoId:'abcdefghijk'},snippet:{title:'NIV Matthew Chapter 1 Audio Bible',description:'00:00 Verse 1\n00:17 Verse 2',channelTitle:'Audio channel'}},
     {id:{videoId:'lmnopqrstuv'},snippet:{title:'KJV Matthew 1 reading',description:'00:05 Chapter 1',channelTitle:'Another channel'}},
+    {id:{videoId:'rangexyz123'},snippet:{title:'NIV Matthew 1-28 Audio Bible',description:'',channelTitle:'Audio channel'}},
     ...Array.from({length:4},(_,index)=>({id:{videoId:`niv0000000${index+1}`},snippet:{title:`NIV Matthew 1 audio ${index+1}`,description:'',channelTitle:'Audio channel'}})),
     ...Array.from({length:4},(_,index)=>({id:{videoId:`kjv0000000${index+1}`},snippet:{title:`KJV Matthew 1 audio ${index+1}`,description:'',channelTitle:'Another channel'}})),
     {id:{videoId:'xyzabcdefgh'},snippet:{title:'Best Bible reading',description:'00:00 Verse 1',channelTitle:'Unrelated title'}},
@@ -35,11 +36,12 @@ try {
   const niv=data.editions.find(item=>item.id==='NIV'),kjv=data.editions.find(item=>item.id==='KJV');
   assert.equal(calls.length,2,'one focused fallback search fills editions missing from the first result page');
   assert.equal(data.editions.every(group=>group.items.length>0),true,'initial and fallback results fill all five editions');
-  assert.equal(niv.items.length,5);
+  assert.equal(niv.items.length,6);
   assert.equal(kjv.items.length,5);
   assert.equal(data.editions.find(item=>item.id==='NKJV').items[0].title,'New King James Version Matthew 1 audio','specific edition name wins over the KJV substring');
   assert.equal(niv.items[0].verseCues[1].verse,2);
   assert.equal(niv.items[0].cueKind,'verse');
+  assert.equal(niv.items.find(item=>item.videoId==='rangexyz123').fullChapterMatch,false,'a video spanning Matthew 1-28 is not a precise Matthew chapter 1 fallback');
   assert.equal(kjv.items[0].verseCues[0].seconds,5,'explicit chapter timestamp provides a chapter-start cue');
   assert.equal(kjv.items[0].cueKind,'chapter');
   assert.equal(data.editions.every(group=>group.items.every(item=>item.videoId!=='xyzabcdefgh')),true,'unclassified video does not claim a translation');
