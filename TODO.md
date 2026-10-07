@@ -28,7 +28,9 @@
 - [x] Selah 웹이 생성 재생목록의 첫 영상 대신 현재 본문 cue에 검증된 videoId와 startSeconds를 전달하고, 사용자 재생 클릭 전에는 자동 재생하지 않는다.
 - [x] Worker가 `요한복음서 1장~21장`처럼 여러 장을 나열한 영상 제목에서 설명에 없는 후속 장 0초 cue를 만들지 않으며, 설명의 실제 타임스탬프는 보존하도록 수정한다.
 - [x] 플레이어 직접 영상·시작 시각 회귀검사와 KSB 다중 장 cue 회귀검사를 추가한다.
-- [ ] 카탈로그 재생성 후 공개 KSB cue가 JHN 1:1만 0초로, JHN 21은 명시적 영상 시각으로 표시되는지 다시 읽는다. 그다음 Aside 웹에서 재생 상태와 성경 본문 따라가기를 확인한다.
+- [x] 같은 영상·시각의 cue가 겹칠 때 본문 따라가기는 가장 이른 정경 위치를 선택하고 이후 시각에서는 해당 절로 이동한다.
+- [x] PR #323을 merge commit `c0546cbc1971c507e3a67f9097e1fd6496630802`으로 병합했다. Pages workflow `37600826545` 성공과 Worker version `f2573a59-587b-41f4-ac03-c68857d3f32f` 배포를 확인했다. 공개 KSB 검사 API는 78장 부분 커버리지, JHN 1:1 0초를 반환했고 JHN 21은 0초 cue로 반환되지 않았다.
+- [ ] 예약 카탈로그 publication 뒤 GET 결과를 읽고, Aside에서 실제 재생 상태·본문 따라가기를 확인한다. 현재 공개 저장 카탈로그는 이전 generation이다.
 
 ## 2026-10-07 · YouTube 카탈로그 검색·후보 순환
 - [x] locale별 YouTube broad search `nextPageToken`, fallback query별 별도 cursor, 역본별 후보 scan offset을 Durable Object에 저장하고 다음 예약 회차에서 재개한다. 커서는 30일 뒤 함께 만료시킨다.

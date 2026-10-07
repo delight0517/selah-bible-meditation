@@ -28,6 +28,18 @@ assert.equal(cueContext.canStart({ generated: false, mediaType: 'playlist' }, 'J
 assert.ok(html.includes('selectedVideoId=startCue?.videoId||(videoIds.length?videoIds[0]:"");if(selectedVideoId)hostUrl.searchParams.set("video",selectedVideoId)'), 'generated playback opens the exact video verified by the selected passage cue');
 assert.ok(html.includes('if(startCue?.seconds>0)hostUrl.searchParams.set("startSeconds",String(startCue.seconds))'), 'generated playback passes the cue timestamp to the hosted player');
 assert.ok(html.includes('startBibleAudioYouTubePlayer(iframe,playing.id)}'), 'generated playback does not replace the verified video with the full playlist queue');
+const followStart = html.indexOf('function latestBibleAudioCue(');
+const followEnd = html.indexOf('\nfunction syncBibleAudioVerse', followStart);
+assert.ok(followStart >= 0 && followEnd > followStart, 'audio follow cue selector exists');
+const followContext = {};
+vm.runInNewContext(`${html.slice(followStart, followEnd)}\nglobalThis.selectCue = latestBibleAudioCue;`, followContext);
+const sameTimeCues = [
+  { bookId: 'JHN', chapter: 21, verse: 1, seconds: 0, videoId: '4kVZKeuS90E', playlistIndex: 42 },
+  { bookId: 'JHN', chapter: 1, verse: 1, seconds: 0, videoId: '4kVZKeuS90E', playlistIndex: 42 },
+  { bookId: 'JHN', chapter: 1, verse: 2, seconds: 10, videoId: '4kVZKeuS90E', playlistIndex: 42 }
+];
+assert.equal(followContext.selectCue(sameTimeCues, '4kVZKeuS90E', 0).chapter, 1, 'when a stale later chapter shares time zero, Scripture following starts at the first chapter');
+assert.equal(followContext.selectCue(sameTimeCues, '4kVZKeuS90E', 10).verse, 2, 'a later timestamp still advances to its exact verse');
 const start = html.indexOf('const YOUTUBE_AUDIO_CATALOG_API=');
 const end = html.indexOf('\nfunction catalogBibleAudioSources', start);
 assert.ok(start >= 0 && end > start, 'catalog loader source exists');
