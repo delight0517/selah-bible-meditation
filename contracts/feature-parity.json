@@ -778,7 +778,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 56,
+      "revision": 57,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -842,7 +842,8 @@
         "Catalog refresh retries use only the read-only catalog endpoint and never repeat YouTube search or playlist scans.",
         "Each of the three daily scheduled runs refreshes four locales, splitting the existing ten playlist-candidate scans as 3, 3, 2, 2; all ten locales are refreshed at least once per day without raising either daily quota.",
         "Scheduled locale batch claims are sequence-checked and idempotent so a repeated Cron delivery cannot duplicate a completed locale publication.",
-        "Each locale saves all edition rows in one Durable Object request so the four-locale Cron batch remains within the 50-subrequest Worker limit."
+        "Each locale saves all edition rows in one Durable Object request so the four-locale Cron batch remains within the 50-subrequest Worker limit.",
+        "Passage search displays only videos with a confirmed selected-book/chapter match or exact timestamp cue, and only playlists whose verified coverage contains the selected passage and maps its cue to the corresponding playlist video ID; unmatched and unverified candidates do not count as editions found."
       ],
       "paths": [
         "index.html",
