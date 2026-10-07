@@ -778,7 +778,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 57,
+      "revision": 58,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -843,7 +843,8 @@
         "Each of the three daily scheduled runs refreshes four locales, splitting the existing ten playlist-candidate scans as 3, 3, 2, 2; all ten locales are refreshed at least once per day without raising either daily quota.",
         "Scheduled locale batch claims are sequence-checked and idempotent so a repeated Cron delivery cannot duplicate a completed locale publication.",
         "Each locale saves all edition rows in one Durable Object request so the four-locale Cron batch remains within the 50-subrequest Worker limit.",
-        "Passage search displays only videos with a confirmed selected-book/chapter match or exact timestamp cue, and only playlists whose verified coverage contains the selected passage and maps its cue to the corresponding playlist video ID; unmatched and unverified candidates do not count as editions found."
+        "Passage search displays only videos with a confirmed selected-book/chapter match or exact timestamp cue, and only playlists whose verified coverage contains the selected passage and maps its cue to the corresponding playlist video ID; unmatched and unverified candidates do not count as editions found.",
+        "A generated playlist can be selected as the current-passage default or played in Selah only when a verified chapter cue maps through playlistIndex to the same videoId; playlists without that passage cue remain external references and never start at an unrelated track."
       ],
       "paths": [
         "index.html",
@@ -886,33 +887,33 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "pending",
-          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
+          "source": "codex/selah-catalog-cue-playback-20261007",
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
-          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending. Revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Focused cue-mapping assertions pass; catalog coverage and live browser playback/follow remain incomplete.",
           "appliedRevision": 53
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "pending",
-          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
+          "source": "codex/selah-catalog-cue-playback-20261007",
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
-          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending. Revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Focused cue-mapping assertions pass; catalog coverage and live browser playback/follow remain incomplete.",
           "appliedRevision": 53
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending. Revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Focused cue-mapping assertions pass; catalog coverage and live browser playback/follow remain incomplete.",
           "appliedRevision": 53,
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
-          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation"
+          "source": "codex/selah-catalog-cue-playback-20261007"
         },
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "pending",
-          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
+          "source": "codex/selah-catalog-cue-playback-20261007",
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
-          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending. Revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Focused cue-mapping assertions pass; catalog coverage and live browser playback/follow remain incomplete.",
           "appliedRevision": 53
         }
       }
