@@ -143,17 +143,21 @@ export async function verifyYouTubePlaylistCoverage(request, env, reserveQuota) 
     if(!/^[\w-]{11}$/.test(videoId||'')||!descriptions.has(videoId))continue;
     videoIds.push(videoId);
     const playlistIndex=videoIds.length-1;
-    for(const ref of playlistChapterRefs(itemTitle,input.locale)){
+    const chapterRefs=playlistChapterRefs(itemTitle,input.locale);
+    for(let refIndex=0;refIndex<chapterRefs.length;refIndex++){
+      const ref=chapterRefs[refIndex];
       const key=`${ref.bookId}:${ref.chapter}`;
       if(covered.has(key))continue;
       const names=audioBookNames.locales[input.locale]?.books[ref.bookId]||[];
       const parsed=parseCues(descriptions.get(videoId),names,input.locale,ref.bookId,ref.chapter,videoId,true);
-      if(ref.wholeBook&&parsed.chapterSeconds===null)continue;
+      const chapterStartSeconds=parsed.chapterSeconds??parsed.cues.find(value=>value.verse===1)?.seconds??(refIndex===0&&!ref.wholeBook?0:null);
+      if(ref.wholeBook&&chapterStartSeconds===null)continue;
+      if(refIndex>0&&chapterStartSeconds===null&&!parsed.cues.length)continue;
       const {wholeBook,...chapterRef}=ref;
-      const cue={...chapterRef,verse:1,seconds:parsed.chapterSeconds??0,videoId,playlistIndex};
-      covered.add(key);chapterCues.push(cue);
+      const cue=chapterStartSeconds===null?null:{...chapterRef,verse:1,seconds:chapterStartSeconds,videoId,playlistIndex};
+      covered.add(key);if(cue)chapterCues.push(cue);
       explicitVerseCueCount+=parsed.cues.length;
-      const cues=parsed.cues.some(value=>value.verse===1)?parsed.cues:[cue,...parsed.cues];
+      const cues=cue&&!parsed.cues.some(value=>value.verse===1)?[cue,...parsed.cues]:parsed.cues;
       for(const value of cues)verseCues.push({...value,playlistIndex});
     }
   }

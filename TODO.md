@@ -24,6 +24,12 @@
 - [x] PR #313 merge `0319917b119f316e2b59d0987afd236411d6ebd6`와 Worker version `8b2f2421-1eae-4cc7-ab52-34e0c4d3a40e` 배포·100% 적용을 확인했다. 다음 Cron 전 공개 카탈로그 10개 locale은 모두 `catalog_not_found`였다.
 - [ ] 다음 Cron 뒤 10개 locale 카탈로그, 역본별 완료 커버리지와 절 cue를 GET으로 확인한다. 공개 웹 재생 및 본문 따라가기 화면 검증은 기존 Terminal 접근성 권한 알림 Resume 후 진행한다.
 
+## 2026-10-07 · 정확한 YouTube cue 재생과 다중 장 오분류 수정
+- [x] Selah 웹이 생성 재생목록의 첫 영상 대신 현재 본문 cue에 검증된 videoId와 startSeconds를 전달하고, 사용자 재생 클릭 전에는 자동 재생하지 않는다.
+- [x] Worker가 `요한복음서 1장~21장`처럼 여러 장을 나열한 영상 제목에서 설명에 없는 후속 장 0초 cue를 만들지 않으며, 설명의 실제 타임스탬프는 보존하도록 수정한다.
+- [x] 플레이어 직접 영상·시작 시각 회귀검사와 KSB 다중 장 cue 회귀검사를 추가한다.
+- [ ] 카탈로그 재생성 후 공개 KSB cue가 JHN 1:1만 0초로, JHN 21은 명시적 영상 시각으로 표시되는지 다시 읽는다. 그다음 Aside 웹에서 재생 상태와 성경 본문 따라가기를 확인한다.
+
 ## 2026-10-07 · YouTube 카탈로그 검색·후보 순환
 - [x] locale별 YouTube broad search `nextPageToken`, fallback query별 별도 cursor, 역본별 후보 scan offset을 Durable Object에 저장하고 다음 예약 회차에서 재개한다. 커서는 30일 뒤 함께 만료시킨다.
 - [x] 새 결과가 기존 검증 결과보다 약하면 기존 역본의 playlist와 커버리지를 유지한다.

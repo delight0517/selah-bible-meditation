@@ -25,6 +25,9 @@ assert.equal(cueContext.canStart({ ...verifiedPlaylist, videoIds: ['abcdefghijk'
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, playlistIndex: undefined }] }, 'JHN', 1), false, 'a cue without a verified playlist index cannot start');
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, chapter: 2 }] }, 'JHN', 1), false, 'a cue from another chapter cannot start');
 assert.equal(cueContext.canStart({ generated: false, mediaType: 'playlist' }, 'JHN', 1), true, 'manually added sources retain their existing playback behavior');
+assert.ok(html.includes('selectedVideoId=startCue?.videoId||(videoIds.length?videoIds[0]:"");if(selectedVideoId)hostUrl.searchParams.set("video",selectedVideoId)'), 'generated playback opens the exact video verified by the selected passage cue');
+assert.ok(html.includes('if(startCue?.seconds>0)hostUrl.searchParams.set("startSeconds",String(startCue.seconds))'), 'generated playback passes the cue timestamp to the hosted player');
+assert.ok(html.includes('startBibleAudioYouTubePlayer(iframe,playing.id)}'), 'generated playback does not replace the verified video with the full playlist queue');
 const start = html.indexOf('const YOUTUBE_AUDIO_CATALOG_API=');
 const end = html.indexOf('\nfunction catalogBibleAudioSources', start);
 assert.ok(start >= 0 && end > start, 'catalog loader source exists');

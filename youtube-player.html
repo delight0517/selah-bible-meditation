@@ -61,6 +61,7 @@
           events: {
             onReady: event => {
               if (playlistId && Number.isInteger(playlistIndex) && playlistIndex >= 0) event.target.cuePlaylist({ listType: "playlist", list: playlistId, index: playlistIndex, startSeconds: Number.isFinite(startSeconds) && startSeconds > 0 ? startSeconds : 0 });
+              else if (videoId && Number.isFinite(startSeconds) && startSeconds > 0) event.target.cueVideoById({ videoId, startSeconds });
               send("ready");
             },
             onStateChange: event => {
