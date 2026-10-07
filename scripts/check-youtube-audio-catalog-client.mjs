@@ -19,6 +19,7 @@ assert.ok(html.includes('if(dx<55||dx<Math.abs(dy)*1.35)return;event.preventDefa
 assert.ok(html.includes('id="readerAudioFocusPlay"') && html.includes('body.mobile-reading-focus .reader-audio-focus-play:not([hidden]){display:inline-flex;'), 'mobile focus reading exposes a compact play button when a passage source exists');
 assert.ok(html.includes('focusQuick.hidden=!primary;focusQuick.setAttribute("aria-label",focusAudioLabel);focusQuick.title=focusAudioLabel;'), 'focus play stays hidden without a passage source and receives localized accessible text');
 assert.ok(html.includes('readerAudioFocusPlay").addEventListener("click",()=>$("readerAudioPrimary").click())'), 'focus play routes through the existing reader autoplay handler');
+assert.ok(html.includes('source=selectBibleAudioPrimarySource(visibleBibleAudioSources(translationId),preferred,activeBibleBookId'), 'reader play chooses the same passage-compatible source as its displayed primary');
 const chapterCopyStart = html.indexOf('const bibleAudioChapterCopy=');
 const chapterCopyEnd = html.indexOf(';', chapterCopyStart);
 assert.ok(chapterCopyStart >= 0 && chapterCopyEnd > chapterCopyStart, 'chapter-follow copy exists');
@@ -32,7 +33,7 @@ const cueStart = html.indexOf('function youtubeAudioHasPassageCue(');
 const cueEnd = html.indexOf('\nfunction youtubeAudioItemMatchesPassage', cueStart);
 assert.ok(cueStart >= 0 && cueEnd > cueStart, 'shared playlist cue validator exists');
 const cueContext = {};
-vm.runInNewContext(`${html.slice(cueStart, cueEnd)}\nglobalThis.matches = youtubeAudioHasPassageCue; globalThis.canStart = youtubeAudioCanStartAtPassage;`, cueContext);
+vm.runInNewContext(`${html.slice(cueStart, cueEnd)}\nglobalThis.matches = youtubeAudioHasPassageCue; globalThis.canStart = youtubeAudioCanStartAtPassage; globalThis.selectPrimary = selectBibleAudioPrimarySource;`, cueContext);
 const passageCue = { bookId: 'JHN', chapter: 1, verse: 1, seconds: 0, videoId: '4kVZKeuS90E', playlistIndex: 42 };
 const verifiedPlaylist = { generated: true, mediaType: 'playlist', verseCues: [passageCue], videoIds: Array.from({ length: 43 }, (_, index) => index === 42 ? passageCue.videoId : 'abcdefghijk') };
 assert.equal(cueContext.matches(verifiedPlaylist, 'JHN', 1), true, 'a passage cue starts only when its playlist index maps to that exact video');
@@ -41,6 +42,10 @@ assert.equal(cueContext.canStart({ ...verifiedPlaylist, videoIds: ['abcdefghijk'
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, playlistIndex: undefined }] }, 'JHN', 1), false, 'a cue without a verified playlist index cannot start');
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, chapter: 2 }] }, 'JHN', 1), false, 'a cue from another chapter cannot start');
 assert.equal(cueContext.canStart({ generated: false, mediaType: 'playlist' }, 'JHN', 1), true, 'manually added sources retain their existing playback behavior');
+const unalignedKoreanPlaylist = { id: 'nkrv', generated: true, curated: true, mediaType: 'playlist', verseCues: [], videoIds: [] };
+const alignedKoreanPlaylist = { ...verifiedPlaylist, id: 'ksb', title: '새번역', bookId: 'MAT', verseCues: [{ ...passageCue, bookId: 'MAT' }] };
+assert.equal(cueContext.selectPrimary([unalignedKoreanPlaylist, alignedKoreanPlaylist], null, 'MAT', 1)?.id, 'ksb', 'reader playback skips an earlier generated edition with no matching verse cue');
+assert.equal(cueContext.selectPrimary([unalignedKoreanPlaylist, alignedKoreanPlaylist], 'nkrv', 'MAT', 1)?.id, 'ksb', 'an unavailable preferred cue falls back to the same eligible source shown in the reader');
 assert.ok(html.includes('selectedVideoId=startCue?.videoId||(videoIds.length?videoIds[0]:"");if(selectedVideoId)hostUrl.searchParams.set("video",selectedVideoId)'), 'generated playback opens the exact video verified by the selected passage cue');
 assert.ok(html.includes('if(startCue?.seconds>0)hostUrl.searchParams.set("startSeconds",String(startCue.seconds))'), 'generated playback passes the cue timestamp to the hosted player');
 assert.ok(html.includes('startBibleAudioYouTubePlayer(iframe,playing.id)}'), 'generated playback does not replace the verified video with the full playlist queue');
