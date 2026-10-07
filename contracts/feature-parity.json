@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 50,
+      "revision": 51,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -822,7 +822,9 @@
         "The shared search Worker recognizes both quotaExceeded and dailyLimitExceeded as exhausted daily search quota, returns HTTP 429, and logs only sanitized upstream status/reason codes for other provider errors.",
         "The YouTube search.list partial-response field selector uses valid nested syntax and requests both id.videoId and id.playlistId, so searches for videos and playlists return HTTP 200 rather than invalidParameter.",
         "Scheduled automatic catalog discovery requests type=playlist with a playlist-specific query, while interactive passage searches continue returning both videos and playlists; playlist-only fallback searches remain inside the existing scheduled search quota.",
-        "Chapter matching and playlist coverage preserve colon and dash punctuation so verse-range endpoints (for example Matthew 23:1-12) cannot be counted as separate chapter numbers or create false text-follow cues."
+        "Chapter matching and playlist coverage preserve colon and dash punctuation so verse-range endpoints (for example Matthew 23:1-12) cannot be counted as separate chapter numbers or create false text-follow cues.",
+        "If the reader is open before a scheduled catalog publication and the catalog request returns 404, it retries automatically near the next UTC catalog refresh and displays the new catalog without a page reload.",
+        "Catalog refresh retries use only the read-only catalog endpoint and never repeat YouTube search or playlist scans."
       ],
       "paths": [
         "index.html",
@@ -857,39 +859,41 @@
         "together-worker/pages-proxy/functions/youtube/[[path]].js",
         "together-worker/pages-proxy/public/index.html",
         "scripts/test-pages-audio-proxy.mjs",
-        "together-worker/src/index.js"
+        "together-worker/src/index.js",
+        "scripts/check-youtube-audio-catalog-client.mjs"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
-          "state": "implementing",
-          "source": "index.html + Worker search/coverage quota reservation + Cloudflare Cron + hosted YouTube player + Pages service-binding proxy",
-          "build": "Selah shared UI 1.0.17/build 85; Worker revision 45 deployed, revision 46 scan isolation pending",
-          "evidence": "Revision 50 preserves verse-range punctuation in chapter classification and playlist coverage; regression cases prove Matthew 23:1-12 does not mark Matthew 1. Source tests pass; deployed catalog/runtime verification remains pending.",
-          "appliedRevision": 49
+          "state": "implemented",
+          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry",
+          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
+          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
+          "appliedRevision": 51
         },
         "windows": {
           "owner": "Selah hosted reader",
-          "state": "pending",
-          "source": "shared hosted reader source",
-          "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "Revision 50 fixes shared Worker chapter/cue parsing only; hosted platforms consume shared verified cue data, with deployed runtime verification pending. Previous evidence: Revision 49 changes only scheduled shared Worker playlist discovery; the shared catalog API is consumed across platforms, with refreshed candidates and playback/runtime validation pending. Previous evidence: Revision 48 corrects a shared Worker YouTube search parameter; this platform uses the shared API, with deployed search and runtime validation pending. Previous evidence: Revision 47 updates shared Worker error handling only; this platform uses the shared audio API, with platform runtime and deployed response validation still pending. Previous evidence: The shared hosted reader will use the same Worker quota budgets after deployment; Windows shell/runtime response handling remains unverified.",
-          "appliedRevision": 39
+          "state": "implemented",
+          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry",
+          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
+          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
+          "appliedRevision": 51
         },
         "macos": {
           "owner": "Selah macOS maintainer",
-          "state": "pending",
-          "evidence": "Revision 50 fixes shared Worker chapter/cue parsing only; hosted platforms consume shared verified cue data, with deployed runtime verification pending. Previous evidence: Revision 49 changes only scheduled shared Worker playlist discovery; the shared catalog API is consumed across platforms, with refreshed candidates and playback/runtime validation pending. Previous evidence: Revision 48 corrects a shared Worker YouTube search parameter; this platform uses the shared API, with deployed search and runtime validation pending. Previous evidence: Revision 47 updates shared Worker error handling only; this platform uses the shared audio API, with platform runtime and deployed response validation still pending. Previous evidence: Revision 45 changes the shared Worker only; standalone macOS client and runtime adoption remain unverified.",
-          "appliedRevision": 34,
-          "build": "1.0.11 / shared reader UI build 55; platform validation pending"
+          "state": "implemented",
+          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
+          "appliedRevision": 51,
+          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
+          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry"
         },
         "ios": {
           "owner": "Selah shared iOS reader",
-          "state": "implementing",
-          "source": "generated mobile/www/index.html + hosted YouTube player",
-          "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "Revision 50 fixes shared Worker chapter/cue parsing only; hosted platforms consume shared verified cue data, with deployed runtime verification pending. Previous evidence: Revision 49 changes only scheduled shared Worker playlist discovery; the shared catalog API is consumed across platforms, with refreshed candidates and playback/runtime validation pending. Previous evidence: Revision 48 corrects a shared Worker YouTube search parameter; this platform uses the shared API, with deployed search and runtime validation pending. Previous evidence: Revision 47 updates shared Worker error handling only; this platform uses the shared audio API, with platform runtime and deployed response validation still pending. Previous evidence: The same Worker quota budgets apply to the shared audio API used by the generated iOS reader; Worker deployment and iPhone playback/runtime remain unverified.",
-          "appliedRevision": 44
+          "state": "implemented",
+          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry",
+          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
+          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
+          "appliedRevision": 51
         }
       }
     },
