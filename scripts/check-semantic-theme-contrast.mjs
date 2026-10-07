@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import vm from "node:vm";
 
 const source = await readFile(new URL("./semantic-theme.js", import.meta.url), "utf8");
 const themeCss = await readFile(new URL("../styles/semantic-theme.css", import.meta.url), "utf8");
 const layoutCss = await readFile(new URL("../styles/desktop-polish.css", import.meta.url), "utf8");
 const page = await readFile(new URL("../index.html", import.meta.url), "utf8");
+const desktopPolishRevision = execFileSync("git", ["log", "-1", "--format=%h", "--", "styles/desktop-polish.css"], { encoding: "utf8" }).trim();
 const readerStart = page.indexOf('<div class="reading-notebook">');
 const notebookStart = page.indexOf('<aside class="notebook card"', readerStart);
 assert.ok(readerStart >= 0 && notebookStart > readerStart, "reader markup boundaries must exist");
@@ -89,4 +91,5 @@ assert.ok(page.includes("color:var(--ink-on-paper,var(--ink))!important}body.mob
 assert.ok(page.includes("grid-template-rows:auto auto auto minmax(0,1fr) auto;align-content:stretch"), "focus reader allocates its flexible row to the Scripture text after the fixed toolbar rows");
 assert.ok(page.includes("body.mobile-reading-focus .bible-audio-disclosure,body.mobile-reading-focus .audio-options-panel,body.mobile-reading-focus #readerAudioPrimary{display:none!important}"), "focus reader hides secondary audio controls so they cannot displace or overlap Scripture text");
 assert.ok(page.includes("./styles/semantic-theme.css?v=4"), "theme styles must use a fresh cache key after visual corrections");
+assert.match(page, new RegExp(`desktop-polish\\.css\\?v=[^"']*-${desktopPolishRevision}`), "desktop reader CSS cache key must advance when its source changes");
 console.log(`semantic theme contrast passed for ${backgrounds.size} backgrounds and ${roles.length} text roles`);
