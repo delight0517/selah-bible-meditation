@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-04T10:02:11Z",
+  "updatedAt": "2026-10-07T05:25:04.130Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -377,7 +377,7 @@
       "id": "selah-live-together-20261003",
       "summary": "QR invite to the existing live Scripture reading room",
       "owner": "mac",
-      "status": "in_progress",
+      "status": "review",
       "claimVersion": 2,
       "scopes": [
         "selah.features.live-together"
@@ -401,9 +401,10 @@
         "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc",
         "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated.",
         "PR #181 merged d5692245c17f8993a9359d13597015b3c3cffb7d; Pages public SHARED_APP_BUILD 1.0.10/32 and Korean home promo readback verified. Client integration and Worker tests pass; browser UI and Mac/iOS device evidence pending.",
-        "2026-10-07 Mac scope update: locally generated QR now uses the existing live room invitation URL; shared UI 1.0.19/build87 source change in progress; device/browser scan remains unverified."
+        "2026-10-07 Mac scope update: locally generated QR now uses the existing live room invitation URL; shared UI 1.0.19/build87 source change in progress; device/browser scan remains unverified.",
+        "QR invite implementation pushed as c8f63dd; PR #319 CI contract, validate, windows-protocol and branch-current all pass. Browser scan/native install runtime not verified."
       ],
-      "nextAction": "Review QR invitation source and mobile bundle checks; browser/native scan-to-join evidence remains pending.",
+      "nextAction": "Merge/deploy after review approval; then verify QR rendering and scan-to-join in live web, followed by native runtime when available.",
       "feedback": [
         {
           "from": "windows",
