@@ -14,7 +14,7 @@
 - [x] 공개 GitHub Pages의 현재 HTML이 `https://selah-youtube-api-gateway.pages.dev`를 YouTube 오디오 API로 사용한다. `GET /youtube/audio-catalog?locale=en`은 Pages 게이트웨이와 Worker를 거쳐 HTTP 404 `catalog_not_found`를 반환했다. 첫 playlist 전용 Cron 전이라 아직 카탈로그가 없는 상태다.
 - [ ] 첫 Cron 이후 언어별 오디오 목록과 playlist 커버리지·chapter/verse cue를 확인하고, 웹에서 YouTube 재생 및 본문 따라가기를 검증한다.
 - [ ] 웹에서 후보 저장→YouTube 재생→절 시점 저장→본문 따라가기까지 확인한다. 실제 재생/follow 및 언어별 5개 완전 오디오 역본은 아직 검증되지 않았다.
-- [x] 본문 기본 듣기 버튼은 읽기 위치를 유지한 채 YouTube 플레이어를 오른쪽 아래 미니 플레이어로 연다. YouTube ▶는 표준 컨트롤로 사용자가 누른다.
+- [x] 본문 듣기 버튼을 실제로 눌렀을 때만 선택한 본문 cue로 YouTube autoplay=1을 요청하고 오른쪽 아래 미니 플레이어를 연다. 페이지 로드/일반 렌더링에서는 자동 재생하지 않고, 브라우저 차단 시 사용할 YouTube 표준 컨트롤은 계속 보인다. 실제 audible PLAYING 증거는 별도 대기 중이다.
 - [x] 미니 플레이어에 접근 가능한 닫기 버튼과 오른쪽 스와이프 닫기를 추가했다. 둘 다 임베드 재생을 중지하며, 숨긴 플레이어에서 오디오만 계속 재생하지 않는다.
 - [ ] Pages 배포 후 모바일 웹에서 본문 버튼→미니 플레이어→YouTube 재생→본문 따라가기와 스와이프 닫기를 확인한다. iPhone 런타임 및 Premium 공식 YouTube 앱 동작은 별도 검증이 필요하다.
 
