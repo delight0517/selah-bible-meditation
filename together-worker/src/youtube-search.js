@@ -183,7 +183,7 @@ function parseCues(description, bookNames, locale, bookId, chapter, videoId, exa
   return {cues,chapterSeconds};
 }
 
-export async function searchYouTube(request, env, reserveQuota) {
+export async function searchYouTube(request, env, reserveQuota, { playlistOnly = false } = {}) {
   const text=await request.text();
   if(text.length>2048) return Response.json({error:'payload_too_large'},{status:413});
   const input=await Promise.resolve().then(()=>JSON.parse(text)).catch(()=>null);
@@ -194,10 +194,10 @@ export async function searchYouTube(request, env, reserveQuota) {
   if(!env.YOUTUBE_DATA_API_KEY) return Response.json({error:'service_unavailable'},{status:503});
   const bookNames=[...new Set([...(audioBookNames.locales[input.locale]?.books[input.bookId]||[]),bookName].map(name=>clean(name,80)).filter(Boolean))];
   const phrase=PHRASES[input.locale];
-  const queryFor=selected=>[selected.flatMap(([id,name])=>[`"${name}"`,id]).join('|'),bookNames[0],chapter,phrase].join(' ');
+  const queryFor=selected=>[selected.flatMap(([id,name])=>[`"${name}"`,id]).join('|'),bookNames[0],chapter,phrase,...(playlistOnly?['playlist']:[])].join(' ');
   const requestSearch=async query=>{
     const quota=await reserveQuota?.();if(quota)return{quota};
-    const params=new URLSearchParams({part:'snippet',type:'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id(videoId,playlistId),snippet(title,description,channelTitle))'});
+    const params=new URLSearchParams({part:'snippet',type:playlistOnly?'playlist':'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id(videoId,playlistId),snippet(title,description,channelTitle))'});
     const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
     const data=await response?.json().catch(()=>null),reasons=(data?.error?.errors||[]).map(error=>error?.reason).filter(reason=>typeof reason==='string'&&/^[\w-]{1,64}$/.test(reason)).slice(0,5);
     if(response?.status===429||reasons.some(reason=>['quotaExceeded','dailyLimitExceeded'].includes(reason))){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}

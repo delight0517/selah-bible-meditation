@@ -49,7 +49,7 @@ export async function discoverAudioCatalogLocale({
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ locale, bookId: 'MAT', bookName, chapter: 1 })
-  }), env, reserveQuota);
+  }), env, reserveQuota, { playlistOnly: true });
   const search = await searchResponse.json().catch(() => null);
   if (!searchResponse.ok || !search || search.locale !== locale) throw new Error(search?.error || `audio_search_failed:${searchResponse.status}`);
 

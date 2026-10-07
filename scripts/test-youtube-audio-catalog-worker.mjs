@@ -9,8 +9,9 @@ let searchCount = 0, coverageCount = 0, coverageReservations = 0;
 const discovered = await discoverAudioCatalogLocale({
   locale: 'en', env: {}, waitMs: 0, sleepImpl: async () => {}, now: () => new Date('2026-10-07T08:20:00Z'),
   reserveCoverageQuota: async () => { coverageReservations++; return null; },
-  searchImpl: async request => {
+  searchImpl: async (request, _env, _reserveQuota, options) => {
     searchCount++;
+    assert.deepEqual(options, { playlistOnly: true }, 'scheduled discovery requests YouTube playlists, not chapter videos');
     const body = await request.json();
     assert.deepEqual({ locale: body.locale, bookId: body.bookId, chapter: body.chapter }, { locale: 'en', bookId: 'MAT', chapter: 1 });
     return Response.json({ locale: 'en', editions: editions.map((edition, index) => ({
