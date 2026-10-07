@@ -41,6 +41,10 @@ export async function discoverAudioCatalogLocale({
   sleepImpl = sleep,
   scanLimit = MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN,
   scanRotation = 0,
+  candidateOffsets = {},
+  pageToken = '',
+  fallbackPageTokens = {},
+  previousEditions = [],
   waitMs = REQUEST_GAP_MS,
   now = () => new Date()
 }) {
@@ -51,7 +55,7 @@ export async function discoverAudioCatalogLocale({
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ locale, bookId: 'MAT', bookName, chapter: 1 })
-  }), env, reserveQuota, { playlistOnly: true });
+  }), env, reserveQuota, { playlistOnly: true, pageToken, fallbackPageTokens });
   const search = await searchResponse.json().catch(() => null);
   if (!searchResponse.ok || !search || search.locale !== locale) throw new Error(search?.error || `audio_search_failed:${searchResponse.status}`);
 
@@ -64,16 +68,25 @@ export async function discoverAudioCatalogLocale({
   const baseCandidateLimit = Math.floor(scanLimit / expectedEditions.length);
   const extraCandidateCount = scanLimit % expectedEditions.length;
   const rotationOffset = ((Math.trunc(scanRotation) || 0) % expectedEditions.length + expectedEditions.length) % expectedEditions.length;
-  const editions = [];
+  const previousById = new Map(previousEditions.map(edition => [edition.id, edition]));
+  const editions = [], nextCandidateOffsets = {};
   for (const [editionIndex, edition] of expectedEditions.entries()) {
     const group = groups.find(item => item.id === edition.id);
     if (!group) throw new Error(`audio_edition_missing:${locale}/${edition.id}`);
     const getsExtraCandidate = (editionIndex - rotationOffset + expectedEditions.length) % expectedEditions.length < extraCandidateCount;
     const maxCandidates = baseCandidateLimit + Number(getsExtraCandidate);
-    const candidates = (group.items || []).filter(item => item.mediaType === 'playlist' && /^[\w-]{10,128}$/.test(item.playlistId || '')).slice(0, maxCandidates);
-    let selected = null, bestCoverage = null;
+    const candidates = (group.items || []).filter(item => item.mediaType === 'playlist' && /^[\w-]{10,128}$/.test(item.playlistId || ''));
+    const candidateOffset = candidates.length ? ((Math.trunc(Number(candidateOffsets[edition.id])) || 0) % candidates.length + candidates.length) % candidates.length : 0;
+    const scanCandidates = candidates.length
+      ? Array.from({ length: Math.min(maxCandidates, candidates.length) }, (_, index) => candidates[(candidateOffset + index) % candidates.length])
+      : [];
+    const previous = previousById.get(edition.id);
+    let selected = previous?.playlistId ? { playlistId: previous.playlistId, title: previous.title, channelTitle: previous.channelTitle, url: previous.url } : null;
+    let bestCoverage = previous && previous.status !== 'NO_PLAYLIST_CANDIDATE' ? previous : null;
+    let scannedCount = 0;
 
-    for (const candidate of candidates) {
+    for (const candidate of scanCandidates) {
+      scannedCount++;
       const remaining = waitMs - (Date.now() - lastRequest);
       if (lastRequest && remaining > 0) await sleepImpl(remaining);
       lastRequest = Date.now();
@@ -97,8 +110,19 @@ export async function discoverAudioCatalogLocale({
       if (result.status === 'COMPLETE_CHAPTER_COVERAGE') break;
     }
 
+    nextCandidateOffsets[edition.id] = candidates.length ? (candidateOffset + scannedCount) % candidates.length : 0;
     editions.push(compactEdition(edition, selected, bestCoverage));
   }
 
-  return { schema: 1, locale, generatedAt: now().toISOString(), query: { bookId: 'MAT', chapter: 1 }, editions };
+  return {
+    schema: 1,
+    locale,
+    generatedAt: now().toISOString(),
+    query: { bookId: 'MAT', chapter: 1 },
+    editions,
+    nextPageToken: typeof search.nextPageToken === 'string' ? search.nextPageToken.slice(0, 512) : '',
+    fallbackPageTokenKey: typeof search.fallbackPageTokenKey === 'string' ? search.fallbackPageTokenKey.slice(0, 128) : '',
+    fallbackNextPageToken: typeof search.fallbackNextPageToken === 'string' ? search.fallbackNextPageToken.slice(0, 512) : '',
+    candidateOffsets: nextCandidateOffsets
+  };
 }

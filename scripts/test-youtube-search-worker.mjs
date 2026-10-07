@@ -46,7 +46,7 @@ try {
   const query=new URL(calls[0].url).searchParams,fallbackQuery=new URL(captured.url).searchParams;
   assert.equal(query.get('maxResults'),'50');
   assert.equal(query.get('type'),'video,playlist','edition searches include complete audio playlists and videos');
-  assert.equal(query.get('fields'),'items(id(videoId,playlistId),snippet(title,description,channelTitle))','search selects both nested video and playlist IDs with valid partial-response syntax');
+  assert.equal(query.get('fields'),'nextPageToken,items(id(videoId,playlistId),snippet(title,description,channelTitle))','search selects the next-page cursor and both nested video and playlist IDs');
   assert.equal(query.has('videoEmbeddable'),false,'playlist discovery is not filtered out by a video-only parameter');
   assert.equal(query.get('q').includes('|'),true,'all five editions share one OR search');
   assert.equal(fallbackQuery.get('q').includes('New King James Version'),true,'fallback includes a missing edition');
@@ -54,6 +54,16 @@ try {
   assert.equal(captured.options.headers['x-goog-api-key'],'never-return-this-key');
   assert.equal(captured.url.includes('never-return-this-key'),false);
   assert.equal(JSON.stringify(data).includes('never-return-this-key'),false);
+  const pageRequests=[];
+  globalThis.fetch=async url=>{pageRequests.push(String(url));return Response.json({nextPageToken:'next-search-page',items:[{id:{playlistId:'PL12345678901234567890'},snippet:{title:'KJV Matthew complete audio Bible playlist',description:'',channelTitle:'KJV Audio'}}]})};
+  const fallbackKey='NIV,ESV,NKJV,NLT';
+  const paged=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},undefined,{playlistOnly:true,pageToken:'saved-search-page',fallbackPageTokens:{[fallbackKey]:'saved-fallback-page'}});
+  const pagedData=await paged.json();
+  assert.equal(new URL(pageRequests[0]).searchParams.get('pageToken'),'saved-search-page','scheduled search resumes the exact previous YouTube result page');
+  assert.equal(new URL(pageRequests[1]).searchParams.get('pageToken'),'saved-fallback-page','edition-specific fallback resumes only its matching query cursor');
+  assert.equal(pagedData.nextPageToken,'next-search-page','the broad search returns its next cursor even when a fallback query runs');
+  assert.equal(pagedData.fallbackPageTokenKey,fallbackKey);
+  assert.equal(pagedData.fallbackNextPageToken,'next-search-page','the fallback query returns its own page cursor');
   globalThis.fetch=async()=>Response.json({items:[{id:{videoId:'rangevideo1'},snippet:{title:'Scripture for these times. Matthew 23:1-12 (ESV)',description:'',channelTitle:'ESV'}}]});
   const verseRange=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
   assert.equal((await verseRange.json()).editions.find(group=>group.id==='ESV').items[0].chapterMatch,false,'a verse range such as Matthew 23:1-12 is not Matthew chapter 1');

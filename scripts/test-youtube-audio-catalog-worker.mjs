@@ -7,15 +7,16 @@ import { discoverAudioCatalogLocale } from '../together-worker/src/youtube-audio
 const editions = editionList('en');
 const playlist = index => `PL${String(index).padStart(20, '0')}`;
 let searchCount = 0, coverageCount = 0, coverageReservations = 0;
+const candidateOffsets = Object.fromEntries(editions.map(edition => [edition.id, 0]));
 const discovered = await discoverAudioCatalogLocale({
-  locale: 'en', env: {}, waitMs: 0, sleepImpl: async () => {}, now: () => new Date('2026-10-07T08:20:00Z'),
+  locale: 'en', env: {}, pageToken: 'search-page-2', candidateOffsets, waitMs: 0, sleepImpl: async () => {}, now: () => new Date('2026-10-07T08:20:00Z'),
   reserveCoverageQuota: async () => { coverageReservations++; return null; },
   searchImpl: async (request, _env, _reserveQuota, options) => {
     searchCount++;
-    assert.deepEqual(options, { playlistOnly: true }, 'scheduled discovery requests YouTube playlists, not chapter videos');
+    assert.deepEqual(options, { playlistOnly: true, pageToken: 'search-page-2', fallbackPageTokens: {} }, 'scheduled discovery resumes page-token searches for playlists');
     const body = await request.json();
     assert.deepEqual({ locale: body.locale, bookId: body.bookId, chapter: body.chapter }, { locale: 'en', bookId: 'MAT', chapter: 1 });
-    return Response.json({ locale: 'en', editions: editions.map((edition, index) => ({
+    return Response.json({ locale: 'en', nextPageToken: 'search-page-3', fallbackPageTokenKey: 'NIV,ESV,NKJV,NLT', fallbackNextPageToken: 'fallback-page-2', editions: editions.map((edition, index) => ({
       ...edition,
       items: index === 0 ? [
         { mediaType: 'playlist', playlistId: playlist(1), title: `${edition.name} first`, channelTitle: 'Test' },
@@ -41,6 +42,10 @@ assert.equal(discovered.editions.length, 5);
 assert.equal(discovered.editions[0].playlistId, playlist(2));
 assert.equal(discovered.editions[0].coveredChapters, 1189);
 assert.deepEqual(discovered.editions[0].videoIds, ['abcdefghijk']);
+assert.equal(discovered.nextPageToken, 'search-page-3');
+assert.equal(discovered.fallbackPageTokenKey, 'NIV,ESV,NKJV,NLT');
+assert.equal(discovered.fallbackNextPageToken, 'fallback-page-2');
+assert.deepEqual(discovered.candidateOffsets, candidateOffsets);
 
 for (const locale of ['en', 'ko']) {
   const localeEditions = editionList(locale), rotations = locale === 'ko' ? [0, 1] : [0];
@@ -72,6 +77,21 @@ for (const locale of ['en', 'ko']) {
     }
     assert.equal([...scanCounts.values()].filter(count => count === base + 1).length, remainder, `${locale} distributes leftover scans without exceeding the run cap`);
   }
+}
+
+{
+  const seen = [], edition = editionList('en')[0], prior = { id: edition.id, name: edition.name, playlistId: playlist(900), title: 'Previously best playlist', channelTitle: 'Previous', url: `https://www.youtube.com/playlist?list=${playlist(900)}`, status: 'PARTIAL_COVERAGE', itemCount: 30, coveredChapters: 25, totalChapters: 1189, chapterSync: true, explicitVerseCueCount: 1, videoIds: [], verseCues: [] };
+  const offsets = Object.fromEntries(editionList('en').map(item => [item.id, 0]));
+  offsets[edition.id] = 3;
+  const catalog = await discoverAudioCatalogLocale({
+    locale: 'en', env: {}, waitMs: 0, sleepImpl: async () => {}, candidateOffsets: offsets, previousEditions: [prior],
+    searchImpl: async () => Response.json({ locale: 'en', editions: editionList('en').map(item => ({ ...item, items: Array.from({ length: 8 }, (_, index) => ({ mediaType: 'playlist', playlistId: playlist(1000 + index), title: `${item.name} candidate ${index + 1}` })) })) }),
+    coverageImpl: async request => { const body = await request.json(); if (body.editionId === edition.id) seen.push(body.playlistId); return Response.json({ status: 'PARTIAL_COVERAGE', itemCount: 12, coveredChapters: 12, totalChapters: 1189, chapterSync: false, explicitVerseCueCount: 0, videoIds: [], verseCues: [] }); }
+  });
+  assert.deepEqual(seen, [playlist(1003), playlist(1004)], 'per-edition offsets scan the next unvisited candidates');
+  assert.equal(catalog.candidateOffsets[edition.id], 5);
+  assert.equal(catalog.editions[0].playlistId, prior.playlistId, 'a weaker scan cannot replace the best verified edition');
+  assert.equal(catalog.editions[0].coveredChapters, prior.coveredChapters);
 }
 
 
@@ -135,23 +155,30 @@ assert.equal((await room.fetch(new Request('https://room/internal/youtube-audio-
 const firstTime = Date.parse('2026-10-07T08:20:00Z');
 let refreshCount = 0;
 const seenScanRotations = [];
+const seenPageTokens = [], seenFallbackPageTokens = [], seenCandidateOffsets = [];
 const refresh = (scheduledTime, localeResult) => refreshNextAudioCatalog(env, {
   scheduledTime,
-  discover: async ({ locale, reserveQuota, reserveCoverageQuota, coverageImpl, scanRotation }) => {
+  discover: async ({ locale, reserveQuota, reserveCoverageQuota, coverageImpl, scanRotation, pageToken, fallbackPageTokens, candidateOffsets: offsets }) => {
     refreshCount++;
     seenScanRotations.push(scanRotation);
+    seenPageTokens.push(pageToken);
+    seenFallbackPageTokens.push(fallbackPageTokens);
+    seenCandidateOffsets.push(offsets);
     assert.equal(locale, localeResult);
     assert.equal(await reserveQuota(), null,'scheduled searches use their reserved daily bucket');
     const scheduledReservations = [];
     const isolatedCoverage = await coverageImpl(new Request('https://worker/youtube/playlist-coverage', { method: 'POST', body: JSON.stringify({ ...coverageBody, playlistId: 'bad' }) }), env, async exhausted => { scheduledReservations.push(!!exhausted); return null; });
     assert.equal(isolatedCoverage.status, 400, 'catalog refresh sends each candidate scan to the Durable Object request boundary');
     assert.deepEqual(scheduledReservations, [false], 'scheduled playlist scans reserve quota before dispatch');
-    return { ...discovered, locale, editions: editionList(locale).map((edition, index) => ({ ...edition, status: 'PARTIAL_COVERAGE', coveredChapters: index + 1 })) };
+    return { ...discovered, locale, fallbackPageTokenKey: editionList(locale).slice(1).map(edition => edition.id).join(','), editions: editionList(locale).map((edition, index) => ({ ...edition, status: 'PARTIAL_COVERAGE', coveredChapters: index + 1 })) };
   }
 });
 const first = await refresh(firstTime, audioLanguageList()[0].code);
 assert.equal(first.refreshed, true);
 assert.equal(first.editionCount, editions.length);
+assert.equal(storage.get('youtube-audio-catalog:state').pageTokensByLocale.en, 'search-page-3', 'the next search page is stored only after catalog commit');
+assert.equal(storage.get('youtube-audio-catalog:state').fallbackPageTokensByLocale.en['NIV,ESV,NKJV,NLT'], 'fallback-page-2');
+assert.equal(storage.get('youtube-audio-catalog:state').candidateOffsetsByLocale.en.KJV, 0);
 const repeated = await refresh(firstTime, audioLanguageList()[0].code);
 assert.equal(repeated.reason, 'already_claimed_this_run');
 assert.equal(refreshCount, 1);
@@ -179,8 +206,18 @@ assert.deepEqual(rotatedLocales, scheduledLocales, 'three daily catalog runs rot
 const wrapped = await refresh(firstTime + scheduledLocales.length * 8 * 60 * 60 * 1000, scheduledLocales[0]);
 assert.equal(wrapped.refreshed, true);
 assert.equal(wrapped.locale, scheduledLocales[0], 'the next cycle returns to its first language');
+assert.equal(seenPageTokens[scheduledLocales.length], 'search-page-3', 'each locale resumes its committed YouTube search page on its next rotation');
+assert.deepEqual(seenFallbackPageTokens[scheduledLocales.length], { 'NIV,ESV,NKJV,NLT': 'fallback-page-2' }, 'edition-specific fallback pages resume independently');
+assert.deepEqual(seenCandidateOffsets[scheduledLocales.length], discovered.candidateOffsets, 'per-edition candidate offsets survive later locale scans');
 assert.equal((await refresh(firstTime + scheduledLocales.length * 8 * 60 * 60 * 1000, scheduledLocales[0])).reason, 'already_claimed_this_run');
 assert.equal(refreshCount, scheduledLocales.length + 1);
 assert.deepEqual(seenScanRotations, Array.from({ length: scheduledLocales.length + 1 }, (_, index) => index), 'completed locale runs rotate leftover Korean candidate scans fairly');
 assert.equal(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN * SCHEDULED_CATALOG_CRONS.length, MAX_SCHEDULED_COVERAGE_CANDIDATES, 'three scheduled runs preserve the existing daily scan quota');
+const savedState = storage.get('youtube-audio-catalog:state');
+storage.set('youtube-audio-catalog:state', { ...savedState, nextIndex: 0, lastClaimedRun: '', pageTokensByLocale: { en: 'expired-page-token' }, fallbackPageTokensByLocale: { en: { 'NIV,ESV,NKJV,NLT': 'expired-fallback-token' } }, candidateOffsetsByLocale: { en: { KJV: 4 } }, cursorUpdatedAtByLocale: { en: firstTime - 31 * 24 * 60 * 60 * 1000 } });
+const expiredClaimResponse = await room.fetch(new Request('https://room/internal/youtube-audio-catalog/claim', { method: 'POST', body: JSON.stringify({ day: '2026-11-08', runId: String(firstTime + scheduledLocales.length * 8 * 60 * 60 * 1000 + 1) }) }));
+const expiredClaim = await expiredClaimResponse.json();
+assert.equal(expiredClaim.pageToken, '', 'search cursors expire before YouTube metadata retention exceeds 30 days');
+assert.deepEqual(expiredClaim.fallbackPageTokens, {}, 'fallback cursors expire together with the broad-search cursor');
+assert.deepEqual(expiredClaim.candidateOffsets, {}, 'expired scan cursors are reset together with their YouTube page token');
 console.log('Three-run-per-day YouTube audio catalog contract passed.');
