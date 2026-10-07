@@ -73,7 +73,7 @@ function hasExplicitVerseRange(title, bookNames, locale, chapter) {
 
 function hasExplicitChapterRange(title, bookNames, locale, chapter) {
   const text=foldLatinMarks(title).toLocaleLowerCase().replace(/[^\p{L}\p{N}:\p{Pd}~〜]+/gu,' ').trim(),words=CHAPTER_WORDS[locale]||CHAPTER_WORDS.en;
-  const range=new RegExp(`(?:^|\\s)(?:(?:${words})\\s*)?${chapter}\\s*(?:章|장)?\\s*[-–~〜]\\s*(?:(?:${words})\\s*)?\\d{1,3}\\s*(?:章|장)?(?=\\s|$)`,'u');
+  const range=new RegExp(`(?:^|\\s)(?:서)?\\s*(?:(?:${words})\\s*)?${chapter}\\s*(?:章|장)?\\s*[-–~〜]\\s*(?:(?:${words})\\s*)?\\d{1,3}\\s*(?:章|장)?(?=\\s|$)`,'u');
   return bookNames.some(name=>{
     const book=foldLatinMarks(name).toLocaleLowerCase().replace(/[^\p{L}\p{N}:\p{Pd}~〜]+/gu,' ').trim();if(!book)return false;
     let start=text.indexOf(book);
@@ -82,8 +82,28 @@ function hasExplicitChapterRange(title, bookNames, locale, chapter) {
   });
 }
 
+function chapterRangeAfterBook(title, bookName, locale) {
+  const text=foldLatinMarks(title).toLocaleLowerCase().replace(/[^\p{L}\p{N}\s~〜\p{Pd}]+/gu,' ').replace(/\s+/g,' ').trim();
+  const book=foldLatinMarks(bookName).toLocaleLowerCase().replace(/[^\p{L}\p{N}\s~〜\p{Pd}]+/gu,' ').replace(/\s+/g,' ').trim();
+  if(!book)return null;
+  const words=CHAPTER_WORDS[locale]||CHAPTER_WORDS.en;
+  const range=new RegExp(`^\\s*(?:서)?\\s*(?:(?:${words})s?\\s*)?(\\d{1,3})\\s*(?:章|장)?\\s*[-–~〜]\\s*(?:(?:${words})s?\\s*)?(\\d{1,3})\\s*(?:章|장)?(?=\\s|$)`,'u');
+  let start=text.indexOf(book);
+  while(start>=0){const match=range.exec(text.slice(start+book.length));if(match)return{first:Number(match[1]),last:Number(match[2])};start=text.indexOf(book,start+book.length)}
+  return null;
+}
+
 function playlistChapterRefs(title, locale) {
   const numbers=[...new Set(String(title||'').match(/\d{1,3}/g)||[])].map(Number),matches=[];
+  const ranges=[];
+  for(const bookId of BOOKS){
+    const names=audioBookNames.locales[locale]?.books[bookId]||[],chapterCount=CHAPTERS[BOOKS.indexOf(bookId)];
+    for(const name of names){
+      const range=chapterRangeAfterBook(title,name,locale);
+      if(range&&range.first>=1&&range.last>=range.first&&range.last<=chapterCount)ranges.push({bookId,first:range.first,last:range.last,aliasLength:captionText(name).length});
+    }
+  }
+  if(ranges.length){const longest=Math.max(...ranges.map(range=>range.aliasLength));return ranges.filter(range=>range.aliasLength===longest).flatMap(({bookId,first,last})=>Array.from({length:last-first+1},(_,index)=>({bookId,chapter:first+index})));}
   for(const bookId of BOOKS){
     const names=audioBookNames.locales[locale]?.books[bookId]||[];
     const aliasLength=Math.max(0,...names.filter(name=>numbers.some(chapter=>matchesChapterAfterBook(title,[name],locale,chapter))).map(name=>captionText(name).length));
