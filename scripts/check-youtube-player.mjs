@@ -18,6 +18,7 @@ function loadPlayer(query) {
       options.events.onReady({ target: this });
     }
     cuePlaylist(...args) { calls.push(['cuePlaylist', ...args]); }
+    cueVideoById(...args) { calls.push(['cueVideoById', ...args]); }
     playVideo() { calls.push(['playVideo']); }
   }
   const YT = { Player, PlayerState: { PLAYING: 1 } };
@@ -37,6 +38,9 @@ const video = loadPlayer('?video=abcdefghijk&token=t&parentOrigin=https%3A%2F%2F
 assert.equal(video.calls.length, 0);
 assert.equal(video.playerOptions.videoId, 'abcdefghijk');
 assert.equal(video.playerOptions.playerVars.autoplay, 0);
+const timestampedVideo = loadPlayer('?video=abcdefghijk&startSeconds=754&token=t&parentOrigin=https%3A%2F%2Fselah.example');
+assert.deepEqual(JSON.parse(JSON.stringify(timestampedVideo.calls)), [['cueVideoById', { videoId: 'abcdefghijk', startSeconds: 754 }]], 'a directly selected playlist video is cued at its verified passage timestamp');
+assert.equal(timestampedVideo.playerOptions.playerVars.autoplay, 0, 'timestamp cue still waits for standard user playback controls');
 const queued = loadPlayer('?video=abcdefghijk&token=t&parentOrigin=https%3A%2F%2Fselah.example');
 assert.equal(queued.calls.length, 0);
 queued.cueQueue('t', { videoIds: ['abcdefghijk', '12345678901'], index: 1, startSeconds: 80 });

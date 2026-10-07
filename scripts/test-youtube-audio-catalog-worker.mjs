@@ -151,6 +151,31 @@ try {
 } finally {
   globalThis.fetch = originalFetch;
 }
+async function scanMultiChapterKsb(description) {
+  const videoId = '4kVZKeuS90E', playlistId = playlist(10);
+  globalThis.fetch = async request => {
+    const url = new URL(String(request));
+    if (url.pathname.endsWith('/playlists')) return Response.json({ items: [{ id: playlistId, snippet: { title: '새번역성경 듣기', channelTitle: 'Test' }, contentDetails: { itemCount: 1 } }] });
+    if (url.pathname.endsWith('/playlistItems')) return Response.json({ items: [{ snippet: { title: '요한복음서 1장~21장,전체듣기,새번역성경', position: 0, resourceId: { videoId } } }] });
+    if (url.pathname.endsWith('/videos')) return Response.json({ items: [{ id: videoId, snippet: { description } }] });
+    throw Error(`unexpected YouTube endpoint:${url.pathname}`);
+  };
+  try {
+    const response = await room.fetch(new Request('https://room/internal/youtube-audio-coverage', {
+      method: 'POST', headers: { 'x-youtube-data-api-key': 'test-only-key' },
+      body: JSON.stringify({ locale: 'ko', editionId: 'KSB', playlistId, bookId: 'JHN', chapter: 1 })
+    }));
+    assert.equal(response.status, 200);
+    return response.json();
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+}
+const untimedKsb = await scanMultiChapterKsb('');
+assert.ok(untimedKsb.verseCues.some(cue => cue.bookId === 'JHN' && cue.chapter === 1 && cue.seconds === 0), 'the first chapter of an untimed whole-book video may start at video time zero');
+assert.ok(!untimedKsb.verseCues.some(cue => cue.bookId === 'JHN' && cue.chapter === 21), 'later chapters in a multi-chapter title do not get invented zero-second cues');
+const timedKsb = await scanMultiChapterKsb('00:00 요한복음서 1장\n12:34 요한복음서 21장');
+assert.ok(timedKsb.verseCues.some(cue => cue.bookId === 'JHN' && cue.chapter === 21 && cue.seconds === 754), 'later chapters are retained when the video description supplies an explicit timestamp');
 assert.equal((await room.fetch(new Request('https://room/internal/youtube-audio-coverage', { method: 'POST', body: JSON.stringify(coverageBody) }))).status, 503, 'isolated scan rejects missing internal API key');
 const firstTime = Date.parse('2026-10-07T08:20:00Z');
 let refreshCount = 0;
