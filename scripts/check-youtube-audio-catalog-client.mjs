@@ -16,6 +16,9 @@ assert.ok(html.includes('if(startCue?.playlistIndex!=null)params.set("index",Str
 assert.ok(html.includes('playVideo:()=>send("play")'), 'the reading-page play control can resume the existing hosted mini player');
 assert.ok(html.includes('function dismissBibleAudioPlayer(){playingBibleAudio="";resetBibleAudioYouTubePlayer();$("bibleAudioPlayerVideo").replaceChildren();$("bibleAudioPlayer").hidden=true;'), 'dismissing the mini player stops and removes its YouTube frame');
 assert.ok(html.includes('if(dx<55||dx<Math.abs(dy)*1.35)return;event.preventDefault();suppressBibleAudioPlayerClickUntil=Date.now()+500;dismissBibleAudioPlayer()}'), 'a right swipe on the mini-player bar dismisses it without firing a control click');
+assert.ok(html.includes('id="readerAudioFocusPlay"') && html.includes('body.mobile-reading-focus .reader-audio-focus-play:not([hidden]){display:inline-flex;'), 'mobile focus reading exposes a compact play button when a passage source exists');
+assert.ok(html.includes('focusQuick.hidden=!primary;focusQuick.setAttribute("aria-label",focusAudioLabel);focusQuick.title=focusAudioLabel;'), 'focus play stays hidden without a passage source and receives localized accessible text');
+assert.ok(html.includes('readerAudioFocusPlay").addEventListener("click",()=>$("readerAudioPrimary").click())'), 'focus play routes through the existing reader autoplay handler');
 const chapterCopyStart = html.indexOf('const bibleAudioChapterCopy=');
 const chapterCopyEnd = html.indexOf(';', chapterCopyStart);
 assert.ok(chapterCopyStart >= 0 && chapterCopyEnd > chapterCopyStart, 'chapter-follow copy exists');
