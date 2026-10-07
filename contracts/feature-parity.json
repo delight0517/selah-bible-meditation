@@ -861,6 +861,8 @@
         "contracts/feature-parity.json",
         "mobile/www/index.html",
         "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "styles/semantic-theme.css",
+        "mobile/www/styles/semantic-theme.css",
         "TODO.md",
         "RETENTION_INDEX.md",
         "SHARED_APP_BUILD.json",
