@@ -110,7 +110,7 @@ export async function refreshNextAudioCatalog(env, {
   }));
   const claim = await claimResponse.json().catch(() => null);
   if (!claimResponse.ok) throw new Error(claim?.error || 'catalog_claim_failed');
-  if (!claim?.claimed) return { refreshed: false, reason: 'already_claimed_this_run' };
+  if (!claim?.claimed) return { refreshed: false, reason: claim?.reason || 'already_claimed_this_run' };
 
   const coverageImpl = (request, _env, reserveQuotaForCoverage) => verifyScheduledPlaylistCoverage(request, env, reserveQuotaForCoverage, store);
   const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota, coverageImpl, scanLimit, scanRotation: claim.scanRotation, candidateOffsets: claim.candidateOffsets, pageToken: claim.pageToken, fallbackPageTokens: claim.fallbackPageTokens, previousEditions: claim.previousEditions });

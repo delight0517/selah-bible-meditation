@@ -964,8 +964,9 @@
 - [ ] 공개 웹에서 사용자 재생 뒤 실제 요한복음 1장 본문 표시가 큐와 함께 움직이는지 검증한다. [기록 2026-10-07 · 삭제 예정 2027-10-07]
 
 ## 2026-10-07 · 자동 카탈로그 후보 검증 확대
-- [x] 예약 Cron을 하루 3회에서 6회(4시간 간격)로 늘리고, 실행당 10개 검증을 유지해 자동 playlist coverage 상한을 30개에서 60개/일로 확대했다. 사용자 검증 120개와 합쳐 기존 180개/일 제한과 1,180 비검색 단위 여유를 보존한다.
-- [x] 일일 `search.list` 배분을 자동 48회·대화형 52회로 조정했다. 6회 × 4개 locale × 최대 2회 검색의 48회 상한을 넘지 않는다.
+- [x] Worker code를 배포했으나 Cloudflare Free가 account 전체 5개 Cron 한도에 도달해 6-trigger update가 거부됐다. API readback으로 이전 3개 일정이 유지됐음을 확인했다.
+- [x] 다른 Worker의 account-level 일정을 건드리지 않고 기존 3개 Cron을 유지한다. 실행마다 locale 3개에서 후보 14개를 검증해 자동 coverage를 30개에서 최대 42개/일로 늘리고, 사용자 검증 138개와 합쳐 기존 180개/일과 1,180 비검색 단위 여유를 지킨다.
+- [x] 일일 `search.list` 배분을 자동 18회·대화형 82회로 조정했다. 3회 × 3개 locale × 최대 2회 검색의 18회 상한이다.
 - [x] 지난 Cron 재전송이 뒤늦게 도착해도 최신 실행의 locale cursor를 되돌리지 않도록 오래된 run을 거부한다.
-- [x] 카탈로그 회전, quota 배분, 50 subrequest 실행 한도와 stale replay 회귀 검사가 통과했다.
-- [ ] PR 통과 후 Worker를 배포하고 Cron readback으로 갱신 주기·언어별 playlist coverage를 확인한다. 실제 YouTube 재생/본문 따라가기는 별도 미검증이다.
+- [x] 3회 회전, quota 배분, 49 subrequest 실행 한도와 stale replay 회귀 검사가 통과했다.
+- [ ] 후속 PR을 배포하고 세 일정과 언어별 playlist coverage를 확인한다. 실제 YouTube 재생/본문 따라가기는 별도 미검증이다.
