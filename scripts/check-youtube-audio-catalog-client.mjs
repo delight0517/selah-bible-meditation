@@ -3,6 +3,19 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+const cueStart = html.indexOf('function youtubeAudioHasPassageCue(');
+const cueEnd = html.indexOf('\nfunction youtubeAudioItemMatchesPassage', cueStart);
+assert.ok(cueStart >= 0 && cueEnd > cueStart, 'shared playlist cue validator exists');
+const cueContext = {};
+vm.runInNewContext(`${html.slice(cueStart, cueEnd)}\nglobalThis.matches = youtubeAudioHasPassageCue; globalThis.canStart = youtubeAudioCanStartAtPassage;`, cueContext);
+const passageCue = { bookId: 'JHN', chapter: 1, verse: 1, seconds: 0, videoId: '4kVZKeuS90E', playlistIndex: 42 };
+const verifiedPlaylist = { generated: true, mediaType: 'playlist', verseCues: [passageCue], videoIds: Array.from({ length: 43 }, (_, index) => index === 42 ? passageCue.videoId : 'abcdefghijk') };
+assert.equal(cueContext.matches(verifiedPlaylist, 'JHN', 1), true, 'a passage cue starts only when its playlist index maps to that exact video');
+assert.equal(cueContext.canStart(verifiedPlaylist, 'JHN', 1), true, 'a matching generated playlist is playable for its verified passage');
+assert.equal(cueContext.canStart({ ...verifiedPlaylist, videoIds: ['abcdefghijk'] }, 'JHN', 1), false, 'a generated playlist with a mismatched video cannot start');
+assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, playlistIndex: undefined }] }, 'JHN', 1), false, 'a cue without a verified playlist index cannot start');
+assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, chapter: 2 }] }, 'JHN', 1), false, 'a cue from another chapter cannot start');
+assert.equal(cueContext.canStart({ generated: false, mediaType: 'playlist' }, 'JHN', 1), true, 'manually added sources retain their existing playback behavior');
 const start = html.indexOf('const YOUTUBE_AUDIO_CATALOG_API=');
 const end = html.indexOf('\nfunction catalogBibleAudioSources', start);
 assert.ok(start >= 0 && end > start, 'catalog loader source exists');
@@ -45,4 +58,4 @@ assert.equal(requests.length, 3, 'one retry performs a public API read and no ex
 assert.equal(context.catalogTest.data.get('en')?.locale, 'en', 'the session accepts the newly published catalog');
 assert.equal(context.catalogTest.retries.size, 0, 'successful publication cancels negative-cache retries');
 assert.equal(renders, 2, 'the reader rerenders when either the miss or refreshed catalog resolves');
-console.log('PASS: open reader retries a pre-publication catalog miss after the UTC refresh without another YouTube search.');
+console.log('PASS: selected-passage playlist cues must map to the same video; open readers retry catalog publication without another YouTube search.');

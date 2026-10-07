@@ -939,3 +939,8 @@
 - [x] 현재 본문 책·장과 제목/명시된 cue가 맞지 않는 영상은 검색 결과에서 제외하고, 검증된 본문 cue가 재생목록 영상 ID와 연결된 재생목록만 표시한다. 판본별 검색 결과 수도 실제 표시 후보 기준으로 계산한다.
 - [x] 무관한 영상, 정확한 장/cue 영상, 미검증·부분 검증·잘못된 장의 재생목록 계약 회귀 검사를 추가했다. `node scripts/test-youtube-search-worker.mjs`와 `node scripts/check-youtube-audio-catalog-client.mjs` 통과.
 - [x] feature parity revision 57을 등록하고 최신 `origin/main`과 비교한 뒤 PR #320을 열었다. contract, validate, windows-protocol, branch-current CI와 GitHub mergeability 확인을 통과했다. Aside Apple Events 메뉴 권한은 켜진 것을 확인했지만 탭 자동화 연결이 없어 공개 화면 동작, YouTube 재생 및 본문 따라가기는 미검증이다.
+
+## 2026-10-07 · 현재 본문과 일치하는 카탈로그 오디오만 Selah에서 재생
+- [x] 생성된 YouTube 재생목록은 선택한 책·장에 해당하는 검증 큐가 있고 playlistIndex의 영상 ID와 일치할 때만 기본 오디오로 선택하거나 Selah 플레이어에서 재생되도록 제한했다. 매칭되지 않는 부분 카탈로그는 잘못된 첫 트랙을 자동 재생하지 않고 외부 YouTube 링크로만 남긴다.
+- [x] 큐가 정확한 재생목록 영상 ID와 매칭되는지, 장이 다르거나 인덱스/ID가 누락·불일치하면 재생 불가인지 회귀 검사를 추가했다.
+- [ ] 공개 웹에서 요한복음 1장 한국어 새번역 재생과 본문 따라가기를 확인한다. Aside 현재 AppleScript 실행은 `Access not allowed (-1723)`이며 UI 권한 재검증이 필요하다. 여섯 언어 카탈로그도 다음 예약 Cron에서 확인한다. [기록 2026-10-07 · 삭제 예정 2027-10-07]
