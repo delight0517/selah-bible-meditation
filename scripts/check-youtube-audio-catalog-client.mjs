@@ -94,6 +94,7 @@ catalogContext.youtubeAudioCatalogData.set('ko', { editions: [
   { id: 'KSB', name: '새번역', status: 'PARTIAL_COVERAGE', playlistId: 'PL000000000000000002', coveredChapters: 113, chapterSync: true }
 ] });
 assert.equal(catalogContext.primaryEdition('ko', [{ id: 'KSB' }, { id: 'NKRV' }]), 'KSB', 'the first chosen audio edition stays fixed across chapters');
+assert.equal(catalogContext.primaryEdition('ko', [{ id: 'NKRV' }]), null, 'a missing pinned edition never silently switches the language to another translation');
 delete catalogContext.db.youtubeAudioEditionDefaults.ko;
 assert.equal(catalogContext.primaryEdition('ko', [{ id: 'KSB' }, { id: 'NKRV' }]), 'NKRV', 'broader chapter coverage outranks chapter-sync metadata for the initial edition choice');
 assert.ok(html.includes('searchYoutubeBibleAudio({playAfterSearch:true})'), 'the Scripture play button searches the chosen edition when no passage-matched source exists');
