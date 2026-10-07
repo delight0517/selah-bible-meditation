@@ -1,8 +1,8 @@
 import { audioLanguageList, editionList, searchYouTube, verifyYouTubePlaylistCoverage } from './youtube-search.js';
 import { discoverAudioCatalogLocale } from './youtube-audio-catalog.js';
+import { YOUTUBE_QUOTA_LIMITS } from './youtube-quota.js';
 const TTL = 86400000, ACTIVE = 15000;
 // Search.list has a separate 100-call bucket. A full playlist scan costs at most 49 units: 1 playlist, 24 playlistItems, and 24 videos list calls. 180 scans reserve 8,820 of the 10,000 daily non-search units.
-const YOUTUBE_QUOTA_LIMITS = { search: { interactive: 70, scheduled: 30 }, coverage: { interactive: 150, scheduled: 30 } };
 const chapters = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
 const books = 'GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV'.split(' ');
 const origins = new Set(['https://delight0517.github.io', 'capacitor://localhost', 'http://localhost']);

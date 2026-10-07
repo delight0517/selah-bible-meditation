@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import worker, { TogetherRoom, refreshNextAudioCatalog, verifyScheduledPlaylistCoverage } from '../together-worker/src/index.js';
 import { audioLanguageList, editionList } from '../together-worker/src/youtube-search.js';
+import { MAX_SCHEDULED_COVERAGE_CANDIDATES } from '../together-worker/src/youtube-quota.js';
 import { discoverAudioCatalogLocale } from '../together-worker/src/youtube-audio-catalog.js';
 
 const editions = editionList('en');
@@ -40,6 +41,25 @@ assert.equal(discovered.editions.length, 5);
 assert.equal(discovered.editions[0].playlistId, playlist(2));
 assert.equal(discovered.editions[0].coveredChapters, 1189);
 assert.deepEqual(discovered.editions[0].videoIds, ['abcdefghijk']);
+
+for (const locale of ['en', 'ko']) {
+  const localeEditions = editionList(locale), scanIds = [];
+  const catalog = await discoverAudioCatalogLocale({
+    locale, env: {}, waitMs: 0, sleepImpl: async () => {},
+    searchImpl: async () => Response.json({ locale, editions: localeEditions.map((edition, index) => ({
+      ...edition,
+      items: index === 0 ? Array.from({ length: 8 }, (_, candidate) => ({ mediaType: 'playlist', playlistId: playlist(candidate + 10), title: `${edition.name} candidate ${candidate + 1}` })) : []
+    })) }),
+    coverageImpl: async request => {
+      const { playlistId } = await request.json(); scanIds.push(playlistId);
+      return Response.json({ status: 'PARTIAL_COVERAGE', itemCount: 1, coveredChapters: scanIds.length, totalChapters: 1189, chapterSync: false, videoIds: [], verseCues: [] });
+    }
+  });
+  const expectedScans = Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES / localeEditions.length);
+  assert.equal(scanIds.length, expectedScans, `${locale} scans its full per-edition share of the existing daily candidate budget`);
+  assert.ok(scanIds.length * localeEditions.length <= MAX_SCHEDULED_COVERAGE_CANDIDATES);
+  assert.equal(catalog.editions[0].playlistId, playlist(9 + expectedScans), `${locale} keeps the best candidate within the scan cap`);
+}
 
 const storage = new Map();
 const room = new TogetherRoom({ storage: {
