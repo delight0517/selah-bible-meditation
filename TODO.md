@@ -934,3 +934,8 @@
 - [x] iPhone 집중 읽기에서 고정 높이 Grid 행 때문에 오디오 보조 링크와 본문이 겹치고 본문이 남은 세로 공간을 받지 못하던 원인을 수정했다. 오디오 보조 컨트롤을 집중 화면에서 숨기고 본문에 유연 행을 할당; 회귀 검사 추가. [기록 2026-10-07 · 삭제 예정 2027-10-07]
 - [x] iPhone·iPad Simulator의 세로·가로 비율에서 본문과 컨트롤 겹침이 없는 것을 확인했다.
 - [x] PR #311 (`b6ae77f`)을 main에 병합하고 Pages 배포 run `37568119465` 성공을 확인했다. 공개 HTML에서 수정된 focus Grid 및 오디오 숨김 CSS를 읽었고, iPad Simulator Safari에서 배포 화면을 확인했다. [기록 2026-10-07 · 삭제 예정 2027-10-07]
+
+## 2026-10-07 · YouTube 장 검색의 무관한 결과 숨김
+- [x] 현재 본문 책·장과 제목/명시된 cue가 맞지 않는 영상은 검색 결과에서 제외하고, 검증된 본문 cue가 재생목록 영상 ID와 연결된 재생목록만 표시한다. 판본별 검색 결과 수도 실제 표시 후보 기준으로 계산한다.
+- [x] 무관한 영상, 정확한 장/cue 영상, 미검증·부분 검증·잘못된 장의 재생목록 계약 회귀 검사를 추가했다. `node scripts/test-youtube-search-worker.mjs`와 `node scripts/check-youtube-audio-catalog-client.mjs` 통과.
+- [ ] feature parity revision 57을 동기화하고 최신 `origin/main`과 비교한 뒤 웹 PR을 준비한다. Aside Apple Events 메뉴 권한은 켜진 것을 확인했지만 이 환경에서 Aside 탭 자동화 연결을 사용할 수 없어 공개 화면 동작, YouTube 재생 및 본문 따라가기는 미검증이다.

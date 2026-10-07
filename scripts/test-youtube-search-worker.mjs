@@ -127,6 +127,18 @@ try {
   assert.equal(playlistItem.url,'https://www.youtube.com/playlist?list=PL12345678901234567890');
   assert.deepEqual(playlistItem.verseCues,[],'playlist-level timestamps are not mistaken for video verse cues');
   const readerHtml=await readFile(new URL('../index.html',import.meta.url),'utf8');
+  const relevanceLine=readerHtml.split('\n').find(line=>line.startsWith('function youtubeAudioItemMatchesPassage(item,bookId,chapter,coverage=null){'));
+  assert.ok(relevanceLine,'the reader has a passage-relevance filter for audio search results');
+  const youtubeAudioItemMatchesPassage=new Function(`${relevanceLine};return youtubeAudioItemMatchesPassage;`)();
+  assert.equal(youtubeAudioItemMatchesPassage({mediaType:'video',chapterMatch:false,verseCues:[]},'JHN',1),false,'off-book/unmatched video results are not shown as current-passage audio');
+  assert.equal(youtubeAudioItemMatchesPassage({mediaType:'video',chapterMatch:true,verseCues:[]},'JHN',1),true,'an exact chapter video remains selectable without verse cues');
+  assert.equal(youtubeAudioItemMatchesPassage({mediaType:'video',chapterMatch:false,verseCues:[{bookId:'JHN',chapter:1}]},'JHN',1),true,'a video with an explicit cue for the current passage remains selectable');
+  const coveredPlaylist={mediaType:'playlist',chapterMatch:false,verseCues:[]},verifiedCoverage={status:'PARTIAL_COVERAGE',videoIds:['abcdefghijk'],verseCues:[{bookId:'JHN',chapter:1,playlistIndex:0,videoId:'abcdefghijk'}]};
+  assert.equal(youtubeAudioItemMatchesPassage(coveredPlaylist,'JHN',1,null),false,'unverified playlists are not shown for a passage');
+  assert.equal(youtubeAudioItemMatchesPassage(coveredPlaylist,'JHN',1,verifiedCoverage),true,'verified playlist coverage exposes the exact current chapter');
+  assert.equal(youtubeAudioItemMatchesPassage(coveredPlaylist,'MAT',1,verifiedCoverage),false,'a playlist without the selected passage is not shown');
+  assert.equal(youtubeAudioItemMatchesPassage(coveredPlaylist,'JHN',1,{...verifiedCoverage,status:'SCAN_INCOMPLETE'}),false,'incomplete playlist scans cannot qualify as passage audio');
+  assert.match(readerHtml,/const found=results\.filter\(items=>items\.length\)\.length/,'edition status counts only passage-relevant visible results');
   assert.match(readerHtml,/id:"youtube-live-"\+\(item\.playlistId\|\|item\.videoId\)/,'the reader gives playlist and video results distinct source IDs');
   assert.match(readerHtml,/mediaType:item\.mediaType==="playlist"\?"playlist":"video"/,'the reader keeps each result media type when saving');
   assert.match(readerHtml,/\/youtube\/playlist-coverage/,'the reader verifies one playlist candidate per edition before labeling its coverage');
