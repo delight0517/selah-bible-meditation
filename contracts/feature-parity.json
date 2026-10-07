@@ -697,19 +697,19 @@
       "platforms": {
         "web": {
           "owner": "Selah web task",
-          "state": "pending",
+          "state": "implemented",
           "appliedRevision": 8,
           "source": "codex/selah-theme-contrast-guard-20261007",
-          "build": "shared source; Pages deployment pending",
-          "evidence": "Revision 8 assigns the focus-reader flexible Grid track to Scripture and hides secondary audio links. Pages deployment and live-browser visual confirmation pending."
+          "build": "Pages deployment run 37568119465; main b6ae77f",
+          "evidence": "PR #311 merged to main as b6ae77f. Pages run 37568119465 succeeded. Public HTML serves the focus-reader flexible Grid track and hides secondary audio controls. iPhone/iPad Simulator portrait and landscape passed; deployed page visually checked in iPad Simulator Safari."
         },
         "windows": {
           "owner": "selah-windows-feature-runtime-20261003",
           "state": "pending",
-          "evidence": "Windows consumes the shared hosted reader; revision 8 awaits Pages deployment and Windows shell rendering evidence.",
+          "evidence": "Shared hosted reader revision 8 is deployed and its CSS was verified. Windows shell rendering has not been tested.",
           "appliedRevision": 8,
-          "source": "current task branch shared hosted reader",
-          "build": "shared hosted source; deployment pending"
+          "source": "deployed shared hosted reader",
+          "build": "Pages deployment run 37568119465; main b6ae77f"
         },
         "macos": {
           "owner": "selah-apple-feature-parity-20261003",
