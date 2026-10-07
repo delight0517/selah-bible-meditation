@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import worker, { TogetherRoom } from '../together-worker/src/index.js';
 import { audioLanguageList, editionList, searchYouTube, verifyYouTubePlaylistCoverage } from '../together-worker/src/youtube-search.js';
+import { MAX_SCHEDULED_COVERAGE_CANDIDATES, YOUTUBE_QUOTA_LIMITS } from '../together-worker/src/youtube-quota.js';
 import audioBookNames from '../together-worker/src/audio-book-names.json' with {type:'json'};
 
 for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) assert.ok(editionList(locale).length>=5,`${locale} edition choices`);
@@ -64,6 +65,17 @@ try {
   assert.equal(playlistOnlyUrls.every(url=>new URL(url).searchParams.get('type')==='playlist'),true,'the scheduled search and fallback stay playlist-only');
   assert.equal(new URL(playlistOnlyUrls[0]).searchParams.get('q').endsWith(' playlist'),true,'playlist-only discovery adds a playlist search term');
   assert.equal(playlistOnlyData.editions.find(group=>group.id==='KJV').items[0].mediaType,'playlist');
+  for (const locale of ['en','ko']) {
+    const localizedEditions=editionList(locale), limit=Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES/localizedEditions.length);
+    globalThis.fetch=async()=>Response.json({items:localizedEditions.flatMap((edition,editionIndex)=>Array.from({length:7},(_,candidateIndex)=>({
+      id:{playlistId:`PL${String(editionIndex*10+candidateIndex+1).padStart(20,'0')}`},
+      snippet:{title:`${edition.name} Matthew chapter 1 Bible audio playlist ${candidateIndex+1}`,description:'',channelTitle:edition.name}
+    })))});
+    const response=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale,bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},undefined,{playlistOnly:true});
+    const groups=(await response.json()).editions;
+    assert.ok(groups.every(group=>group.items.length===limit),`${locale} exposes ${limit} playlist candidates per edition within its scheduled scan share`);
+    assert.ok(groups.length*limit<=MAX_SCHEDULED_COVERAGE_CANDIDATES,`${locale} search results never exceed the daily playlist scan ceiling`);
+  }
   for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) {
     globalThis.fetch=async()=>Response.json({items:editionList(locale).map((edition,index)=>({id:{videoId:`id${locale}${index}`.replace(/[^\w-]/g,'').slice(0,11).padEnd(11,'x')},snippet:{title:`${edition.name} Matthew 1 audio`,description:'',channelTitle:'Test'}}))});
     const localized=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale,bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
@@ -168,7 +180,7 @@ try {
   assert.equal((await room.fetch(quotaRequest('search','scheduled'))).status,429,'scheduled search reserve stops at the separate 30-call ceiling');
   for(let count=0;count<150;count++) assert.equal((await room.fetch(quotaRequest('coverage','interactive'))).status,200);
   assert.equal((await room.fetch(quotaRequest('coverage','interactive'))).status,429,'interactive playlist verification is bounded');
-  for(let count=0;count<30;count++) assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,200);
+  for(let count=0;count<YOUTUBE_QUOTA_LIMITS.coverage.scheduled;count++) assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,200);
   assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,429,'the catalog can verify up to 30 scheduled candidates, including all six Korean editions');
   const savedQuota=values.get('youtube-search-quota');
   assert.equal(savedQuota.interactiveCoverageCount+savedQuota.scheduledCoverageCount,180);

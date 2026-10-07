@@ -1,4 +1,5 @@
 import audioBookNames from './audio-book-names.json' with {type:'json'};
+import { MAX_SCHEDULED_COVERAGE_CANDIDATES } from './youtube-quota.js';
 
 const EDITIONS = {
   en: [['KJV','King James Version'],['NIV','New International Version'],['ESV','English Standard Version'],['NKJV','New King James Version'],['NLT','New Living Translation']],
@@ -226,6 +227,7 @@ export async function searchYouTube(request, env, reserveQuota, { playlistOnly =
       for(const item of classify(fallback.items,editions))if(missingIds.has(item.editionId)&&!items.some(existing=>existing._assetId===item._assetId))items.push(item);
     }
   }
-  const groups=editions.map(([id,name])=>({id,name,items:items.filter(item=>item.editionId===id).slice(0,5).map(({_assetId,...item})=>item)}));
+  const maxPlaylistCandidatesPerEdition=Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES/editions.length);
+  const groups=editions.map(([id,name])=>({id,name,items:items.filter(item=>item.editionId===id).slice(0,maxPlaylistCandidatesPerEdition).map(({_assetId,...item})=>item)}));
   return Response.json({locale:input.locale,bookId:input.bookId,chapter,editions:groups,...(fallbackLimited?{fallbackLimited:true}:{})},{headers:{'Cache-Control':'no-store'}});
 }

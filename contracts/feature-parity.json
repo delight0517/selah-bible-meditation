@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 51,
+      "revision": 53,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -799,7 +799,8 @@
         "While a playlist plays, verse synchronization and manual cue marking use the current video's ID even when its URL also contains the playlist ID.",
         "Search runs on demand for the current book/chapter and all configured editions in one YouTube search.list call. A single second call targets editions with no classified candidate; one result per edition is sufficient to avoid an unnecessary fallback. Each call is independently quota-limited.",
         "Results are categorized by matching public metadata; the API key stays in a Cloudflare Worker secret, and requests are validated and rate limited.",
-        "A Cloudflare Worker Cron runs once daily after the Pacific quota reset and refreshes one audio locale per run, rotating through all ten locales. It searches configured editions, checks up to five playlist candidates per edition, and writes compact snapshots to Durable Object storage without human selection.",
+        "The Cloudflare Worker runs three catalog Cron jobs daily at 00:20, 08:20, and 16:20 UTC. After the Pacific quota reset, each run refreshes one audio locale; Durable Object state rotates across all ten locales so every locale is revisited within four days without human selection.",
+        "Each scheduled locale run uses up to ten of the existing thirty daily playlist-coverage scans. Five-edition locales scan up to two candidates per edition; Korean distributes ten scans as one candidate per six editions plus four extra candidates, rotating those extra edition slots across completed locale runs. Three daily runs stay within the existing thirty-scan cap and do not add YouTube search requests or quota.",
         "The web reader loads only its selected audio-language catalog automatically, keeps text and audio editions independent, and offers matching full or partial playlist results without requiring a fresh manual search. YouTube playback still starts only after a user presses the player control.",
         "The web reader fetches the current locale catalog from the Worker endpoint first and uses the checked-in static catalog as a network-failure fallback. It rejects malformed or older-than-30-days snapshots.",
         "A refreshed catalog is metadata evidence, not proof that the audio content was listened to or semantically matched. Five complete editions per language and observed web playback plus scripture following remain the completion threshold.",
@@ -810,7 +811,7 @@
         "Goal completion requires evidence of five distinct, complete audio editions per language and observed playback plus scripture following in the web reader; the names shown in the search selector alone do not satisfy this threshold.",
         "The Worker reserves at most 70 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving 30 requests of headroom for other consumers of the shared API key under the default 100-query daily limit. If YouTube returns HTTP 429 or a 403 containing the quotaExceeded reason, the Worker blocks further searches until the next Pacific calendar day; unrelated 403 errors do not trigger the daily quota block.",
         "One targeted fallback search fills editions with no classified candidate; a single valid candidate per edition does not trigger a second request. Each request remains separately quota-limited.",
-        "For each edition group, try up to five playlist candidates until complete 66-book/1,189-chapter cue coverage is found; otherwise keep the best verified partial result and show its coverage distinctly.",
+        "For each edition group, try its quota-shared candidate limit until complete 66-book/1,189-chapter cue coverage is found; otherwise keep the best verified partial result and show its coverage distinctly.",
         "Coverage scanning supports both chapter-per-video playlists and one-audio-video-per-book playlists when the book title is unambiguous and its description contains timestamped chapter starts.",
         "Playlist title coverage means metadata/title coverage only; it does not claim the audio content itself was listened to or semantically verified.",
         "Verified chapter and verse cues retain playlist order and video IDs when saved and synced so playback can select the correct video and follow chapter/verse cues.",
@@ -846,6 +847,7 @@
         "mobile/www/youtube-player.html",
         "scripts/check-youtube-player.mjs",
         "together-worker/src/youtube-search.js",
+        "together-worker/src/youtube-quota.js",
         "scripts/test-youtube-search-worker.mjs",
         "together-worker/src/youtube-audio-catalog.js",
         "scripts/test-youtube-audio-catalog-worker.mjs",
@@ -866,34 +868,34 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry",
-          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
-          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
-          "appliedRevision": 51
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
+          "build": "Shared Worker source; deployment and scheduled catalog readback pending",
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry",
-          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
-          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
-          "appliedRevision": 51
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
+          "build": "Shared Worker source; deployment and scheduled catalog readback pending",
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "implemented",
-          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
-          "appliedRevision": 51,
-          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
-          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry"
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53,
+          "build": "Shared Worker source; deployment and scheduled catalog readback pending",
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation"
         },
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "source": "codex/selah-audio-endpoint-readback-20261007 shared reader catalog retry",
-          "build": "1.0.18 / build 86; Pages deployment and platform runtime verification pending",
-          "evidence": "The shared hosted reader now bounds a pre-publication catalog miss and retries near the next 08:30 UTC publication check; generated iOS bundle carries the same source. Client regression test confirms the later catalog is accepted without another YouTube search. Public deployment and audible playback/runtime proof remain pending.",
-          "appliedRevision": 51
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
+          "build": "Shared Worker source; deployment and scheduled catalog readback pending",
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53
         }
       }
     },
