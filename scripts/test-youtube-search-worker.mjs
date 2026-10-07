@@ -74,6 +74,11 @@ try {
   const sameChapterRangeItem=(await sameChapterVerseRange.json()).editions.find(group=>group.id==='ESV').items[0];
   assert.equal(sameChapterRangeItem.chapterMatch,true,'the excerpt still matches Matthew chapter 1 for partial manual search');
   assert.equal(sameChapterRangeItem.fullChapterMatch,false,'Matthew 1:18-25 is a verse excerpt, not the complete chapter');
+  globalThis.fetch=async()=>Response.json({items:[{id:{videoId:'korange0000'},snippet:{title:'새번역 마태복음서 1장~28장 전체듣기',description:'',channelTitle:'새번역'}}]});
+  const koreanChapterRange=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const koreanRangeItem=(await koreanChapterRange.json()).editions.find(group=>group.id==='KSB').items[0];
+  assert.equal(koreanRangeItem.chapterMatch,true,'a Korean book-range video remains available to passage search');
+  assert.equal(koreanRangeItem.fullChapterMatch,false,'새번역 마태복음서 1장~28장 is not a single-chapter catalog match');
   globalThis.fetch=async()=>Response.json({items:[{id:{videoId:'rangevideo3'},snippet:{title:'マタイによる福音書（１：18-25）【新共同訳】',description:'',channelTitle:'聖書朗読'}}]});
   const japaneseVerseRange=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ja',bookId:'MAT',bookName:'マタイによる福音書',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
   const japaneseRangeItem=(await japaneseVerseRange.json()).editions.find(group=>group.id==='新共同訳').items[0];
