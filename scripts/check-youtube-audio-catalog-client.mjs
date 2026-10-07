@@ -3,6 +3,12 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+for (const label of ['닫고 재생 중지', 'Close and stop playback', '閉じて再生を停止', '关闭并停止播放', '關閉並停止播放', 'Isara at ihinto ang playback', 'Cerrar y detener la reproducción', 'Fechar e parar a reprodução']) {
+  assert.ok(html.includes(`dismiss:"${label}"`), `audio dismissal is localized: ${label}`);
+}
+assert.ok(html.includes('playingBibleAudio=source.id;setBibleAudioMinimized(true);renderBibleAudioSetup()}'), 'the reading-page audio control opens the visible lower-right mini player');
+assert.ok(html.includes('function dismissBibleAudioPlayer(){playingBibleAudio="";resetBibleAudioYouTubePlayer();$("bibleAudioPlayerVideo").replaceChildren();$("bibleAudioPlayer").hidden=true;'), 'dismissing the mini player stops and removes its YouTube frame');
+assert.ok(html.includes('if(dx<55||dx<Math.abs(dy)*1.35)return;event.preventDefault();suppressBibleAudioPlayerClickUntil=Date.now()+500;dismissBibleAudioPlayer()}'), 'a right swipe on the mini-player bar dismisses it without firing a control click');
 const chapterCopyStart = html.indexOf('const bibleAudioChapterCopy=');
 const chapterCopyEnd = html.indexOf(';', chapterCopyStart);
 assert.ok(chapterCopyStart >= 0 && chapterCopyEnd > chapterCopyStart, 'chapter-follow copy exists');
