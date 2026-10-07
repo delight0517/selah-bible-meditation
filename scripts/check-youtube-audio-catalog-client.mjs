@@ -3,6 +3,15 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+const chapterCopyStart = html.indexOf('const bibleAudioChapterCopy=');
+const chapterCopyEnd = html.indexOf(';', chapterCopyStart);
+assert.ok(chapterCopyStart >= 0 && chapterCopyEnd > chapterCopyStart, 'chapter-follow copy exists');
+const chapterCopyContext = {};
+vm.runInNewContext(`${html.slice(chapterCopyStart, chapterCopyEnd)}; globalThis.copy = bibleAudioChapterCopy;`, chapterCopyContext);
+for (const [locale, copy] of Object.entries(chapterCopyContext.copy)) {
+  assert.doesNotMatch(copy.instructions, /NLT|28/, `${locale} chapter-follow instructions use the actual source instead of a fixed Bible edition or cue count`);
+  assert.match(copy.count, /\{count\}/, `${locale} chapter-follow count uses the catalog's verified cue count`);
+}
 const cueStart = html.indexOf('function youtubeAudioHasPassageCue(');
 const cueEnd = html.indexOf('\nfunction youtubeAudioItemMatchesPassage', cueStart);
 assert.ok(cueStart >= 0 && cueEnd > cueStart, 'shared playlist cue validator exists');
@@ -58,4 +67,4 @@ assert.equal(requests.length, 3, 'one retry performs a public API read and no ex
 assert.equal(context.catalogTest.data.get('en')?.locale, 'en', 'the session accepts the newly published catalog');
 assert.equal(context.catalogTest.retries.size, 0, 'successful publication cancels negative-cache retries');
 assert.equal(renders, 2, 'the reader rerenders when either the miss or refreshed catalog resolves');
-console.log('PASS: selected-passage playlist cues must map to the same video; open readers retry catalog publication without another YouTube search.');
+console.log('PASS: chapter-follow copy uses actual catalog counts; playlist cues map to the selected passage; catalog retries use GET only.');
