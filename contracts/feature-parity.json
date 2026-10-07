@@ -1318,11 +1318,11 @@
     },
     {
       "id": "SELAH-WEB-FULLSCREEN-REENTRY",
-      "revision": 1,
+      "revision": 2,
       "title": "웹 성경 읽기 전체 화면 재진입",
       "acceptance": [
         "성경 읽기와 집중 읽기 화면에서 브라우저 전체 화면 전환 버튼을 사용할 수 있다.",
-        "브라우저가 Escape 등으로 전체 화면을 종료하면 fullscreenchange 상태를 읽어 버튼 라벨이 다시 전체 화면 진입으로 바뀐다.",
+        "브라우저가 Escape 등으로 전체 화면을 종료하면 버튼이 계속 보이고 `fullscreenchange` 상태에 맞게 다시 전체 화면 진입으로 표시되어, 사용자 클릭으로 재진입할 수 있다.",
         "사용자가 버튼을 눌러야 전체 화면 진입을 요청하며 거부/미지원 브라우저에서는 읽기 집중 화면을 대체 경로로 제공한다.",
         "생성된 iOS 공유 웹 번들은 같은 UI를 포함하고 플랫폼별 설치 동작은 별도로 확인한다."
       ],
@@ -1340,10 +1340,10 @@
         "web": {
           "owner": "Selah web maintainer",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "codex/selah-reader-fullscreen-20261006",
+          "appliedRevision": 2,
+          "source": "codex/selah-reader-controls-20261007",
           "build": "1.0.17 / build 85",
-          "evidence": "Adds fullscreen controls in Scripture and focused-reading headers, request/exit on click and fullscreenchange label sync; live browser interaction remains pending."
+          "evidence": "The existing user-gesture request/exit and fullscreenchange label update are retained in the corrected reader UI bundle; static source contract passes. Public browser Escape/re-entry interaction remains pending."
         },
         "windows": {
           "owner": "Windows platform contract",
@@ -1351,7 +1351,7 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Shared hosted web control is implemented; Windows runtime/package parity remains unverified."
+          "evidence": "Revision 2 is included in the shared hosted reader; Windows shell/runtime Escape and re-entry behavior remains unverified."
         },
         "macos": {
           "owner": "macOS platform contract",
@@ -1359,15 +1359,15 @@
           "appliedRevision": null,
           "source": "",
           "build": "",
-          "evidence": "Shared hosted web control is implemented; native packaging/runtime parity remains unverified."
+          "evidence": "Revision 2 is included in shared source; native macOS fullscreen behavior remains unverified."
         },
         "ios": {
           "owner": "Selah iOS shared-web maintainer",
           "state": "implemented",
-          "appliedRevision": 1,
+          "appliedRevision": 2,
           "source": "generated mobile/www bundle",
           "build": "1.0.17 / build 85 shared source bundle",
-          "evidence": "Shared source is generated into mobile/www; iOS Safari and installed-app runtime behavior remain unverified."
+          "evidence": "Generated shared source contains the revision 2 fullscreen button/state behavior; installed iOS runtime remains unverified."
         }
       },
       "workItem": "selah-reader-fullscreen-20261006"
