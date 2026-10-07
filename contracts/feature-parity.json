@@ -778,7 +778,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 70,
+      "revision": 71,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -854,7 +854,9 @@
         "Only an explicit click on the reading-page primary audio control requests YouTube autoplay for the selected passage and opens the visible lower-right mini player without moving the Scripture reader. Page load and ordinary rerenders never request autoplay. Standard YouTube controls remain enabled so playback can be started manually if the browser blocks autoplay.",
         "A close button or right swipe on the mini-player header stops embedded playback and dismisses the iframe. YouTube Premium background playback is opened in the official YouTube app; Selah never continues hidden embedded playback.",
         "On mobile focus reading, a localized accessible play button remains visible when a passage-compatible audio source exists and opens that passage audio in the compact lower-right player; it stays hidden when no such source exists.",
-        "The reading-page play action and its visible primary label use the same passage-compatible source selector, so an earlier generated playlist without a matching chapter cue cannot replace the aligned edition at playback time."
+        "The reading-page play action and its visible primary label use the same passage-compatible source selector, so an earlier generated playlist without a matching chapter cue cannot replace the aligned edition at playback time.",
+        "For each selected audio language, automatic chapter searches use one pinned audio-edition ID across passages and devices; when that edition has no verified cue for the current passage, playback stays unavailable instead of switching silently to another translation.",
+        "Legacy playlist data that maps different chapters from the same video to the same 0-second start cannot auto-play or follow the later chapter; only explicit chapter/verse timestamps or one canonical first start are accepted."
       ],
       "paths": [
         "index.html",

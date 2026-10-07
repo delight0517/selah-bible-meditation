@@ -133,3 +133,12 @@ test('Bible audio verse timestamp maps survive BlueCloud merge and converge', ()
   assert.ok(merged.bibleAudioLinks[0].verseCues.some(cue=>cue.chapter===2&&cue.seconds===61.5));
   same(merged,data.merge(mac,phone));
 });
+
+test('one selected YouTube audio edition per language syncs across devices', () => {
+  const start = { ...base(), youtubeAudioEditionDefaults: {} };
+  const phone = edit(start, 'iOS', 110, state => { state.youtubeAudioEditionDefaults.ko = 'KSB'; });
+  const mac = edit(start, 'Mac', 120, state => { state.youtubeAudioEditionDefaults.en = 'KJV'; });
+  const merged = data.merge(phone, mac);
+  assert.deepEqual(merged.youtubeAudioEditionDefaults, { ko: 'KSB', en: 'KJV' });
+  assert.deepEqual(data.merge(mac, phone).youtubeAudioEditionDefaults, merged.youtubeAudioEditionDefaults);
+});

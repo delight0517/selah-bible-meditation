@@ -38,6 +38,8 @@ vm.runInNewContext(`${html.slice(cueStart, cueEnd)}\nglobalThis.matches = youtub
 const passageCue = { bookId: 'JHN', chapter: 1, verse: 1, seconds: 0, videoId: '4kVZKeuS90E', playlistIndex: 42 };
 const verifiedPlaylist = { generated: true, mediaType: 'playlist', verseCues: [passageCue], videoIds: Array.from({ length: 43 }, (_, index) => index === 42 ? passageCue.videoId : 'abcdefghijk') };
 assert.equal(cueContext.matches(verifiedPlaylist, 'JHN', 1), true, 'a passage cue starts only when its playlist index maps to that exact video');
+const staleRangeCues = [passageCue, { ...passageCue, chapter: 21 }];
+assert.equal(cueContext.matches({ ...verifiedPlaylist, verseCues: staleRangeCues }, 'JHN', 21), false, 'legacy whole-book range data cannot send a later chapter to the same video 0-second start');
 assert.equal(cueContext.canStart(verifiedPlaylist, 'JHN', 1), true, 'a matching generated playlist is playable for its verified passage');
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, videoIds: ['abcdefghijk'] }, 'JHN', 1), false, 'a generated playlist with a mismatched video cannot start');
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, playlistIndex: undefined }] }, 'JHN', 1), false, 'a cue without a verified playlist index cannot start');
@@ -58,18 +60,44 @@ assert.ok(html.includes('selectedVideoId=startCue?.videoId||(videoIds.length?vid
 assert.ok(html.includes('Number.isInteger(cue.playlistIndex)||media.kind==="video"&&cue.videoId===media.id'), 'single-video verse cues start at their own timestamp without requiring a playlist index');
 assert.ok(html.includes('if(startCue?.seconds>0)hostUrl.searchParams.set("startSeconds",String(startCue.seconds))'), 'generated playback passes the cue timestamp to the hosted player');
 assert.ok(html.includes('startBibleAudioYouTubePlayer(iframe,playing.id)}'), 'generated playback does not replace the verified video with the full playlist queue');
-const catalogSourceStart = html.indexOf('function catalogBibleAudioSources(');
+const catalogSourceStart = html.indexOf('function youtubeAudioPrimaryEditionId(');
 const catalogSourceEnd = html.indexOf('\nfunction visibleBibleAudioSources', catalogSourceStart);
 assert.ok(catalogSourceStart >= 0 && catalogSourceEnd > catalogSourceStart, 'catalog source adapter exists');
 const catalogVideoId = 'jpnvideo000';
-const catalogContext = { encodeURIComponent, youtubeAudioCatalogData: new Map([['ja', { editions: [{ id: 'JPN1965', name: '口語訳', status: 'NO_PLAYLIST_CANDIDATE', chapterVideo: { videoId: catalogVideoId, title: 'マタイ 1章', cueKind: 'verse', verseCues: [{ bookId: 'MAT', chapter: 1, verse: 2, seconds: 20, videoId: catalogVideoId }] } }] }]]), bibleAudioCopy: () => ({ cues: 'verse timestamps', chapter: 'chapter start', uncued: 'no timestamps' }), youtubeCoverageLabel: () => 'playlist coverage' };
-vm.runInNewContext(`${html.slice(catalogSourceStart, catalogSourceEnd)}\nglobalThis.mapCatalog = catalogBibleAudioSources;`, catalogContext);
+const catalogContext = {
+  encodeURIComponent,
+  db: {},
+  youtubeAudioCatalogData: new Map([
+    ['ja', { editions: [{ id: 'JPN1965', name: '口語訳', status: 'NO_PLAYLIST_CANDIDATE', chapterVideo: { videoId: catalogVideoId, title: 'マタイ 1章', cueKind: 'verse', verseCues: [{ bookId: 'MAT', chapter: 1, verse: 2, seconds: 20, videoId: catalogVideoId }] } }] }],
+    ['ko', { editions: [
+      { id: 'NKRV', name: '개역개정', status: 'PARTIAL_COVERAGE', playlistId: 'PL000000000000000001', coveredChapters: 0, videoIds: [], verseCues: [] },
+      { id: 'KSB', name: '새번역', status: 'PARTIAL_COVERAGE', playlistId: 'PL000000000000000002', coveredChapters: 113, chapterSync: true, explicitVerseCueCount: 0, videoIds: [], verseCues: [] }
+    ] }]
+  ]),
+  bibleAudioCopy: () => ({ cues: 'verse timestamps', chapter: 'chapter start', uncued: 'no timestamps' }),
+  youtubeCoverageLabel: () => 'playlist coverage'
+};
+vm.runInNewContext(`${html.slice(catalogSourceStart, catalogSourceEnd)}\nglobalThis.mapCatalog = catalogBibleAudioSources; globalThis.primaryEdition = youtubeAudioPrimaryEditionId;`, catalogContext);
 const catalogSources = catalogContext.mapCatalog('translation', 'ja');
 assert.equal(catalogSources.length, 1, 'cataloged videos work without a playlist');
 assert.equal(catalogSources[0].mediaType, 'video');
 assert.equal(catalogSources[0].chapter, 1);
 assert.equal(catalogSources[0].sourceLabel, 'verse timestamps');
 assert.equal(catalogSources[0].verseCues[0].videoId, catalogVideoId, 'cataloged verse timing remains attached to its exact video');
+const koreanCatalogSources = catalogContext.mapCatalog('translation', 'ko');
+assert.equal(koreanCatalogSources.length, 1, 'the Korean audio catalog exposes one primary edition instead of a candidate list');
+assert.equal(koreanCatalogSources[0].edition, '새번역', 'the highest-coverage Korean edition is the stable primary audio version');
+assert.equal(catalogContext.primaryEdition('ko', [{ id: 'KSB' }, { id: 'NKRV' }]), 'KSB');
+catalogContext.db.youtubeAudioEditionDefaults = { ko: 'KSB' };
+catalogContext.youtubeAudioCatalogData.set('ko', { editions: [
+  { id: 'NKRV', name: '개역개정', status: 'PARTIAL_COVERAGE', playlistId: 'PL000000000000000001', coveredChapters: 120, chapterSync: false },
+  { id: 'KSB', name: '새번역', status: 'PARTIAL_COVERAGE', playlistId: 'PL000000000000000002', coveredChapters: 113, chapterSync: true }
+] });
+assert.equal(catalogContext.primaryEdition('ko', [{ id: 'KSB' }, { id: 'NKRV' }]), 'KSB', 'the first chosen audio edition stays fixed across chapters');
+delete catalogContext.db.youtubeAudioEditionDefaults.ko;
+assert.equal(catalogContext.primaryEdition('ko', [{ id: 'KSB' }, { id: 'NKRV' }]), 'NKRV', 'broader chapter coverage outranks chapter-sync metadata for the initial edition choice');
+assert.ok(html.includes('searchYoutubeBibleAudio({playAfterSearch:true})'), 'the Scripture play button searches the chosen edition when no passage-matched source exists');
+assert.ok(html.includes('renderBibleAudioSetup({autoplayRequested:true})'), 'a found chapter-matched video is sent to YouTube autoplay after the Scripture play gesture');
 const followStart = html.indexOf('function latestBibleAudioCue(');
 const followEnd = html.indexOf('\nfunction syncBibleAudioVerse', followStart);
 assert.ok(followStart >= 0 && followEnd > followStart, 'audio follow cue selector exists');
