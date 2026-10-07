@@ -132,7 +132,16 @@ assert.equal(invalidLocale.status, 400);
 const deniedOrigin = await worker.fetch(new Request('https://worker.test/youtube/audio-catalog?locale=en', { headers: { Origin: 'https://evil.example' } }), env);
 assert.equal(deniedOrigin.status, 403);
 
-const next = await refresh(Date.parse('2026-10-08T08:20:00Z'), audioLanguageList()[1].code);
-assert.equal(next.refreshed, true);
-assert.equal(refreshCount, 2);
+const scheduledLocales = audioLanguageList().map(language => language.code), rotatedLocales = [scheduledLocales[0]];
+for (let index = 1; index < scheduledLocales.length; index++) {
+  const result = await refresh(firstTime + index * 86400000, scheduledLocales[index]);
+  assert.equal(result.refreshed, true, `day ${index + 1} refreshes ${scheduledLocales[index]}`);
+  rotatedLocales.push(result.locale);
+}
+assert.deepEqual(rotatedLocales, scheduledLocales, 'ten daily catalog runs cover every audio language once in order');
+const wrapped = await refresh(firstTime + scheduledLocales.length * 86400000, scheduledLocales[0]);
+assert.equal(wrapped.refreshed, true);
+assert.equal(wrapped.locale, scheduledLocales[0], 'the next cycle returns to its first language');
+assert.equal((await refresh(firstTime + scheduledLocales.length * 86400000, scheduledLocales[0])).reason, 'already_claimed_today');
+assert.equal(refreshCount, scheduledLocales.length + 1);
 console.log('Scheduled YouTube audio catalog contract passed.');
