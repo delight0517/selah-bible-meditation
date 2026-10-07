@@ -5,9 +5,10 @@ import { discoverAudioCatalogLocale } from '../together-worker/src/youtube-audio
 
 const editions = editionList('en');
 const playlist = index => `PL${String(index).padStart(20, '0')}`;
-let searchCount = 0, coverageCount = 0;
+let searchCount = 0, coverageCount = 0, coverageReservations = 0;
 const discovered = await discoverAudioCatalogLocale({
   locale: 'en', env: {}, waitMs: 0, sleepImpl: async () => {}, now: () => new Date('2026-10-07T08:20:00Z'),
+  reserveCoverageQuota: async () => { coverageReservations++; return null; },
   searchImpl: async request => {
     searchCount++;
     const body = await request.json();
@@ -20,7 +21,9 @@ const discovered = await discoverAudioCatalogLocale({
       ] : []
     })) });
   },
-  coverageImpl: async request => {
+  coverageImpl: async (request, env, reserveQuota) => {
+    assert.equal(typeof reserveQuota, 'function');
+    assert.equal(await reserveQuota(), null);
     coverageCount++;
     const body = await request.json();
     assert.equal(body.editionId, editions[0].id);
@@ -31,6 +34,7 @@ const discovered = await discoverAudioCatalogLocale({
 });
 assert.equal(searchCount, 1);
 assert.equal(coverageCount, 2);
+assert.equal(coverageReservations, 2);
 assert.equal(discovered.editions.length, 5);
 assert.equal(discovered.editions[0].playlistId, playlist(2));
 assert.equal(discovered.editions[0].coveredChapters, 1189);
@@ -52,9 +56,11 @@ const firstTime = Date.parse('2026-10-07T08:20:00Z');
 let refreshCount = 0;
 const refresh = (scheduledTime, localeResult) => refreshNextAudioCatalog(env, {
   scheduledTime,
-  discover: async ({ locale }) => {
+  discover: async ({ locale, reserveQuota, reserveCoverageQuota }) => {
     refreshCount++;
     assert.equal(locale, localeResult);
+    assert.equal(await reserveQuota(), null,'scheduled searches use their reserved daily bucket');
+    assert.equal(await reserveCoverageQuota(), null,'scheduled playlist scans use their reserved daily bucket');
     return { ...discovered, locale, editions: editionList(locale).map((edition, index) => ({ ...edition, status: 'PARTIAL_COVERAGE', coveredChapters: index + 1 })) };
   }
 });

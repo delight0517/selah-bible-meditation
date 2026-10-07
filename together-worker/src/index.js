@@ -1,6 +1,8 @@
 import { audioLanguageList, editionList, searchYouTube, verifyYouTubePlaylistCoverage } from './youtube-search.js';
 import { discoverAudioCatalogLocale } from './youtube-audio-catalog.js';
 const TTL = 86400000, ACTIVE = 15000;
+// Search.list has a separate 100-call bucket. A full playlist scan costs at most 49 units: 1 playlist, 24 playlistItems, and 24 videos list calls. 180 scans reserve 8,820 of the 10,000 daily non-search units.
+const YOUTUBE_QUOTA_LIMITS = { search: { interactive: 70, scheduled: 30 }, coverage: { interactive: 150, scheduled: 30 } };
 const chapters = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
 const books = 'GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV'.split(' ');
 const origins = new Set(['https://delight0517.github.io', 'capacitor://localhost', 'http://localhost']);
@@ -11,11 +13,14 @@ const fail = (status, error) => { throw Object.assign(new Error(error), {status}
 const json = (body,status=200) => Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
 const secret = size => Array.from(crypto.getRandomValues(new Uint8Array(size)),x=>x.toString(16).padStart(2,'0')).join('');
 const audioCatalogStub = env => env.ROOMS.get(env.ROOMS.idFromName(audioCatalogStore));
-async function reserveYouTubeSearchQuota(env, upstreamLimit = false) {
+async function reserveYouTubeQuota(env, kind, mode = 'interactive', upstreamLimit = false) {
   const quota = await env.ROOMS.get(env.ROOMS.idFromName('youtube-search-quota-v1')).fetch(new Request('https://room/internal/youtube-search-quota', {
-    method: 'POST', headers: upstreamLimit ? { 'x-youtube-quota-exhausted': '1' } : {}
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(upstreamLimit ? { 'x-youtube-quota-exhausted': '1' } : {}) },
+    body: JSON.stringify({ kind, mode })
   }));
-  return quota.ok ? null : json({ error: quota.status === 429 ? 'daily_search_limit' : 'search_unavailable' }, quota.status);
+  const error = quota.status === 429 ? kind === 'search' ? 'daily_search_limit' : 'daily_playlist_coverage_limit' : 'quota_unavailable';
+  return quota.ok ? null : json({ error }, quota.status);
 }
 function pacificDay(timestamp) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Los_Angeles', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date(timestamp)).filter(part => part.type !== 'literal').map(part => [part.type, part.value]));
@@ -57,12 +62,12 @@ export default {
       else if(url.pathname==='/youtube/search' && request.method==='POST') {
         const limit=await env.YOUTUBE_SEARCH_LIMITER?.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
         if(env.YOUTUBE_SEARCH_LIMITER && !limit.success) fail(429,'rate_limited');
-        response=await searchYouTube(request,env,upstreamLimit=>reserveYouTubeSearchQuota(env,upstreamLimit));
+        response=await searchYouTube(request,env,upstreamLimit=>reserveYouTubeQuota(env,'search','interactive',upstreamLimit));
       }
       else if(url.pathname==='/youtube/playlist-coverage' && request.method==='POST') {
         const limit=await env.YOUTUBE_SEARCH_LIMITER?.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
         if(env.YOUTUBE_SEARCH_LIMITER && !limit.success) fail(429,'rate_limited');
-        response=await verifyYouTubePlaylistCoverage(request,env);
+        response=await verifyYouTubePlaylistCoverage(request,env,upstreamLimit=>reserveYouTubeQuota(env,'coverage','interactive',upstreamLimit));
       } else if(url.pathname==='/youtube/audio-catalog' && request.method==='GET') {
         const locale=url.searchParams.get('locale');
         if(!audioLocales.includes(locale))fail(400,'invalid_locale');
@@ -91,7 +96,8 @@ export default {
 export async function refreshNextAudioCatalog(env, {
   scheduledTime = Date.now(),
   discover = discoverAudioCatalogLocale,
-  reserveQuota = reserveYouTubeSearchQuota
+  reserveQuota = upstreamLimit => reserveYouTubeQuota(env,'search','scheduled',upstreamLimit),
+  reserveCoverageQuota = upstreamLimit => reserveYouTubeQuota(env,'coverage','scheduled',upstreamLimit)
 } = {}) {
   const store = audioCatalogStub(env), day = pacificDay(scheduledTime);
   const claimResponse = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/claim', {
@@ -101,7 +107,7 @@ export async function refreshNextAudioCatalog(env, {
   if (!claimResponse.ok) throw new Error(claim?.error || 'catalog_claim_failed');
   if (!claim?.claimed) return { refreshed: false, reason: 'already_claimed_today' };
 
-  const catalog = await discover({ locale: claim.locale, env, reserveQuota });
+  const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota });
   for (const edition of catalog.editions) {
     const saved = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/save-edition', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -132,10 +138,27 @@ export class TogetherRoom {
       }
       if(url.pathname==='/internal/youtube-search-quota' && request.method==='POST') {
         const now=Date.now(),parts=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Los_Angeles',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now).filter(part=>part.type!=='literal').map(part=>[part.type,part.value])),day=`${parts.year}-${parts.month}-${parts.day}`;
-        const saved=await this.ctx.storage.get('youtube-search-quota'),count=saved?.day===day?Number(saved.count)||0:0;
-        if(request.headers.get('x-youtube-quota-exhausted')==='1') { await this.ctx.storage.put('youtube-search-quota',{day,count,blocked:true}); return json({ok:true}); }
-        if(saved?.day===day && saved.blocked || count>=70) return json({error:'daily_search_limit'},429);
-        await this.ctx.storage.put('youtube-search-quota',{day,count:count+1,blocked:false});
+        const input=await request.json().catch(()=>null);
+        if(!input||!['search','coverage'].includes(input.kind)||!['interactive','scheduled'].includes(input.mode))return json({error:'invalid_quota_request'},400);
+        const saved=await this.ctx.storage.get('youtube-search-quota'),current=saved?.day===day?saved:{};
+        const counts={
+          interactiveSearchCount:Number(current.interactiveSearchCount??current.count)||0,
+          scheduledSearchCount:Number(current.scheduledSearchCount)||0,
+          interactiveCoverageCount:Number(current.interactiveCoverageCount)||0,
+          scheduledCoverageCount:Number(current.scheduledCoverageCount)||0
+        };
+        const blocked={search:!!(current.searchBlocked||current.blocked),coverage:!!current.coverageBlocked};
+        if(request.headers.get('x-youtube-quota-exhausted')==='1') {
+          blocked[input.kind]=true;
+          await this.ctx.storage.put('youtube-search-quota',{day,...counts,searchBlocked:blocked.search,coverageBlocked:blocked.coverage,count:counts.interactiveSearchCount+counts.scheduledSearchCount,blocked:blocked.search});
+          return json({ok:true});
+        }
+        if(blocked[input.kind])return json({error:input.kind==='search'?'daily_search_limit':'daily_playlist_coverage_limit'},429);
+        const key=`${input.mode}${input.kind==='search'?'Search':'Coverage'}Count`;
+        const limit=YOUTUBE_QUOTA_LIMITS[input.kind][input.mode];
+        if(counts[key]>=limit)return json({error:input.kind==='search'?'daily_search_limit':'daily_playlist_coverage_limit'},429);
+        counts[key]++;
+        await this.ctx.storage.put('youtube-search-quota',{day,...counts,searchBlocked:blocked.search,coverageBlocked:blocked.coverage,count:counts.interactiveSearchCount+counts.scheduledSearchCount,blocked:blocked.search});
         return json({ok:true});
       }
       if(url.pathname==='/internal/youtube-audio-catalog/claim' && request.method==='POST') {

@@ -143,12 +143,23 @@ try {
   assert.equal(forbidden.status,502,'an unrelated forbidden 403 remains a generic upstream error');
   assert.equal(markedQuotaExhausted,false,'an unrelated forbidden 403 does not lock the daily quota');
 
+  const quotaRequest=(kind,mode,exhausted=false)=>new Request('https://room/internal/youtube-search-quota',{method:'POST',headers:{'Content-Type':'application/json',...(exhausted?{'x-youtube-quota-exhausted':'1'}:{})},body:JSON.stringify({kind,mode})});
   const values=new Map(),room=new TogetherRoom({storage:{get:key=>values.get(key),put:(key,value)=>values.set(key,value)}});
-  for(let count=0;count<70;count++) assert.equal((await room.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,200);
-  assert.equal((await room.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,429,'daily quota preserves headroom at 70 searches');
+  for(let count=0;count<70;count++) assert.equal((await room.fetch(quotaRequest('search','interactive'))).status,200);
+  assert.equal((await room.fetch(quotaRequest('search','interactive'))).status,429,'interactive searches stop at 70 and preserve the scheduled search bucket');
+  for(let count=0;count<30;count++) assert.equal((await room.fetch(quotaRequest('search','scheduled'))).status,200);
+  assert.equal((await room.fetch(quotaRequest('search','scheduled'))).status,429,'scheduled search reserve stops at the separate 30-call ceiling');
+  for(let count=0;count<150;count++) assert.equal((await room.fetch(quotaRequest('coverage','interactive'))).status,200);
+  assert.equal((await room.fetch(quotaRequest('coverage','interactive'))).status,429,'interactive playlist verification is bounded');
+  for(let count=0;count<30;count++) assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,200);
+  assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,429,'the catalog can verify up to 30 scheduled candidates, including all six Korean editions');
+  const savedQuota=values.get('youtube-search-quota');
+  assert.equal(savedQuota.interactiveCoverageCount+savedQuota.scheduledCoverageCount,180);
+  assert.ok((savedQuota.interactiveCoverageCount+savedQuota.scheduledCoverageCount)*49<=10000,'worst-case playlist scans stay below the default non-search 10,000-unit daily bucket');
   const blockedValues=new Map(),blockedRoom=new TogetherRoom({storage:{get:key=>blockedValues.get(key),put:(key,value)=>blockedValues.set(key,value)}});
-  assert.equal((await blockedRoom.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST',headers:{'x-youtube-quota-exhausted':'1'}}))).status,200);
-  assert.equal((await blockedRoom.fetch(new Request('https://room/internal/youtube-search-quota',{method:'POST'}))).status,429,'upstream quota exhaustion blocks further API requests until reset');
+  assert.equal((await blockedRoom.fetch(quotaRequest('coverage','scheduled',true))).status,200);
+  assert.equal((await blockedRoom.fetch(quotaRequest('coverage','scheduled'))).status,429,'upstream coverage quota exhaustion blocks coverage until reset');
+  assert.equal((await blockedRoom.fetch(quotaRequest('search','interactive'))).status,200,'an exhausted coverage bucket does not block the separate search bucket');
 
   let apiCalls=0;
   globalThis.fetch=async()=>{apiCalls++;return Response.json({items:[]})};
@@ -160,6 +171,12 @@ try {
   const denied=await worker.fetch(new Request('https://worker.test/youtube/search',{method:'POST',headers:{Origin:'https://evil.example','Content-Type':'application/json'},body:'{}'}),env);
   assert.equal(denied.status,403,'origin allowlist applies to the search endpoint');
   assert.equal(apiCalls,2,'one initial and one missing-edition fallback request run; rejected origins consume neither');
+
+  globalThis.fetch=async raw=>{apiCalls++;assert.ok(String(raw).includes('/playlists?'));return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'KJV Bible Audio',channelTitle:'KJV'},contentDetails:{itemCount:1201}}]})};
+  const coverageRoute=await worker.fetch(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',headers:{Origin:'https://delight0517.github.io','Content-Type':'application/json'},body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),env);
+  assert.equal(coverageRoute.status,200);
+  assert.equal((await coverageRoute.json()).status,'SCAN_LIMIT');
+  assert.equal(apiCalls,3,'playlist quota is reserved once before a playlist metadata call');
 
   const books='GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV'.split(' ');
   const chapterCounts=[50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
@@ -191,6 +208,16 @@ try {
   assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,929);
   assert.equal(coverageData.verseCues.find(cue=>cue.verse===2).seconds,20);
   assert.equal(verificationCalls,49,'full coverage uses 1 metadata call, 24 item pages and 24 50-video batches, below the 50 external-subrequest limit');
+  const quotaReservations=[];
+  globalThis.fetch=async()=>Response.json({error:{errors:[{reason:'quotaExceeded'}]}},{status:403});
+  const upstreamCoverageQuota=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{quotaReservations.push(!!exhausted);return null;});
+  assert.equal(upstreamCoverageQuota.status,429,'upstream quotaExceeded stops playlist verification');
+  assert.deepEqual(quotaReservations,[false,true],'coverage reserves before calling YouTube and marks exhaustion after the provider limit response');
+  let blockedCoverageCalls=0;
+  globalThis.fetch=async()=>{blockedCoverageCalls++;throw Error('quota-closed request must not reach YouTube')};
+  const blockedCoverage=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async()=>Response.json({error:'daily_playlist_coverage_limit'},{status:429}));
+  assert.equal(blockedCoverage.status,429);
+  assert.equal(blockedCoverageCalls,0,'an exhausted local coverage budget prevents the upstream API call');
   const bookTracks=books.map((book,index)=>({videoId:`book${String(index).padStart(7,'0')}`,book,chapters:chapterCounts[index],title:`${audioBookNames.locales.en.books[book][0]} Audio Bible NIV`}));
   globalThis.fetch=async raw=>{
     const url=new URL(String(raw));

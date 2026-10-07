@@ -35,6 +35,7 @@ export async function discoverAudioCatalogLocale({
   locale,
   env,
   reserveQuota,
+  reserveCoverageQuota,
   searchImpl = searchYouTube,
   coverageImpl = verifyYouTubePlaylistCoverage,
   sleepImpl = sleep,
@@ -73,7 +74,7 @@ export async function discoverAudioCatalogLocale({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ locale, editionId: edition.id, playlistId: candidate.playlistId, bookId: 'MAT', chapter: 1 })
-      }), env);
+      }), env, reserveCoverageQuota);
       const result = await response.json().catch(() => null);
       if (response.status === 404) continue;
       if (response.status === 422) {
