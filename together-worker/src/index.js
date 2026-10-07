@@ -1,6 +1,6 @@
 import { audioLanguageList, editionList, searchYouTube, verifyYouTubePlaylistCoverage } from './youtube-search.js';
 import { discoverAudioCatalogLocale } from './youtube-audio-catalog.js';
-import { MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, SCHEDULED_CATALOG_CRONS, YOUTUBE_QUOTA_LIMITS } from './youtube-quota.js';
+import { MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, SCHEDULED_CATALOG_CRONS, SCHEDULED_CATALOG_LOCALES_PER_RUN, YOUTUBE_QUOTA_LIMITS } from './youtube-quota.js';
 const TTL = 86400000, ACTIVE = 15000;
 // Search.list has a separate 100-call bucket. A full playlist scan costs at most 49 units: 1 playlist, 24 playlistItems, and 24 videos list calls. 180 scans reserve 8,820 of the 10,000 daily non-search units.
 const chapters = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
@@ -47,7 +47,9 @@ export default {
   async scheduled(controller,env) {
     if(!SCHEDULED_CATALOG_CRONS.includes(controller.cron))return;
     try {
-      return await refreshNextAudioCatalog(env,{scheduledTime:controller.scheduledTime});
+      const perLocaleScanLimit=Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN/SCHEDULED_CATALOG_LOCALES_PER_RUN),extraScans=MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN%SCHEDULED_CATALOG_LOCALES_PER_RUN,results=[];
+      for(let sequence=0;sequence<SCHEDULED_CATALOG_LOCALES_PER_RUN;sequence++)results.push(await refreshNextAudioCatalog(env,{scheduledTime:controller.scheduledTime,sequence,scanLimit:perLocaleScanLimit+Number(sequence<extraScans)}));
+      return results;
     } catch(error) {
       console.error(`youtube_audio_catalog_refresh_failed:${error.message}`);
       throw error;
@@ -96,36 +98,27 @@ export default {
 
 export async function refreshNextAudioCatalog(env, {
   scheduledTime = Date.now(),
+  sequence = 0,
+  scanLimit = MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN,
   discover = discoverAudioCatalogLocale,
   reserveQuota = upstreamLimit => reserveYouTubeQuota(env,'search','scheduled',upstreamLimit),
   reserveCoverageQuota = upstreamLimit => reserveYouTubeQuota(env,'coverage','scheduled',upstreamLimit)
 } = {}) {
   const store = audioCatalogStub(env), day = pacificDay(scheduledTime);
   const claimResponse = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/claim', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ day, runId: String(scheduledTime) })
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ day, runId: String(scheduledTime), sequence })
   }));
   const claim = await claimResponse.json().catch(() => null);
   if (!claimResponse.ok) throw new Error(claim?.error || 'catalog_claim_failed');
   if (!claim?.claimed) return { refreshed: false, reason: 'already_claimed_this_run' };
 
-  const previousResponse = await store.fetch(new Request(`https://room/internal/youtube-audio-catalog/get?locale=${encodeURIComponent(claim.locale)}`));
-  let previousEditions = [];
-  if (previousResponse.ok) {
-    const previous = await previousResponse.json().catch(() => null);
-    if (Number.isFinite(Date.parse(previous?.generatedAt)) && scheduledTime - Date.parse(previous.generatedAt) < audioCatalogCursorTtlMs) previousEditions = previous?.editions || [];
-  } else if (previousResponse.status !== 404) {
-    throw new Error('previous_audio_catalog_read_failed');
-  }
-
   const coverageImpl = (request, _env, reserveQuotaForCoverage) => verifyScheduledPlaylistCoverage(request, env, reserveQuotaForCoverage, store);
-  const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota, coverageImpl, scanLimit: MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, scanRotation: claim.scanRotation, candidateOffsets: claim.candidateOffsets, pageToken: claim.pageToken, fallbackPageTokens: claim.fallbackPageTokens, previousEditions });
-  for (const edition of catalog.editions) {
-    const saved = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/save-edition', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ day, generation: claim.generation, locale: claim.locale, edition })
-    }));
-    if (!saved.ok) throw new Error('catalog_edition_store_failed');
-  }
+  const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota, coverageImpl, scanLimit, scanRotation: claim.scanRotation, candidateOffsets: claim.candidateOffsets, pageToken: claim.pageToken, fallbackPageTokens: claim.fallbackPageTokens, previousEditions: claim.previousEditions });
+  const saved = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/save-editions', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ day, generation: claim.generation, locale: claim.locale, editions: catalog.editions })
+  }));
+  if (!saved.ok) throw new Error('catalog_edition_store_failed');
   const committed = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/commit', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ day, generation: claim.generation, locale: claim.locale, generatedAt: catalog.generatedAt, query: catalog.query, editionIds: catalog.editions.map(edition => edition.id), nextPageToken: catalog.nextPageToken, fallbackPageTokenKey: catalog.fallbackPageTokenKey, fallbackNextPageToken: catalog.fallbackNextPageToken, candidateOffsets: catalog.candidateOffsets })
@@ -192,24 +185,33 @@ export class TogetherRoom {
       }
       if(url.pathname==='/internal/youtube-audio-catalog/claim' && request.method==='POST') {
         const input=await request.json().catch(()=>null);
-        if(!input||!/^\d{4}-\d{2}-\d{2}$/.test(input.day||'')||!/^\d{13}$/.test(input.runId||''))return json({error:'invalid_catalog_run'},400);
+        if(!input||!/^\d{4}-\d{2}-\d{2}$/.test(input.day||'')||!/^\d{13}$/.test(input.runId||'')||!Number.isInteger(input.sequence)||input.sequence<0||input.sequence>=SCHEDULED_CATALOG_LOCALES_PER_RUN)return json({error:'invalid_catalog_run'},400);
         const state=await this.ctx.storage.get('youtube-audio-catalog:state')||{nextIndex:0};
-        if(state.lastClaimedRun===input.runId)return json({claimed:false});
+        const sameRun=state.lastClaimedRun===input.runId,lastSequence=Number(state.lastClaimedSequence??(sameRun?0:-1));
+        if(sameRun&&input.sequence<=lastSequence)return json({claimed:false});
+        if((sameRun&&input.sequence!==lastSequence+1)||(!sameRun&&input.sequence!==0))return json({error:'catalog_sequence_out_of_order'},409);
+        const locale=audioLocales[state.nextIndex%audioLocales.length],generation=`${Date.now()}`;
+        const cursorIsFresh=Date.now()-(Number(state.cursorUpdatedAtByLocale?.[locale])||0)<audioCatalogCursorTtlMs;
+        const previousMeta=await this.ctx.storage.get(`youtube-audio-catalog:${locale}:meta`);
+        let previousEditions=[];
+        if(cursorIsFresh&&Number.isFinite(Date.parse(previousMeta?.generatedAt))&&Number(input.runId)-Date.parse(previousMeta.generatedAt)<audioCatalogCursorTtlMs){
+          previousEditions=await Promise.all((previousMeta.editionIds||[]).map(id=>this.ctx.storage.get(`youtube-audio-catalog:${locale}:${previousMeta.generation}:${id}`)));
+          if(previousEditions.some(edition=>!edition))return json({error:'catalog_incomplete'},503);
+        }
         if(state.pendingLocale&&state.pendingGeneration){
           for(const edition of editionList(state.pendingLocale))await this.ctx.storage.delete(`youtube-audio-catalog:${state.pendingLocale}:${state.pendingGeneration}:${edition.id}`);
         }
-        const locale=audioLocales[state.nextIndex%audioLocales.length],generation=`${Date.now()}`;
-        const cursorIsFresh=Date.now()-(Number(state.cursorUpdatedAtByLocale?.[locale])||0)<audioCatalogCursorTtlMs;
-        await this.ctx.storage.put('youtube-audio-catalog:state',{...state,lastClaimedDay:input.day,lastClaimedRun:input.runId,pendingLocale:locale,pendingGeneration:generation});
-        return json({claimed:true,locale,generation,scanRotation:Number(state.scanCycle)||0,pageToken:cursorIsFresh?state.pageTokensByLocale?.[locale]||'':'',fallbackPageTokens:cursorIsFresh?state.fallbackPageTokensByLocale?.[locale]||{}:{},candidateOffsets:cursorIsFresh?state.candidateOffsetsByLocale?.[locale]||{}:{}});
+        await this.ctx.storage.put('youtube-audio-catalog:state',{...state,lastClaimedDay:input.day,lastClaimedRun:input.runId,lastClaimedSequence:input.sequence,pendingLocale:locale,pendingGeneration:generation});
+        return json({claimed:true,locale,generation,scanRotation:Number(state.scanCycle)||0,pageToken:cursorIsFresh?state.pageTokensByLocale?.[locale]||'':'',fallbackPageTokens:cursorIsFresh?state.fallbackPageTokensByLocale?.[locale]||{}:{},candidateOffsets:cursorIsFresh?state.candidateOffsetsByLocale?.[locale]||{}:{},previousEditions});
       }
-      if(url.pathname==='/internal/youtube-audio-catalog/save-edition' && request.method==='POST') {
+      if(url.pathname==='/internal/youtube-audio-catalog/save-editions' && request.method==='POST') {
         const input=await request.json().catch(()=>null),state=await this.ctx.storage.get('youtube-audio-catalog:state');
-        if(!input||!audioLocales.includes(input.locale)||!editionList(input.locale).some(item=>item.id===input.edition?.id)||state?.pendingLocale!==input.locale||state?.lastClaimedDay!==input.day||state?.pendingGeneration!==input.generation)return json({error:'catalog_claim_required'},409);
-        const key=`youtube-audio-catalog:${input.locale}:${input.generation}:${input.edition.id}`;
-        const value=JSON.stringify(input.edition);
-        if(value.length>1_900_000)return json({error:'catalog_edition_too_large'},413);
-        await this.ctx.storage.put(key,input.edition);
+        if(!input||!audioLocales.includes(input.locale)||!Array.isArray(input.editions)||state?.pendingLocale!==input.locale||state?.lastClaimedDay!==input.day||state?.pendingGeneration!==input.generation)return json({error:'catalog_claim_required'},409);
+        const expected=editionList(input.locale).map(item=>item.id),ids=input.editions.map(edition=>edition?.id);
+        if(expected.length!==ids.length||new Set(ids).size!==expected.length||expected.some(id=>!ids.includes(id)))return json({error:'incomplete_catalog'},400);
+        const values=input.editions.map(edition=>JSON.stringify(edition));
+        if(values.some(value=>value.length>1_900_000))return json({error:'catalog_edition_too_large'},413);
+        for(const edition of input.editions)await this.ctx.storage.put(`youtube-audio-catalog:${input.locale}:${input.generation}:${edition.id}`,edition);
         return json({ok:true});
       }
       if(url.pathname==='/internal/youtube-audio-catalog/commit' && request.method==='POST') {
