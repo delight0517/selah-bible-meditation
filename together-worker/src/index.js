@@ -1,6 +1,6 @@
 import { audioLanguageList, editionList, searchYouTube, verifyYouTubePlaylistCoverage } from './youtube-search.js';
 import { discoverAudioCatalogLocale } from './youtube-audio-catalog.js';
-import { YOUTUBE_QUOTA_LIMITS } from './youtube-quota.js';
+import { MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, SCHEDULED_CATALOG_CRONS, YOUTUBE_QUOTA_LIMITS } from './youtube-quota.js';
 const TTL = 86400000, ACTIVE = 15000;
 // Search.list has a separate 100-call bucket. A full playlist scan costs at most 49 units: 1 playlist, 24 playlistItems, and 24 videos list calls. 180 scans reserve 8,820 of the 10,000 daily non-search units.
 const chapters = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
@@ -44,7 +44,7 @@ async function body(request) {
 }
 export default {
   async scheduled(controller,env) {
-    if(controller.cron!=='20 8 * * *')return;
+    if(!SCHEDULED_CATALOG_CRONS.includes(controller.cron))return;
     try {
       return await refreshNextAudioCatalog(env,{scheduledTime:controller.scheduledTime});
     } catch(error) {
@@ -101,14 +101,14 @@ export async function refreshNextAudioCatalog(env, {
 } = {}) {
   const store = audioCatalogStub(env), day = pacificDay(scheduledTime);
   const claimResponse = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/claim', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ day })
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ day, runId: String(scheduledTime) })
   }));
   const claim = await claimResponse.json().catch(() => null);
   if (!claimResponse.ok) throw new Error(claim?.error || 'catalog_claim_failed');
-  if (!claim?.claimed) return { refreshed: false, reason: 'already_claimed_today' };
+  if (!claim?.claimed) return { refreshed: false, reason: 'already_claimed_this_run' };
 
   const coverageImpl = (request, _env, reserveQuotaForCoverage) => verifyScheduledPlaylistCoverage(request, env, reserveQuotaForCoverage, store);
-  const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota, coverageImpl });
+  const catalog = await discover({ locale: claim.locale, env, reserveQuota, reserveCoverageQuota, coverageImpl, scanLimit: MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, scanRotation: claim.scanRotation });
   for (const edition of catalog.editions) {
     const saved = await store.fetch(new Request('https://room/internal/youtube-audio-catalog/save-edition', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -182,15 +182,15 @@ export class TogetherRoom {
       }
       if(url.pathname==='/internal/youtube-audio-catalog/claim' && request.method==='POST') {
         const input=await request.json().catch(()=>null);
-        if(!input||!/^\d{4}-\d{2}-\d{2}$/.test(input.day||''))return json({error:'invalid_catalog_day'},400);
+        if(!input||!/^\d{4}-\d{2}-\d{2}$/.test(input.day||'')||!/^\d{13}$/.test(input.runId||''))return json({error:'invalid_catalog_run'},400);
         const state=await this.ctx.storage.get('youtube-audio-catalog:state')||{nextIndex:0};
-        if(state.lastClaimedDay===input.day)return json({claimed:false});
+        if(state.lastClaimedRun===input.runId)return json({claimed:false});
         if(state.pendingLocale&&state.pendingGeneration){
           for(const edition of editionList(state.pendingLocale))await this.ctx.storage.delete(`youtube-audio-catalog:${state.pendingLocale}:${state.pendingGeneration}:${edition.id}`);
         }
         const locale=audioLocales[state.nextIndex%audioLocales.length],generation=`${Date.now()}`;
-        await this.ctx.storage.put('youtube-audio-catalog:state',{...state,lastClaimedDay:input.day,pendingLocale:locale,pendingGeneration:generation});
-        return json({claimed:true,locale,generation});
+        await this.ctx.storage.put('youtube-audio-catalog:state',{...state,lastClaimedDay:input.day,lastClaimedRun:input.runId,pendingLocale:locale,pendingGeneration:generation});
+        return json({claimed:true,locale,generation,scanRotation:Number(state.scanCycle)||0});
       }
       if(url.pathname==='/internal/youtube-audio-catalog/save-edition' && request.method==='POST') {
         const input=await request.json().catch(()=>null),state=await this.ctx.storage.get('youtube-audio-catalog:state');
@@ -209,7 +209,7 @@ export class TogetherRoom {
         for(const id of expected)if(!(await this.ctx.storage.get(`youtube-audio-catalog:${input.locale}:${input.generation}:${id}`)))return json({error:'catalog_edition_missing'},409);
         const metaKey=`youtube-audio-catalog:${input.locale}:meta`,previous=await this.ctx.storage.get(metaKey);
         await this.ctx.storage.put(metaKey,{schema:1,locale:input.locale,generatedAt:input.generatedAt,query:input.query,editionIds:expected,generation:input.generation});
-        await this.ctx.storage.put('youtube-audio-catalog:state',{...state,nextIndex:(state.nextIndex+1)%audioLocales.length,pendingLocale:null,pendingGeneration:null});
+        await this.ctx.storage.put('youtube-audio-catalog:state',{...state,nextIndex:(state.nextIndex+1)%audioLocales.length,scanCycle:(Number(state.scanCycle)||0)+1,pendingLocale:null,pendingGeneration:null});
         if(previous?.generation)for(const id of previous.editionIds||[])await this.ctx.storage.delete(`youtube-audio-catalog:${input.locale}:${previous.generation}:${id}`);
         return json({ok:true});
       }

@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 52,
+      "revision": 53,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -799,8 +799,8 @@
         "While a playlist plays, verse synchronization and manual cue marking use the current video's ID even when its URL also contains the playlist ID.",
         "Search runs on demand for the current book/chapter and all configured editions in one YouTube search.list call. A single second call targets editions with no classified candidate; one result per edition is sufficient to avoid an unnecessary fallback. Each call is independently quota-limited.",
         "Results are categorized by matching public metadata; the API key stays in a Cloudflare Worker secret, and requests are validated and rate limited.",
-        "A Cloudflare Worker Cron runs once daily after the Pacific quota reset and refreshes one audio locale per run, rotating through all ten locales. It searches configured editions, shares at most 30 scheduled playlist scans evenly across editions (six candidates for five-edition locales; five each for Korean's six editions), selects the best verified coverage, and writes compact snapshots to Durable Object storage without human selection.",
-        "Scheduled candidate discovery uses the full existing 30-scan coverage quota without increasing YouTube searches or quota: five-edition locales expose and verify up to six candidates per edition, and Korean verifies up to five per edition across its six editions.",
+        "The Cloudflare Worker runs three catalog Cron jobs daily at 00:20, 08:20, and 16:20 UTC. After the Pacific quota reset, each run refreshes one audio locale; Durable Object state rotates across all ten locales so every locale is revisited within four days without human selection.",
+        "Each scheduled locale run uses up to ten of the existing thirty daily playlist-coverage scans. Five-edition locales scan up to two candidates per edition; Korean distributes ten scans as one candidate per six editions plus four extra candidates, rotating those extra edition slots across completed locale runs. Three daily runs stay within the existing thirty-scan cap and do not add YouTube search requests or quota.",
         "The web reader loads only its selected audio-language catalog automatically, keeps text and audio editions independent, and offers matching full or partial playlist results without requiring a fresh manual search. YouTube playback still starts only after a user presses the player control.",
         "The web reader fetches the current locale catalog from the Worker endpoint first and uses the checked-in static catalog as a network-failure fallback. It rejects malformed or older-than-30-days snapshots.",
         "A refreshed catalog is metadata evidence, not proof that the audio content was listened to or semantically matched. Five complete editions per language and observed web playback plus scripture following remain the completion threshold.",
@@ -868,34 +868,34 @@
         "web": {
           "owner": "Selah web audio task",
           "state": "implemented",
-          "source": "codex/selah-youtube-oss-approach-20261007 candidate budget adjustment",
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
           "build": "Shared Worker source; deployment and scheduled catalog readback pending",
-          "evidence": "Source now shares at most 30 playlist scans across editions: six per edition for five-edition locales and five per edition for Korean. Search/catalog regression tests pass; Worker deployment, actual discovery coverage, and audible playback/follow runtime remain pending.",
-          "appliedRevision": 52
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
-          "source": "codex/selah-youtube-oss-approach-20261007 candidate budget adjustment",
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
           "build": "Shared Worker source; deployment and scheduled catalog readback pending",
-          "evidence": "Windows' hosted reader consumes the same shared audio catalog. Source now allocates up to 30 scheduled scans across editions without extra YouTube searches; regression tests pass. Worker deployment, actual discovery coverage, and Windows runtime remain pending.",
-          "appliedRevision": 52
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "implemented",
-          "evidence": "The macOS shared reader consumes the common audio catalog. Source now allocates up to 30 scheduled scans across editions without extra YouTube searches; regression tests pass. Worker deployment, actual discovery coverage, and standalone macOS runtime remain pending.",
-          "appliedRevision": 52,
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53,
           "build": "Shared Worker source; deployment and scheduled catalog readback pending",
-          "source": "codex/selah-youtube-oss-approach-20261007 candidate budget adjustment"
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation"
         },
         "ios": {
           "owner": "Selah shared iOS reader",
           "state": "implemented",
-          "source": "codex/selah-youtube-oss-approach-20261007 candidate budget adjustment",
+          "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
           "build": "Shared Worker source; deployment and scheduled catalog readback pending",
-          "evidence": "iOS uses the shared catalog through the hosted Selah reader. Source now allocates up to 30 scheduled scans across editions without extra YouTube searches; regression tests pass. Worker deployment, actual discovery coverage, and installed iOS runtime remain pending.",
-          "appliedRevision": 52
+          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks and Worker-source parity passed; Worker deployment, real catalog coverage, and browser playback/follow remain pending.",
+          "appliedRevision": 53
         }
       }
     },

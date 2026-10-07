@@ -1,6 +1,6 @@
 import { editionList, searchYouTube, verifyYouTubePlaylistCoverage } from './youtube-search.js';
 import audioBookNames from './audio-book-names.json' with { type: 'json' };
-import { MAX_SCHEDULED_COVERAGE_CANDIDATES } from './youtube-quota.js';
+import { MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN } from './youtube-quota.js';
 
 const REQUEST_GAP_MS = 8000;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -39,6 +39,8 @@ export async function discoverAudioCatalogLocale({
   searchImpl = searchYouTube,
   coverageImpl = verifyYouTubePlaylistCoverage,
   sleepImpl = sleep,
+  scanLimit = MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN,
+  scanRotation = 0,
   waitMs = REQUEST_GAP_MS,
   now = () => new Date()
 }) {
@@ -59,11 +61,15 @@ export async function discoverAudioCatalogLocale({
   }
 
   let lastRequest = Date.now();
-  const maxCandidates = Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES / expectedEditions.length);
+  const baseCandidateLimit = Math.floor(scanLimit / expectedEditions.length);
+  const extraCandidateCount = scanLimit % expectedEditions.length;
+  const rotationOffset = ((Math.trunc(scanRotation) || 0) % expectedEditions.length + expectedEditions.length) % expectedEditions.length;
   const editions = [];
-  for (const edition of expectedEditions) {
+  for (const [editionIndex, edition] of expectedEditions.entries()) {
     const group = groups.find(item => item.id === edition.id);
     if (!group) throw new Error(`audio_edition_missing:${locale}/${edition.id}`);
+    const getsExtraCandidate = (editionIndex - rotationOffset + expectedEditions.length) % expectedEditions.length < extraCandidateCount;
+    const maxCandidates = baseCandidateLimit + Number(getsExtraCandidate);
     const candidates = (group.items || []).filter(item => item.mediaType === 'playlist' && /^[\w-]{10,128}$/.test(item.playlistId || '')).slice(0, maxCandidates);
     let selected = null, bestCoverage = null;
 

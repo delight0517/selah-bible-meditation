@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import worker, { TogetherRoom, refreshNextAudioCatalog, verifyScheduledPlaylistCoverage } from '../together-worker/src/index.js';
 import { audioLanguageList, editionList } from '../together-worker/src/youtube-search.js';
-import { MAX_SCHEDULED_COVERAGE_CANDIDATES } from '../together-worker/src/youtube-quota.js';
+import { MAX_SCHEDULED_COVERAGE_CANDIDATES, MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, SCHEDULED_CATALOG_CRONS } from '../together-worker/src/youtube-quota.js';
 import { discoverAudioCatalogLocale } from '../together-worker/src/youtube-audio-catalog.js';
 
 const editions = editionList('en');
@@ -43,23 +43,37 @@ assert.equal(discovered.editions[0].coveredChapters, 1189);
 assert.deepEqual(discovered.editions[0].videoIds, ['abcdefghijk']);
 
 for (const locale of ['en', 'ko']) {
-  const localeEditions = editionList(locale), scanIds = [];
-  const catalog = await discoverAudioCatalogLocale({
-    locale, env: {}, waitMs: 0, sleepImpl: async () => {},
-    searchImpl: async () => Response.json({ locale, editions: localeEditions.map((edition, index) => ({
-      ...edition,
-      items: index === 0 ? Array.from({ length: 8 }, (_, candidate) => ({ mediaType: 'playlist', playlistId: playlist(candidate + 10), title: `${edition.name} candidate ${candidate + 1}` })) : []
-    })) }),
-    coverageImpl: async request => {
-      const { playlistId } = await request.json(); scanIds.push(playlistId);
-      return Response.json({ status: 'PARTIAL_COVERAGE', itemCount: 1, coveredChapters: scanIds.length, totalChapters: 1189, chapterSync: false, videoIds: [], verseCues: [] });
+  const localeEditions = editionList(locale), rotations = locale === 'ko' ? [0, 1] : [0];
+  for (const scanRotation of rotations) {
+    const scanCounts = new Map(), finalCandidate = new Map();
+    const candidateId = (editionIndex, candidateIndex) => playlist(100 + editionIndex * 10 + candidateIndex + 1);
+    const catalog = await discoverAudioCatalogLocale({
+      locale, env: {}, waitMs: 0, sleepImpl: async () => {}, scanRotation,
+      searchImpl: async () => Response.json({ locale, editions: localeEditions.map((edition, editionIndex) => ({
+        ...edition,
+        items: Array.from({ length: 8 }, (_, candidateIndex) => ({ mediaType: 'playlist', playlistId: candidateId(editionIndex, candidateIndex), title: `${edition.name} candidate ${candidateIndex + 1}` }))
+      })) }),
+      coverageImpl: async request => {
+        const { editionId, playlistId } = await request.json(), count = (scanCounts.get(editionId) || 0) + 1;
+        scanCounts.set(editionId, count);
+        finalCandidate.set(editionId, playlistId);
+        return Response.json({ status: 'PARTIAL_COVERAGE', itemCount: 1, coveredChapters: count, totalChapters: 1189, chapterSync: false, videoIds: [], verseCues: [] });
+      }
+    });
+    assert.equal([...scanCounts.values()].reduce((sum, count) => sum + count, 0), MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, `${locale} uses the full per-run scan budget`);
+    assert.ok(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN <= MAX_SCHEDULED_COVERAGE_CANDIDATES);
+    const base = Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN / localeEditions.length), remainder = MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN % localeEditions.length;
+    const rotationOffset = scanRotation % localeEditions.length;
+    for (const [editionIndex, edition] of localeEditions.entries()) {
+      const getsExtra = (editionIndex - rotationOffset + localeEditions.length) % localeEditions.length < remainder;
+      const expected = base + Number(getsExtra);
+      assert.equal(scanCounts.get(edition.id), expected, `${locale}/${edition.id} receives its fair share of this run`);
+      assert.equal(catalog.editions[editionIndex].playlistId, finalCandidate.get(edition.id), `${locale}/${edition.id} keeps its best candidate within the cap`);
     }
-  });
-  const expectedScans = Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES / localeEditions.length);
-  assert.equal(scanIds.length, expectedScans, `${locale} scans its full per-edition share of the existing daily candidate budget`);
-  assert.ok(scanIds.length * localeEditions.length <= MAX_SCHEDULED_COVERAGE_CANDIDATES);
-  assert.equal(catalog.editions[0].playlistId, playlist(9 + expectedScans), `${locale} keeps the best candidate within the scan cap`);
+    assert.equal([...scanCounts.values()].filter(count => count === base + 1).length, remainder, `${locale} distributes leftover scans without exceeding the run cap`);
+  }
 }
+
 
 const storage = new Map();
 const room = new TogetherRoom({ storage: {
@@ -120,10 +134,12 @@ try {
 assert.equal((await room.fetch(new Request('https://room/internal/youtube-audio-coverage', { method: 'POST', body: JSON.stringify(coverageBody) }))).status, 503, 'isolated scan rejects missing internal API key');
 const firstTime = Date.parse('2026-10-07T08:20:00Z');
 let refreshCount = 0;
+const seenScanRotations = [];
 const refresh = (scheduledTime, localeResult) => refreshNextAudioCatalog(env, {
   scheduledTime,
-  discover: async ({ locale, reserveQuota, reserveCoverageQuota, coverageImpl }) => {
+  discover: async ({ locale, reserveQuota, reserveCoverageQuota, coverageImpl, scanRotation }) => {
     refreshCount++;
+    seenScanRotations.push(scanRotation);
     assert.equal(locale, localeResult);
     assert.equal(await reserveQuota(), null,'scheduled searches use their reserved daily bucket');
     const scheduledReservations = [];
@@ -137,7 +153,7 @@ const first = await refresh(firstTime, audioLanguageList()[0].code);
 assert.equal(first.refreshed, true);
 assert.equal(first.editionCount, editions.length);
 const repeated = await refresh(firstTime, audioLanguageList()[0].code);
-assert.equal(repeated.reason, 'already_claimed_today');
+assert.equal(repeated.reason, 'already_claimed_this_run');
 assert.equal(refreshCount, 1);
 
 const catalogResponse = await worker.fetch(new Request('https://worker.test/youtube/audio-catalog?locale=en', { headers: { Origin: 'https://delight0517.github.io' } }), env);
@@ -155,14 +171,16 @@ assert.equal(deniedOrigin.status, 403);
 
 const scheduledLocales = audioLanguageList().map(language => language.code), rotatedLocales = [scheduledLocales[0]];
 for (let index = 1; index < scheduledLocales.length; index++) {
-  const result = await refresh(firstTime + index * 86400000, scheduledLocales[index]);
-  assert.equal(result.refreshed, true, `day ${index + 1} refreshes ${scheduledLocales[index]}`);
+  const result = await refresh(firstTime + index * 8 * 60 * 60 * 1000, scheduledLocales[index]);
+  assert.equal(result.refreshed, true, `scheduled run ${index + 1} refreshes ${scheduledLocales[index]}`);
   rotatedLocales.push(result.locale);
 }
-assert.deepEqual(rotatedLocales, scheduledLocales, 'ten daily catalog runs cover every audio language once in order');
-const wrapped = await refresh(firstTime + scheduledLocales.length * 86400000, scheduledLocales[0]);
+assert.deepEqual(rotatedLocales, scheduledLocales, 'three daily catalog runs rotate through every audio language in four days');
+const wrapped = await refresh(firstTime + scheduledLocales.length * 8 * 60 * 60 * 1000, scheduledLocales[0]);
 assert.equal(wrapped.refreshed, true);
 assert.equal(wrapped.locale, scheduledLocales[0], 'the next cycle returns to its first language');
-assert.equal((await refresh(firstTime + scheduledLocales.length * 86400000, scheduledLocales[0])).reason, 'already_claimed_today');
+assert.equal((await refresh(firstTime + scheduledLocales.length * 8 * 60 * 60 * 1000, scheduledLocales[0])).reason, 'already_claimed_this_run');
 assert.equal(refreshCount, scheduledLocales.length + 1);
-console.log('Scheduled YouTube audio catalog contract passed.');
+assert.deepEqual(seenScanRotations, Array.from({ length: scheduledLocales.length + 1 }, (_, index) => index), 'completed locale runs rotate leftover Korean candidate scans fairly');
+assert.equal(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN * SCHEDULED_CATALOG_CRONS.length, MAX_SCHEDULED_COVERAGE_CANDIDATES, 'three scheduled runs preserve the existing daily scan quota');
+console.log('Three-run-per-day YouTube audio catalog contract passed.');
