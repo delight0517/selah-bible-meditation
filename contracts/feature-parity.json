@@ -690,9 +690,9 @@
         "scripts/check-semantic-theme-contrast.mjs",
         "styles/desktop-polish.css",
         "styles/semantic-theme.css",
-        ".github/workflows/shared-app.yml",
         "mobile/ios/App/App.xcodeproj/project.pbxproj",
-        "mobile/www/"
+        "mobile/www/",
+        "scripts/test-shared-bundle.mjs"
       ],
       "platforms": {
         "web": {
