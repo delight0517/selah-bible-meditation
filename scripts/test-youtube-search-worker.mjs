@@ -83,7 +83,7 @@ try {
     })))});
     const response=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale,bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},undefined,{playlistOnly:true});
     const groups=(await response.json()).editions;
-    assert.ok(groups.every(group=>group.items.length===limit),`${locale} exposes ${limit} playlist candidates per edition within its scheduled scan share`);
+    assert.ok(groups.every(group=>group.items.length===Math.min(7,limit)),`${locale} exposes at most ${limit} playlist candidates per edition within its scheduled scan share`);
     assert.ok(groups.length*limit<=MAX_SCHEDULED_COVERAGE_CANDIDATES,`${locale} search results never exceed the daily playlist scan ceiling`);
   }
   for (const locale of ['en','ko','ja','zh-CN','zh-TW','fil','es','pt-BR','ru','uk']) {
@@ -127,9 +127,10 @@ try {
   assert.equal(playlistItem.url,'https://www.youtube.com/playlist?list=PL12345678901234567890');
   assert.deepEqual(playlistItem.verseCues,[],'playlist-level timestamps are not mistaken for video verse cues');
   const readerHtml=await readFile(new URL('../index.html',import.meta.url),'utf8');
+  const passageCueLine=readerHtml.split('\n').find(line=>line.startsWith('function youtubeAudioHasPassageCue('));
   const relevanceLine=readerHtml.split('\n').find(line=>line.startsWith('function youtubeAudioItemMatchesPassage(item,bookId,chapter,coverage=null){'));
-  assert.ok(relevanceLine,'the reader has a passage-relevance filter for audio search results');
-  const youtubeAudioItemMatchesPassage=new Function(`${relevanceLine};return youtubeAudioItemMatchesPassage;`)();
+  assert.ok(passageCueLine&&relevanceLine,'the reader has passage-cue and passage-relevance helpers for audio search results');
+  const youtubeAudioItemMatchesPassage=new Function(`${passageCueLine};${relevanceLine};return youtubeAudioItemMatchesPassage;`)();
   assert.equal(youtubeAudioItemMatchesPassage({mediaType:'video',chapterMatch:false,verseCues:[]},'JHN',1),false,'off-book/unmatched video results are not shown as current-passage audio');
   assert.equal(youtubeAudioItemMatchesPassage({mediaType:'video',chapterMatch:true,verseCues:[]},'JHN',1),true,'an exact chapter video remains selectable without verse cues');
   assert.equal(youtubeAudioItemMatchesPassage({mediaType:'video',chapterMatch:false,verseCues:[{bookId:'JHN',chapter:1}]},'JHN',1),true,'a video with an explicit cue for the current passage remains selectable');
@@ -196,17 +197,19 @@ try {
 
   const quotaRequest=(kind,mode,exhausted=false)=>new Request('https://room/internal/youtube-search-quota',{method:'POST',headers:{'Content-Type':'application/json',...(exhausted?{'x-youtube-quota-exhausted':'1'}:{})},body:JSON.stringify({kind,mode})});
   const values=new Map(),room=new TogetherRoom({storage:{get:key=>values.get(key),put:(key,value)=>values.set(key,value)}});
-  for(let count=0;count<70;count++) assert.equal((await room.fetch(quotaRequest('search','interactive'))).status,200);
-  assert.equal((await room.fetch(quotaRequest('search','interactive'))).status,429,'interactive searches stop at 70 and preserve the scheduled search bucket');
-  for(let count=0;count<30;count++) assert.equal((await room.fetch(quotaRequest('search','scheduled'))).status,200);
-  assert.equal((await room.fetch(quotaRequest('search','scheduled'))).status,429,'scheduled search reserve stops at the separate 30-call ceiling');
-  for(let count=0;count<150;count++) assert.equal((await room.fetch(quotaRequest('coverage','interactive'))).status,200);
+  assert.equal(YOUTUBE_QUOTA_LIMITS.search.interactive+YOUTUBE_QUOTA_LIMITS.search.scheduled,100,'search reservations never exceed the separate 100-call daily bucket');
+  for(let count=0;count<YOUTUBE_QUOTA_LIMITS.search.interactive;count++) assert.equal((await room.fetch(quotaRequest('search','interactive'))).status,200);
+  assert.equal((await room.fetch(quotaRequest('search','interactive'))).status,429,'interactive searches preserve the scheduled search reserve');
+  for(let count=0;count<YOUTUBE_QUOTA_LIMITS.search.scheduled;count++) assert.equal((await room.fetch(quotaRequest('search','scheduled'))).status,200);
+  assert.equal((await room.fetch(quotaRequest('search','scheduled'))).status,429,'scheduled search reservations stop at their configured daily ceiling');
+  for(let count=0;count<YOUTUBE_QUOTA_LIMITS.coverage.interactive;count++) assert.equal((await room.fetch(quotaRequest('coverage','interactive'))).status,200);
   assert.equal((await room.fetch(quotaRequest('coverage','interactive'))).status,429,'interactive playlist verification is bounded');
   for(let count=0;count<YOUTUBE_QUOTA_LIMITS.coverage.scheduled;count++) assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,200);
-  assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,429,'the catalog can verify up to 30 scheduled candidates, including all six Korean editions');
+  assert.equal((await room.fetch(quotaRequest('coverage','scheduled'))).status,429,'scheduled catalog discovery can verify up to 60 candidates per Pacific day');
   const savedQuota=values.get('youtube-search-quota');
   assert.equal(savedQuota.interactiveCoverageCount+savedQuota.scheduledCoverageCount,180);
   assert.ok((savedQuota.interactiveCoverageCount+savedQuota.scheduledCoverageCount)*49<=10000,'worst-case playlist scans stay below the default non-search 10,000-unit daily bucket');
+  assert.equal(savedQuota.interactiveCoverageCount*49+savedQuota.scheduledCoverageCount*49,8820,'schedule receives 60 scans while preserving 1,180 non-search units of headroom');
   const blockedValues=new Map(),blockedRoom=new TogetherRoom({storage:{get:key=>blockedValues.get(key),put:(key,value)=>blockedValues.set(key,value)}});
   assert.equal((await blockedRoom.fetch(quotaRequest('coverage','scheduled',true))).status,200);
   assert.equal((await blockedRoom.fetch(quotaRequest('coverage','scheduled'))).status,429,'upstream coverage quota exhaustion blocks coverage until reset');

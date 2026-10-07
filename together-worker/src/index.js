@@ -188,6 +188,7 @@ export class TogetherRoom {
         if(!input||!/^\d{4}-\d{2}-\d{2}$/.test(input.day||'')||!/^\d{13}$/.test(input.runId||'')||!Number.isInteger(input.sequence)||input.sequence<0||input.sequence>=SCHEDULED_CATALOG_LOCALES_PER_RUN)return json({error:'invalid_catalog_run'},400);
         const state=await this.ctx.storage.get('youtube-audio-catalog:state')||{nextIndex:0};
         const sameRun=state.lastClaimedRun===input.runId,lastSequence=Number(state.lastClaimedSequence??(sameRun?0:-1));
+        if(!sameRun&&Number(input.runId)<=Number(state.lastClaimedRun||0))return json({claimed:false,reason:'stale_run'});
         if(sameRun&&input.sequence<=lastSequence)return json({claimed:false});
         if((sameRun&&input.sequence!==lastSequence+1)||(!sameRun&&input.sequence!==0))return json({error:'catalog_sequence_out_of_order'},409);
         const locale=audioLocales[state.nextIndex%audioLocales.length],generation=`${Date.now()}`;

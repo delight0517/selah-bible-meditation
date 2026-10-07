@@ -193,7 +193,7 @@ const refresh = (scheduledTime, localeResult, sequence = 0, scanLimit = MAX_SCHE
     seenPageTokens.push(pageToken);
     seenFallbackPageTokens.push(fallbackPageTokens);
     seenCandidateOffsets.push(offsets);
-    assert.equal(locale, localeResult);
+    assert.equal(locale, localeResult, `catalog rotation at ${scheduledTime}/${sequence}`);
     assert.equal(await reserveQuota(), null,'scheduled searches use their reserved daily bucket');
     const scheduledReservations = [];
     const isolatedCoverage = await coverageImpl(new Request('https://worker/youtube/playlist-coverage', { method: 'POST', body: JSON.stringify({ ...coverageBody, playlistId: 'bad' }) }), env, async exhausted => { scheduledReservations.push(!!exhausted); return null; });
@@ -229,25 +229,29 @@ assert.equal(deniedOrigin.status, 403);
 
 const scheduledLocales = audioLanguageList().map(language => language.code), rotatedLocales = [first.locale];
 for (let cron = 0; cron < SCHEDULED_CATALOG_CRONS.length; cron++) {
-  const scheduledTime = firstTime + cron * 8 * 60 * 60 * 1000;
+  const scheduledTime = firstTime + cron * 4 * 60 * 60 * 1000;
   for (let sequence = cron === 0 ? 1 : 0; sequence < SCHEDULED_CATALOG_LOCALES_PER_RUN; sequence++) {
     const expectedLocale = scheduledLocales[rotatedLocales.length % scheduledLocales.length];
-    const scanLimit = 2 + Number(sequence < MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN % SCHEDULED_CATALOG_LOCALES_PER_RUN);
+    const perLocaleBase = Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN / SCHEDULED_CATALOG_LOCALES_PER_RUN);
+    const scanLimit = perLocaleBase + Number(sequence < MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN % SCHEDULED_CATALOG_LOCALES_PER_RUN);
     const result = await refresh(scheduledTime, expectedLocale, sequence, scanLimit);
     assert.equal(result.refreshed, true, `scheduled cron ${cron + 1}, batch ${sequence + 1} refreshes ${expectedLocale}`);
     rotatedLocales.push(result.locale);
   }
 }
-assert.deepEqual(rotatedLocales.slice(0, scheduledLocales.length), scheduledLocales, 'three daily crons refresh all ten locales at least once');
-assert.deepEqual(seenScanLimits.slice(0, 1 + SCHEDULED_CATALOG_LOCALES_PER_RUN * SCHEDULED_CATALOG_CRONS.length - 1), [3,3,2,2,3,3,2,2,3,3,2,2], 'each cron shares its ten-scan budget across four locale refreshes');
+assert.deepEqual(rotatedLocales.slice(0, scheduledLocales.length), scheduledLocales, 'scheduled crons refresh all ten locales at least once');
+const scansPerLocaleRefresh = Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN / SCHEDULED_CATALOG_LOCALES_PER_RUN);
+const extraLocaleScans = MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN % SCHEDULED_CATALOG_LOCALES_PER_RUN;
+const expectedScanLimits = Array.from({ length: SCHEDULED_CATALOG_CRONS.length }, () => Array.from({ length: SCHEDULED_CATALOG_LOCALES_PER_RUN }, (_, sequence) => scansPerLocaleRefresh + Number(sequence < extraLocaleScans))).flat();
+assert.deepEqual(seenScanLimits.slice(0, expectedScanLimits.length), expectedScanLimits, 'each four-hour cron shares its ten-scan budget across four locale refreshes');
 assert.equal(seenPageTokens[10], 'search-page-3', 'each locale resumes its committed YouTube search page on its next rotation');
 assert.deepEqual(seenFallbackPageTokens[10], { 'NIV,ESV,NKJV,NLT': 'fallback-page-2' }, 'edition-specific fallback pages resume independently');
 assert.deepEqual(seenCandidateOffsets[10], discovered.candidateOffsets, 'per-edition candidate offsets survive later locale scans');
-assert.equal((await refresh(firstTime + 2 * 8 * 60 * 60 * 1000, scheduledLocales[0], 0, 3)).reason, 'already_claimed_this_run');
+assert.equal((await refresh(firstTime + 2 * 4 * 60 * 60 * 1000, scheduledLocales[0], 0, 3)).reason, 'already_claimed_this_run', 'a replayed older cron cannot regress the locale cursor');
 assert.equal(refreshCount, SCHEDULED_CATALOG_LOCALES_PER_RUN * SCHEDULED_CATALOG_CRONS.length);
 assert.deepEqual(seenScanRotations, Array.from({ length: refreshCount }, (_, index) => index), 'candidate scan remainder rotates fairly across locale runs');
-assert.equal(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN * SCHEDULED_CATALOG_CRONS.length, MAX_SCHEDULED_COVERAGE_CANDIDATES, 'three scheduled runs preserve the existing daily scan quota');
-assert.ok(SCHEDULED_CATALOG_LOCALES_PER_RUN * 2 * SCHEDULED_CATALOG_CRONS.length <= YOUTUBE_QUOTA_LIMITS.search.scheduled, 'worst-case broad plus fallback searches stay within the scheduled search quota');
+assert.equal(MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN * SCHEDULED_CATALOG_CRONS.length, MAX_SCHEDULED_COVERAGE_CANDIDATES, 'six scheduled runs double automated scans while preserving the 60-candidate daily cap');
+assert.equal(SCHEDULED_CATALOG_LOCALES_PER_RUN * 2 * SCHEDULED_CATALOG_CRONS.length, YOUTUBE_QUOTA_LIMITS.search.scheduled, 'the scheduled search reservation exactly covers the six-run worst case');
 assert.equal(MAX_SCHEDULED_CATALOG_SUBREQUESTS_PER_RUN, 48, 'batched locale publication and coverage reservations keep worst-case Worker subrequests below the 50-call limit');
 assert.ok(MAX_SCHEDULED_CATALOG_SUBREQUESTS_PER_RUN < 50);
 const scheduledStorage = new Map(), scheduledRoom = new TogetherRoom({ storage: { get: async key => scheduledStorage.get(key), put: async (key, value) => scheduledStorage.set(key, value), delete: async key => scheduledStorage.delete(key), deleteAll: async () => scheduledStorage.clear() } });
@@ -273,4 +277,4 @@ const expiredClaim = await expiredClaimResponse.json();
 assert.equal(expiredClaim.pageToken, '', 'search cursors expire before YouTube metadata retention exceeds 30 days');
 assert.deepEqual(expiredClaim.fallbackPageTokens, {}, 'fallback cursors expire together with the broad-search cursor');
 assert.deepEqual(expiredClaim.candidateOffsets, {}, 'expired scan cursors are reset together with their YouTube page token');
-console.log('Three-run-per-day YouTube audio catalog contract passed.');
+console.log('Six-run-per-day YouTube audio catalog contract passed.');
