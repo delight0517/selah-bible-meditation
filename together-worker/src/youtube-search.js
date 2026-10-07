@@ -199,10 +199,10 @@ export async function searchYouTube(request, env, reserveQuota) {
     const quota=await reserveQuota?.();if(quota)return{quota};
     const params=new URLSearchParams({part:'snippet',type:'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,playlistId,snippet(title,description,channelTitle))'});
     const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
-    if(response?.status===429){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}
-    if(response?.status===403){const data=await response.json().catch(()=>null),quotaExceeded=data?.error?.errors?.some(error=>error?.reason==='quotaExceeded');if(quotaExceeded){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}}
-    if(!response?.ok)return{error:true};
-    const data=await response.json().catch(()=>null);return{items:data?.items||[]};
+    const data=await response?.json().catch(()=>null),reasons=(data?.error?.errors||[]).map(error=>error?.reason).filter(reason=>typeof reason==='string'&&/^[\w-]{1,64}$/.test(reason)).slice(0,5);
+    if(response?.status===429||reasons.some(reason=>['quotaExceeded','dailyLimitExceeded'].includes(reason))){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}
+    if(!response?.ok){console.error('youtube_search_upstream_error',{status:response?.status||0,reasons,locale:input.locale});return{error:true};}
+    return{items:data?.items||[]};
   };
   const classify=(raw,selected)=>raw.filter(item=>/^[\w-]{11}$/.test(item?.id?.videoId||'')||/^[\w-]{10,128}$/.test(item?.id?.playlistId||'')).map(item=>{
     const videoId=item.id.videoId||null,playlistId=item.id.playlistId||null,assetId=videoId||playlistId,mediaType=playlistId?'playlist':'video',title=clean(item.snippet?.title,180),description=String(item.snippet?.description||"").slice(0,5000);

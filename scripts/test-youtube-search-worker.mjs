@@ -138,6 +138,11 @@ try {
   assert.equal(quota403.status,429,'YouTube quotaExceeded is returned as a daily-search limit');
   assert.equal(markedQuotaExhausted,true,'an upstream quotaExceeded 403 blocks later Worker searches');
   markedQuotaExhausted=false;
+  globalThis.fetch=async()=>Response.json({error:{errors:[{reason:'dailyLimitExceeded'}]}},{status:403});
+  const dailyLimit403=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{if(exhausted)markedQuotaExhausted=true;return null;});
+  assert.equal(dailyLimit403.status,429,'an upstream dailyLimitExceeded is returned as a daily-search limit');
+  assert.equal(markedQuotaExhausted,true,'an upstream dailyLimitExceeded blocks later Worker searches');
+  markedQuotaExhausted=false;
   globalThis.fetch=async()=>Response.json({error:{errors:[{reason:'forbidden'}]}},{status:403});
   const forbidden=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ko',bookId:'MAT',bookName:'마태복음',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{if(exhausted)markedQuotaExhausted=true;return null;});
   assert.equal(forbidden.status,502,'an unrelated forbidden 403 remains a generic upstream error');

@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 46,
+      "revision": 47,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -818,7 +818,8 @@
         "If the Cloudflare workers.dev hostname is unavailable, the browser uses a Cloudflare Pages Function on pages.dev with a service binding to the existing audio Worker; the proxy forwards only the search, playlist-coverage, and catalog routes, and the Worker continues validating origins and rate limits.",
         "일일 YouTube `search.list` 한도를 사용자 70회와 자동 Cron 30회로 분리해 자동 카탈로그 검색 몫을 보존한다.",
         "재생목록 검증은 최대 49 비검색 단위/후보를 예약하고, 사용자 150개와 자동 Cron 30개로 제한해 기본 일일 10,000 비검색 단위 중 최소 1,180 단위 여유를 둔다.",
-        "자동 Cron은 후보 재생목록 하나씩 Durable Object 별도 요청에서 검증해 무료 Workers 실행당 50개 외부 요청 제한을 넘지 않는다."
+        "자동 Cron은 후보 재생목록 하나씩 Durable Object 별도 요청에서 검증해 무료 Workers 실행당 50개 외부 요청 제한을 넘지 않는다.",
+        "The shared search Worker recognizes both quotaExceeded and dailyLimitExceeded as exhausted daily search quota, returns HTTP 429, and logs only sanitized upstream status/reason codes for other provider errors."
       ],
       "paths": [
         "index.html",
@@ -861,21 +862,21 @@
           "state": "implementing",
           "source": "index.html + Worker search/coverage quota reservation + Cloudflare Cron + hosted YouTube player + Pages service-binding proxy",
           "build": "Selah shared UI 1.0.17/build 85; Worker revision 45 deployed, revision 46 scan isolation pending",
-          "evidence": "Revision 46 adds a Durable Object request boundary for each scheduled playlist scan so no Cron invocation exceeds the Workers Free 50 external-subrequest limit. Search.list remains 70 interactive plus 30 scheduled calls; playlist scans reserve at most 49 non-search quota units each, with 150 interactive plus 30 scheduled scans capped at 8,820 of the default 10,000-unit bucket. Contract tests pass; this revision deployment and live catalog refresh remain pending.",
-          "appliedRevision": 45
+          "evidence": "Revision 47 fixes search-specific YouTube quota classification and adds sanitized upstream error diagnostics. Shared Worker source only; deployment and live catalog refresh remain pending.",
+          "appliedRevision": 46
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "pending",
           "source": "shared hosted reader source",
           "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "The shared hosted reader will use the same Worker quota budgets after deployment; Windows shell/runtime response handling remains unverified.",
+          "evidence": "Revision 47 updates shared Worker error handling only; this platform uses the shared audio API, with platform runtime and deployed response validation still pending. Previous evidence: The shared hosted reader will use the same Worker quota budgets after deployment; Windows shell/runtime response handling remains unverified.",
           "appliedRevision": 39
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Revision 45 changes the shared Worker only; standalone macOS client and runtime adoption remain unverified.",
+          "evidence": "Revision 47 updates shared Worker error handling only; this platform uses the shared audio API, with platform runtime and deployed response validation still pending. Previous evidence: Revision 45 changes the shared Worker only; standalone macOS client and runtime adoption remain unverified.",
           "appliedRevision": 34,
           "build": "1.0.11 / shared reader UI build 55; platform validation pending"
         },
@@ -884,7 +885,7 @@
           "state": "implementing",
           "source": "generated mobile/www/index.html + hosted YouTube player",
           "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "The same Worker quota budgets apply to the shared audio API used by the generated iOS reader; Worker deployment and iPhone playback/runtime remain unverified.",
+          "evidence": "Revision 47 updates shared Worker error handling only; this platform uses the shared audio API, with platform runtime and deployed response validation still pending. Previous evidence: The same Worker quota budgets apply to the shared audio API used by the generated iOS reader; Worker deployment and iPhone playback/runtime remain unverified.",
           "appliedRevision": 44
         }
       }
