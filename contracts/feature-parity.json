@@ -1411,6 +1411,62 @@
         }
       },
       "workItem": "selah-reader-fullscreen-20261006"
+    },
+    {
+      "id": "SELAH-ILLUSTRATED-FEATURE-GUIDE",
+      "revision": 1,
+      "title": "Selah 주요 기능을 UI 일러스트로 소개하는 안내 페이지",
+      "acceptance": [
+        "기존 홈 안내 링크에서 접근할 수 있는 별도 가이드 페이지에서 주요 기능 10가지를 각각 독립된 UI 일러스트와 설명으로 소개한다.",
+        "그림이 실제 화면 캡처 또는 동작하는 QR로 오인되지 않도록 UI 예시 일러스트임을 페이지에 명시한다.",
+        "설명은 현재 구현된 본문 읽기, 시간 묵상, 개인 노트, 본문 링크 공유, 오디오 미니 플레이어, 복습, BlueCloud, 구절 질문, 하이라이트·북마크, 오프라인 저장 기능에 한정하며 로그인·번역본별 조건을 설명한다.",
+        "페이지는 좁은 모바일 화면과 넓은 화면에서 겹치지 않고 읽을 수 있으며, SVG 장식은 스크린리더에 중복 낭독되지 않고 핵심 설명은 텍스트로 제공된다.",
+        "Capacitor용 generated mobile/www bundle에 guide/index.html과 그 런타임 의존 파일이 포함되고 manifest hash가 소스와 일치한다.",
+        "공개 웹 배포, 설치 앱 반영 및 각 플랫폼의 실제 화면 검증 상태를 각각 구분해 기록한다."
+      ],
+      "paths": [
+        "guide/index.html",
+        "mobile/scripts/copy-web.mjs",
+        "mobile/www/guide/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "contracts/feature-parity.json",
+        "TODO.md"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-feature-tour-20261007",
+          "build": "source only",
+          "evidence": "Korean feature guide source contains ten individual responsive UI illustrations; production deployment and visual browser verification remain pending."
+        },
+        "windows": {
+          "owner": "Windows platform contract",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Public guide route can be reached from the existing hosted home guide link; Windows runtime route verification remains pending."
+        },
+        "macos": {
+          "owner": "macOS platform contract",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Public guide route can be reached from the existing hosted home guide link; macOS runtime route verification remains pending."
+        },
+        "ios": {
+          "owner": "Selah iOS shared-web maintainer",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "generated mobile/www bundle",
+          "build": "1.0.18 / build 86 shared source bundle",
+          "evidence": "Guide page is included in generated Capacitor web bundle and hash manifest; signed app build, installation and runtime display remain pending."
+        }
+      },
+      "workItem": "selah-illustrated-feature-guide-20261007"
     }
   ]
 }
