@@ -197,7 +197,7 @@ export async function searchYouTube(request, env, reserveQuota) {
   const queryFor=selected=>[selected.flatMap(([id,name])=>[`"${name}"`,id]).join('|'),bookNames[0],chapter,phrase].join(' ');
   const requestSearch=async query=>{
     const quota=await reserveQuota?.();if(quota)return{quota};
-    const params=new URLSearchParams({part:'snippet',type:'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id/videoId,playlistId,snippet(title,description,channelTitle))'});
+    const params=new URLSearchParams({part:'snippet',type:'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id(videoId,playlistId),snippet(title,description,channelTitle))'});
     const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
     const data=await response?.json().catch(()=>null),reasons=(data?.error?.errors||[]).map(error=>error?.reason).filter(reason=>typeof reason==='string'&&/^[\w-]{1,64}$/.test(reason)).slice(0,5);
     if(response?.status===429||reasons.some(reason=>['quotaExceeded','dailyLimitExceeded'].includes(reason))){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}

@@ -45,6 +45,7 @@ try {
   const query=new URL(calls[0].url).searchParams,fallbackQuery=new URL(captured.url).searchParams;
   assert.equal(query.get('maxResults'),'50');
   assert.equal(query.get('type'),'video,playlist','edition searches include complete audio playlists and videos');
+  assert.equal(query.get('fields'),'items(id(videoId,playlistId),snippet(title,description,channelTitle))','search selects both nested video and playlist IDs with valid partial-response syntax');
   assert.equal(query.has('videoEmbeddable'),false,'playlist discovery is not filtered out by a video-only parameter');
   assert.equal(query.get('q').includes('|'),true,'all five editions share one OR search');
   assert.equal(fallbackQuery.get('q').includes('New King James Version'),true,'fallback includes a missing edition');
