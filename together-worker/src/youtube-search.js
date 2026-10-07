@@ -46,9 +46,9 @@ function hasChapterMarker(value, locale, chapter) {
 }
 
 function matchesChapterAfterBook(title, bookNames, locale, chapter) {
-  const text=captionText(title),plain=new RegExp(`(?:^|\\s)${chapter}(?=\\s|[:.]|章|장|$)`,'u');
+  const text=foldLatinMarks(title).toLocaleLowerCase().replace(/[^\p{L}\p{N}:\p{Pd}]+/gu,' ').trim(),plain=new RegExp(`(?:^|\\s)${chapter}(?=\\s|[:.]|章|장|$)`,'u');
   return bookNames.some(name=>{
-    const book=captionText(name);if(!book)return false;
+    const book=foldLatinMarks(name).toLocaleLowerCase().replace(/[^\p{L}\p{N}:\p{Pd}]+/gu,' ').trim();if(!book)return false;
     let start=text.indexOf(book);
     while(start>=0){
       const after=text.slice(start+book.length,start+book.length+64),before=text.slice(Math.max(0,start-64),start);

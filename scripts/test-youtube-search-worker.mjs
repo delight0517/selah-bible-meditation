@@ -53,6 +53,9 @@ try {
   assert.equal(captured.options.headers['x-goog-api-key'],'never-return-this-key');
   assert.equal(captured.url.includes('never-return-this-key'),false);
   assert.equal(JSON.stringify(data).includes('never-return-this-key'),false);
+  globalThis.fetch=async()=>Response.json({items:[{id:{videoId:'rangevideo1'},snippet:{title:'Scripture for these times. Matthew 23:1-12 (ESV)',description:'',channelTitle:'ESV'}}]});
+  const verseRange=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  assert.equal((await verseRange.json()).editions.find(group=>group.id==='ESV').items[0].chapterMatch,false,'a verse range such as Matthew 23:1-12 is not Matthew chapter 1');
   let playlistOnlyUrls=[];
   globalThis.fetch=async url=>{playlistOnlyUrls.push(String(url));return Response.json({items:[{id:{playlistId:'PL12345678901234567890'},snippet:{title:'KJV Matthew complete audio Bible playlist',description:'',channelTitle:'KJV Audio'}}]})};
   const playlistOnly=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},undefined,{playlistOnly:true});
@@ -222,6 +225,18 @@ try {
   assert.equal(coverageData.verseCues.find(cue=>cue.bookId==='MAT'&&cue.chapter===1).playlistIndex,929);
   assert.equal(coverageData.verseCues.find(cue=>cue.verse===2).seconds,20);
   assert.equal(verificationCalls,49,'full coverage uses 1 metadata call, 24 item pages and 24 50-video batches, below the 50 external-subrequest limit');
+  globalThis.fetch=async raw=>{
+    const url=new URL(String(raw));
+    if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'KJV King James Version audio Bible',channelTitle:'KJV'},contentDetails:{itemCount:1}}]});
+    if(url.pathname.endsWith('/playlistItems'))return Response.json({items:[{snippet:{title:'Matthew 23:1–12 Audio Bible',position:0,resourceId:{videoId:'rangevideo1'}}}]});
+    if(url.pathname.endsWith('/videos'))return Response.json({items:[{id:'rangevideo1',snippet:{description:'00:10 Matthew 23:1–12'}}]});
+    throw Error(`Unexpected YouTube API path: ${url.pathname}`);
+  };
+  const verseRangeCoverage=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const verseRangeData=await verseRangeCoverage.json();
+  assert.equal(verseRangeData.coveredChapters,1,'chapter coverage ignores the verse endpoints in a range');
+  assert.equal(verseRangeData.verseCues[0].chapter,23,'the chapter cue points to Matthew 23');
+  assert.ok(verseRangeData.missingChapters.some(ref=>ref.bookId==='MAT'&&ref.chapter===1),'a verse numbered 1 cannot falsely cover Matthew chapter 1');
   const quotaReservations=[];
   globalThis.fetch=async()=>Response.json({error:{errors:[{reason:'quotaExceeded'}]}},{status:403});
   const upstreamCoverageQuota=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{quotaReservations.push(!!exhausted);return null;});
