@@ -79,7 +79,9 @@ for (const background of backgrounds) {
 
 assert.equal(appliedColors("#20251f", "#f5f2eb")["--ink-on-paper"], "#20251f", "readable custom colors should be preserved");
 assert.ok(themeCss.includes(":root .verse-card :is(.bible-audio-disclosure > summary, .audio-link, .bible-library > summary, .bible-library label, .bible-library .note)"), "reader controls on the accent surface must use its calculated foreground");
-assert.ok(themeCss.includes(":root[data-theme=\"dark\"] .verse-card :is(.reference, .bible-verse-num, .eyebrow) {\n  color: var(--text-on-accent, var(--on-accent)) !important;"), "dark-theme reader labels must be measured against the accent surface, not the generic card surface");
+assert.ok(themeCss.includes(":root[data-theme=\"dark\"] .verse-card {\n  background: var(--card) !important;\n  color: var(--ink) !important;"), "dark-theme reader must use a dim card surface instead of the bright accent swatch");
+assert.ok(themeCss.includes(":root[data-theme=\"dark\"] .verse-card :is(.verse, .reference, .bible-verse-num, .eyebrow) {\n  color: var(--ink) !important;"), "dark-theme Scripture and labels must use the softened readable foreground");
+assert.ok(themeCss.includes(":root #bibleAudioPlayer:not(.is-minimized) #bibleAudioPlayerVideo iframe {\n  width: min(100%, 360px) !important;"), "expanded YouTube playback must stay compact beside the Scripture reader");
 assert.ok(themeCss.includes(":root .verse-card .reader-display-controls select { color: var(--ink-on-card, var(--ink)) !important; }"), "reader selects must use the foreground calculated for their card surface");
 assert.ok(themeCss.includes(":root .verse-card .reader-zoom-controls button:not(#readerZoomToggle) { color: var(--text-on-accent, var(--on-accent)) !important; }"), "reader zoom buttons must use the foreground calculated for the accent card, not the soft control surface");
 assert.ok(themeCss.includes(":root .verse-card :is(.reader-theme-toggle, .reader-fullscreen-toggle) { color: var(--ink-on-soft, var(--ink)) !important; }"), "reader toggles must use the foreground calculated for their soft surface");
@@ -90,6 +92,6 @@ assert.ok(layoutCss.includes(".verse-card { min-height: 420px; padding: 28px 30p
 assert.ok(page.includes("color:var(--ink-on-paper,var(--ink))!important}body.mobile-reading-focus.reader-settings-collapsed"), "full-screen mobile reader text must use the calculated paper-surface foreground");
 assert.ok(page.includes("grid-template-rows:auto auto auto minmax(0,1fr) auto;align-content:stretch"), "focus reader allocates its flexible row to the Scripture text after the fixed toolbar rows");
 assert.ok(page.includes("body.mobile-reading-focus .bible-audio-disclosure,body.mobile-reading-focus .audio-options-panel,body.mobile-reading-focus #readerAudioPrimary{display:none!important}"), "focus reader hides secondary audio controls so they cannot displace or overlap Scripture text");
-assert.ok(page.includes("./styles/semantic-theme.css?v=4"), "theme styles must use a fresh cache key after visual corrections");
+assert.ok(page.includes("./styles/semantic-theme.css?v=5"), "theme styles must use a fresh cache key after visual corrections");
 assert.match(page, new RegExp(`desktop-polish\\.css\\?v=[^"']*-${desktopPolishRevision}`), "desktop reader CSS cache key must advance when its source changes");
 console.log(`semantic theme contrast passed for ${backgrounds.size} backgrounds and ${roles.length} text roles`);
