@@ -67,6 +67,30 @@ try {
   globalThis.fetch=async()=>Response.json({items:[{id:{videoId:'rangevideo1'},snippet:{title:'Scripture for these times. Matthew 23:1-12 (ESV)',description:'',channelTitle:'ESV'}}]});
   const verseRange=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
   assert.equal((await verseRange.json()).editions.find(group=>group.id==='ESV').items[0].chapterMatch,false,'a verse range such as Matthew 23:1-12 is not Matthew chapter 1');
+  globalThis.fetch=async()=>Response.json({items:[{id:{videoId:'rangevideo2'},snippet:{title:'Matthew 1:18-25 (ESV)',description:'',channelTitle:'ESV'}}]});
+  const sameChapterVerseRange=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const sameChapterRangeItem=(await sameChapterVerseRange.json()).editions.find(group=>group.id==='ESV').items[0];
+  assert.equal(sameChapterRangeItem.chapterMatch,true,'the excerpt still matches Matthew chapter 1 for partial manual search');
+  assert.equal(sameChapterRangeItem.fullChapterMatch,false,'Matthew 1:18-25 is a verse excerpt, not the complete chapter');
+  globalThis.fetch=async()=>Response.json({items:[{id:{videoId:'rangevideo3'},snippet:{title:'マタイによる福音書（１：18-25）【新共同訳】',description:'',channelTitle:'聖書朗読'}}]});
+  const japaneseVerseRange=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ja',bookId:'MAT',bookName:'マタイによる福音書',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const japaneseRangeItem=(await japaneseVerseRange.json()).editions.find(group=>group.id==='新共同訳').items[0];
+  assert.equal(japaneseRangeItem.chapterMatch,true,'Japanese verse excerpts remain available as manual chapter results');
+  assert.equal(japaneseRangeItem.fullChapterMatch,false,'Japanese full-width chapter/verse notation is rejected as a full-chapter catalog fallback');
+  globalThis.fetch=async()=>Response.json({items:[
+    {id:{videoId:'jpv00000001'},snippet:{title:'新約聖書【口語訳】 マタイによる福音書 第1章 #聖書朗読',description:'',channelTitle:'口語訳聖書朗読'}},
+    {id:{videoId:'jpv00000002'},snippet:{title:'マタイの福音書 1章 新改訳聖書2017',description:'',channelTitle:'Bible'}},
+    {id:{videoId:'jpv00000003'},snippet:{title:'マタイによる福音書（１：18-25）【新共同訳】',description:'',channelTitle:'Bible'}},
+    {id:{videoId:'jpv00000004'},snippet:{title:'マタイによる福音書24章 聖書協会共同訳 聖書朗読',description:'',channelTitle:'Bible'}},
+    {id:{videoId:'jpv00000005'},snippet:{title:'【聖書朗読】マタイの福音書1章',description:'',channelTitle:'リビングバイブル'}},
+  ]});
+  const japaneseCandidates=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'ja',bookId:'MAT',bookName:'マタイによる福音書',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  const japaneseGroups=(await japaneseCandidates.json()).editions;
+  assert.equal(japaneseGroups.find(group=>group.id==='JPN1965').items[0].fullChapterMatch,true,'an exact Japanese chapter title qualifies for automatic fallback');
+  assert.equal(japaneseGroups.find(group=>group.id==='新改訳').items[0].fullChapterMatch,true,'a localized Japanese chapter marker qualifies');
+  assert.equal(japaneseGroups.find(group=>group.id==='新共同訳').items[0].fullChapterMatch,false,'a Japanese verse excerpt does not qualify as a full chapter');
+  assert.equal(japaneseGroups.find(group=>group.id==='聖書協会共同訳').items[0].fullChapterMatch,false,'another chapter does not qualify');
+  assert.equal(japaneseGroups.find(group=>group.id==='リビングバイブル').items[0].fullChapterMatch,true,'Japanese script-specific titles retain an exact chapter match');
   let playlistOnlyUrls=[];
   globalThis.fetch=async url=>{playlistOnlyUrls.push(String(url));return Response.json({items:[{id:{playlistId:'PL12345678901234567890'},snippet:{title:'KJV Matthew complete audio Bible playlist',description:'',channelTitle:'KJV Audio'}}]})};
   const playlistOnly=await searchYouTube(new Request('https://worker.test/youtube/search',{method:'POST',body:JSON.stringify({locale:'en',bookId:'MAT',bookName:'Matthew',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},undefined,{playlistOnly:true});

@@ -5,11 +5,19 @@ import { MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN } from './youtube-quota.js';
 const REQUEST_GAP_MS = 8000;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-function compactEdition(edition, candidate, coverage) {
+function compactEdition(edition, candidate, coverage, chapterVideo) {
   return {
     id: edition.id,
     name: edition.name,
     ...(candidate ? { playlistId: candidate.playlistId, title: candidate.title, channelTitle: candidate.channelTitle, url: candidate.url } : {}),
+    ...(chapterVideo ? { chapterVideo: {
+      videoId: chapterVideo.videoId,
+      title: chapterVideo.title,
+      channelTitle: chapterVideo.channelTitle,
+      url: `https://www.youtube.com/watch?v=${chapterVideo.videoId}`,
+      cueKind: chapterVideo.cueKind,
+      verseCues: (chapterVideo.verseCues || []).filter(cue => cue.videoId === chapterVideo.videoId && cue.bookId === 'MAT' && cue.chapter === 1).slice(0, 300)
+    } } : {}),
     status: coverage?.status || 'NO_PLAYLIST_CANDIDATE',
     ...(coverage ? {
       itemCount: Number(coverage.itemCount) || 0,
@@ -55,7 +63,7 @@ export async function discoverAudioCatalogLocale({
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ locale, bookId: 'MAT', bookName, chapter: 1 })
-  }), env, reserveQuota, { playlistOnly: true, pageToken, fallbackPageTokens });
+  }), env, reserveQuota, { playlistOnly: false, pageToken, fallbackPageTokens });
   const search = await searchResponse.json().catch(() => null);
   if (!searchResponse.ok || !search || search.locale !== locale) throw new Error(search?.error || `audio_search_failed:${searchResponse.status}`);
 
@@ -76,6 +84,9 @@ export async function discoverAudioCatalogLocale({
     const getsExtraCandidate = (editionIndex - rotationOffset + expectedEditions.length) % expectedEditions.length < extraCandidateCount;
     const maxCandidates = baseCandidateLimit + Number(getsExtraCandidate);
     const candidates = (group.items || []).filter(item => item.mediaType === 'playlist' && /^[\w-]{10,128}$/.test(item.playlistId || ''));
+    const chapterVideo = (group.items || [])
+      .filter(item => item.mediaType === 'video' && item.fullChapterMatch === true && /^[\w-]{11}$/.test(item.videoId || ''))
+      .sort((a, b) => ({ verse: 0, chapter: 1, none: 2 }[a.cueKind] ?? 3) - ({ verse: 0, chapter: 1, none: 2 }[b.cueKind] ?? 3))[0] || null;
     const candidateOffset = candidates.length ? ((Math.trunc(Number(candidateOffsets[edition.id])) || 0) % candidates.length + candidates.length) % candidates.length : 0;
     const scanCandidates = candidates.length
       ? Array.from({ length: Math.min(maxCandidates, candidates.length) }, (_, index) => candidates[(candidateOffset + index) % candidates.length])
@@ -111,7 +122,7 @@ export async function discoverAudioCatalogLocale({
     }
 
     nextCandidateOffsets[edition.id] = candidates.length ? (candidateOffset + scannedCount) % candidates.length : 0;
-    editions.push(compactEdition(edition, selected, bestCoverage));
+    editions.push(compactEdition(edition, selected, bestCoverage, chapterVideo));
   }
 
   return {

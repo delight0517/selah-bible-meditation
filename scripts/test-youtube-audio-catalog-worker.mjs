@@ -14,14 +14,15 @@ const discovered = await discoverAudioCatalogLocale({
   reserveCoverageQuota: async () => { coverageReservations++; return null; },
   searchImpl: async (request, _env, _reserveQuota, options) => {
     searchCount++;
-    assert.deepEqual(options, { playlistOnly: true, pageToken: 'search-page-2', fallbackPageTokens: {} }, 'scheduled discovery resumes page-token searches for playlists');
+    assert.deepEqual(options, { playlistOnly: false, pageToken: 'search-page-2', fallbackPageTokens: {} }, 'scheduled discovery resumes mixed playlist/video searches');
     const body = await request.json();
     assert.deepEqual({ locale: body.locale, bookId: body.bookId, chapter: body.chapter }, { locale: 'en', bookId: 'MAT', chapter: 1 });
     return Response.json({ locale: 'en', nextPageToken: 'search-page-3', fallbackPageTokenKey: 'NIV,ESV,NKJV,NLT', fallbackNextPageToken: 'fallback-page-2', editions: editions.map((edition, index) => ({
       ...edition,
       items: index === 0 ? [
         { mediaType: 'playlist', playlistId: playlist(1), title: `${edition.name} first`, channelTitle: 'Test' },
-        { mediaType: 'playlist', playlistId: playlist(2), title: `${edition.name} complete`, channelTitle: 'Test' }
+        { mediaType: 'playlist', playlistId: playlist(2), title: `${edition.name} complete`, channelTitle: 'Test' },
+        { mediaType: 'video', videoId: 'chaptervid1', title: `${edition.name} Matthew Chapter 1`, channelTitle: 'Test', url: 'https://www.youtube.com/watch?v=chaptervid1', chapterMatch: true, fullChapterMatch: true, cueKind: 'verse', verseCues: [{ bookId: 'MAT', chapter: 1, verse: 2, seconds: 14, videoId: 'chaptervid1' }, { bookId: 'MAT', chapter: 1, verse: 3, seconds: 24, videoId: 'unrelated1' }] }
       ] : []
     })) });
   },
@@ -43,10 +44,27 @@ assert.equal(discovered.editions.length, 5);
 assert.equal(discovered.editions[0].playlistId, playlist(2));
 assert.equal(discovered.editions[0].coveredChapters, 1189);
 assert.deepEqual(discovered.editions[0].videoIds, ['abcdefghijk']);
+assert.deepEqual(discovered.editions[0].chapterVideo, { videoId: 'chaptervid1', title: `${editions[0].name} Matthew Chapter 1`, channelTitle: 'Test', url: 'https://www.youtube.com/watch?v=chaptervid1', cueKind: 'verse', verseCues: [{ bookId: 'MAT', chapter: 1, verse: 2, seconds: 14, videoId: 'chaptervid1' }] }, 'a chapter-matched video fallback preserves verified verse timestamps alongside its playlist');
 assert.equal(discovered.nextPageToken, 'search-page-3');
 assert.equal(discovered.fallbackPageTokenKey, 'NIV,ESV,NKJV,NLT');
 assert.equal(discovered.fallbackNextPageToken, 'fallback-page-2');
 assert.deepEqual(discovered.candidateOffsets, candidateOffsets);
+
+{
+  const jaEditions = editionList('ja');
+  const chapterOnly = await discoverAudioCatalogLocale({
+    locale: 'ja', env: {}, waitMs: 0, sleepImpl: async () => {},
+    searchImpl: async (_request, _env, _reserve, options) => {
+      assert.equal(options.playlistOnly, false, 'the scheduled search includes chapter videos when no playlist exists');
+      return Response.json({ locale: 'ja', editions: jaEditions.map((edition, index) => ({ ...edition, items: [
+        { mediaType: 'video', videoId: `jpnvideo${String(index).padStart(3, '0')}`, title: `${edition.name} Matthew 1`, channelTitle: 'Test', url: `https://www.youtube.com/watch?v=jpnvideo${String(index).padStart(3, '0')}`, chapterMatch: true, fullChapterMatch: true, cueKind: 'none', verseCues: [] }
+      ] })) });
+    },
+    coverageImpl: async () => { throw new Error('video fallback must not use playlist coverage scans'); }
+  });
+  assert.equal(chapterOnly.editions.filter(edition => edition.chapterVideo).length, 5, 'all five Japanese editions retain a chapter-matched video even without playlists');
+  assert.ok(chapterOnly.editions.every(edition => edition.status === 'NO_PLAYLIST_CANDIDATE'), 'a single-chapter video is not mislabeled as complete or partial Bible coverage');
+}
 
 for (const locale of ['en', 'ko']) {
   const localeEditions = editionList(locale), rotations = locale === 'ko' ? [0, 1] : [0];
