@@ -84,7 +84,7 @@ function playlistChapterRefs(title, locale) {
   return Array.from({length:count},(_,index)=>({bookId,chapter:index+1,wholeBook:true}));
 }
 
-export async function verifyYouTubePlaylistCoverage(request, env) {
+export async function verifyYouTubePlaylistCoverage(request, env, reserveQuota) {
   const text=await request.text();
   if(text.length>2048)return Response.json({error:'payload_too_large'},{status:413});
   const input=await Promise.resolve().then(()=>JSON.parse(text)).catch(()=>null);
@@ -92,10 +92,15 @@ export async function verifyYouTubePlaylistCoverage(request, env) {
   const currentChapter=Number(input.chapter),currentBookId=String(input.bookId||'');
   if(!BOOKS.includes(currentBookId)||!Number.isInteger(currentChapter)||currentChapter<1||currentChapter>CHAPTERS[BOOKS.indexOf(currentBookId)])return Response.json({error:'invalid_passage'},{status:400});
   if(!env.YOUTUBE_DATA_API_KEY)return Response.json({error:'service_unavailable'},{status:503});
+  const quota=await reserveQuota?.();if(quota)return quota;
   const api=async(path,params)=>{
     const query=new URLSearchParams(params);query.set('key',env.YOUTUBE_DATA_API_KEY);
     const response=await fetch(`https://www.googleapis.com/youtube/v3/${path}?${query}`,{signal:AbortSignal.timeout(10000)}).catch(()=>null);
-    if(!response?.ok)return{error:response?.status===403||response?.status===429?'youtube_quota_unavailable':'youtube_request_failed',status:response?.status||502};
+    if(!response?.ok){
+      const data=await response?.json().catch(()=>null),quotaExceeded=response?.status===429||data?.error?.errors?.some(error=>['quotaExceeded','dailyLimitExceeded'].includes(error?.reason));
+      if(quotaExceeded){await reserveQuota?.(true);return{error:'youtube_quota_unavailable',status:429};}
+      return{error:'youtube_request_failed',status:502};
+    }
     const data=await response.json().catch(()=>null);return data?{data}:{error:'youtube_request_failed',status:502};
   };
   const playlist=await api('playlists',{part:'snippet,contentDetails',id:input.playlistId,fields:'items(id,snippet(title,description,channelTitle),contentDetails/itemCount)'});

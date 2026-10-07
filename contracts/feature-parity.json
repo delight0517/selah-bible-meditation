@@ -767,7 +767,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 44,
+      "revision": 45,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -815,7 +815,9 @@
         "Playlist title coverage means metadata/title coverage only; it does not claim the audio content itself was listened to or semantically verified.",
         "Verified chapter and verse cues retain playlist order and video IDs when saved and synced so playback can select the correct video and follow chapter/verse cues.",
         "When playlist metadata is ambiguous or names multiple editions, include only playlist tracks whose own titles explicitly identify the requested edition; exclude conflicting tracks and return edition_mismatch if none qualify. An unambiguous playlist edition may supply edition evidence to otherwise unlabeled tracks, but an explicitly conflicting track is always excluded.",
-        "If the Cloudflare workers.dev hostname is unavailable, the browser uses a Cloudflare Pages Function on pages.dev with a service binding to the existing audio Worker; the proxy forwards only the search, playlist-coverage, and catalog routes, and the Worker continues validating origins and rate limits."
+        "If the Cloudflare workers.dev hostname is unavailable, the browser uses a Cloudflare Pages Function on pages.dev with a service binding to the existing audio Worker; the proxy forwards only the search, playlist-coverage, and catalog routes, and the Worker continues validating origins and rate limits.",
+        "일일 YouTube `search.list` 한도를 사용자 70회와 자동 Cron 30회로 분리해 자동 카탈로그 검색 몫을 보존한다.",
+        "재생목록 검증은 최대 49 비검색 단위/후보를 예약하고, 사용자 150개와 자동 Cron 30개로 제한해 기본 일일 10,000 비검색 단위 중 최소 1,180 단위 여유를 둔다."
       ],
       "paths": [
         "index.html",
@@ -849,15 +851,16 @@
         "together-worker/pages-proxy/wrangler.toml",
         "together-worker/pages-proxy/functions/youtube/[[path]].js",
         "together-worker/pages-proxy/public/index.html",
-        "scripts/test-pages-audio-proxy.mjs"
+        "scripts/test-pages-audio-proxy.mjs",
+        "together-worker/src/index.js"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
           "state": "implementing",
-          "source": "index.html + assets/youtube-audio-catalog/*.json + together-worker/src/youtube-search.js + together-worker/src/youtube-audio-catalog.js + Cloudflare Worker Cron + hosted YouTube player + Cloudflare Pages service-binding proxy",
-          "build": "1.0.17 / build 84; Worker Cron and pages.dev service-binding API route",
-          "evidence": "Cloudflare Pages production deployment 8737132e-efa0-40ff-b69f-bca7bb9129e0 on selah-youtube-api-gateway.pages.dev invokes the existing Worker through its Service Binding. Live catalog GET reached the Worker and returned catalog_not_found; Selah Origin received CORS headers, evil Origin received 403 origin_not_allowed, and invalid search input was rejected by the Worker. The current source branch and synchronized mobile bundle now target pages.dev; GitHub Pages publication, catalog refresh, and playback remain pending.",
+          "source": "index.html + Worker search/coverage quota reservation + Cloudflare Cron + hosted YouTube player + Pages service-binding proxy",
+          "build": "Selah shared UI 1.0.17/build 85; Worker quota guard pending deployment",
+          "evidence": "Revision 45 bounds search.list to 70 interactive plus 30 scheduled calls and reserves the scheduled calls ahead of users. Playlist scans reserve at most 49 non-search quota units each; 150 interactive plus 30 scheduled scans cap worst-case use at 8,820 of the default 10,000-unit bucket. Search and catalog contract tests pass; deployment and live audio refresh remain pending.",
           "appliedRevision": 44
         },
         "windows": {
@@ -865,13 +868,13 @@
           "state": "pending",
           "source": "shared hosted reader source",
           "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "The hosted reader loads the daily Worker catalog with static fallback; Windows shell/runtime adoption remains pending.",
+          "evidence": "The shared hosted reader will use the same Worker quota budgets after deployment; Windows shell/runtime response handling remains unverified.",
           "appliedRevision": 39
         },
         "macos": {
           "owner": "Selah macOS maintainer",
           "state": "pending",
-          "evidence": "Shared web-first playlist coverage contract updated to revision 39; standalone macOS source and runtime adoption remain unverified.",
+          "evidence": "Revision 45 changes the shared Worker only; standalone macOS client and runtime adoption remain unverified.",
           "appliedRevision": 34,
           "build": "1.0.11 / shared reader UI build 55; platform validation pending"
         },
@@ -880,7 +883,7 @@
           "state": "implementing",
           "source": "generated mobile/www/index.html + hosted YouTube player",
           "build": "1.0.17 / build 84; weekly verified YouTube catalog and chapter cue following",
-          "evidence": "Generated mobile/www bundle now targets the Pages service-binding API and platform source parity passes; native build/install and iPhone playback/follow remain unverified.",
+          "evidence": "The same Worker quota budgets apply to the shared audio API used by the generated iOS reader; Worker deployment and iPhone playback/runtime remain unverified.",
           "appliedRevision": 44
         }
       }
