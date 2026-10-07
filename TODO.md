@@ -11,7 +11,8 @@
 - [ ] 일일 quota reset 이후 새 한도에서 쉬운성경 실제 후보를 확인한다. reset 전에는 YouTube API를 다시 호출하지 않는다.
 - [x] 재확인 결과 Cloudflare가 권한 DNS 응답으로 `selah-together.imdisablebutgoddisable.workers.dev`와 계정 하위 도메인 모두에 NXDOMAIN을 반환했다. Wrangler에서도 Worker 배포는 100% 활성 상태지만 공개 요청은 DNS 단계에서 막혔다.
 - [x] `selah-youtube-api-gateway.pages.dev`에 Pages Function을 배포하고 기존 `selah-together` Worker에 내부 Service Binding을 연결했다. 공개 GET은 Worker까지 도달해 현재 카탈로그 없음(`catalog_not_found`)을 반환했고, Selah Origin CORS·OPTIONS preflight 통과, 타 Origin은 403, 잘못된 검색 입력은 Worker 400으로 확인했다. 배포 `8737132e-efa0-40ff-b69f-bca7bb9129e0`; 기존 API 키와 Durable Object는 Worker 안에 유지한다.
-- [ ] 새 `pages.dev` endpoint를 쓰는 Selah 웹 소스 변경을 PR에 병합하고 GitHub Pages 배포에서 검색·카탈로그 경로를 확인한다. Cron 실행 후 실제 오디오 목록, YouTube 재생, 본문 따라가기를 확인한다.
+- [x] 공개 GitHub Pages의 현재 HTML이 `https://selah-youtube-api-gateway.pages.dev`를 YouTube 오디오 API로 사용한다. `GET /youtube/audio-catalog?locale=en`은 Pages 게이트웨이와 Worker를 거쳐 HTTP 404 `catalog_not_found`를 반환했다. 첫 playlist 전용 Cron 전이라 아직 카탈로그가 없는 상태다.
+- [ ] 첫 Cron 이후 언어별 오디오 목록과 playlist 커버리지·chapter/verse cue를 확인하고, 웹에서 YouTube 재생 및 본문 따라가기를 검증한다.
 - [ ] 웹에서 후보 저장→YouTube 재생→절 시점 저장→본문 따라가기까지 확인한다. 실제 재생/follow 및 언어별 5개 완전 오디오 역본은 아직 검증되지 않았다.
 
 ## 2026-10-06 · 미국 영어권 묵상 기록 진입 실험
