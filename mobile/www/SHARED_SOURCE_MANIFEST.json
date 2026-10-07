@@ -45,7 +45,7 @@
     "bible-rights.json": "f9c41489c85300f41d1b16af1a3032c097d53a2eeaeb876f068017e92d0856eb",
     "bible-translations.json": "ce212e988739c51f5c988591f50a45e3533484d6e1d2a5e48b60cf656fb53ce4",
     "home.html": "80b2ed335b021c3943c9e654318866a521f21383ec618c1ef7627891a2750c7d",
-    "index.html": "bc465c10fb7a9d45ae7567b61aae0f94fd0bd90454f0a7afba92b751102cd542",
+    "index.html": "c8bc97de9300e6a6aae8b496c921a4c4da2b7f5002c34c644f1d20f48a012b79",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -71,6 +71,6 @@
     "styles/semantic-theme.css": "04b245bcd62c54685956b97b41567a4c2cf115ed5729a33329f7745e77456bcc",
     "uk/index.html": "8db76ab372f38f767619e6d7a52b4a2d346ffafe175d43f64ab7225f8596a76d",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38",
-    "youtube-player.html": "4c70d517f92e63a2b2fe33e768f83d36a7d3cacad0d80861c9e7b6c9f3af3dd7"
+    "youtube-player.html": "ff5b8fdca3620055a9b9139302f4fc0f4e9ff99808bfc39f1799003ee2d8f952"
   }
 }
