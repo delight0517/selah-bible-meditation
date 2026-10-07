@@ -31,6 +31,12 @@
 - [x] PR #313 병합과 Worker 배포를 확인했다. Cloudflare deployment readback에서 새 버전 100%와 예약 Cron `20 0`, `20 8`, `20 16` UTC를 확인했다.
 - [ ] 다음 Cron 카탈로그 readback은 아직 대기 중이며, 웹에서 실제 영상 재생과 본문 따라가기도 확인되지 않았다.
 
+## 2026-10-07 · 언어별 카탈로그 일일 갱신
+- [x] 같은 하루 30개 playlist 검증 및 scheduled search 30회 한도 안에서 매 Cron에 4개 locale을 갱신하도록 배분한다. 실행당 검증 후보는 3·3·2·2개, 최대 8회 search.list(광역+역본 fallback)로 제한한다.
+- [x] Durable Object가 run sequence를 중복·순서 검증해 재전송에서 이미 끝난 locale을 다시 게시하지 않게 한다.
+- [ ] 회귀 테스트, 플랫폼 소스·기능 parity 검사를 통과시키고 PR/Worker 배포 후 세 번의 Cron이 10개 locale을 매일 최소 1회 갱신하는지 공개 카탈로그로 읽어 확인한다.
+- [ ] 각 언어의 5개 이상 완전 오디오 역본과 브라우저에서 YouTube 재생→검증된 타임스탬프→본문 따라가기를 확인한다. 기존 macOS Accessibility 사용자 조치 전까지 Aside 화면 QA는 보류한다.
+
 ## 2026-10-07 · 전체 성경의 명시적 절 타임스탬프 보존
 - [x] Worker가 요청한 검색 장 바깥의 playlist chapter descriptions에서 찾은 명시적 절 시점을 버리던 문제를 고쳤다. 절 cue가 없는 장은 기존 chapter-start cue를 유지하고, 시점을 새로 만들지 않는다.
 - [x] Worker 검색 회귀 검사에서 창세기 1장부터 요한계시록 22장까지 영상 설명에 존재하는 절 시점을 모두 보존하는지 확인한다.
