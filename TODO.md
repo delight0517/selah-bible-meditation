@@ -23,6 +23,12 @@
 - [x] 배포 직후 공개 카탈로그 GET은 HTTP 404 `catalog_not_found`였다. 이는 다음 Cron 전 빈 상태로 확인됐으며, 아직 자동 수집 성공 증거는 아니다.
 - [ ] 실제 10개 언어 카탈로그에서 완전판 5개씩, 공개 웹 YouTube 재생과 본문 따라가기를 확인한다. 실제 화면 검증은 Aside에 대한 Terminal 접근성 권한 허용 후 Resume가 필요하다.
 
+## 2026-10-07 · YouTube 카탈로그 검색·후보 순환
+- [x] locale별 YouTube broad search `nextPageToken`, fallback query별 별도 cursor, 역본별 후보 scan offset을 Durable Object에 저장하고 다음 예약 회차에서 재개한다. 커서는 30일 뒤 함께 만료시킨다.
+- [x] 새 결과가 기존 검증 결과보다 약하면 기존 역본의 playlist와 커버리지를 유지한다.
+- [x] 검색·카탈로그 회귀 테스트, `check-feature-parity`, `check-platform-source`, `git diff --check`를 통과했다.
+- [ ] PR 병합과 Worker 배포 뒤 다음 Cron의 실제 카탈로그 readback 및 웹 재생·본문 따라가기를 확인한다. 화면 QA는 기존 Aside 접근성 알림을 완료하고 Resume해야 한다.
+
 ## 2026-10-06 · 미국 영어권 묵상 기록 진입 실험
 - [x] 공개 영어 검색 결과에서 “Bible journal에 무엇을 쓸까?”라는 초보자 질문을 확인했다. 최근 안내 페이지와 저널링 서비스가 이미 경쟁 중이다. 이는 검색 의도와 경쟁 콘텐츠의 증거이지 월 검색량이나 Selah 수요의 증거가 아니다.
 - [x] 미국/영어권 `global-funnel-v1` 최근 30일 기준을 확인했다: 노출 이벤트 2, CTA·읽기·저장·가입·재방문 0. 두 이벤트는 사람 수가 아니며 모두 `unattributed` 경로다.

@@ -184,7 +184,7 @@ function parseCues(description, bookNames, locale, bookId, chapter, videoId, exa
   return {cues,chapterSeconds};
 }
 
-export async function searchYouTube(request, env, reserveQuota, { playlistOnly = false } = {}) {
+export async function searchYouTube(request, env, reserveQuota, { playlistOnly = false, pageToken = '', fallbackPageTokens = {} } = {}) {
   const text=await request.text();
   if(text.length>2048) return Response.json({error:'payload_too_large'},{status:413});
   const input=await Promise.resolve().then(()=>JSON.parse(text)).catch(()=>null);
@@ -196,14 +196,16 @@ export async function searchYouTube(request, env, reserveQuota, { playlistOnly =
   const bookNames=[...new Set([...(audioBookNames.locales[input.locale]?.books[input.bookId]||[]),bookName].map(name=>clean(name,80)).filter(Boolean))];
   const phrase=PHRASES[input.locale];
   const queryFor=selected=>[selected.flatMap(([id,name])=>[`"${name}"`,id]).join('|'),bookNames[0],chapter,phrase,...(playlistOnly?['playlist']:[])].join(' ');
-  const requestSearch=async query=>{
+  if(typeof pageToken!=='string'||pageToken.length>512||!fallbackPageTokens||typeof fallbackPageTokens!=='object'||Array.isArray(fallbackPageTokens))return Response.json({error:'invalid_page_token'},{status:400});
+  const requestSearch=async (query,token='')=>{
     const quota=await reserveQuota?.();if(quota)return{quota};
-    const params=new URLSearchParams({part:'snippet',type:playlistOnly?'playlist':'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'items(id(videoId,playlistId),snippet(title,description,channelTitle))'});
+    const params=new URLSearchParams({part:'snippet',type:playlistOnly?'playlist':'video,playlist',maxResults:'50',relevanceLanguage:LANG_TAG[input.locale],q:query,fields:'nextPageToken,items(id(videoId,playlistId),snippet(title,description,channelTitle))'});
+    if(token)params.set('pageToken',token);
     const response=await fetch(`https://www.googleapis.com/youtube/v3/search?${params}`,{headers:{'x-goog-api-key':env.YOUTUBE_DATA_API_KEY},signal:AbortSignal.timeout(10000)}).catch(()=>null);
     const data=await response?.json().catch(()=>null),reasons=(data?.error?.errors||[]).map(error=>error?.reason).filter(reason=>typeof reason==='string'&&/^[\w-]{1,64}$/.test(reason)).slice(0,5);
     if(response?.status===429||reasons.some(reason=>['quotaExceeded','dailyLimitExceeded'].includes(reason))){const quota=await reserveQuota?.(true);return{quota:quota||Response.json({error:'daily_search_limit'},{status:429})};}
     if(!response?.ok){console.error('youtube_search_upstream_error',{status:response?.status||0,reasons,locale:input.locale});return{error:true};}
-    return{items:data?.items||[]};
+    return{items:data?.items||[],nextPageToken:typeof data?.nextPageToken==='string'?data.nextPageToken:''};
   };
   const classify=(raw,selected)=>raw.filter(item=>/^[\w-]{11}$/.test(item?.id?.videoId||'')||/^[\w-]{10,128}$/.test(item?.id?.playlistId||'')).map(item=>{
     const videoId=item.id.videoId||null,playlistId=item.id.playlistId||null,assetId=videoId||playlistId,mediaType=playlistId?'playlist':'video',title=clean(item.snippet?.title,180),description=String(item.snippet?.description||"").slice(0,5000);
@@ -213,21 +215,26 @@ export async function searchYouTube(request, env, reserveQuota, { playlistOnly =
     const channelTitle=clean(item.snippet?.channelTitle,100),matches=selected.map(([id,name],index)=>({id,name,index,score:editionScore(title,true,id,name)*2+editionScore(description,false,id,name)+editionScore(channelTitle,false,id,name)})).filter(match=>match.score>0).sort((a,b)=>b.score-a.score||a.index-b.index);
     return {videoId,playlistId,mediaType,title,channelTitle,url:playlistId?`https://www.youtube.com/playlist?list=${playlistId}`:`https://www.youtube.com/watch?v=${videoId}`,verseCues,chapterMatch,cueKind,editionId:matches[0]?.id||null,_assetId:assetId};
   });
-  const first=await requestSearch(queryFor(editions));
+  const first=await requestSearch(queryFor(editions),pageToken);
   if(first.quota)return first.quota;
   if(first.error)return Response.json({error:'youtube_search_failed'},{status:502});
   const items=classify(first.items,editions);
   const missing=editions.filter(([id])=>!items.some(item=>item.editionId===id));
+  const fallbackPageTokenKey=missing.map(([id])=>id).join(',');
+  const fallbackPageToken=fallbackPageTokenKey&&Object.hasOwn(fallbackPageTokens,fallbackPageTokenKey)?fallbackPageTokens[fallbackPageTokenKey]:'';
+  if(typeof fallbackPageToken!=='string'||fallbackPageToken.length>512)return Response.json({error:'invalid_page_token'},{status:400});
   let fallbackLimited=false;
+  let fallbackNextPageToken='';
   if(missing.length){
-    const fallback=await requestSearch(queryFor(missing));
+    const fallback=await requestSearch(queryFor(missing),fallbackPageToken);
     if(fallback.quota)fallbackLimited=true;
     else if(!fallback.error){
+      fallbackNextPageToken=fallback.nextPageToken;
       const missingIds=new Set(missing.map(([id])=>id));
       for(const item of classify(fallback.items,editions))if(missingIds.has(item.editionId)&&!items.some(existing=>existing._assetId===item._assetId))items.push(item);
     }
   }
   const maxPlaylistCandidatesPerEdition=Math.floor(MAX_SCHEDULED_COVERAGE_CANDIDATES/editions.length);
   const groups=editions.map(([id,name])=>({id,name,items:items.filter(item=>item.editionId===id).slice(0,maxPlaylistCandidatesPerEdition).map(({_assetId,...item})=>item)}));
-  return Response.json({locale:input.locale,bookId:input.bookId,chapter,editions:groups,...(fallbackLimited?{fallbackLimited:true}:{})},{headers:{'Cache-Control':'no-store'}});
+  return Response.json({locale:input.locale,bookId:input.bookId,chapter,editions:groups,...(playlistOnly?{nextPageToken:first.nextPageToken,fallbackPageTokenKey,fallbackNextPageToken}:{}),...(fallbackLimited?{fallbackLimited:true}:{})},{headers:{'Cache-Control':'no-store'}});
 }

@@ -777,7 +777,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 53,
+      "revision": 54,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -820,6 +820,8 @@
         "The selected Bible text edition remains independent from the audio edition. Current passage follows only the selected video’s verified cue points; any missing timing remains unsynchronized.",
         "Goal completion requires evidence of five distinct, complete audio editions per language and observed playback plus scripture following in the web reader; the names shown in the search selector alone do not satisfy this threshold.",
         "The Worker reserves at most 70 search.list requests per America/Los_Angeles calendar day using one serialized Durable Object counter, leaving 30 requests of headroom for other consumers of the shared API key under the default 100-query daily limit. If YouTube returns HTTP 429 or a 403 containing the quotaExceeded reason, the Worker blocks further searches until the next Pacific calendar day; unrelated 403 errors do not trigger the daily quota block.",
+        "Scheduled catalog scans persist a separate YouTube nextPageToken per locale and resume the broad edition query at its next result page; the cursor expires after 30 days.",
+        "Scheduled scans rotate candidate offsets independently for every audio edition, and keep the strongest previously verified coverage when a later page or scan finds a weaker playlist.",
         "One targeted fallback search fills editions with no classified candidate; a single valid candidate per edition does not trigger a second request. Each request remains separately quota-limited.",
         "For each edition group, try its quota-shared candidate limit until complete 66-book/1,189-chapter cue coverage is found; otherwise keep the best verified partial result and show its coverage distinctly.",
         "Coverage scanning supports both chapter-per-video playlists and one-audio-video-per-book playlists when the book title is unambiguous and its description contains timestamped chapter starts.",
@@ -877,7 +879,7 @@
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
-          "state": "implemented",
+          "state": "pending",
           "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
           "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
@@ -885,7 +887,7 @@
         },
         "windows": {
           "owner": "Selah hosted reader",
-          "state": "implemented",
+          "state": "pending",
           "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
           "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
@@ -893,7 +895,7 @@
         },
         "macos": {
           "owner": "Selah macOS maintainer",
-          "state": "implemented",
+          "state": "pending",
           "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
           "appliedRevision": 53,
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
@@ -901,7 +903,7 @@
         },
         "ios": {
           "owner": "Selah shared iOS reader",
-          "state": "implemented",
+          "state": "pending",
           "source": "codex/selah-youtube-oss-approach-20261007 quota-safe rotation",
           "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
           "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending.",
