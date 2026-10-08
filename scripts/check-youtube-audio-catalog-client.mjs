@@ -7,8 +7,8 @@ for (const label of ['닫고 재생 중지', 'Close and stop playback', '閉じ�
   assert.ok(html.includes(`dismiss:"${label}"`), `audio dismissal is localized: ${label}`);
 }
 assert.ok(html.includes('playingBibleAudio=source.id;setBibleAudioMinimized(true);renderBibleAudioSetup({autoplayRequested:true})}'), 'the reading-page audio control opens the visible lower-right mini player and explicitly requests YouTube playback');
-assert.ok(html.includes('playingBibleAudio=sourceId;setBibleAudioMinimized(true);renderBibleAudioSetup()}'), 'playing a saved source starts in the compact player instead of expanding a large video in the reading setup');
-assert.ok(html.includes('playingBibleAudio=record.id;setBibleAudioMinimized(true);renderBibleAudioSetup();'), 'saving a YouTube source also keeps its initial player compact');
+assert.ok(html.includes('playingBibleAudio=sourceId;setBibleAudioMinimized(true);renderBibleAudioSetup({autoplayRequested:true})}'), 'playing a saved source starts YouTube in the compact player from the user gesture');
+assert.ok(html.includes('playingBibleAudio=record.id;setBibleAudioMinimized(true);renderBibleAudioSetup({autoplayRequested:true});'), 'saving a YouTube source starts it in the compact player');
 assert.ok(html.includes('function renderBibleAudioSetup({autoplayRequested=false}={})'), 'autoplay stays opt-in and is disabled for page-load and ordinary rerenders');
 assert.ok(html.includes('if(autoplayRequested)hostUrl.searchParams.set("autoplay","1")'), 'the hosted player receives autoplay only for an explicit reader play request');
 assert.ok(html.includes('if(autoplayRequested)params.set("autoplay","1")'), 'direct YouTube embeds receive autoplay only for an explicit reader play request');
@@ -45,6 +45,8 @@ assert.equal(cueContext.canStart({ ...verifiedPlaylist, videoIds: ['abcdefghijk'
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, playlistIndex: undefined }] }, 'JHN', 1), false, 'a cue without a verified playlist index cannot start');
 assert.equal(cueContext.canStart({ ...verifiedPlaylist, verseCues: [{ ...passageCue, chapter: 2 }] }, 'JHN', 1), false, 'a cue from another chapter cannot start');
 assert.equal(cueContext.canStart({ generated: false, mediaType: 'playlist' }, 'JHN', 1), true, 'manually added sources retain their existing playback behavior');
+assert.ok(html.includes('canPlay=youtubeAudioCanStartAtPassage(source,activeBibleBookId,Number(currentPassage()?.chapter||currentPassageIndex()+1))'), 'the rendered play action uses the tested passage eligibility helper');
+assert.ok(html.includes('playingBibleAudio=sourceId;setBibleAudioMinimized(true);renderBibleAudioSetup({autoplayRequested:true})'), 'selecting a saved source starts the embedded player from the user gesture');
 const chapterVideoId = 'jpnvideo000';
 const chapterVideo = { generated: true, mediaType: 'video', url: `https://www.youtube.com/watch?v=${chapterVideoId}`, videoIds: [chapterVideoId], bookId: 'MAT', chapter: 1, chapterMatch: true, verseCues: [] };
 assert.equal(cueContext.canStart(chapterVideo, 'MAT', 1), true, 'an automatically cataloged exact-chapter video can play its matching chapter');
