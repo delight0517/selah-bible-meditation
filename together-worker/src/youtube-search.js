@@ -175,14 +175,14 @@ export async function verifyYouTubePlaylistCoverage(request, env, reserveQuota) 
   for(let start=0;start<candidateItems.length;start+=50){
     const ids=candidateItems.slice(start,start+50).map(item=>item.snippet.resourceId.videoId);
     if(!ids.length)continue;
-    const batch=await api('videos',{part:'snippet',id:ids.join(','),fields:'items(id,snippet(description))'});
+    const batch=await api('videos',{part:'snippet,status',id:ids.join(','),fields:'items(id,snippet(description),status/embeddable)'});
     if(batch.error)return Response.json({error:batch.error},{status:batch.status});
     videos.push(...(batch.data.items||[]));
   }
-  const descriptions=new Map(videos.map(video=>[video.id,video.snippet?.description||''])),chapterCues=[],verseCues=[],covered=new Set(),zeroStartVideos=new Set(),videoIds=[];let explicitVerseCueCount=0;
+  const embeddableVideos=new Map(videos.filter(video=>video.status?.embeddable!==false).map(video=>[video.id,video.snippet?.description||''])),chapterCues=[],verseCues=[],covered=new Set(),zeroStartVideos=new Set(),videoIds=[];let explicitVerseCueCount=0;
   for(let index=0;index<candidateItems.length;index++){
     const item=candidateItems[index],videoId=item.snippet.resourceId.videoId,itemTitle=item.snippet?.title||'';
-    if(!/^[\w-]{11}$/.test(videoId||'')||!descriptions.has(videoId))continue;
+    if(!/^[\w-]{11}$/.test(videoId||'')||!embeddableVideos.has(videoId))continue;
     videoIds.push(videoId);
     const playlistIndex=videoIds.length-1;
     const chapterRefs=playlistChapterRefs(itemTitle,input.locale);
@@ -191,7 +191,7 @@ export async function verifyYouTubePlaylistCoverage(request, env, reserveQuota) 
       const key=`${ref.bookId}:${ref.chapter}`;
       if(covered.has(key))continue;
       const names=audioBookNames.locales[input.locale]?.books[ref.bookId]||[];
-      const parsed=parseCues(descriptions.get(videoId),names,input.locale,ref.bookId,ref.chapter,videoId,true);
+      const parsed=parseCues(embeddableVideos.get(videoId),names,input.locale,ref.bookId,ref.chapter,videoId,true);
       const explicitChapterStart=parsed.chapterSeconds??parsed.cues.find(value=>value.verse===1)?.seconds??null;
       const inferredZeroStart=explicitChapterStart===null&&refIndex===0&&!ref.wholeBook;
       const chapterStartSeconds=explicitChapterStart??(inferredZeroStart?0:null);
