@@ -310,6 +310,19 @@ try {
   assert.equal(verseRangeData.coveredChapters,1,'chapter coverage ignores the verse endpoints in a range');
   assert.equal(verseRangeData.verseCues[0].chapter,23,'the chapter cue points to Matthew 23');
   assert.ok(verseRangeData.missingChapters.some(ref=>ref.bookId==='MAT'&&ref.chapter===1),'a verse numbered 1 cannot falsely cover Matthew chapter 1');
+  globalThis.fetch=async raw=>{
+    const url=new URL(String(raw));
+    if(url.pathname.endsWith('/playlists'))return Response.json({items:[{id:'PL12345678901234567890',snippet:{title:'KJV King James Version audio Bible',channelTitle:'KJV'},contentDetails:{itemCount:1}}]});
+    if(url.pathname.endsWith('/playlistItems'))return Response.json({items:[{snippet:{title:'Matthew Chapter 1 Audio Bible',position:0,resourceId:{videoId:'blockedvideo1'}}}]});
+    if(url.pathname.endsWith('/videos')){
+      assert.equal(url.searchParams.get('part'),'snippet,status','coverage asks YouTube for embed permission in the existing videos.list call');
+      assert.ok(url.searchParams.get('fields').includes('status/embeddable'),'coverage requests only the embed permission field');
+      return Response.json({items:[{id:'blockedvideo1',snippet:{description:'00:00 Chapter 1'},status:{embeddable:false}}]});
+    }
+    throw Error(`Unexpected YouTube API path: ${url.pathname}`);
+  };
+  const embedBlocked=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'});
+  assert.equal(embedBlocked.status,422,'a video that blocks external playback is excluded from coverage and verse cues');
   const quotaReservations=[];
   globalThis.fetch=async()=>Response.json({error:{errors:[{reason:'quotaExceeded'}]}},{status:403});
   const upstreamCoverageQuota=await verifyYouTubePlaylistCoverage(new Request('https://worker.test/youtube/playlist-coverage',{method:'POST',body:JSON.stringify({locale:'en',editionId:'KJV',playlistId:'PL12345678901234567890',bookId:'MAT',chapter:1})}),{YOUTUBE_DATA_API_KEY:'test'},async exhausted=>{quotaReservations.push(!!exhausted);return null;});
