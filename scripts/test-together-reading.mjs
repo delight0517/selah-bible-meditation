@@ -5,6 +5,7 @@ import vm from 'node:vm';
 
 // This DOM harness exercises the production client and its asynchronous API flow.
 // It is not a browser or native device test.
+const links = await readFile(new URL('../assets/shared-reading-links.js', import.meta.url), 'utf8');
 const source = await readFile(new URL('../assets/together-reading.js', import.meta.url), 'utf8');
 class Element {
   constructor(tag, document) {
@@ -109,6 +110,7 @@ function client(url = 'https://delight0517.github.io/selah-bible-meditation/?sel
     history: { replaceState: (_, __, value) => { const next = new URL(value, location); location.href = next.href; } },
     setInterval: fn => { intervals.set(++nextInterval, fn); return nextInterval; }, clearInterval: id => intervals.delete(id)
   });
+  vm.runInContext(links, context);
   vm.runInContext(source, context);
   return { document, window, location, intervals, timerCalls, opens, toasts, recordedRooms, setCurrent: value => { current = value; }, async poll() { await [...intervals.values()][0]?.(); await settle(); } };
 }
@@ -122,6 +124,10 @@ assert.equal(host.toasts.length, 0, 'creation succeeds');
 assert.equal(calls.find(call => call.path.endsWith('/join')).data.participantId.length, 32);
 assert.deepEqual(Object.keys(calls.find(call => call.path.endsWith('/join')).data), ['participantId'], 'room Worker receives no account identity');
 const invite = host.document.getElementById('togetherInviteUrl').value;
+assert.equal(new URL(invite).searchParams.get('selahBook'), 'MAT');
+assert.equal(new URL(invite).searchParams.get('selahPassage'), '3');
+assert.equal(new URL(invite).searchParams.get('selahTranslation'), 'KRV');
+assert.equal(new URL(invite).searchParams.get('selahVerse'), '1');
 assert.equal(new URL(invite).hash, '#selahRoom=' + roomId);
 assert.equal(new URL(invite).searchParams.get('selah_qa'), '1');
 assert.equal(new URL(invite).searchParams.has('selahFriend'), false, 'invite must not disclose account identity');

@@ -286,7 +286,7 @@
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 7,
+      "revision": 8,
       "title": "초대 URL 함께 읽기 및 계정별 기록·친구 별명",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
@@ -297,7 +297,9 @@
         "로그인한 참가자는 함께 읽은 본문·시작 시각·참여 인원을 본인 BlueCloud 기록에 저장한다",
         "방 ID 원문·계정 정보·묵상과 기도는 함께 읽기 Worker나 다른 참가자에게 전송하지 않는다",
         "각 계정에서 함께 읽은 기록의 친구 별명을 수정하고 여러 기기에서 동기화한다",
-        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다"
+        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다",
+        "초대 HTTPS 링크에 책·장·절·번역·언어·방 번호를 유지한다",
+        "연결된 Apple 앱은 같은 초대 링크로 열리고 앱이 없으면 브라우저에서 같은 방과 본문으로 열린다; 도메인 연결 공개·설치·실기기 확인은 별도 증거가 필요하다"
       ],
       "paths": [
         "index.html",
@@ -314,43 +316,48 @@
         "scripts/test-unified-data.mjs",
         "scripts/test-together-reading.mjs",
         "assets/together-history.js",
-        "scripts/test-together-history.mjs"
+        "scripts/test-together-history.mjs",
+        "assets/shared-reading-links.js",
+        "macos/Sources/SelahApp.swift",
+        "macos/Selah.entitlements",
+        "mobile/ios/App/App/Selah.entitlements",
+        "scripts/test-shared-reading-links.mjs"
       ],
       "platforms": {
         "web": {
-          "owner": "Windows together-reading task",
+          "owner": "Selah shared invitation task",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 8,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         },
         "windows": {
-          "owner": "Windows together-reading task",
-          "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "owner": "Windows platform maintainer",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         },
         "macos": {
-          "owner": "Mac maintainer - request pending",
-          "state": "pending",
-          "appliedRevision": null,
-          "source": "",
-          "build": "",
-          "evidence": "Native app parity and runtime verification remain pending; shared web source change does not prove the standalone Mac app. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "owner": "Selah shared invitation task",
+          "state": "implemented",
+          "appliedRevision": 8,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         },
         "ios": {
-          "owner": "Mac maintainer - request pending",
+          "owner": "Selah shared invitation task",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 8,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         }
       }
@@ -778,7 +785,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 79,
+      "revision": 80,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -864,7 +871,8 @@
         "Mac listen-and-read keeps the standard YouTube player visible outside collapsed listening settings and focused-reading hidden ancestors. An explicit listen action may resolve the selected chapter asynchronously before playback; missing chapter audio retains an on-demand search action and visible search status.",
         "Mac YouTube embed uses a Safari-compatible WebKit user agent and reports playback readiness, errors, pause and progressing time from the existing source/origin/token-checked hosted player channel.",
         "Mac playback time is cleared when a source closes or changes and a new hosted player shows loading until it reports readiness/progress.",
-        "All shared reader surfaces, including Safari and mobile browsers, keep the visible standard player/follow controls outside collapsed settings and focused-reading hidden ancestry. Phone compact width stays at most240 CSS px while the YouTube viewport remains at least200x200. Local native injection and shared initialization are idempotent; existing notes/account and deep links are preserved."
+        "All shared reader surfaces, including Safari and mobile browsers, keep the visible standard player/follow controls outside collapsed settings and focused-reading hidden ancestry. Phone compact width stays at most240 CSS px while the YouTube viewport remains at least200x200. Local native injection and shared initialization are idempotent; existing notes/account and deep links are preserved.",
+        "듣기 중 절을 탭하거나 Enter/Space로 선택하면 확인된 절 시각부터 재생하고 다른 영상의 절도 전환한다; 시각 없는 절은 이동하지 않고 안내한다. 추천 장별 오디오의 전체 절 시각은 별도 미완료."
       ],
       "paths": [
         "index.html",
@@ -915,22 +923,22 @@
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Local Aside runtime at127.0.0.1:8494: focused reader, standard YouTube video visible/audio-playing tab signal and Matthew1 verse1 follow. Temporary tab closed/server stopped. Public deployment and actual Safari verification await explicit release authorization and scoped browser exception.",
-          "appliedRevision": 79
+          "evidence": "Local Aside runtime at127.0.0.1:8494: focused reader, standard YouTube video visible/audio-playing tab signal and Matthew1 verse1 follow. Temporary tab closed/server stopped. Public deployment and actual Safari verification await explicit release authorization and scoped browser exception. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
+          "appliedRevision": 80
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Existing launcher uses canonical hosted source; updated common web script prepared. User Windows access report expired/unknown, so no Windows probes/installation/runtime. Public deployment still pending.",
-          "appliedRevision": 79
+          "evidence": "Existing launcher uses canonical hosted source; updated common web script prepared. User Windows access report expired/unknown, so no Windows probes/installation/runtime. Public deployment still pending. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
+          "appliedRevision": 80
         },
         "macos": {
           "owner": "Selah Mac audio readalong",
           "state": "implemented",
-          "evidence": "Mac1.0.22/94 Developer ID signed, notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, staple/strict codesign/Gatekeeper passed, installed resource bytes equal common script; prior93 rollback retained. Fresh installed runtime verification continues; publication independent. Fresh installed CUA focused-reading runtime: one player/status, unmuted/Pause controls, progress0:59->1:10, Matthew1 verse1 follow; playback stopped and original reader restored.",
-          "appliedRevision": 79,
+          "evidence": "Mac1.0.22/94 Developer ID signed, notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, staple/strict codesign/Gatekeeper passed, installed resource bytes equal common script; prior93 rollback retained. Fresh installed runtime verification continues; publication independent. Fresh installed CUA focused-reading runtime: one player/status, unmuted/Pause controls, progress0:59->1:10, Matthew1 verse1 follow; playback stopped and original reader restored. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
+          "appliedRevision": 80,
           "build": "1.0.22 / 94",
           "source": "codex/selah-all-devices-audio-20261010"
         },
@@ -939,8 +947,8 @@
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Signed generic iOS build1.0.22/94 passed; strict codesign and packaged common-script byte match passed. Data/account/layout/deep-link source preserved. Physical iPhone14Pro disconnected; install and physical playback unverified. ios-evidence CLI is absent; exact build/device observations recorded in TODO.",
-          "appliedRevision": 79
+          "evidence": "Signed generic iOS build1.0.22/94 passed; strict codesign and packaged common-script byte match passed. Data/account/layout/deep-link source preserved. Physical iPhone14Pro disconnected; install and physical playback unverified. ios-evidence CLI is absent; exact build/device observations recorded in TODO. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
+          "appliedRevision": 80
         }
       }
     },

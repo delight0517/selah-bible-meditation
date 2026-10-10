@@ -21,8 +21,8 @@ targets:
     info:
       path: Selah-Info.plist
       properties:
-        CFBundleShortVersionString: "1.0.22"
-        CFBundleVersion: "94"
+        CFBundleShortVersionString: "1.0.24"
+        CFBundleVersion: "96"
         CFBundleURLTypes:
           - CFBundleURLName: Selah Reading
             CFBundleURLSchemes:
@@ -36,6 +36,8 @@ targets:
       properties:
         com.apple.security.app-sandbox: true
         com.apple.security.network.client: true
+        com.apple.developer.associated-domains:
+          - applinks:delight0517.github.io
     settings:
       base:
         INFOPLIST_KEY_NSHighResolutionCapable: YES

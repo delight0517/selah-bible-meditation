@@ -15,7 +15,7 @@
   const hex = bytes => [...crypto.getRandomValues(new Uint8Array(bytes))].map(n => n.toString(16).padStart(2, '0')).join('');
   const modal = document.createElement('div'); modal.className = 'modal'; modal.id = 'togetherInviteModal';
   modal.setAttribute('role', 'dialog'); modal.setAttribute('aria-modal', 'true'); modal.setAttribute('aria-labelledby', 'togetherInviteTitle');
-  modal.innerHTML = '<div class="dialog together-invite-dialog"><h2 id="togetherInviteTitle"></h2><p id="togetherInviteHelp"></p><label for="togetherInviteUrl">URL</label><input id="togetherInviteUrl" readonly><p id="togetherInvitePrivacy" class="note"></p><p id="togetherInviteResult" role="status"></p><div class="dialog-actions"><button id="copyTogetherInvite" type="button" class="btn"></button><button id="closeTogetherInvite" type="button" class="btn secondary"></button></div></div>';
+  modal.innerHTML = '<div class="dialog together-invite-dialog"><h2 id="togetherInviteTitle"></h2><p id="togetherInviteHelp"></p><label for="togetherInviteUrl">URL</label><input id="togetherInviteUrl" readonly><p id="togetherInvitePrivacy" class="note"></p><p id="togetherInviteResult" role="status"></p><div class="dialog-actions"><button id="sendTogetherInvite" type="button" class="btn"></button><button id="copyTogetherInvite" type="button" class="btn"></button><button id="closeTogetherInvite" type="button" class="btn secondary"></button></div></div>';
   document.body.append(modal);
   const bars = [];
   for (const readerId of ['verseText', 'meditationVerse']) {
@@ -37,16 +37,23 @@
     try { await navigator.clipboard.writeText($('togetherInviteUrl').value); $('togetherInviteResult').textContent = bridge.locale() === 'ko' ? '링크를 복사했어요.' : 'Copied'; }
     catch { $('togetherInviteUrl').focus(); $('togetherInviteUrl').select(); }
   };
+  $('sendTogetherInvite').hidden = !navigator.share;
+  $('sendTogetherInvite').onclick = async () => {
+    try { await navigator.share({title:t(0),url:$('togetherInviteUrl').value}); }
+    catch(error) { if(error.name!=='AbortError')$('togetherInviteResult').textContent=t(9); }
+  };
   function inviteUrl() {
     const url = new URL('https://delight0517.github.io/selah-bible-meditation/');
-    url.hash = 'selahRoom=' + session.roomId;
+    const passage = snapshot?.passage || bridge.current().passage;
+    const shared = new URL(window.SelahReadingLinks.web(passage, session.roomId, position().verse));
+    url.search = shared.search; url.hash = shared.hash;
     if(new URLSearchParams(location.search).get('selah_qa') === '1') url.searchParams.set('selah_qa','1');
     return url.href;
   }
   function showInvite() {
     if(!session) return;
     $('togetherInviteTitle').textContent=t(1); $('togetherInviteHelp').textContent=t(2); $('togetherInvitePrivacy').textContent=t(10);
-    $('copyTogetherInvite').textContent=t(3); $('closeTogetherInvite').textContent=t(4); $('togetherInviteUrl').value=inviteUrl(); $('togetherInviteResult').textContent='';
+    $('sendTogetherInvite').textContent=bridge.locale()==='ko'?'링크 보내기':'Share link'; $('copyTogetherInvite').textContent=t(3); $('closeTogetherInvite').textContent=t(4); $('togetherInviteUrl').value=inviteUrl(); $('togetherInviteResult').textContent='';
     modal.style.display='flex'; $('copyTogetherInvite').focus();
   }
   async function request(path, method='GET', data, host=false) {
@@ -128,14 +135,20 @@
     clearInterval(poll); sessionStorage.removeItem('selah.together.'+old.roomId); session=null;snapshot=null;passageKey='';timerKey='';
     for(const {bar} of bars)bar.hidden=true;
     document.querySelectorAll('.together-peer-verse').forEach(node=>{node.classList.remove('together-peer-verse');node.removeAttribute('data-together-peer');});
-    const url=new URL(location.href);url.hash='';history.replaceState(null,'',url); modal.style.display='none';
+    const url=new URL(location.href);url.hash='';url.searchParams.delete('selahRoom');history.replaceState(null,'',url); modal.style.display='none';
   }
   async function boot() {
-    const roomId=new URLSearchParams(location.hash.slice(1)).get('selahRoom'); if(!/^[a-f0-9]{32}$/.test(roomId||'')) return;
+    const roomId=new URLSearchParams(location.search).get('selahRoom') || new URLSearchParams(location.hash.slice(1)).get('selahRoom'); if(!/^[a-f0-9]{32}$/.test(roomId||'')) return;
     try {
       const saved=JSON.parse(sessionStorage.getItem('selah.together.'+roomId)||'null');
       session=saved?.roomId===roomId?saved:{roomId,participantId:hex(16)}; await join();
+      const shared=window.SelahReadingLinks.parse(location.href);
+      if(shared&&snapshot?.passage.book===shared.book&&snapshot?.passage.chapter===shared.chapter)bridge.goToVerse?.(shared.verse);
     } catch {session=null;bridge.toast(t(14));}
+  }
+  if (!window.Capacitor?.isNativePlatform?.() && !window.webkit?.messageHandlers?.selahNative && (new URLSearchParams(location.hash.slice(1)).has('selahRoom') || new URLSearchParams(location.search).has('selahRoom'))) {
+    const nativeUrl=window.SelahReadingLinks.native(location.href);
+    if(nativeUrl){const open=document.createElement('a');open.className='btn ghost';open.href=nativeUrl;open.textContent=bridge.locale()==='ko'?'Selah 앱에서 열기':'Open in Selah';$('verseText').before(open);}
   }
   document.addEventListener('visibilitychange',()=>void tick());
   window.addEventListener('online',()=>void tick());

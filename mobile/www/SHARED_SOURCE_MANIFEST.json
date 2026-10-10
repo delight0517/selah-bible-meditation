@@ -1,11 +1,11 @@
 {
   "appId": "selah",
-  "version": "1.0.22",
-  "build": 94,
+  "version": "1.0.24",
+  "build": 96,
   "dataContractVersion": 1,
   "source": "https://delight0517.github.io/selah-bible-meditation/",
   "files": {
-    "SHARED_APP_BUILD.json": "8f3993d8bb86a4e17bfd31b390ad850b724a54920968cb8f61efe3515484e04e",
+    "SHARED_APP_BUILD.json": "bcb43c5e2f641ab5806bd2869e27de79050b46dc1765835cb606d3d52fa9ccd9",
     "assets/COUNTRY-REGION-DATA-LICENSE.txt": "a02cfcf8c0671fd1322ef45356e027407104305fc5222bf6a13a534e2f82e1b5",
     "assets/MATERIAL-ICONS-LICENSE.txt": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
     "assets/MATERIAL-ICONS-NOTICE.txt": "c783fe6c609e28c6442b3e8aece00e8a1a9afdcf5c78e1a9566877523d0cea78",
@@ -37,15 +37,16 @@
     "assets/selah-kakao-preview.png": "916322d44b2450bb45ce4ee53aa6aaf060305fff01b9ff8d67ca63715accecb4",
     "assets/selah-kakao-preview.svg": "84cddbe74b303e5a3f3ac934e848a8af6a91d0d871116d16d5f4406a702e17e4",
     "assets/settings-icon.png": "cf180299ef24a311aff2483e3da56c31000b1dc2d09609881f3e81ea3ba62bb3",
+    "assets/shared-reading-links.js": "27d416848edf0fd887c5f927b21e07b842c2023b297e4350783dbaadab3c7a73",
     "assets/together-history.js": "eb30d3f793f67cab2a8046d9e8e13a4da0f65887bd4e9c45871b20d62325eee9",
     "assets/together-reading.css": "8a4abbcfb6cf71c464052f2b0f796409fa0b7c4c0b1fcebd5e7613b3ded2e3b1",
-    "assets/together-reading.js": "7ff03b75c895775cc271ba2e04cb79c5c4976835910564883a59662fd4df1b76",
+    "assets/together-reading.js": "da7bcf72f9353102031f6b770d9f8327fc42a7aa9a6ed823dbaedffe182e0e57",
     "assets/visitor-explanation.js": "70543b7787ea33dc5a6962dbce00b2720d3338d9d1546045d04d25e20e3ff02f",
     "assets/youtube-audio-catalog/.gitkeep": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
     "bible-rights.json": "f9c41489c85300f41d1b16af1a3032c097d53a2eeaeb876f068017e92d0856eb",
     "bible-translations.json": "ce212e988739c51f5c988591f50a45e3533484d6e1d2a5e48b60cf656fb53ce4",
     "home.html": "80b2ed335b021c3943c9e654318866a521f21383ec618c1ef7627891a2750c7d",
-    "index.html": "259466685f79b5fb7309732d05faa6196f6ced08e4691098f21d0216328e8faf",
+    "index.html": "f16155a1b7194af15ebd704b3f54a10ab10db278dd6b1bf07594a4341c639008",
     "magazine.json": "b6f93bd2f4a025ee9263452d7df46f9d4fcda12945929a282ce5c63e64d672d9",
     "manifest.webmanifest": "bf8339bcdc8b613bc825cc4cbbe030806863e3545c4e541a2d04edc98a8ada65",
     "matthew-cuv-simp.json": "d4141c8bca2f3facb33660fb0c14f446135179086ff2dfbc35549dd38448bb4d",
@@ -73,6 +74,6 @@
     "styles/semantic-theme.css": "a676c9a12647bbaa4148a55b534ad153f8949574fffb086dcf592115fc3d4884",
     "uk/index.html": "8db76ab372f38f767619e6d7a52b4a2d346ffafe175d43f64ab7225f8596a76d",
     "windows/app-shell.js": "016876bfbfb84b780282dc3e758c00598e13ffe73758a5b40e07114db625ce38",
-    "youtube-player.html": "ff5b8fdca3620055a9b9139302f4fc0f4e9ff99808bfc39f1799003ee2d8f952"
+    "youtube-player.html": "2a6f50c9b590d9308212a8cb81918b7104a77bbfbb755943a3d33160ac8c383c"
   }
 }
