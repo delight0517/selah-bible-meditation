@@ -153,7 +153,10 @@ struct SelahWebView: NSViewRepresentable {
     @Bindable var reader: SelahReader
 
     func makeNSView(context: Context) -> WKWebView {
-        let view = WKWebView(frame: .zero)
+        let configuration = WKWebViewConfiguration()
+        // The reader explicitly requests playback after resolving the chapter audio.
+        configuration.mediaTypesRequiringUserActionForPlayback = []
+        let view = WKWebView(frame: .zero, configuration: configuration)
         let active = NSApp.isActive ? "true" : "false"
         view.configuration.userContentController.addUserScript(WKUserScript(
             source: "window.selahMacAppPresence = { active: \(active) };",
@@ -161,6 +164,12 @@ struct SelahWebView: NSViewRepresentable {
         ))
         view.navigationDelegate = context.coordinator
         if let scriptURL = Bundle.main.url(forResource: "reader-navigation", withExtension: "js", subdirectory: "Resources"),
+           let script = try? String(contentsOf: scriptURL, encoding: .utf8) {
+            view.configuration.userContentController.addUserScript(WKUserScript(
+                source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true
+            ))
+        }
+        if let scriptURL = Bundle.main.url(forResource: "reader-audio", withExtension: "js", subdirectory: "Resources"),
            let script = try? String(contentsOf: scriptURL, encoding: .utf8) {
             view.configuration.userContentController.addUserScript(WKUserScript(
                 source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true
