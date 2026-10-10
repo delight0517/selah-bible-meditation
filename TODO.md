@@ -1006,3 +1006,12 @@
 ### Foreground presence revision 2
 - Native installed source and Mac receiver now present. Heartbeat isolated from full sync to preserve currently displayed passage and notes.
 - Website follow-up deployment and iOS revision 2 install pending; phone installed revision 1, Mirroring requires Mac login.
+
+
+## 2026-10-10 — RiseSync Scripture -> Selah reader
+- RiseSync sends `selah://read?selahBook=PRO&selahPassage=6&selahVerse=9` (reference ranges open the first verse).
+- Added native warm `appUrlOpen` and cold `getLaunchUrl` handling through the existing chapter/verse sharing route; local app origin and account/notes remain preserved. Launch replay avoids a page-reload loop.
+- Shared source build 88, generated Capacitor assets, required source and feature contract validators passed; signed generic iOS build passed. Signed build 88 installed and launched on iPhone with data-preserving devicectl update; packaged index.html exactly matches task source.
+- Public install page currently offers iPhone Safari home-screen installation; no App Store release URL is publicly available. Existing web passage-sharing behavior remains unchanged. No publication or store release performed.
+- No new tests added or run. Physical tap-to-verse journey not verified; source/build/install are separate evidence.
+
