@@ -1439,7 +1439,8 @@
         "scripts/unified-data.js",
         "index.html",
         "mobile/www/",
-        "macos/"
+        "macos/",
+        "scripts/test-computer-reading-handoff.cjs"
       ],
       "platforms": {
         "web": {
