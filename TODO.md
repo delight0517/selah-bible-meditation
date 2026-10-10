@@ -1002,3 +1002,7 @@
 - Native Mac activity signal source prepared; Mac receiver integrated into canonical Pomodoro source after its deployment lease ended. Public deployment, installed apps and runtime pending. Previous iOS-only patch superseded.
 - Native Mac foreground signal build passed (unsigned). Mac receiver: /Users/rogan/Documents/Codex/2026-10-08/new-chat/pomodoro-all-selah-foreground-patch/all-selah-foreground.patch.
 - Installed Selah Mac bundle currently fails Gatekeeper assessment; no rebuilt app was launched or used to bypass that block.
+
+### Foreground presence revision 2
+- Native installed source and Mac receiver now present. Heartbeat isolated from full sync to preserve currently displayed passage and notes.
+- Website follow-up deployment and iOS revision 2 install pending; phone installed revision 1, Mirroring requires Mac login.

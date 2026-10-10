@@ -13,7 +13,8 @@ function openFrom(query, request) {
     textContent: "",
     disabled: false,
     addEventListener() {},
-    setAttribute() {}
+    setAttribute() {},
+    closest() { return null; }
   };
   const document = {
     body: { classList: {
@@ -22,6 +23,7 @@ function openFrom(query, request) {
       remove: (name) => classes.delete(name)
     } },
     visibilityState: "visible",
+    hasFocus: () => true,
     getElementById: () => ({ ...noopElement }),
     addEventListener() {}
   };
@@ -96,3 +98,31 @@ assert.equal(
 );
 
 console.log("PASS: Selah reading handoff target, age, timestamp, and legacy-link scenarios");
+
+(async () => {
+  const peer = "00000000-0000-4000-8000-000000000002";
+  const client = "00000000-0000-4000-8000-000000000001";
+  const remote = { _rev: 17, readingState: { chapter: 2 }, reflections: [{ id: "keep", text: "unchanged" }],
+    readingPresence: { [peer]: { id: peer, source: "reader-foreground", status: "running", updatedAt: Date.now() } } };
+  let sent;
+  const context = vm.createContext({ Date, Promise, Object, Number, JSON, console,
+    token: "fixture", accountId: "fixture-account", db: { readingState: { chapter: 4 } },
+    presenceClientId: client, nativeApp: null, currentPlatform: "macOS", presenceActive: true,
+    persist() {}, sync() { throw Error("Presence must not run full sync"); },
+    originalRequest: async (_path, options) => {
+      if (options?.method === "PUT") { sent = JSON.parse(options.body); return { rev: 18 }; }
+      return { state: remote };
+    }
+  });
+  const start = source.indexOf("  function publishReadingPresence() {");
+  const end = source.indexOf("  function refreshReadingPresence() {", start);
+  vm.runInContext("let presenceSyncQueue = Promise.resolve();" + source.slice(start, end) + "publishReadingPresence();", context);
+  await vm.runInContext("presenceSyncQueue", context);
+  assert.deepEqual(sent.readingState, remote.readingState);
+  assert.deepEqual(sent.reflections, remote.reflections);
+  assert.equal(sent._rev, 17);
+  assert.equal(sent.readingPresence[peer].status, "running");
+  assert.equal(sent.readingPresence[client].status, "running");
+  assert.equal(context.db.readingState.chapter, 4);
+  console.log("PASS presence-only heartbeat preserves local passage, remote notes and peer reader");
+})().catch(error => { console.error(error); process.exitCode = 1; });
