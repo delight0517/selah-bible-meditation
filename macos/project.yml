@@ -21,8 +21,8 @@ targets:
     info:
       path: Selah-Info.plist
       properties:
-        CFBundleShortVersionString: "1.0.24"
-        CFBundleVersion: "96"
+        CFBundleShortVersionString: "1.0.25"
+        CFBundleVersion: "97"
         CFBundleURLTypes:
           - CFBundleURLName: Selah Reading
             CFBundleURLSchemes:

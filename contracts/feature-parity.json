@@ -785,7 +785,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 80,
+      "revision": 81,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -872,7 +872,8 @@
         "Mac YouTube embed uses a Safari-compatible WebKit user agent and reports playback readiness, errors, pause and progressing time from the existing source/origin/token-checked hosted player channel.",
         "Mac playback time is cleared when a source closes or changes and a new hosted player shows loading until it reports readiness/progress.",
         "All shared reader surfaces, including Safari and mobile browsers, keep the visible standard player/follow controls outside collapsed settings and focused-reading hidden ancestry. Phone compact width stays at most240 CSS px while the YouTube viewport remains at least200x200. Local native injection and shared initialization are idempotent; existing notes/account and deep links are preserved.",
-        "듣기 중 절을 탭하거나 Enter/Space로 선택하면 확인된 절 시각부터 재생하고 다른 영상의 절도 전환한다; 시각 없는 절은 이동하지 않고 안내한다. 추천 장별 오디오의 전체 절 시각은 별도 미완료."
+        "듣기 중 절을 탭하거나 Enter/Space로 선택하면 확인된 절 시각부터 재생하고 다른 영상의 절도 전환한다; 시각 없는 절은 이동하지 않고 안내한다. 추천 장별 오디오의 전체 절 시각은 별도 미완료.",
+        "읽기 화면에서 한국어·영어·일본어 낭독 언어를 선택한다; 변경 시 이전 오디오는 멈춘다. 마태복음1–28장은 확인된 장 시작 시각을 사용하는 각 언어 추천 낭독이 있다. 전체66권/절별 시각은 별도 미완료."
       ],
       "paths": [
         "index.html",
@@ -915,7 +916,8 @@
         "scripts/check-youtube-audio-catalog-client.mjs",
         "macos/",
         "scripts/reader-audio.js",
-        "mobile/capacitor.config.json"
+        "mobile/capacitor.config.json",
+        "docs/audio-japanese-source.md"
       ],
       "platforms": {
         "web": {
@@ -923,22 +925,22 @@
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Local Aside runtime at127.0.0.1:8494: focused reader, standard YouTube video visible/audio-playing tab signal and Matthew1 verse1 follow. Temporary tab closed/server stopped. Public deployment and actual Safari verification await explicit release authorization and scoped browser exception. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
-          "appliedRevision": 80
+          "evidence": "Local Aside runtime at127.0.0.1:8494: focused reader, standard YouTube video visible/audio-playing tab signal and Matthew1 verse1 follow. Temporary tab closed/server stopped. Public deployment and actual Safari verification await explicit release authorization and scoped browser exception. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending.",
+          "appliedRevision": 81
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Existing launcher uses canonical hosted source; updated common web script prepared. User Windows access report expired/unknown, so no Windows probes/installation/runtime. Public deployment still pending. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
-          "appliedRevision": 80
+          "evidence": "Existing launcher uses canonical hosted source; updated common web script prepared. User Windows access report expired/unknown, so no Windows probes/installation/runtime. Public deployment still pending. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending.",
+          "appliedRevision": 81
         },
         "macos": {
           "owner": "Selah Mac audio readalong",
           "state": "implemented",
-          "evidence": "Mac1.0.22/94 Developer ID signed, notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, staple/strict codesign/Gatekeeper passed, installed resource bytes equal common script; prior93 rollback retained. Fresh installed runtime verification continues; publication independent. Fresh installed CUA focused-reading runtime: one player/status, unmuted/Pause controls, progress0:59->1:10, Matthew1 verse1 follow; playback stopped and original reader restored. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
-          "appliedRevision": 80,
+          "evidence": "Mac1.0.22/94 Developer ID signed, notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, staple/strict codesign/Gatekeeper passed, installed resource bytes equal common script; prior93 rollback retained. Fresh installed runtime verification continues; publication independent. Fresh installed CUA focused-reading runtime: one player/status, unmuted/Pause controls, progress0:59->1:10, Matthew1 verse1 follow; playback stopped and original reader restored. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending.",
+          "appliedRevision": 81,
           "build": "1.0.22 / 94",
           "source": "codex/selah-all-devices-audio-20261010"
         },
@@ -947,8 +949,8 @@
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Signed generic iOS build1.0.22/94 passed; strict codesign and packaged common-script byte match passed. Data/account/layout/deep-link source preserved. Physical iPhone14Pro disconnected; install and physical playback unverified. ios-evidence CLI is absent; exact build/device observations recorded in TODO. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted.",
-          "appliedRevision": 80
+          "evidence": "Signed generic iOS build1.0.22/94 passed; strict codesign and packaged common-script byte match passed. Data/account/layout/deep-link source preserved. Physical iPhone14Pro disconnected; install and physical playback unverified. ios-evidence CLI is absent; exact build/device observations recorded in TODO. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending.",
+          "appliedRevision": 81
         }
       }
     },

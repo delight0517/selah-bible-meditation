@@ -1,8 +1,8 @@
 {
   "appId": "selah",
-  "version": "1.0.24",
-  "build": 96,
+  "version": "1.0.25",
+  "build": 97,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Together invitation routing and tap verified Scripture verse to resume audio"
+  "description": "Korean English Japanese Matthew audio choices visible during reading"
 }

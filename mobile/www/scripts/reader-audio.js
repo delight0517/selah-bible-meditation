@@ -11,6 +11,16 @@
   document.body.append(player);
   const follow = document.getElementById("bibleAudioFollowControls");
   if (follow) player.append(follow);
+  const language = document.getElementById("youtubeAudioLanguage");
+  const languageLabel = document.getElementById("youtubeAudioLanguageLabel");
+  if (language && languageLabel && focusQuick.parentElement) {
+    const control = document.createElement("span");
+    control.className = "reader-audio-language-control";
+    languageLabel.classList.add("visually-hidden");
+    language.setAttribute("aria-labelledby", languageLabel.id);
+    control.append(languageLabel, language);
+    focusQuick.parentElement.append(control);
+  }
   const status = document.getElementById("youtubeAudioSearchStatus");
   if (status) quick.after(status);
 
@@ -52,6 +62,7 @@
 
   const style = document.createElement("style");
   style.textContent = `
+    :root .reader-audio-language-control select { width: auto; max-width: 160px; min-height: 44px; }
     :root #bibleAudioPlayer:not([hidden]) {
       position: fixed; z-index: 1001; right: max(12px, env(safe-area-inset-right)); bottom: calc(12px + env(safe-area-inset-bottom));
       box-sizing: border-box; width: min(384px, calc(100vw - 24px));

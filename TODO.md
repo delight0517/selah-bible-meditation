@@ -1058,3 +1058,11 @@
 - iOS95-links-r2 archive signed successfully using existing ASC API credentials with Associated Domains. No Xcode login handoff needed. Phone installation/physical Universal Link selection remain pending.
 - Aside local receiver showed Matthew3/WEB. Initial verse scroll was overwritten by saved reading position; source now initializes the requested verse anchor. Subsequent UI proof remains pending. Local Worker CORS excludes localhost with a port; not weakened for QA.
 - Audio revision80/source96: tap an exact timed verse => seek and play; a different cue video => load and play; hosted iOS commands validate timestamp/video/origin/token. Enter/Space supported; text selection preserved; missing timestamps show an explanation without fabricated timing. Syntax and generated bundle checks only; no audio tap runtime test yet. Current recommended audio has chapter starts, not every verse start. Complete verse coverage remains outstanding.
+
+## 2026-10-10 Korean English Japanese listening
+
+- Audio revision81/source97: add Korean 새번역 and Japanese口語訳 Matthew1–28 recommendations alongside EnglishNLT. Each chapter starts at the uploader's published time. Japanese gateway catalog is empty; curated source avoids requiring a live search. No recording was downloaded.
+- Language selection is visible while reading. Switching stops previous audio, then resumes the selected language using existing player gesture handling. Text and audio editions stay separately labeled.
+- Korean/Japanese public player metadata playableInEmbed=true and all28 description chapter timestamps read/validated; JS syntax and generated source parity pass. New audio playback, physical installation, Safari and other-book coverage remain unverified; no tests added/run in this request.
+- Existing public deployment/Safari approval remains pending. Installed Mac94 remains restored and usable; restricted-domain build95 is not retried without an eligible profile.
+- iOS97-three-languages-r2 archive succeeded with existing ASC API signing; strict codesign and exact packaged index/reader-audio byte comparisons passed. Archive is prepared, not installed or played on a physical phone.
