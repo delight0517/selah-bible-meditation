@@ -21,16 +21,27 @@
       const startSeconds = params.has("startSeconds") ? Number(params.get("startSeconds")) : 0;
       const autoplayRequested = params.get("autoplay") === "1";
       const token = params.get("token") || "";
-      let parentOrigin = "";
-      try { parentOrigin = new URL(params.get("parentOrigin") || "").origin; } catch {}
+      let parentOrigin = "", parentMessageOrigin = "", parentTargetOrigin = "";
+      try {
+        const url = new URL(params.get("parentOrigin") || "");
+        if (url.protocol === "capacitor:" && url.hostname === "localhost" && (!url.pathname || url.pathname === "/") && !url.search && !url.hash) {
+          parentOrigin = "capacitor://localhost";
+          parentMessageOrigin = "null";
+          parentTargetOrigin = "*";
+        } else if ((url.protocol === "https:" || url.protocol === "http:") && url.pathname === "/" && !url.search && !url.hash) {
+          parentOrigin = url.origin;
+          parentMessageOrigin = url.origin;
+          parentTargetOrigin = url.origin;
+        }
+      } catch {}
       let player;
       let state = -1;
       let sampleTimer = 0;
 
       function send(type, extra = {}) {
         if (window.parent === window) return;
-        if (!parentOrigin || parentOrigin === "null") return;
-        window.parent.postMessage({ channel: "selah-youtube-player", token, type, ...extra }, parentOrigin);
+        if (!parentOrigin) return;
+        window.parent.postMessage({ channel: "selah-youtube-player", token, type, ...extra }, parentTargetOrigin);
       }
 
       function sample() {
@@ -86,7 +97,7 @@
       }
 
       window.addEventListener("message", event => {
-        if (!parentOrigin || parentOrigin === "null" || event.source !== window.parent || event.origin !== parentOrigin || !event.data || event.data.channel !== "selah-youtube-player" || event.data.token !== token) return;
+        if (!parentOrigin || event.source !== window.parent || event.origin !== parentMessageOrigin || !event.data || event.data.channel !== "selah-youtube-player" || event.data.token !== token) return;
         try {
           if (event.data.command === "pause") player?.pauseVideo();
           if (event.data.command === "play") player?.playVideo();
@@ -99,7 +110,7 @@
       });
 
       window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
-      if (!parentOrigin || parentOrigin === "null") { send("error", { code: "invalid-parent-origin" }); return; }
+      if (!parentOrigin) return;
       const api = document.createElement("script");
       api.src = "https://www.youtube.com/iframe_api";
       api.async = true;
