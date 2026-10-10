@@ -10,7 +10,7 @@ settings:
     PRODUCT_NAME: Selah
     INFOPLIST_KEY_CFBundleDisplayName: Selah
     INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
-    GENERATE_INFOPLIST_FILE: YES
+    GENERATE_INFOPLIST_FILE: NO
     ENABLE_APP_SANDBOX: YES
     CODE_SIGN_ENTITLEMENTS: Selah.entitlements
     MACOSX_DEPLOYMENT_TARGET: "14.0"
@@ -21,12 +21,16 @@ targets:
     info:
       path: Selah-Info.plist
       properties:
+        CFBundleShortVersionString: "1.0.18"
+        CFBundleVersion: "90"
         CFBundleURLTypes:
           - CFBundleURLName: Selah Reading
             CFBundleURLSchemes:
               - selah
     sources:
       - Sources
+      - path: Resources
+        type: folder
     entitlements:
       path: Selah.entitlements
       properties:

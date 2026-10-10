@@ -1007,3 +1007,8 @@
 - Native installed source and Mac receiver now present. Heartbeat isolated from full sync to preserve currently displayed passage and notes.
 - Website follow-up deployment and iOS revision 2 install pending; phone installed revision 1, Mirroring requires Mac login.
 - Revision 3 samples actual focus each heartbeat to recover Safari PWA focus events that may be missed. Mac forced-wake overlay now also respects active reading.
+
+## 2026-10-10 Mac chapter keyboard/trackpad input
+- SELAH-MAC-CHAPTER-INPUT revision1: native toolbar chapter arrows, ArrowLeft/ArrowRight and horizontal trackpad gestures use shared navigateBibleChapter. Local bundled injection; no web publication required. Typing/IME/selection/dialogs/modifiers and vertical scroll remain normal; one turn per gesture including inertia.
+- Native Mac build90 packaging/install and physical trackpad proof recorded separately.
+- Mac build90: release build succeeded; local packaged JS equals source, Developer ID timestamp/runtime signature verified; notarization Accepted fab49a62-ad30-459a-b4f7-6eb780a8cd1f, staple/spctl passed. Installed bundle replaced with previous bundle retained. Mac is locked (CUA observation); old running process preserved, updated app relaunch and keyboard/physical trackpad interaction pending unlock/Resume. No web publication or iOS update in this task.
