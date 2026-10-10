@@ -10,6 +10,9 @@ struct SelahApp: App {
             ReaderWindow(reader: reader)
                 .frame(minWidth: 760, minHeight: 620)
                 .onOpenURL { reader.openComputerReading($0) }
+                .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
+                    if let url = activity.webpageURL { reader.openComputerReading(url) }
+                }
         }
         .commands {
             CommandGroup(after: .textEditing) {
@@ -69,20 +72,37 @@ final class SelahReader {
     var canGoForward = false
     private(set) var zoom: CGFloat = 1
 
+    func navigateChapter(_ direction: Int) {
+        webView?.evaluateJavaScript("window.selahMacReaderNavigation?.turn(\(direction))")
+    }
+
     func focus() {
         webView?.evaluateJavaScript("document.querySelector('#readerFocusToggle')?.click()")
     }
 
     func openComputerReading(_ url: URL) {
-        guard url.scheme == "selah", url.host == "read" else { return }
-        var components = URLComponents(string: "https://delight0517.github.io/selah-bible-meditation/")!
-        components.queryItems = [
-            URLQueryItem(name: "homeAction", value: "read"),
-            URLQueryItem(name: "requestId", value: URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "request" })?.value)
-        ]
-        guard let target = components.url else { return }
+        guard let target = Self.sharedReadingURL(url) else { return }
         pendingReadingURL = target
         webView?.load(URLRequest(url: target))
+    }
+
+    static func sharedReadingURL(_ url: URL) -> URL? {
+        let native = url.scheme == "selah" && url.host == "read" && url.path.isEmpty
+        let web = url.scheme == "https" && url.host == "delight0517.github.io" && url.path == "/selah-bible-meditation/"
+        guard native || web, let incoming = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }
+        var target = URLComponents(string: "https://delight0517.github.io/selah-bible-meditation/")!
+        let names = Set(["selahBook", "selahPassage", "selahVerse", "selahTranslation", "bibleLang", "selahRoom"])
+        target.queryItems = [URLQueryItem(name: "homeAction", value: "read")]
+        target.queryItems! += (incoming.queryItems ?? []).filter { names.contains($0.name) }
+        if let request = incoming.queryItems?.first(where: { $0.name == "request" })?.value,
+           request.range(of: "^[A-Za-z0-9._-]{1,128}$", options: .regularExpression) != nil {
+            target.queryItems!.append(URLQueryItem(name: "requestId", value: request))
+        }
+        if let fragment = incoming.fragment,
+           fragment.range(of: "^selahRoom=[a-f0-9]{32}$", options: .regularExpression) != nil {
+            target.fragment = fragment
+        }
+        return target.url
     }
 
     func initialURL() -> URL {
@@ -111,16 +131,16 @@ struct ReaderWindow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                Button { reader.webView?.goBack() } label: {
+                Button { reader.navigateChapter(-1) } label: {
                     Image(systemName: "chevron.left")
                 }
-                .disabled(!reader.canGoBack)
-                .help("Back")
-                Button { reader.webView?.goForward() } label: {
+                .disabled(reader.webView == nil)
+                .help("Previous chapter (←)")
+                Button { reader.navigateChapter(1) } label: {
                     Image(systemName: "chevron.right")
                 }
-                .disabled(!reader.canGoForward)
-                .help("Forward")
+                .disabled(reader.webView == nil)
+                .help("Next chapter (→)")
                 Divider().frame(height: 20)
                 Text("SELAH").font(.system(size: 12, weight: .semibold, design: .rounded)).tracking(2)
                 Spacer()
@@ -149,14 +169,31 @@ struct SelahWebView: NSViewRepresentable {
     @Bindable var reader: SelahReader
 
     func makeNSView(context: Context) -> WKWebView {
-        let view = WKWebView(frame: .zero)
+        let configuration = WKWebViewConfiguration()
+        // The reader explicitly requests playback after resolving the chapter audio.
+        configuration.mediaTypesRequiringUserActionForPlayback = []
+        // Use the modern Safari-compatible embed path in this WebKit reader.
+        configuration.applicationNameForUserAgent = "Version/26.0 Safari/605.1.15 Selah/1.0.22"
+        let view = WKWebView(frame: .zero, configuration: configuration)
         let active = NSApp.isActive ? "true" : "false"
         view.configuration.userContentController.addUserScript(WKUserScript(
             source: "window.selahMacAppPresence = { active: \(active) };",
             injectionTime: .atDocumentStart, forMainFrameOnly: true
         ))
         view.navigationDelegate = context.coordinator
-        view.allowsBackForwardNavigationGestures = true
+        if let scriptURL = Bundle.main.url(forResource: "reader-navigation", withExtension: "js", subdirectory: "Resources"),
+           let script = try? String(contentsOf: scriptURL, encoding: .utf8) {
+            view.configuration.userContentController.addUserScript(WKUserScript(
+                source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true
+            ))
+        }
+        if let scriptURL = Bundle.main.url(forResource: "reader-audio", withExtension: "js", subdirectory: "Resources"),
+           let script = try? String(contentsOf: scriptURL, encoding: .utf8) {
+            view.configuration.userContentController.addUserScript(WKUserScript(
+                source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true
+            ))
+        }
+        view.allowsBackForwardNavigationGestures = false
         view.load(URLRequest(url: reader.initialURL()))
         reader.webView = view
         return view

@@ -3,6 +3,7 @@
   "appName": "Selah",
   "webDir": "www",
   "ios": {
-    "contentInset": "never"
+    "contentInset": "never",
+    "appendUserAgent": "Version/26.0 Mobile Safari/605.1.15 Selah/1.0.22"
   }
 }

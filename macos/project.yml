@@ -10,7 +10,7 @@ settings:
     PRODUCT_NAME: Selah
     INFOPLIST_KEY_CFBundleDisplayName: Selah
     INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.education
-    GENERATE_INFOPLIST_FILE: YES
+    GENERATE_INFOPLIST_FILE: NO
     ENABLE_APP_SANDBOX: YES
     CODE_SIGN_ENTITLEMENTS: Selah.entitlements
     MACOSX_DEPLOYMENT_TARGET: "14.0"
@@ -21,17 +21,23 @@ targets:
     info:
       path: Selah-Info.plist
       properties:
+        CFBundleShortVersionString: "1.0.26"
+        CFBundleVersion: "98"
         CFBundleURLTypes:
           - CFBundleURLName: Selah Reading
             CFBundleURLSchemes:
               - selah
     sources:
       - Sources
+      - path: Resources
+        type: folder
     entitlements:
       path: Selah.entitlements
       properties:
         com.apple.security.app-sandbox: true
         com.apple.security.network.client: true
+        com.apple.developer.associated-domains:
+          - applinks:delight0517.github.io
     settings:
       base:
         INFOPLIST_KEY_NSHighResolutionCapable: YES

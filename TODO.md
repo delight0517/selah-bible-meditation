@@ -1006,4 +1006,72 @@
 ### Foreground presence revision 2
 - Native installed source and Mac receiver now present. Heartbeat isolated from full sync to preserve currently displayed passage and notes.
 - Website follow-up deployment and iOS revision 2 install pending; phone installed revision 1, Mirroring requires Mac login.
+
+
+## 2026-10-10 — RiseSync Scripture -> Selah reader
+- RiseSync sends `selah://read?selahBook=PRO&selahPassage=6&selahVerse=9` (reference ranges open the first verse).
+- Added native warm `appUrlOpen` and cold `getLaunchUrl` handling through the existing chapter/verse sharing route; local app origin and account/notes remain preserved. Launch replay avoids a page-reload loop.
+- Shared source build 88, generated Capacitor assets, required source and feature contract validators passed; signed generic iOS build passed. Signed build 88 installed and launched on iPhone with data-preserving devicectl update; packaged index.html exactly matches task source.
+- Public install page currently offers iPhone Safari home-screen installation; no App Store release URL is publicly available. Existing web passage-sharing behavior remains unchanged. No publication or store release performed.
+- No new tests added or run. Physical tap-to-verse journey not verified; source/build/install are separate evidence.
+
+
+## 2026-10-10 iPhone reader layout / build 89
+- Fixed mobile toolbar grid, font selector shrinkage, zoom alignment and reader secondary text contrast.
+- Keeps RiseSync native passage entry and latest foreground transport changes.
+- Source bundling and signed iOS build passed; installation evidence recorded below. Physical visual journey and public web deployment remain pending.
 - Revision 3 samples actual focus each heartbeat to recover Safari PWA focus events that may be missed. Mac forced-wake overlay now also respects active reading.
+
+## 2026-10-10 Mac chapter keyboard/trackpad input
+- SELAH-MAC-CHAPTER-INPUT revision1: native toolbar chapter arrows, ArrowLeft/ArrowRight and horizontal trackpad gestures use shared navigateBibleChapter. Local bundled injection; no web publication required. Typing/IME/selection/dialogs/modifiers and vertical scroll remain normal; one turn per gesture including inertia.
+- Native Mac build90 packaging/install and physical trackpad proof recorded separately.
+- Mac build90: release build succeeded; local packaged JS equals source, Developer ID timestamp/runtime signature verified; notarization Accepted fab49a62-ad30-459a-b4f7-6eb780a8cd1f, staple/spctl passed. Installed bundle replaced with previous bundle retained. Mac is locked (CUA observation); old running process preserved, updated app relaunch and keyboard/physical trackpad interaction pending unlock/Resume. No web publication or iOS update in this task.
+
+## 2026-10-10 Mac listen while reading — audio revision76
+- Native Mac build91 / 1.0.19 preserves build90 chapter arrows and trackpad handling. Local injected player/follow controls are moved out of collapsed listening settings and focus-mode hidden ancestors before a user starts playback. Standard YouTube controls remain visible at least 200×200 CSS px.
+- WKWebView media policy allows the existing explicit listen action to start media after asynchronous chapter resolution. Page load itself does not request playback. Missing chapter candidates retain the listen/search control; search status stays outside the collapsed settings.
+- Existing StarNet audio catalog ownership and its four-file uncommitted patch are preserved. No new catalog job or quota search, no hosted publication, no iOS/Windows install.
+- Build/sign/notarization/install evidence and actual audible playback, time progression, correct-chapter/cue-follow evidence are tracked separately. Existing Mac-unlock alert is reused; no repeat alert or human-action polling.
+- Build91 succeeded; Developer ID timestamp/runtime signed; notarization Accepted `5ec213bd-d7d9-4cd0-8c95-da11299a7be6`; stapler, strict codesign and Gatekeeper accepted. Installed `/Users/rogan/Applications/Selah Mac.app` 1.0.19/build91 with resource byte readback. Previous build90 retained at `work/selah-mac-audio-rollback/Selah Mac.build90.app`. Existing running app is preserved while Mac is locked; relaunch, actual sound/time progression and correct-chapter/cue following remain pending the existing unlock/Resume alert.
+
+- Mac unlocked and build91 relaunched via CUA. Focus reading displays the floating player while settings stay collapsed, but embedded YouTube remained black. Same video displays normally in an Aside task tab (closed after comparison). Default Webview and Safari UA HTTP responses choose different player JS generations. Build92 adds WebKit/Safari compatibility UA and validated visible playback status/time. Actual playback verification continues.
+- Build92: notarization Accepted `e1c3a016-2013-4704-9b2e-e16ad91b8128`; signed/stapled/Gatekeeper checked and installed. CUA runtime: English Matthew1 unmuted/Pause controls, progress 0:06→0:17→1:19, chapter1/verse1 highlight. User directly confirmed audible sound. Korean KSB Matthew1 progressed 0:20→1:25 with chapter1/verse1 following while displayed KRV text remains labeled. Original English WEB/Matthew1 restored, playback stopped and translations disclosure closed. Build93 clears stale time when changing audio source; final signed install/runtime follows.
+- Final Mac1.0.21/build93: notarization Accepted `edb255d4-3b42-45d7-b68c-3f81673c670a`, stapled/strict codesign/Gatekeeper accepted; installed resource readback matches. Installed runtime: standard Play→Pause, unmuted controls, clock0:04→0:40, Matthew1 verse1 follow. User sound confirmation from build92 same player path; Korean playback progressed on build92. Source-change stale clock reset included. Playback stopped and original normal reader/WEB/Matthew1 restored. Mac listen/read core complete; full catalog coverage and within-chapter verse timing remain pending independently.
+- Build 89: codesign --verify --deep --strict passed; packaged HTML/CSS match source; devicectl data-preserving iPhone installation and process launch succeeded on 2026-10-10. Physical screen appearance remains unverified.
+
+## 2026-10-10 Cross-device listen/read — audio revision79
+- User requests Safari and other devices. Common `scripts/reader-audio.js` keeps player/follow controls out of collapsed settings and focused reader hidden ancestors; visible listen/search fallback and ten-locale playback status/time reset included.
+- Mobile player width≤240px with standard YouTube viewport≥200×200; safe-area/dynamic viewport support. Same guarded source is bundled in native Mac so web + native injection does not duplicate the player/status.
+- Preserves installed iPhone layout/RiseSync links (PR349) and Mac input/audio (PR351). Existing StarNet catalog diff and quota ownership preserved; no extra catalog job.
+- Public website deployment requires explicit authorization per user AGENTS; source preparation does not authorize a release. All independent edits, native builds and reviewable PR are prepared before that final handoff. Aside-only preference is retained; actual Safari run needs a scoped exception. Windows access expired/unknown, so no remote probes.
+- Existing audio UI/compact-player backlog rows remain pending their deployment/runtime gates; source-only readback does not mark them complete.
+- Source/feature contract checks passed; 69 runtime files copied and checked for1.0.22/build94. Local Aside runtime: focused reader, visible standard YouTube video, audio-playing indicator and Matthew1/verse1 follow. Temporary tab closed; localhost server stopped. Actual Safari remains unverified under Aside-only preference.
+- Signed iOS generic build94 succeeded; strict codesign and packaged-script byte readback passed. Physical iPhone14Pro is disconnected. Two connected CoreDevices are explicitly simulated QA devices owned by other work, so neither was treated as physical iPhone proof or reused. `ios-evidence` helper is absent; observations recorded here without inventing a physical pass.
+- Native Mac94 notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, stapled/strict codesign/Gatekeeper passed and installed resource bytes match common script; previous93 retained. Exact fresh runtime recorded next.
+- Fresh installed Mac94 runtime: one visible player/status, unmuted/Pause controls, progress0:59→1:10 and Matthew1 verse1 follow. Playback stopped and original reading screen restored. Public web/Safari/iPhone physical/Windows runtime gates remain pending.
+
+## 2026-10-10 shared invitations and verse-tap playback checkpoint
+
+- Together reading revision8: HTTPS/native link preserves book/chapter/verse/edition/language/room. Two production-client harnesses pass invitation/copy/room join/chapter/timer/leave. Live Worker two distinct participants joined same MAT3/ENGWEBP room, then both left. This is API/contract proof, not OS installed/no-app routing.
+- Root-domain association draft is in separate fresh portfolio worktree selah-universal-link-domain; current public AASA HTTP404. Existing public deployment/Safari approval alert remains pending; no duplicate alert.
+- Mac95 Developer ID/notarization accepted a73ac73f-ce33-412a-b979-aaa92e9648d9; strict/spctl passed but actual launch denied: taskgated no eligible provisioning profile for associated domains. Preserved blocked artifact without retries, restored separately verified trusted installed94. Mac universal profile and installed route/runtime remain pending.
+- iOS95-links-r2 archive signed successfully using existing ASC API credentials with Associated Domains. No Xcode login handoff needed. Phone installation/physical Universal Link selection remain pending.
+- Aside local receiver showed Matthew3/WEB. Initial verse scroll was overwritten by saved reading position; source now initializes the requested verse anchor. Subsequent UI proof remains pending. Local Worker CORS excludes localhost with a port; not weakened for QA.
+- Audio revision80/source96: tap an exact timed verse => seek and play; a different cue video => load and play; hosted iOS commands validate timestamp/video/origin/token. Enter/Space supported; text selection preserved; missing timestamps show an explanation without fabricated timing. Syntax and generated bundle checks only; no audio tap runtime test yet. Current recommended audio has chapter starts, not every verse start. Complete verse coverage remains outstanding.
+
+## 2026-10-10 Korean English Japanese listening
+
+- Audio revision81/source97: add Korean 새번역 and Japanese口語訳 Matthew1–28 recommendations alongside EnglishNLT. Each chapter starts at the uploader's published time. Japanese gateway catalog is empty; curated source avoids requiring a live search. No recording was downloaded.
+- Language selection is visible while reading. Switching stops previous audio, then resumes the selected language using existing player gesture handling. Text and audio editions stay separately labeled.
+- Korean/Japanese public player metadata playableInEmbed=true and all28 description chapter timestamps read/validated; JS syntax and generated source parity pass. New audio playback, physical installation, Safari and other-book coverage remain unverified; no tests added/run in this request.
+- Existing public deployment/Safari approval remains pending. Installed Mac94 remains restored and usable; restricted-domain build95 is not retried without an eligible profile.
+- iOS97-three-languages-r2 archive succeeded with existing ASC API signing; strict codesign and exact packaged index/reader-audio byte comparisons passed. Archive is prepared, not installed or played on a physical phone.
+
+## 2026-10-10 bottom audio button and hold picker
+
+- User explicitly chose small visible YouTube video + bottom-center play button after being told that Premium does not permit a hidden external API player. No video/audio separation or hidden/background player implemented.
+- Source98/audio revision82: short-tap play/pause;500ms hold opens native dialog with language then currently playable edition/YouTube recording. Shift+Enter/ArrowDown/right-click provide alternatives. Pointer movement/cancel suppresses accidental playback. Selected catalog editions are persisted.
+- Small video is positioned above bottom control, with minimum200x200 iframe viewport maintained. Official YouTube sign-in/Premium account link added to picker.
+- Premium authentication not confirmed: account-book helper is absent, shared Aside foreground changed from task YouTube navigation to unrelated ASC authentication. Did not change another login session, submit credentials, infer account/membership, or close the active unidentified/auth tab. Continue account check when shared browser is available.
+- Existing public deployment/Safari approval remains pending. Source/bundle and signed package evidence are distinct from installed/runtime/Premium benefits. No new tests run.
+- iOS98-hold-picker-r3 archive succeeded; strict signature and exact index/reader-audio bundle readback passed. Package stays prepared, physical installation and hold/play runtime unverified.

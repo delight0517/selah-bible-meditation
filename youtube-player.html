@@ -90,6 +90,14 @@
         try {
           if (event.data.command === "pause") player?.pauseVideo();
           if (event.data.command === "play") player?.playVideo();
+          if (event.data.command === "seek") {
+            const seconds = Number(event.data.seconds);
+            if (Number.isFinite(seconds) && seconds >= 0) { player?.seekTo(seconds, true); player?.playVideo(); }
+          }
+          if (event.data.command === "loadVideo") {
+            const seconds = Number(event.data.startSeconds), id = event.data.videoId;
+            if (/^[\w-]{11}$/.test(id || "") && Number.isFinite(seconds) && seconds >= 0) player?.loadVideoById({videoId:id,startSeconds:seconds});
+          }
           if (event.data.command === "cuePlaylist" && Array.isArray(event.data.videoIds)) {
             const videoIds = event.data.videoIds.filter(id => /^[\w-]{11}$/.test(id)).slice(0, 1189);
             const index = Number(event.data.index), seconds = Number(event.data.startSeconds);

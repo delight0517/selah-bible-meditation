@@ -286,7 +286,7 @@
     },
     {
       "id": "SELAH-LIVE-TOGETHER-READING",
-      "revision": 7,
+      "revision": 8,
       "title": "초대 URL 함께 읽기 및 계정별 기록·친구 별명",
       "acceptance": [
         "말씀 읽기 안에서 함께 읽기 버튼으로 URL 생성",
@@ -297,7 +297,9 @@
         "로그인한 참가자는 함께 읽은 본문·시작 시각·참여 인원을 본인 BlueCloud 기록에 저장한다",
         "방 ID 원문·계정 정보·묵상과 기도는 함께 읽기 Worker나 다른 참가자에게 전송하지 않는다",
         "각 계정에서 함께 읽은 기록의 친구 별명을 수정하고 여러 기기에서 동기화한다",
-        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다"
+        "방 입장·본문 변경·참여 인원 변경·나가기 때만 이력을 갱신하며 주기적 presence poll은 저장을 반복하지 않는다",
+        "초대 HTTPS 링크에 책·장·절·번역·언어·방 번호를 유지한다",
+        "연결된 Apple 앱은 같은 초대 링크로 열리고 앱이 없으면 브라우저에서 같은 방과 본문으로 열린다; 도메인 연결 공개·설치·실기기 확인은 별도 증거가 필요하다"
       ],
       "paths": [
         "index.html",
@@ -314,43 +316,48 @@
         "scripts/test-unified-data.mjs",
         "scripts/test-together-reading.mjs",
         "assets/together-history.js",
-        "scripts/test-together-history.mjs"
+        "scripts/test-together-history.mjs",
+        "assets/shared-reading-links.js",
+        "macos/Sources/SelahApp.swift",
+        "macos/Selah.entitlements",
+        "mobile/ios/App/App/Selah.entitlements",
+        "scripts/test-shared-reading-links.mjs"
       ],
       "platforms": {
         "web": {
-          "owner": "Windows together-reading task",
+          "owner": "Selah shared invitation task",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 8,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         },
         "windows": {
-          "owner": "Windows together-reading task",
-          "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "owner": "Windows platform maintainer",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         },
         "macos": {
-          "owner": "Mac maintainer - request pending",
-          "state": "pending",
-          "appliedRevision": null,
-          "source": "",
-          "build": "",
-          "evidence": "Native app parity and runtime verification remain pending; shared web source change does not prove the standalone Mac app. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "owner": "Selah shared invitation task",
+          "state": "implemented",
+          "appliedRevision": 8,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         },
         "ios": {
-          "owner": "Mac maintainer - request pending",
+          "owner": "Selah shared invitation task",
           "state": "implemented",
-          "appliedRevision": 7,
-          "source": "codex/selah-together-history-20261004",
-          "build": "shared UI 1.0.10/34",
-          "evidence": "Account-private read history, passage/person-count updates and editable per-session friend label implemented in shared client source and generated mobile web bundle; browser/native runtime sync remains unverified. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained.",
+          "appliedRevision": 8,
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.23/95",
+          "evidence": "Source route and two-client tests pass; live Worker two participants same passage/edition passes. Mac95 notarized but launch denied for missing eligible associated-domains profile; installed trusted94 restored; signed iOS95 archive includes Associated Domains. Public AASA endpoint HTTP404; universal app selection, no-app device case, Safari and physical iOS runtime remain pending. Windows custom protocol remains request-only; no remote work performed.",
           "workItem": "selah-live-together-20261003"
         }
       }
@@ -778,14 +785,14 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 75,
+      "revision": 83,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
         "The text Bible edition and audio language are independently selectable. Search uses localized book names and phrases for the selected audio language while keeping saved sources attached to the selected text edition; results retain their audio-edition label.",
         "각 번역본마다 여러 YouTube 채널·영상·재생목록을 저장하고, 원하는 출처를 기본 선택할 수 있다. 실제 YouTube 구독으로 표현하지 않는다.",
         "YouTube 영상은 YouTube 표준 임베드 플레이어에서 재생한다. 광고 노출과 로그인 상태는 YouTube와 각 영상의 설정이 결정하며 Selah가 광고를 강제하거나 차단하지 않는다.",
-        "처음 재생은 YouTube 플레이어의 표준 재생 컨트롤을 사용한다. Selah는 플레이어를 자동 재생하거나 영상·오디오를 분리하지 않는다.",
+        "처음 재생은 사용자가 Selah의 듣기 버튼 또는 YouTube 표준 재생 컨트롤을 눌러 시작한다. 페이지 로드만으로 재생하지 않으며 영상·오디오를 분리하지 않는다.",
         "Hosted playlist initialization omits the videoId option when no single video is selected, cues the verified playlist index after onReady, and keeps playback user-started.",
         "iOS Capacitor apps load the standard YouTube player through the Selah HTTPS player page so YouTube receives a valid HTTPS Referer; playback status, time, and video ID return only through source-, origin-, and token-checked messages. The player remains user-started with YouTube controls.",
         "여러 장을 끊김 없이 듣고 싶은 사용자는 해당 번역본의 연속 재생목록을 저장할 수 있고, YouTube 플레이어가 목록 다음 영상으로 이어 재생한다. 단일 영상은 영상 끝에서 정상 종료한다.",
@@ -860,7 +867,15 @@
         "Legacy playlist data that maps different chapters from the same video to the same 0-second start cannot auto-play or follow the later chapter; only explicit chapter/verse timestamps or one canonical first start are accepted.",
         "Selecting Play on a saved YouTube source, or submitting Save and open player, opens the lower-right compact embedded player and requests playback during that user gesture; no cue is fabricated for an unverified source.",
         "The saved-source Play action uses the same tested passage eligibility helper as the automatic source selector, so a source without sync cues may still be played manually without claiming scripture following.",
-        "Playlist coverage checks each video’s YouTube status.embeddable flag; explicitly non-embeddable videos contribute neither chapter coverage nor verse cues, and a complete edition requires usable cues from embeddable videos for all 1,189 chapters."
+        "Playlist coverage checks each video’s YouTube status.embeddable flag; explicitly non-embeddable videos contribute neither chapter coverage nor verse cues, and a complete edition requires usable cues from embeddable videos for all 1,189 chapters.",
+        "Mac listen-and-read keeps the standard YouTube player visible outside collapsed listening settings and focused-reading hidden ancestors. An explicit listen action may resolve the selected chapter asynchronously before playback; missing chapter audio retains an on-demand search action and visible search status.",
+        "Mac YouTube embed uses a Safari-compatible WebKit user agent and reports playback readiness, errors, pause and progressing time from the existing source/origin/token-checked hosted player channel.",
+        "Mac playback time is cleared when a source closes or changes and a new hosted player shows loading until it reports readiness/progress.",
+        "All shared reader surfaces, including Safari and mobile browsers, keep the visible standard player/follow controls outside collapsed settings and focused-reading hidden ancestry. Phone compact width stays at most240 CSS px while the YouTube viewport remains at least200x200. Local native injection and shared initialization are idempotent; existing notes/account and deep links are preserved.",
+        "듣기 중 절을 탭하거나 Enter/Space로 선택하면 확인된 절 시각부터 재생하고 다른 영상의 절도 전환한다; 시각 없는 절은 이동하지 않고 안내한다. 추천 장별 오디오의 전체 절 시각은 별도 미완료.",
+        "읽기 화면에서 한국어·영어·일본어 낭독 언어를 선택한다; 변경 시 이전 오디오는 멈춘다. 마태복음1–28장은 확인된 장 시작 시각을 사용하는 각 언어 추천 낭독이 있다. 전체66권/절별 시각은 별도 미완료.",
+        "중앙 하단 버튼의 짧은 탭은 재생/일시정지, 500ms 길게 누르기는 언어 및 현재 본문에서 재생 가능한 성경 버전/YouTube 낭독 선택창을 연다",
+        "YouTube 영상은 200x200 이상으로 보이며 버튼에 가리지 않는다. 사용자가 작은 영상 유지 방식을 선택했다. Premium 로그인과 앱 내 혜택은 별도 확인한다."
       ],
       "paths": [
         "index.html",
@@ -900,40 +915,46 @@
         "together-worker/pages-proxy/public/index.html",
         "scripts/test-pages-audio-proxy.mjs",
         "together-worker/src/index.js",
-        "scripts/check-youtube-audio-catalog-client.mjs"
+        "scripts/check-youtube-audio-catalog-client.mjs",
+        "macos/",
+        "scripts/reader-audio.js",
+        "mobile/capacitor.config.json",
+        "docs/audio-japanese-source.md",
+        "mobile/www/scripts/reader-audio.js",
+        "macos/Resources/reader-audio.js"
       ],
       "platforms": {
         "web": {
           "owner": "Selah web audio task",
-          "state": "implementing",
-          "source": "codex/selah-embed-eligibility-20261008",
-          "build": "Worker source implements embeddability filtering; deployment and runtime confirmation pending",
-          "evidence": "Revision 65 keeps the three Cron triggers already active in this Cloudflare Free account (00:20/08:20/16:20 UTC) and increases each run to 14 playlist scans across three locales, for 42 scheduled candidates per Pacific day. It reserves 18 scheduled and 82 interactive search calls, and 42 scheduled plus 138 interactive scans, preserving the 180-scan cap and at least 1,180 unused non-search units. Revision 64 Worker version 509e1f2c-9ba0-4560-89ea-7bd5ae164526 is active; its six-trigger update was rejected and API readback confirmed only the previous three triggers remain. Revision 65 code changes and regression tests are ready in the follow-up branch; PR, matching deployment, and new catalog readback remain pending. Earlier revision history: the public catalog returned 404 catalog_not_found before scheduled publication; revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Revision 59 makes chapter-follow labels source-neutral and formats the verified cue count from the selected audio source. Browser playback remains user-started; in Aside the generated Korean New Translation playlist was selected for John 1, while the uncued Korean Revised Version playlist had no Selah Play button. Audible playback and live verse-follow remain unverified. Revision 60 loads the passage cue videoId and timestamp directly and suppresses untimed later-chapter cues; public KSB playlist verification returned 78 covered chapters with JHN 1:1 at 0 seconds and no JHN 21 zero-second cue. Revision 61 resolves equal-time cues to the earliest passage and preserves later verse timestamps. Revision 62 omits an undefined videoId for playlist hosts. Revision 63 adds reader-to-mini-player entry and accessible close/right-swipe dismissal that stops and removes the embedded player. The mini-player UI is live; actual YouTube PLAYING, verse-follow, and physical iPhone runtime remain pending. Revision 66 adds explicit-click-only autoplay requests and preserves standard player controls; hosted-player and catalog-client source regression checks pass; platform source parity and feature-contract validation pass. PR #330 merged as bca62c4c6c4c9bc86084ff970a91d17f4dd55c09; Pages deployment run 37618455859 succeeded, the latest Pages build reports that commit, and public reader/hosted-player GETs return HTTP 200 with the explicit reader autoplay request and standard controls. Audible PLAYING, the reader button runtime, compact visible layout after a fresh click, and passage following remain unverified. Revision 68 adds a compact, localized play control to the mobile focus-reader toolbar; it reuses the reader play action and stays hidden without a passage-compatible source. Source regression and mobile bundle checks pass; public browser PLAYING and verse-follow remain unverified. Revision 70 implementation adds exact full-chapter video fallbacks to scheduled mixed video/playlist discovery while keeping full-Bible playlist coverage separate. Local worker/search/client regression checks cover Japanese no-playlist catalogs, video-ID-bound verse cues, passage scoping, and verse-range rejection. Merge, scheduled publication, production catalog counts, and audible browser playback are still pending. Revision 71 local commit f5b8628 pins one selected audio edition per locale across chapters, searches only that edition, starts the matched chapter video after the reading play action, and rejects legacy duplicate same-video 0-second chapter cues. Client, search/catalog Worker, player, mobile source parity, and feature contract checks pass. Public catalogs are stale (Korean generation 2026-10-07T08:21Z); actual sound, browser playback, and Scripture-follow remain unverified. Revision 72 also fails closed when the pinned edition is absent from a search response; the client contract test confirms there is no silent fallback to a different translation. Revision 74 fixes the source-list renderer to call the existing passage eligibility helper and requests autoplay for explicit source Play and Save-and-open gestures. Generated mobile/www parity passes. Local Aside preview rendered the compact lower-right YouTube iframe while WEB text and NLT audio remained distinct; the YouTube frame stayed on its loading spinner, so actual playback/time advancement and verse-follow are still unverified. Revision 75 adds YouTube status.embeddable to the existing videos.list read and excludes videos explicitly blocked from external playback from chapter coverage and verse cues. Search and catalog worker regression checks pass; Worker deployment and embedded runtime playback remain pending.",
-          "appliedRevision": 75
+          "state": "implemented",
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.22 / 94",
+          "evidence": "Local Aside runtime at127.0.0.1:8494: focused reader, standard YouTube video visible/audio-playing tab signal and Matthew1 verse1 follow. Temporary tab closed/server stopped. Public deployment and actual Safari verification await explicit release authorization and scoped browser exception. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
+          "appliedRevision": 83
         },
         "windows": {
           "owner": "Selah hosted reader",
-          "state": "pending",
-          "source": "codex/selah-mobile-audio-mini-player-20261007",
-          "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
-          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending. Revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Focused cue-mapping assertions pass; catalog coverage and live browser playback/follow remain incomplete. Revision 59 makes chapter-follow labels source-neutral and formats the verified cue count from the selected audio source. Browser playback remains user-started; in Aside the generated Korean New Translation playlist was selected for John 1, while the uncued Korean Revised Version playlist had no Selah Play button. Audible playback and live verse-follow remain unverified. Revision 60 loads the passage cue videoId and timestamp directly and suppresses untimed later-chapter cues; the Worker is deployed as version f2573a59-587b-41f4-ac03-c68857d3f32f, and its public KSB playlist verification returned 78 covered chapters with JHN 1:1 at 0 seconds and no JHN 21 zero-second cue. The stored catalog remains on its previous generation until scheduled publication; revision 61 resolves equal-time cues to the earliest passage and preserves later verse timestamps. Revision 62 omits an undefined videoId for playlist hosts; local Aside test created the KSB YouTube iframe and source parity was synchronized. Actual PLAYING, verse-follow, and device release remain pending. Revision 63 source adds reader-to-mini-player entry and an accessible dismiss button/right-swipe that stops and removes the embedded player. The generated mobile bundle is synchronized; Pages deployment and physical iPhone runtime remain pending.",
-          "appliedRevision": 53
+          "state": "implemented",
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.22 / 94",
+          "evidence": "Existing launcher uses canonical hosted source; updated common web script prepared. User Windows access report expired/unknown, so no Windows probes/installation/runtime. Public deployment still pending. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
+          "appliedRevision": 83
         },
         "macos": {
-          "owner": "Selah macOS maintainer",
-          "state": "pending",
-          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending. Revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Focused cue-mapping assertions pass; catalog coverage and live browser playback/follow remain incomplete. Revision 59 makes chapter-follow labels source-neutral and formats the verified cue count from the selected audio source. Browser playback remains user-started; in Aside the generated Korean New Translation playlist was selected for John 1, while the uncued Korean Revised Version playlist had no Selah Play button. Audible playback and live verse-follow remain unverified. Revision 60 loads the passage cue videoId and timestamp directly and suppresses untimed later-chapter cues; the Worker is deployed as version f2573a59-587b-41f4-ac03-c68857d3f32f, and its public KSB playlist verification returned 78 covered chapters with JHN 1:1 at 0 seconds and no JHN 21 zero-second cue. The stored catalog remains on its previous generation until scheduled publication; revision 61 resolves equal-time cues to the earliest passage and preserves later verse timestamps. Revision 62 omits an undefined videoId for playlist hosts; local Aside test created the KSB YouTube iframe and source parity was synchronized. Actual PLAYING, verse-follow, and device release remain pending. Revision 63 source adds reader-to-mini-player entry and an accessible dismiss button/right-swipe that stops and removes the embedded player. The generated mobile bundle is synchronized; Pages deployment and physical iPhone runtime remain pending.",
-          "appliedRevision": 53,
-          "build": "Cloudflare Worker 7dce34b9-9403-4729-9cf4-8473b0f600e5 at 100%; first post-deploy scheduled catalog readback pending",
-          "source": "codex/selah-mobile-audio-mini-player-20261007"
+          "owner": "Selah Mac audio readalong",
+          "state": "implemented",
+          "evidence": "Mac1.0.22/94 Developer ID signed, notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, staple/strict codesign/Gatekeeper passed, installed resource bytes equal common script; prior93 rollback retained. Fresh installed runtime verification continues; publication independent. Fresh installed CUA focused-reading runtime: one player/status, unmuted/Pause controls, progress0:59->1:10, Matthew1 verse1 follow; playback stopped and original reader restored. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
+          "appliedRevision": 83,
+          "build": "1.0.22 / 94",
+          "source": "codex/selah-all-devices-audio-20261010"
         },
         "ios": {
           "owner": "Selah shared iOS reader",
-          "state": "implementing",
-          "source": "codex/selah-embed-eligibility-20261008",
-          "build": "Worker source implements embeddability filtering; deployment and runtime confirmation pending",
-          "evidence": "Worker source schedules 00:20/08:20/16:20 UTC and rotates ten locales through three daily runs. Each run caps verification at ten scans, rotates Korean's four remainder slots, and keeps the existing 30 scheduled scans/day. Catalog/search regression checks, source parity, required PR CI, merge commit a2a8710, Worker deployment, and the three-trigger readback passed. The public catalog returned 404 catalog_not_found before the next Cron; real catalog coverage and browser playback/follow remain pending. Revision 58 requires a verified selected-passage cue and matching playlist video before a generated playlist can become the active default or start in Selah. Focused cue-mapping assertions pass; catalog coverage and live browser playback/follow remain incomplete. Revision 59 makes chapter-follow labels source-neutral and formats the verified cue count from the selected audio source. Browser playback remains user-started; in Aside the generated Korean New Translation playlist was selected for John 1, while the uncued Korean Revised Version playlist had no Selah Play button. Audible playback and live verse-follow remain unverified. Revision 60 loads the passage cue videoId and timestamp directly and suppresses untimed later-chapter cues; the Worker is deployed as version f2573a59-587b-41f4-ac03-c68857d3f32f, and its public KSB playlist verification returned 78 covered chapters with JHN 1:1 at 0 seconds and no JHN 21 zero-second cue. The stored catalog remains on its previous generation until scheduled publication; revision 61 resolves equal-time cues to the earliest passage and preserves later verse timestamps. Revision 62 omits an undefined videoId for playlist hosts; local Aside test created the KSB YouTube iframe and source parity was synchronized. Actual PLAYING, verse-follow, and device release remain pending. Revision 63 source adds reader-to-mini-player entry and an accessible dismiss button/right-swipe that stops and removes the embedded player. The generated mobile bundle is synchronized; Pages deployment and physical iPhone runtime remain pending. Revision 71 generated mobile/www carries the same single-edition selection and stale-cue guard as the web source; 67-file source parity and unified-data sync tests pass. Native build, install, audible YouTube playback, and physical-device following remain unverified. Revision 72 also fails closed when the pinned edition is absent from a search response; the client contract test confirms there is no silent fallback to a different translation. Revision 74 fixes the source-list renderer to call the existing passage eligibility helper and requests autoplay for explicit source Play and Save-and-open gestures. Generated mobile/www parity passes. Local Aside preview rendered the compact lower-right YouTube iframe while WEB text and NLT audio remained distinct; the YouTube frame stayed on its loading spinner, so actual playback/time advancement and verse-follow are still unverified. Revision 75 adds YouTube status.embeddable to the existing videos.list read and excludes videos explicitly blocked from external playback from chapter coverage and verse cues. Search and catalog worker regression checks pass; Worker deployment and embedded runtime playback remain pending.",
-          "appliedRevision": 75
+          "state": "implemented",
+          "source": "codex/selah-all-devices-audio-20261010",
+          "build": "1.0.22 / 94",
+          "evidence": "Signed generic iOS build1.0.22/94 passed; strict codesign and packaged common-script byte match passed. Data/account/layout/deep-link source preserved. Physical iPhone14Pro disconnected; install and physical playback unverified. ios-evidence CLI is absent; exact build/device observations recorded in TODO. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
+          "appliedRevision": 83
         }
       }
     },
@@ -1475,6 +1496,133 @@
           "source": "codex/selah-current-foreground-20261010",
           "build": "local shared UI 1.0.18/build 86",
           "evidence": "Current activity is sampled on every isolated presence heartbeat. Mac overlay entry guard updated separately; final deployment and app package verification follow."
+        }
+      }
+    },
+    {
+      "id": "SELAH-MAC-CHAPTER-INPUT",
+      "revision": 1,
+      "title": "Mac chapter arrows and trackpad navigation",
+      "acceptance": [
+        "Toolbar and arrow keys navigate existing previous/next chapter and book boundaries.",
+        "Horizontal trackpad gesture over Scripture turns once per gesture; inertia and vertical scroll do not skip extra chapters.",
+        "Editing, text selection, IME composition, modifiers and dialogs retain normal input behavior."
+      ],
+      "paths": [
+        "macos/"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "User requested Mac native keyboard/trackpad input; implementation is injected only by the Mac shell.",
+          "evidence": "Hosted web and existing iOS/Windows controls unchanged."
+        },
+        "windows": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "User requested Mac native keyboard/trackpad input; implementation is injected only by the Mac shell.",
+          "evidence": "Hosted web and existing iOS/Windows controls unchanged."
+        },
+        "macos": {
+          "owner": "Selah Mac chapter input",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-mac-chapter-input-20261010",
+          "build": "90",
+          "evidence": "Native WKWebView injects local reader-navigation.js; signed package/install evidence recorded in TODO."
+        },
+        "ios": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "User requested Mac native keyboard/trackpad input; implementation is injected only by the Mac shell.",
+          "evidence": "Hosted web and existing iOS/Windows controls unchanged."
+        }
+      }
+    },
+    {
+      "id": "SELAH-RISESYNC-SCRIPTURE-LINK",
+      "revision": 1,
+      "title": "RiseSync scripture opens selected Selah passage",
+      "acceptance": [
+        "Installed iPhone app handles selah://read with book/chapter/verse on cold and warm launch.",
+        "Route opens existing focused reader and preserves account and saved notes.",
+        "Invalid route parameters are ignored; authentication routes keep existing behavior."
+      ],
+      "paths": [
+        "index.html",
+        "mobile/www/index.html"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request targets RiseSync iPhone -> Selah iPhone URL scheme; existing web passage links unchanged.",
+          "evidence": "Scope is RiseSync iPhone custom URL scheme; no Windows/macOS scheme behavior or web entry changed."
+        },
+        "windows": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request targets RiseSync iPhone -> Selah iPhone URL scheme; existing web passage links unchanged.",
+          "evidence": "Scope is RiseSync iPhone custom URL scheme; no Windows/macOS scheme behavior or web entry changed."
+        },
+        "macos": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request targets RiseSync iPhone -> Selah iPhone URL scheme; existing web passage links unchanged.",
+          "evidence": "Scope is RiseSync iPhone custom URL scheme; no Windows/macOS scheme behavior or web entry changed."
+        },
+        "ios": {
+          "owner": "RiseSync integration",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/risesync-scripture-reader-20261010",
+          "build": "88",
+          "evidence": "Signed generic iOS build 88 passed, codesign verified, native packaged index exactly matched source, data-preserving iPhone install and launch succeeded. Physical button-to-passage journey not verified."
+        }
+      }
+    },
+    {
+      "id": "SELAH-MOBILE-READER-CONTROL-LAYOUT",
+      "revision": 1,
+      "title": "Readable mobile Scripture toolbar",
+      "acceptance": [
+        "Book and chapter fit in one row; font and icon controls occupy a full second row without shrinking font text.",
+        "Reader secondary text follows its actual background foreground; controls use matching light surfaces and dark text.",
+        "Reading position, account, notes and existing RiseSync passage links remain intact."
+      ],
+      "paths": [
+        "index.html",
+        "styles/reader-controls.css",
+        "mobile/www/",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah mobile reader fix",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-mobile-reader-fix-20261010",
+          "build": "89",
+          "evidence": "Bundled shared source checked. Signed iOS build and install tracked in TODO; visual physical journey pending."
+        },
+        "windows": {
+          "owner": "windows platform maintainer",
+          "state": "pending",
+          "evidence": "Shared source prepared; platform runtime not inspected."
+        },
+        "macos": {
+          "owner": "macos platform maintainer",
+          "state": "pending",
+          "evidence": "Shared source prepared; platform runtime not inspected."
+        },
+        "ios": {
+          "owner": "Selah mobile reader fix",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-mobile-reader-fix-20261010",
+          "build": "89",
+          "evidence": "Bundled shared source checked. Signed iOS build and install tracked in TODO; visual physical journey pending."
         }
       }
     }
