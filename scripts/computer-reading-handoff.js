@@ -69,6 +69,7 @@
     return document.visibilityState === "visible" && document.hasFocus();
   }
   function publishReadingPresence() {
+    presenceActive = isReaderForeground();
     if (!token || !accountId) return;
     const now = Date.now(), sendingAccount = accountId, sendingToken = token;
     const entry = {
@@ -108,7 +109,9 @@
     clearInterval(presenceHeartbeat);
     presenceHeartbeat = 0;
     publishReadingPresence();
-    if (presenceActive) presenceHeartbeat = setInterval(publishReadingPresence, 20000);
+    if (presenceActive || (!nativeApp && !window.selahMacAppPresence)) {
+      presenceHeartbeat = setInterval(publishReadingPresence, 20000);
+    }
   }
   document.addEventListener("visibilitychange", refreshReadingPresence);
   // Read focus after the event settles, including focus inside child frames.
