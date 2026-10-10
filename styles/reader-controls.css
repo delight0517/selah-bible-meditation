@@ -1,0 +1,98 @@
+/* Reader controls share their card's foreground, including custom themes. */
+body:not(.mobile-reading-focus) .verse-card .bible-library,
+body:not(.mobile-reading-focus) .verse-card .bible-library > summary,
+body:not(.mobile-reading-focus) .verse-card .bible-library label,
+body:not(.mobile-reading-focus) .verse-card .note,
+body:not(.mobile-reading-focus) .verse-card .small,
+body:not(.mobile-reading-focus) .verse-card .audio-link,
+body:not(.mobile-reading-focus) .verse-card .bible-audio-disclosure > summary {
+  color: var(--on-accent);
+}
+body:not(.mobile-reading-focus) .verse-card .bible-library > summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+body:not(.mobile-reading-focus) .verse-card .bible-library > summary::after {
+  color: inherit;
+}
+body:not(.mobile-reading-focus) .verse-card .bible-library > summary span {
+  color: inherit;
+  opacity: 1;
+  overflow-wrap: anywhere;
+}
+.verse-card .passage-picker select { color-scheme: light; }
+@media (max-width: 760px) {
+  body .verse-card .passage-picker {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto;
+    gap: 10px;
+    align-items: center;
+  }
+  body .verse-card .passage-picker #passageBookSelect {
+    grid-column: 1; grid-row: 1;
+  }
+  body .verse-card .passage-picker #passageSelect {
+    grid-column: 2; grid-row: 1;
+  }
+  body .verse-card .passage-picker #passageBookSelect,
+  body .verse-card .passage-picker #passageSelect {
+    width: 100%; max-width: none; min-width: 0; min-height: 44px;
+    padding: 8px 26px 8px 10px;
+    border: 1px solid #ffffff45; border-radius: 10px;
+    background: #fffefa; color: #20251f;
+    font-size: 16px;
+  }
+  body .verse-card .passage-picker .reader-focus-toggle { display: none; }
+  body .verse-card .passage-picker .reader-display-controls {
+    grid-column: 1 / -1; grid-row: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px 44px;
+    gap: 8px; width: 100%; min-width: 0;
+  }
+  body .verse-card .reader-display-controls label[for="readerFont"] {
+    display: none !important;
+  }
+  body .verse-card .reader-display-controls select#readerFont {
+    width: 100%; max-width: none; min-width: 0; min-height: 44px;
+    padding: 8px 26px 8px 10px;
+    font-size: 16px; background: #fffefa; color: #20251f;
+  }
+  body .verse-card .reader-display-controls .reader-theme-toggle,
+  body .verse-card .reader-display-controls .reader-fullscreen-toggle {
+    width: 44px; min-width: 44px; height: 44px; min-height: 44px;
+    padding: 0; background: #fffefa; color: #20251f;
+    border-radius: 10px;
+  }
+  body .verse-card .reader-display-controls .reader-audio-focus-play:not([hidden]) {
+    grid-column: 1 / -1; min-height: 44px;
+  }
+  body .verse-card .passage-picker .reader-zoom-controls {
+    grid-column: 1 / -1; grid-row: 3; width: 100%;
+    justify-content: flex-start; margin: 0; gap: 8px;
+  }
+  body .verse-card .reader-zoom-controls button {
+    min-height: 44px; background: #fffefa; color: #20251f;
+  }
+  body.mobile-reading-focus .verse-card .reader-display-controls select#readerFont {
+    flex: initial;
+  }
+}
+
+/* Override older semantic rules only where the actual control surface is fixed. */
+:root body:not(.mobile-reading-focus) .verse-card :is(.bible-library > summary, .bible-library > summary span, .bible-library label, .note, .small, .audio-link, .bible-audio-disclosure > summary) {
+  color: inherit !important;
+}
+@media (max-width: 760px) {
+  :root body .verse-card .reader-display-controls select#readerFont,
+  :root body .verse-card .reader-display-controls :is(.reader-theme-toggle, .reader-fullscreen-toggle),
+  :root body .verse-card .reader-zoom-controls button {
+    background: #fffefa !important;
+    color: #20251f !important;
+    border-color: #8c978e !important;
+    color-scheme: light;
+  }
+}
