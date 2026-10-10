@@ -1021,3 +1021,4 @@
 - Keeps RiseSync native passage entry and latest foreground transport changes.
 - Source bundling and signed iOS build passed; installation evidence recorded below. Physical visual journey and public web deployment remain pending.
 - Revision 3 samples actual focus each heartbeat to recover Safari PWA focus events that may be missed. Mac forced-wake overlay now also respects active reading.
+- Build 89: codesign --verify --deep --strict passed; packaged HTML/CSS match source; devicectl data-preserving iPhone installation and process launch succeeded on 2026-10-10. Physical screen appearance remains unverified.
