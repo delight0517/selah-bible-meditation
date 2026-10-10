@@ -61,6 +61,7 @@
   let nativeIosActive = false;
   let presenceActive = false;
   let presenceHeartbeat = 0;
+  let presenceSyncQueue = Promise.resolve();
 
   function isReaderForeground() {
     if (window.selahMacAppPresence) return !!window.selahMacAppPresence.active;
@@ -69,15 +70,38 @@
   }
   function publishReadingPresence() {
     if (!token || !accountId) return;
-    const now = Date.now();
-    db.readingPresence = { ...(db.readingPresence || {}), [presenceClientId]: {
+    const now = Date.now(), sendingAccount = accountId, sendingToken = token;
+    const entry = {
       id: presenceClientId, source: "reader-foreground",
       status: presenceActive ? "running" : "ended",
       platform: nativeApp ? "ios" : currentPlatform || "web",
       updatedAt: now, lastSeenAt: now, resumeGraceUntil: 0, activeMs: 0
-    } };
+    };
+    db.readingPresence = { ...(db.readingPresence || {}), [presenceClientId]: entry };
     persist();
-    syncQueue = syncQueue.then(() => sync()).catch(() => {});
+    // Presence must not pull/render another device's passage, notes or settings.
+    presenceSyncQueue = presenceSyncQueue.then(async () => {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        if (accountId !== sendingAccount || token !== sendingToken) return;
+        const result = await originalRequest("/cloud-state/selah");
+        if (accountId !== sendingAccount || token !== sendingToken) return;
+        const remote = result.state || {}, merged = {};
+        for (const [key, value] of Object.entries(remote.readingPresence || {})) {
+          if (/^[0-9a-f-]{36}$/i.test(key) && value?.source === "reader-foreground"
+              && Date.now() - Number(value.updatedAt) < 120000) merged[key] = value;
+        }
+        if (Number(merged[presenceClientId]?.updatedAt || 0) > entry.updatedAt) return;
+        merged[presenceClientId] = entry;
+        try {
+          await originalRequest("/cloud-state/selah", {
+            method: "PUT", body: JSON.stringify({ ...remote, readingPresence: merged })
+          });
+          return;
+        } catch (error) {
+          if (error.status !== 409 || attempt === 1) throw error;
+        }
+      }
+    }).catch(error => console.error("[Selah presence]", error.message));
   }
   function refreshReadingPresence() {
     presenceActive = isReaderForeground();
