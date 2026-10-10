@@ -1020,3 +1020,4 @@
 - Fixed mobile toolbar grid, font selector shrinkage, zoom alignment and reader secondary text contrast.
 - Keeps RiseSync native passage entry and latest foreground transport changes.
 - Source bundling and signed iOS build passed; installation evidence recorded below. Physical visual journey and public web deployment remain pending.
+- Revision 3 samples actual focus each heartbeat to recover Safari PWA focus events that may be missed. Mac forced-wake overlay now also respects active reading.

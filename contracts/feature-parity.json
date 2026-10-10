@@ -1426,13 +1426,14 @@
     },
     {
       "id": "SELAH-ALL-SURFACES-FOREGROUND-REST",
-      "revision": 2,
+      "revision": 3,
       "title": "모든 Selah 앱과 브라우저의 전면 읽기 상태 통합",
       "acceptance": [
         "Mac Selah native app, iOS app, Safari and Firefox publish independent foreground presence; click inactivity never ends an active reader.",
         "Any fresh running reader suppresses Pomodoro breaks; all readers inactive or expired resumes breaks. Leaving one reader never clears another.",
         "Cloud sessions expire 45 seconds after last heartbeat; browser presence follows visible focused tab; native app presence follows OS lifecycle.",
-        "Foreground heartbeat writes only readingPresence on freshly read remote state and never invokes full sync or renders/changes the local passage, notes or settings."
+        "Foreground heartbeat writes only readingPresence on freshly read remote state and never invokes full sync or renders/changes the local passage, notes or settings.",
+        "Each heartbeat samples current OS/tab activity again; background browser heartbeats recover missed focus events without retaining an old active flag. Mac break-window callers reject active reading regardless of Pomodoro mode."
       ],
       "paths": [
         "scripts/computer-reading-handoff.js",
@@ -1446,34 +1447,34 @@
         "web": {
           "owner": "Selah all-surfaces foreground task",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-presence-only-sync-20261010",
+          "appliedRevision": 3,
+          "source": "codex/selah-current-foreground-20261010",
           "build": "local shared UI 1.0.18/build 86",
-          "evidence": "Presence-only transport preserves unrelated remote fields and does not run local passage synchronization. Existing Mac receiver is compatible; hosted revision 2 and updated iOS packaging pending delivery."
+          "evidence": "Current activity is sampled on every isolated presence heartbeat. Mac overlay entry guard updated separately; final deployment and app package verification follow."
         },
         "windows": {
           "owner": "Selah all-surfaces foreground task",
           "state": "pending",
           "appliedRevision": 1,
-          "source": "codex/selah-presence-only-sync-20261010",
+          "source": "codex/selah-current-foreground-20261010",
           "build": "local shared UI 1.0.18/build 86",
-          "evidence": "Presence-only transport preserves unrelated remote fields and does not run local passage synchronization. Existing Mac receiver is compatible; hosted revision 2 and updated iOS packaging pending delivery."
+          "evidence": "Current activity is sampled on every isolated presence heartbeat. Mac overlay entry guard updated separately; final deployment and app package verification follow."
         },
         "macos": {
           "owner": "Selah all-surfaces foreground task",
           "state": "implementing",
           "appliedRevision": 1,
-          "source": "codex/selah-presence-only-sync-20261010",
+          "source": "codex/selah-current-foreground-20261010",
           "build": "local shared UI 1.0.18/build 86",
-          "evidence": "Presence-only transport preserves unrelated remote fields and does not run local passage synchronization. Existing Mac receiver is compatible; hosted revision 2 and updated iOS packaging pending delivery."
+          "evidence": "Current activity is sampled on every isolated presence heartbeat. Mac overlay entry guard updated separately; final deployment and app package verification follow."
         },
         "ios": {
           "owner": "Selah all-surfaces foreground task",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-presence-only-sync-20261010",
+          "appliedRevision": 3,
+          "source": "codex/selah-current-foreground-20261010",
           "build": "local shared UI 1.0.18/build 86",
-          "evidence": "Presence-only transport preserves unrelated remote fields and does not run local passage synchronization. Existing Mac receiver is compatible; hosted revision 2 and updated iOS packaging pending delivery."
+          "evidence": "Current activity is sampled on every isolated presence heartbeat. Mac overlay entry guard updated separately; final deployment and app package verification follow."
         }
       }
     },
