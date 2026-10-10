@@ -1002,3 +1002,10 @@
 - Native Mac activity signal source prepared; Mac receiver integrated into canonical Pomodoro source after its deployment lease ended. Public deployment, installed apps and runtime pending. Previous iOS-only patch superseded.
 - Native Mac foreground signal build passed (unsigned). Mac receiver: /Users/rogan/Documents/Codex/2026-10-08/new-chat/pomodoro-all-selah-foreground-patch/all-selah-foreground.patch.
 - Installed Selah Mac bundle currently fails Gatekeeper assessment; no rebuilt app was launched or used to bypass that block.
+
+## 2026-10-10 — RiseSync Scripture -> Selah reader
+- RiseSync sends `selah://read?selahBook=PRO&selahPassage=6&selahVerse=9` (reference ranges open the first verse).
+- Added native warm `appUrlOpen` and cold `getLaunchUrl` handling through the existing chapter/verse sharing route; local app origin and account/notes remain preserved. Launch replay avoids a page-reload loop.
+- Shared source build 88, generated Capacitor assets, required source and feature contract validators passed; signed generic iOS build passed. Signed build 88 installed and launched on iPhone with data-preserving devicectl update; packaged index.html exactly matches task source.
+- Public install page currently offers iPhone Safari home-screen installation; no App Store release URL is publicly available. Existing web passage-sharing behavior remains unchanged. No publication or store release performed.
+- No new tests added or run. Physical tap-to-verse journey not verified; source/build/install are separate evidence.
