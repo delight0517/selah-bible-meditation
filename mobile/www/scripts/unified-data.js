@@ -5,7 +5,7 @@
   const collections = ['reflections', 'cards', 'qtLibrary', 'bibleAudioLinks', 'bibleAudioDefaults', 'bibleChats', 'meditationFeedback', 'meditationPlaces', 'drafts', 'readerMarks', 'legacyReaderArchives', 'togetherStamps', 'togetherReads'];
   const registers = ['selectedQt', 'gptContext', 'language', 'customPassage', 'customPassageActive', 'readerPrefs.desktop', 'readerPrefs.mobile', 'readerPrefs.highlightColor', 'appearance'];
   const privateFields = new Set(['owner', 'draft', '_rev', 'token', 'authToken', 'authorization', '__proto__', 'constructor', 'prototype']);
-  const liveFields = ['computerReadingRequest', 'computerReadingResult', 'computerReadingSession', 'readingState', 'meditationSession'];
+  const liveFields = ['computerReadingRequest', 'computerReadingResult', 'computerReadingSession', 'readingState', 'meditationSession', 'readingPresence'];
   const clone = value => value === undefined ? undefined : JSON.parse(JSON.stringify(value));
   function stable(value) {
     if (value === undefined) return 'undefined';
@@ -117,6 +117,19 @@
     for (const key of ['readingState', 'meditationSession', 'computerReadingSession', 'feedbackPrompt', 'customFontData', 'bibleContentLanguage']) out[key] = clone(choose(local[key], remote[key], legacy(local[key]), legacy(remote[key]))) ?? null;
     if (local.bibleContentLanguage && remote.bibleContentLanguage && compare(legacy(local.bibleContentLanguage), legacy(remote.bibleContentLanguage)) === 0) out.bibleContentLanguage = clone(local.bibleContentLanguage.code <= remote.bibleContentLanguage.code ? local.bibleContentLanguage : remote.bibleContentLanguage);
     out.computerReadingRequest = clone(choose(local.computerReadingRequest, remote.computerReadingRequest, { at: local.computerReadingRequest?.createdAt }, { at: remote.computerReadingRequest?.createdAt })) ?? null;
+    // Each surface owns one entry; leaving a tab cannot end another reader.
+    const aPresence = local.readingPresence || {}, bPresence = remote.readingPresence || {};
+    out.readingPresence = {};
+    for (const key of new Set([...Object.keys(aPresence), ...Object.keys(bPresence)])) {
+      if (!/^[0-9a-f-]{36}$/i.test(key)) continue;
+      const a = aPresence[key], b = bPresence[key];
+      const selected = Number(a?.updatedAt || 0) > Number(b?.updatedAt || 0) ? a : b || a;
+      const at = Number(selected?.updatedAt);
+      if (selected?.source === 'reader-foreground' && Number.isFinite(at)
+          && at <= Date.now() + 30000 && Date.now() - at < 120000) {
+        out.readingPresence[key] = clone(selected);
+      }
+    }
     const requestId = out.computerReadingRequest?.id;
     const ar = local.computerReadingResult?.id === requestId ? local.computerReadingResult : undefined, br = remote.computerReadingResult?.id === requestId ? remote.computerReadingResult : undefined;
     out.computerReadingResult = clone(choose(ar, br, { at: ar?.completedAt }, { at: br?.completedAt })) ?? null;

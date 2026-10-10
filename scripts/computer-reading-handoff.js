@@ -55,6 +55,59 @@
     ? "windows"
     : /^Mac/.test(platformName) && Number(navigator.maxTouchPoints || 0) <= 1 ? "macOS" : "";
 
+  const presenceClientId = crypto.randomUUID();
+  const nativeApp = window.Capacitor?.getPlatform?.() === "ios"
+    ? window.Capacitor.Plugins?.App || window.Capacitor.registerPlugin?.("App") : null;
+  let nativeIosActive = false;
+  let presenceActive = false;
+  let presenceHeartbeat = 0;
+
+  function isReaderForeground() {
+    if (window.selahMacAppPresence) return !!window.selahMacAppPresence.active;
+    if (nativeApp) return nativeIosActive;
+    return document.visibilityState === "visible" && document.hasFocus();
+  }
+  function publishReadingPresence() {
+    if (!token || !accountId) return;
+    const now = Date.now();
+    db.readingPresence = { ...(db.readingPresence || {}), [presenceClientId]: {
+      id: presenceClientId, source: "reader-foreground",
+      status: presenceActive ? "running" : "ended",
+      platform: nativeApp ? "ios" : currentPlatform || "web",
+      updatedAt: now, lastSeenAt: now, resumeGraceUntil: 0, activeMs: 0
+    } };
+    persist();
+    syncQueue = syncQueue.then(() => sync()).catch(() => {});
+  }
+  function refreshReadingPresence() {
+    presenceActive = isReaderForeground();
+    clearInterval(presenceHeartbeat);
+    presenceHeartbeat = 0;
+    publishReadingPresence();
+    if (presenceActive) presenceHeartbeat = setInterval(publishReadingPresence, 20000);
+  }
+  document.addEventListener("visibilitychange", refreshReadingPresence);
+  // Read focus after the event settles, including focus inside child frames.
+  window.addEventListener("focus", () => setTimeout(refreshReadingPresence, 0));
+  window.addEventListener("blur", () => setTimeout(refreshReadingPresence, 0));
+  window.addEventListener("selah-mac-app-activity", refreshReadingPresence);
+  if (nativeApp) {
+    void (async () => {
+      let revision = 0;
+      await nativeApp.addListener("appStateChange", ({ isActive }) => {
+        revision++;
+        nativeIosActive = !!isActive;
+        refreshReadingPresence();
+      });
+      const before = revision;
+      const initial = await nativeApp.getState();
+      if (before === revision) {
+        nativeIosActive = !!initial.isActive;
+        refreshReadingPresence();
+      }
+    })().catch(error => console.error("[Selah presence]", error));
+  } else refreshReadingPresence();
+
   function linkedHandoffSessionId() {
     const request = db.computerReadingRequest;
     if (!handoffRequestId || !isRecord(request) || request.id !== handoffRequestId || request.targetPlatform !== currentPlatform) return "";
@@ -127,6 +180,7 @@
         body.computerReadingRequest = db.computerReadingRequest || null;
         body.computerReadingResult = db.computerReadingResult || null;
         body.computerReadingSession = db.computerReadingSession || null;
+        body.readingPresence = db.readingPresence || {};
         options = { ...options, body: JSON.stringify(body) };
       } catch (error) {
         console.error("[Selah computer reading] Could not add handoff fields to cloud payload", error);

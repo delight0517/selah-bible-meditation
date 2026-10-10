@@ -968,7 +968,7 @@ void activateKoreanHomeExperiment();
 const homeAction=new URLSearchParams(location.search).get("homeAction");if(homeAction==="read"){$("startFocusReading").click();$("passageBookSelect").focus()}else if(homeAction==="meditate"&&!meditationView.classList.contains("active"))$("openMeditation").click();
 
 const incomingFriend=(new URLSearchParams(location.search).get("selahAddFriend")||"").trim().slice(0,100);if(incomingFriend){$("friendSearch").value=incomingFriend;queueMicrotask(openFriendPanel)}
-</script><script src="./assets/selah-focus-session.js"></script><script src="./windows/app-shell.js"></script><script src="./scripts/semantic-theme.js?v=2"></script><script src="./scripts/computer-reading-handoff.js?v=2"></script><script src="./scripts/unified-data-ui.js?v=24"></script><script src="./scripts/legacy-migration-ui.js?v=24"></script><script src="./assets/visitor-explanation.js"></script><script>
+</script><script src="./assets/selah-focus-session.js"></script><script src="./windows/app-shell.js"></script><script src="./scripts/semantic-theme.js?v=2"></script><script src="./scripts/computer-reading-handoff.js?v=foreground1"></script><script src="./scripts/unified-data-ui.js?v=24"></script><script src="./scripts/legacy-migration-ui.js?v=24"></script><script src="./assets/visitor-explanation.js"></script><script>
 window.SelahTogetherBridge={
  locale:preferredLocale,toast,recordRoom:recordTogetherRoom,
  current:()=>({custom:!!db.customPassageActive,passage:activeBibleData?{book:activeBibleBookId,chapter:currentPassageIndex()+1,translation:activeBibleData.id,language:bibleContentLanguage()}:null,timer:meditationView.classList.contains('active')&&!meditationDone?{endsAt:meditationEndsAt}:null}),

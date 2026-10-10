@@ -996,6 +996,13 @@
 - [ ] 웹에서 사용자가 재생 버튼을 눌렀을 때 실제 YouTube 소리와 올바른 장 시작을 확인하고, 본문 cue 이동·오른쪽 아래 미니 플레이어·스와이프 종료도 확인한다. 실제 절 cue가 있는 범위만 따라가기로 표시한다.
 - [ ] 언어별 한 역본의 실제 본문 일치와 재생목록 coverage는 카탈로그 메타데이터만으로 완료 처리하지 않는다. 실재생과 본문 위치 검증 전까지 목표는 미완료다.
 
+## All Selah foreground surfaces — 2026-10-10
+- User clarified Mac native app, iOS, Safari, Firefox are all included; any active reader suppresses breaks.
+- Per-surface readingPresence merge, native iOS lifecycle and browser focus/visibility sender implemented.
+- Native Mac activity signal source prepared; Mac receiver integrated into canonical Pomodoro source after its deployment lease ended. Public deployment, installed apps and runtime pending. Previous iOS-only patch superseded.
+- Native Mac foreground signal build passed (unsigned). Mac receiver: /Users/rogan/Documents/Codex/2026-10-08/new-chat/pomodoro-all-selah-foreground-patch/all-selah-foreground.patch.
+- Installed Selah Mac bundle currently fails Gatekeeper assessment; no rebuilt app was launched or used to bypass that block.
+
 ## 2026-10-10 — RiseSync Scripture -> Selah reader
 - RiseSync sends `selah://read?selahBook=PRO&selahPassage=6&selahVerse=9` (reference ranges open the first verse).
 - Added native warm `appUrlOpen` and cold `getLaunchUrl` handling through the existing chapter/verse sharing route; local app origin and account/notes remain preserved. Launch replay avoids a page-reload loop.
