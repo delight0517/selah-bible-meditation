@@ -1015,3 +1015,8 @@
 - Public install page currently offers iPhone Safari home-screen installation; no App Store release URL is publicly available. Existing web passage-sharing behavior remains unchanged. No publication or store release performed.
 - No new tests added or run. Physical tap-to-verse journey not verified; source/build/install are separate evidence.
 
+
+## 2026-10-10 iPhone reader layout / build 89
+- Fixed mobile toolbar grid, font selector shrinkage, zoom alignment and reader secondary text contrast.
+- Keeps RiseSync native passage entry and latest foreground transport changes.
+- Source bundling and signed iOS build passed; installation evidence recorded below. Physical visual journey and public web deployment remain pending.
