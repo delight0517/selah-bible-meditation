@@ -676,7 +676,7 @@
     },
     {
       "id": "SELAH-SEMANTIC-THEME-CONTRAST",
-      "revision": 10,
+      "revision": 11,
       "title": "공통 역할 기반 테마 색상과 최소 대비 보정",
       "acceptance": [
         "system/light/dark 설정에 맞게 root color-scheme과 브라우저 기본 컨트롤이 함께 바뀐다.",
@@ -708,15 +708,15 @@
         "web": {
           "owner": "Selah web task",
           "state": "implemented",
-          "appliedRevision": 10,
+          "appliedRevision": 11,
           "source": "codex/selah-reader-contrast-20261010",
           "build": "1.0.27/build99 shared source; native install pending",
-          "evidence": "PR #311 merged to main as b6ae77f. Pages run 37568119465 succeeded. Public HTML serves the focus-reader flexible Grid track and hides secondary audio controls. iPhone/iPad Simulator portrait and landscape passed; deployed page visually checked in iPad Simulator Safari. Reassessed revision 9: CSS cache URL now follows the latest stylesheet revision; PR #314 deployment/readback pending. Revision10: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified."
+          "evidence": "PR #311 merged to main as b6ae77f. Pages run 37568119465 succeeded. Public HTML serves the focus-reader flexible Grid track and hides secondary audio controls. iPhone/iPad Simulator portrait and landscape passed; deployed page visually checked in iPad Simulator Safari. Reassessed revision 9: CSS cache URL now follows the latest stylesheet revision; PR #314 deployment/readback pending. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified."
         },
         "windows": {
           "owner": "selah-windows-feature-runtime-20261003",
           "state": "pending",
-          "evidence": "Shared hosted reader revision 8 is deployed and its CSS was verified. Windows shell rendering has not been tested. Reassessed revision 9: Windows uses the shared hosted reader, so updated CSS applies after Pages deployment; deployment and Windows shell runtime are not yet verified. Revision10: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified.",
+          "evidence": "Shared hosted reader revision 8 is deployed and its CSS was verified. Windows shell rendering has not been tested. Reassessed revision 9: Windows uses the shared hosted reader, so updated CSS applies after Pages deployment; deployment and Windows shell runtime are not yet verified. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified.",
           "appliedRevision": 8,
           "source": "codex/selah-reader-contrast-20261010",
           "build": "1.0.27/build99 shared source; native install pending"
@@ -724,7 +724,7 @@
         "macos": {
           "owner": "selah-apple-feature-parity-20261003",
           "state": "pending",
-          "evidence": "The shared semantic theme is updated; separate macOS application runtime/source parity has not been verified. Reassessed for shared reader build 37 audio setup and Selah Bible audio favorites/default source UI build 38; prior platform runtime evidence/status retained. Reassessed revision 9: shared web stylesheet cache update does not verify the separate macOS application source or runtime; platform owner assessment remains pending. Revision10: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified.",
+          "evidence": "The shared semantic theme is updated; separate macOS application runtime/source parity has not been verified. Reassessed for shared reader build 37 audio setup and Selah Bible audio favorites/default source UI build 38; prior platform runtime evidence/status retained. Reassessed revision 9: shared web stylesheet cache update does not verify the separate macOS application source or runtime; platform owner assessment remains pending. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified.",
           "appliedRevision": 9,
           "source": "codex/selah-reader-contrast-20261010",
           "build": "1.0.27/build99 shared source; native install pending"
@@ -732,10 +732,10 @@
         "ios": {
           "owner": "Selah shared UI task",
           "state": "implemented",
-          "appliedRevision": 10,
+          "appliedRevision": 11,
           "source": "codex/selah-reader-contrast-20261010",
           "build": "1.0.27/build99 shared source; native install pending",
-          "evidence": "Capacitor web bundle synced, xcodebuild succeeded, installed and opened in iOS 26.4 Simulator. Fresh iPhone portrait/landscape and iPad portrait/landscape captures show no secondary-audio overlap; Scripture text occupies the flexible reader region. Physical iPhone, Pages deployment, and store release remain unverified. Reassessed revision 9: canonical web source copied to mobile/www with the versioned desktop stylesheet URL and refreshed manifest; native rebuild/install/runtime were not part of this web fix. Revision10: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified."
+          "evidence": "Capacitor web bundle synced, xcodebuild succeeded, installed and opened in iOS 26.4 Simulator. Fresh iPhone portrait/landscape and iPad portrait/landscape captures show no secondary-audio overlap; Scripture text occupies the flexible reader region. Physical iPhone, Pages deployment, and store release remain unverified. Reassessed revision 9: canonical web source copied to mobile/www with the versioned desktop stylesheet URL and refreshed manifest; native rebuild/install/runtime were not part of this web fix. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified."
         }
       }
     },
