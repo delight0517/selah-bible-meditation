@@ -12,6 +12,28 @@
   const status = document.getElementById("youtubeAudioSearchStatus");
   if (status) quick.after(status);
 
+  const playbackStatus = document.createElement("p");
+  playbackStatus.className = "note";
+  playbackStatus.setAttribute("role", "status");
+  player.append(playbackStatus);
+  let playbackToken = "";
+  window.addEventListener("message", event => {
+    const frame = document.getElementById("bibleAudioPlayerFrame");
+    if (!frame || event.source !== frame.contentWindow ||
+        event.origin !== "https://delight0517.github.io" ||
+        event.data?.channel !== "selah-youtube-player" ||
+        event.data.token !== frame.dataset.playerToken) return;
+    const data = event.data;
+    const korean = document.documentElement.lang.startsWith("ko");
+    if (data.type === "ready") playbackStatus.textContent = korean ? "재생 준비 완료" : "Ready to play";
+    if (data.type === "error") playbackStatus.textContent = korean ? "오디오를 재생할 수 없습니다. YouTube에서 열기로 확인해 주세요." : "Audio unavailable. Check this video using Open in YouTube.";
+    if (data.type === "state" && data.state === 2) playbackStatus.textContent = korean ? "일시 정지" : "Paused";
+    if (data.type === "progress" && Number.isFinite(Number(data.seconds))) {
+      const seconds = Math.floor(Number(data.seconds));
+      playbackStatus.textContent = (korean ? "재생 중 · " : "Playing · ") + Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+    }
+  });
+
   const style = document.createElement("style");
   style.textContent = `
     :root #bibleAudioPlayer:not([hidden]) {
@@ -38,6 +60,10 @@
   if (typeof render === "function") {
     window.renderBibleAudioSetup = function (...args) {
       const result = render.apply(this, args);
+      const token = document.getElementById("bibleAudioPlayerFrame")?.dataset.playerToken || "";
+      if (!token || player.hidden) playbackStatus.textContent = "";
+      else if (token !== playbackToken) playbackStatus.textContent = document.documentElement.lang.startsWith("ko") ? "오디오 준비 중…" : "Loading audio…";
+      playbackToken = token;
       if (!panel.hidden && quick.hidden) {
         const label = window.bibleAudioCopy().play;
         quick.hidden = false;

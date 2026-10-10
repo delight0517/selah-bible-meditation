@@ -778,7 +778,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 76,
+      "revision": 78,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -861,7 +861,9 @@
         "Selecting Play on a saved YouTube source, or submitting Save and open player, opens the lower-right compact embedded player and requests playback during that user gesture; no cue is fabricated for an unverified source.",
         "The saved-source Play action uses the same tested passage eligibility helper as the automatic source selector, so a source without sync cues may still be played manually without claiming scripture following.",
         "Playlist coverage checks each video’s YouTube status.embeddable flag; explicitly non-embeddable videos contribute neither chapter coverage nor verse cues, and a complete edition requires usable cues from embeddable videos for all 1,189 chapters.",
-        "Mac listen-and-read keeps the standard YouTube player visible outside collapsed listening settings and focused-reading hidden ancestors. An explicit listen action may resolve the selected chapter asynchronously before playback; missing chapter audio retains an on-demand search action and visible search status."
+        "Mac listen-and-read keeps the standard YouTube player visible outside collapsed listening settings and focused-reading hidden ancestors. An explicit listen action may resolve the selected chapter asynchronously before playback; missing chapter audio retains an on-demand search action and visible search status.",
+        "Mac YouTube embed uses a Safari-compatible WebKit user agent and reports playback readiness, errors, pause and progressing time from the existing source/origin/token-checked hosted player channel.",
+        "Mac playback time is cleared when a source closes or changes and a new hosted player shows loading until it reports readiness/progress."
       ],
       "paths": [
         "index.html",
@@ -924,9 +926,9 @@
         "macos": {
           "owner": "Selah Mac audio readalong",
           "state": "implementing",
-          "evidence": "Mac 1.0.19/build91 built, Developer ID signed with secure timestamp/hardened runtime, notarization Accepted 5ec213bd-d7d9-4cd0-8c95-da11299a7be6, stapled, codesign/spctl accepted, installed resource bytes match signed bundle. Existing Mac-unlock handoff remains pending; relaunch, audible/time progression and chapter/cue-follow remain unverified. Catalog coverage still pending; existing StarNet work is preserved.",
-          "appliedRevision": 76,
-          "build": "91",
+          "evidence": "Build92 installed and relaunched. English Matthew1 standard player unmuted/Pause controls, progress0:06->0:17->1:19, chapter1 verse1 highlight; user directly confirmed sound. Korean KSB Matthew1 progressed0:20->1:25 with chapter1 verse1 following while KRV text is explicitly labeled. Original English WEB/Matthew1 and closed library restored. Build93 resets old playback time on source change; final package/runtime record follows. Full global catalog coverage and within-chapter verse timings remain pending. Final Mac1.0.21/build93 notarization Accepted edb255d4-3b42-45d7-b68c-3f81673c670a, stapled/strict codesign/Gatekeeper accepted, installed resource readback matches. Final installed runtime: standard Play->Pause, unmuted controls, clock0:04->0:40, Matthew1 verse1 follow. Closed/stopped playback and restored original normal reader/WEB/Matthew1. Mac listen/read core works; full audio coverage and per-verse timings remain separate pending scope.",
+          "appliedRevision": 78,
+          "build": "93",
           "source": "codex/selah-mac-audio-readalong-20261010"
         },
         "ios": {
