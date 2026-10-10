@@ -107,7 +107,8 @@ console.log("PASS: Selah reading handoff target, age, timestamp, and legacy-link
   let sent;
   const context = vm.createContext({ Date, Promise, Object, Number, JSON, console,
     token: "fixture", accountId: "fixture-account", db: { readingState: { chapter: 4 } },
-    presenceClientId: client, nativeApp: null, currentPlatform: "macOS", presenceActive: true,
+    presenceClientId: client, nativeApp: null, currentPlatform: "macOS", presenceActive: false,
+    isReaderForeground: () => true,
     persist() {}, sync() { throw Error("Presence must not run full sync"); },
     originalRequest: async (_path, options) => {
       if (options?.method === "PUT") { sent = JSON.parse(options.body); return { rev: 18 }; }

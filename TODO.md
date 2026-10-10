@@ -1006,3 +1006,4 @@
 ### Foreground presence revision 2
 - Native installed source and Mac receiver now present. Heartbeat isolated from full sync to preserve currently displayed passage and notes.
 - Website follow-up deployment and iOS revision 2 install pending; phone installed revision 1, Mirroring requires Mac login.
+- Revision 3 samples actual focus each heartbeat to recover Safari PWA focus events that may be missed. Mac forced-wake overlay now also respects active reading.
