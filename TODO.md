@@ -1075,3 +1075,8 @@
 - Premium authentication not confirmed: account-book helper is absent, shared Aside foreground changed from task YouTube navigation to unrelated ASC authentication. Did not change another login session, submit credentials, infer account/membership, or close the active unidentified/auth tab. Continue account check when shared browser is available.
 - Existing public deployment/Safari approval remains pending. Source/bundle and signed package evidence are distinct from installed/runtime/Premium benefits. No new tests run.
 - iOS98-hold-picker-r3 archive succeeded; strict signature and exact index/reader-audio bundle readback passed. Package stays prepared, physical installation and hold/play runtime unverified.
+
+## 2026-10-10 · 읽기 영역의 어두운 글자 대비 수정 — 1.0.27/build99
+- 사용자 첨부: 로컬8494 미리보기의 초록색 읽기 영역에서 안내·링크·듣기 제목이 읽히지 않음.
+- 읽기 영역의 기본·다크·집중 모드에 따라 foreground를 실제 표면에 연결하고, 핵심 규칙을 HTML에 포함해 외부 stylesheet가 없는 미리보기에도 적용. 밝은 오디오 보조 카드의 글자색은 자체 표면을 기준으로 유지.
+- 공용 소스/모바일 생성 번들 수정. 실기기 설치·외부 배포는 아직 미완료. 추가 테스트 요청이 없어 테스트 실행하지 않음.

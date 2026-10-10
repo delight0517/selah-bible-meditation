@@ -676,7 +676,7 @@
     },
     {
       "id": "SELAH-SEMANTIC-THEME-CONTRAST",
-      "revision": 9,
+      "revision": 11,
       "title": "공통 역할 기반 테마 색상과 최소 대비 보정",
       "acceptance": [
         "system/light/dark 설정에 맞게 root color-scheme과 브라우저 기본 컨트롤이 함께 바뀐다.",
@@ -690,7 +690,9 @@
         "iPhone 폭에서는 본문 설정 컨트롤이 서로 겹치지 않고 같은 행에 정렬되며 화면에 보이는 라벨은 VoiceOver에서도 유지된다.",
         "iOS 상태 막대 아래의 안전 영역은 문서를 스크롤해도 배경 표면으로 가려져 본문 글자가 상태 막대와 겹치지 않는다.",
         "모바일 집중 읽기에서는 기본 오디오 재생·설정 링크를 숨기고 남은 뷰포트 높이를 성경 본문 스크롤 영역에 배정해 도구·오디오·본문이 겹치지 않는다.",
-        "데스크톱 읽기 CSS를 변경하면 공용 HTML 캐시 키도 최신 stylesheet revision으로 갱신되어 이전 폭·대비 규칙을 재사용하지 않는다."
+        "데스크톱 읽기 CSS를 변경하면 공용 HTML 캐시 키도 최신 stylesheet revision으로 갱신되어 이전 폭·대비 규칙을 재사용하지 않는다.",
+        "초록색 기본 읽기 영역의 글꼴 안내·성경 번역·듣기 설정·오디오 링크는 영역 배경에 맞는 대비 글자색을 사용하며, 외부 CSS가 누락된 로컬 미리보기에서도 핵심 글자색 규칙이 적용된다.",
+        "기본 초록색 읽기 영역의 안내문·성경 번역·듣기 제목·ChatGPT 및 PRS 링크는 읽기 표면 foreground를 사용한다. 다크·집중 모드와 밝은 보조 카드의 foreground는 각 표면에 맞게 유지한다."
       ],
       "paths": [
         "index.html",
@@ -706,31 +708,34 @@
         "web": {
           "owner": "Selah web task",
           "state": "implemented",
-          "appliedRevision": 9,
-          "source": "codex/selah-reader-aspect-ratio-20261007",
-          "build": "source commit 6927823; Pages deployment pending",
-          "evidence": "PR #311 merged to main as b6ae77f. Pages run 37568119465 succeeded. Public HTML serves the focus-reader flexible Grid track and hides secondary audio controls. iPhone/iPad Simulator portrait and landscape passed; deployed page visually checked in iPad Simulator Safari. Reassessed revision 9: CSS cache URL now follows the latest stylesheet revision; PR #314 deployment/readback pending."
+          "appliedRevision": 11,
+          "source": "codex/selah-reader-contrast-20261010",
+          "build": "1.0.27/build99 shared source; native install pending",
+          "evidence": "PR #311 merged to main as b6ae77f. Pages run 37568119465 succeeded. Public HTML serves the focus-reader flexible Grid track and hides secondary audio controls. iPhone/iPad Simulator portrait and landscape passed; deployed page visually checked in iPad Simulator Safari. Reassessed revision 9: CSS cache URL now follows the latest stylesheet revision; PR #314 deployment/readback pending. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified."
         },
         "windows": {
           "owner": "selah-windows-feature-runtime-20261003",
           "state": "pending",
-          "evidence": "Shared hosted reader revision 8 is deployed and its CSS was verified. Windows shell rendering has not been tested. Reassessed revision 9: Windows uses the shared hosted reader, so updated CSS applies after Pages deployment; deployment and Windows shell runtime are not yet verified.",
+          "evidence": "Shared hosted reader revision 8 is deployed and its CSS was verified. Windows shell rendering has not been tested. Reassessed revision 9: Windows uses the shared hosted reader, so updated CSS applies after Pages deployment; deployment and Windows shell runtime are not yet verified. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified.",
           "appliedRevision": 8,
-          "source": "deployed shared hosted reader",
-          "build": "Pages deployment run 37568119465; main b6ae77f"
+          "source": "codex/selah-reader-contrast-20261010",
+          "build": "1.0.27/build99 shared source; native install pending"
         },
         "macos": {
           "owner": "selah-apple-feature-parity-20261003",
           "state": "pending",
-          "evidence": "The shared semantic theme is updated; separate macOS application runtime/source parity has not been verified. Reassessed for shared reader build 37 audio setup and Selah Bible audio favorites/default source UI build 38; prior platform runtime evidence/status retained. Reassessed revision 9: shared web stylesheet cache update does not verify the separate macOS application source or runtime; platform owner assessment remains pending."
+          "evidence": "The shared semantic theme is updated; separate macOS application runtime/source parity has not been verified. Reassessed for shared reader build 37 audio setup and Selah Bible audio favorites/default source UI build 38; prior platform runtime evidence/status retained. Reassessed revision 9: shared web stylesheet cache update does not verify the separate macOS application source or runtime; platform owner assessment remains pending. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified.",
+          "appliedRevision": 9,
+          "source": "codex/selah-reader-contrast-20261010",
+          "build": "1.0.27/build99 shared source; native install pending"
         },
         "ios": {
           "owner": "Selah shared UI task",
           "state": "implemented",
-          "appliedRevision": 9,
-          "source": "codex/selah-reader-aspect-ratio-20261007 mobile/www",
-          "build": "Capacitor source bundle 1.0.18/build 86; native package not rebuilt",
-          "evidence": "Capacitor web bundle synced, xcodebuild succeeded, installed and opened in iOS 26.4 Simulator. Fresh iPhone portrait/landscape and iPad portrait/landscape captures show no secondary-audio overlap; Scripture text occupies the flexible reader region. Physical iPhone, Pages deployment, and store release remain unverified. Reassessed revision 9: canonical web source copied to mobile/www with the versioned desktop stylesheet URL and refreshed manifest; native rebuild/install/runtime were not part of this web fix."
+          "appliedRevision": 11,
+          "source": "codex/selah-reader-contrast-20261010",
+          "build": "1.0.27/build99 shared source; native install pending",
+          "evidence": "Capacitor web bundle synced, xcodebuild succeeded, installed and opened in iOS 26.4 Simulator. Fresh iPhone portrait/landscape and iPad portrait/landscape captures show no secondary-audio overlap; Scripture text occupies the flexible reader region. Physical iPhone, Pages deployment, and store release remain unverified. Reassessed revision 9: canonical web source copied to mobile/www with the versioned desktop stylesheet URL and refreshed manifest; native rebuild/install/runtime were not part of this web fix. Revision11: shared reader contrast source and generated mobile bundle updated. Browser/device runtime and new deployment remain unverified."
         }
       }
     },
