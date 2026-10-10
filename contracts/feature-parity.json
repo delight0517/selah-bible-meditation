@@ -1522,6 +1522,92 @@
           "evidence": "Hosted web and existing iOS/Windows controls unchanged."
         }
       }
+    },
+    {
+      "id": "SELAH-RISESYNC-SCRIPTURE-LINK",
+      "revision": 1,
+      "title": "RiseSync scripture opens selected Selah passage",
+      "acceptance": [
+        "Installed iPhone app handles selah://read with book/chapter/verse on cold and warm launch.",
+        "Route opens existing focused reader and preserves account and saved notes.",
+        "Invalid route parameters are ignored; authentication routes keep existing behavior."
+      ],
+      "paths": [
+        "index.html",
+        "mobile/www/index.html"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request targets RiseSync iPhone -> Selah iPhone URL scheme; existing web passage links unchanged.",
+          "evidence": "Scope is RiseSync iPhone custom URL scheme; no Windows/macOS scheme behavior or web entry changed."
+        },
+        "windows": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request targets RiseSync iPhone -> Selah iPhone URL scheme; existing web passage links unchanged.",
+          "evidence": "Scope is RiseSync iPhone custom URL scheme; no Windows/macOS scheme behavior or web entry changed."
+        },
+        "macos": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "This request targets RiseSync iPhone -> Selah iPhone URL scheme; existing web passage links unchanged.",
+          "evidence": "Scope is RiseSync iPhone custom URL scheme; no Windows/macOS scheme behavior or web entry changed."
+        },
+        "ios": {
+          "owner": "RiseSync integration",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/risesync-scripture-reader-20261010",
+          "build": "88",
+          "evidence": "Signed generic iOS build 88 passed, codesign verified, native packaged index exactly matched source, data-preserving iPhone install and launch succeeded. Physical button-to-passage journey not verified."
+        }
+      }
+    },
+    {
+      "id": "SELAH-MOBILE-READER-CONTROL-LAYOUT",
+      "revision": 1,
+      "title": "Readable mobile Scripture toolbar",
+      "acceptance": [
+        "Book and chapter fit in one row; font and icon controls occupy a full second row without shrinking font text.",
+        "Reader secondary text follows its actual background foreground; controls use matching light surfaces and dark text.",
+        "Reading position, account, notes and existing RiseSync passage links remain intact."
+      ],
+      "paths": [
+        "index.html",
+        "styles/reader-controls.css",
+        "mobile/www/",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah mobile reader fix",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-mobile-reader-fix-20261010",
+          "build": "89",
+          "evidence": "Bundled shared source checked. Signed iOS build and install tracked in TODO; visual physical journey pending."
+        },
+        "windows": {
+          "owner": "windows platform maintainer",
+          "state": "pending",
+          "evidence": "Shared source prepared; platform runtime not inspected."
+        },
+        "macos": {
+          "owner": "macos platform maintainer",
+          "state": "pending",
+          "evidence": "Shared source prepared; platform runtime not inspected."
+        },
+        "ios": {
+          "owner": "Selah mobile reader fix",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-mobile-reader-fix-20261010",
+          "build": "89",
+          "evidence": "Bundled shared source checked. Signed iOS build and install tracked in TODO; visual physical journey pending."
+        }
+      }
     }
   ]
 }

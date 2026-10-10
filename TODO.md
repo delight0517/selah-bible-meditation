@@ -1006,6 +1006,20 @@
 ### Foreground presence revision 2
 - Native installed source and Mac receiver now present. Heartbeat isolated from full sync to preserve currently displayed passage and notes.
 - Website follow-up deployment and iOS revision 2 install pending; phone installed revision 1, Mirroring requires Mac login.
+
+
+## 2026-10-10 — RiseSync Scripture -> Selah reader
+- RiseSync sends `selah://read?selahBook=PRO&selahPassage=6&selahVerse=9` (reference ranges open the first verse).
+- Added native warm `appUrlOpen` and cold `getLaunchUrl` handling through the existing chapter/verse sharing route; local app origin and account/notes remain preserved. Launch replay avoids a page-reload loop.
+- Shared source build 88, generated Capacitor assets, required source and feature contract validators passed; signed generic iOS build passed. Signed build 88 installed and launched on iPhone with data-preserving devicectl update; packaged index.html exactly matches task source.
+- Public install page currently offers iPhone Safari home-screen installation; no App Store release URL is publicly available. Existing web passage-sharing behavior remains unchanged. No publication or store release performed.
+- No new tests added or run. Physical tap-to-verse journey not verified; source/build/install are separate evidence.
+
+
+## 2026-10-10 iPhone reader layout / build 89
+- Fixed mobile toolbar grid, font selector shrinkage, zoom alignment and reader secondary text contrast.
+- Keeps RiseSync native passage entry and latest foreground transport changes.
+- Source bundling and signed iOS build passed; installation evidence recorded below. Physical visual journey and public web deployment remain pending.
 - Revision 3 samples actual focus each heartbeat to recover Safari PWA focus events that may be missed. Mac forced-wake overlay now also respects active reading.
 
 ## 2026-10-10 Mac chapter keyboard/trackpad input
@@ -1023,3 +1037,4 @@
 - Mac unlocked and build91 relaunched via CUA. Focus reading displays the floating player while settings stay collapsed, but embedded YouTube remained black. Same video displays normally in an Aside task tab (closed after comparison). Default Webview and Safari UA HTTP responses choose different player JS generations. Build92 adds WebKit/Safari compatibility UA and validated visible playback status/time. Actual playback verification continues.
 - Build92: notarization Accepted `e1c3a016-2013-4704-9b2e-e16ad91b8128`; signed/stapled/Gatekeeper checked and installed. CUA runtime: English Matthew1 unmuted/Pause controls, progress 0:06→0:17→1:19, chapter1/verse1 highlight. User directly confirmed audible sound. Korean KSB Matthew1 progressed 0:20→1:25 with chapter1/verse1 following while displayed KRV text remains labeled. Original English WEB/Matthew1 restored, playback stopped and translations disclosure closed. Build93 clears stale time when changing audio source; final signed install/runtime follows.
 - Final Mac1.0.21/build93: notarization Accepted `edb255d4-3b42-45d7-b68c-3f81673c670a`, stapled/strict codesign/Gatekeeper accepted; installed resource readback matches. Installed runtime: standard Play→Pause, unmuted controls, clock0:04→0:40, Matthew1 verse1 follow. User sound confirmation from build92 same player path; Korean playback progressed on build92. Source-change stale clock reset included. Playback stopped and original normal reader/WEB/Matthew1 restored. Mac listen/read core complete; full catalog coverage and within-chapter verse timing remain pending independently.
+- Build 89: codesign --verify --deep --strict passed; packaged HTML/CSS match source; devicectl data-preserving iPhone installation and process launch succeeded on 2026-10-10. Physical screen appearance remains unverified.
