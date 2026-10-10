@@ -60,13 +60,77 @@
     }
   });
 
+  const controls = window.SelahAudioControls;
+  if (controls) {
+    const button = document.createElement("button");
+    button.id = "readerAudioBottomPlay"; button.type = "button"; button.className = "btn";
+    const korean = () => document.documentElement.lang === "ko";
+    button.textContent = "▶";
+    button.setAttribute("aria-label", korean() ? "성경 듣기. 길게 누르면 언어와 낭독 선택" : "Listen. Hold for language and recording choices");
+    button.setAttribute("aria-haspopup", "dialog");
+    document.body.append(button);
+    controls.onState = state => { button.textContent=state===1?"Ⅱ":"▶";button.setAttribute("aria-pressed",String(state===1)); };
+    const dialog = document.createElement("dialog"); dialog.id = "readerAudioChoices";
+    const title = document.createElement("h2"); title.id = "readerAudioChoicesTitle";
+    dialog.setAttribute("aria-labelledby", title.id);
+    const languageLabel = document.createElement("label"), languageSelect = document.createElement("select");
+    languageSelect.id = "readerAudioChoicesLanguage"; languageLabel.htmlFor = languageSelect.id;
+    const recordingLabel = document.createElement("label"), recording = document.createElement("select");
+    recording.id = "readerAudioChoicesRecording"; recordingLabel.htmlFor = recording.id;
+    const note = document.createElement("p"); note.className = "note"; note.setAttribute("role", "status");
+    const play = document.createElement("button"); play.type = "button"; play.className = "btn";
+    const search = document.createElement("button"); search.type = "button"; search.className = "btn ghost";
+    const login = document.createElement("a"); login.href = "https://www.youtube.com/"; login.target = "_blank"; login.rel = "noopener";
+    const close = document.createElement("button"); close.type = "button"; close.className = "btn ghost";
+    dialog.append(title, languageLabel, languageSelect, recordingLabel, recording, note, play, search, login, close);
+    document.body.append(dialog);
+    const refresh = () => {
+      title.textContent = korean() ? "듣기 언어와 낭독 선택" : "Audio language and recording";
+      languageLabel.textContent = korean() ? "언어" : "Language";
+      recordingLabel.textContent = korean() ? "성경 버전 · YouTube 낭독" : "Bible edition · YouTube recording";
+      languageSelect.replaceChildren(...Object.entries(controls.languages()).map(([id, label]) => new Option(label,id)));
+      languageSelect.value = controls.language();
+      const choices = controls.choices(), previous = recording.value;
+      recording.replaceChildren(...choices.map(source => new Option([source.audioEdition || source.edition,source.title].filter(Boolean).join(" · "),source.id)));
+      recording.value = choices.some(source=>source.id===previous)?previous:choices.some(source=>source.id===controls.current())?controls.current():choices[0]?.id||"";
+      play.disabled = !choices.length;
+      note.textContent = choices.length ? (korean() ? "현재 본문에서 재생할 수 있는 낭독입니다." : "Recordings available for this passage.") : (korean() ? "이 본문의 낭독을 검색해 주세요." : "Search for a recording of this passage.");
+      play.textContent = korean() ? "선택한 낭독 재생" : "Play selected recording";
+      search.textContent = korean() ? "다른 YouTube 낭독 찾기" : "Find another YouTube recording";
+      login.textContent = korean() ? "YouTube 로그인 · Premium 계정 확인" : "YouTube sign-in · Check Premium account";
+      close.textContent = korean() ? "닫기" : "Close";
+    };
+    const open = () => { refresh(); if(!dialog.open)dialog.showModal(); languageSelect.focus(); };
+    close.onclick = () => dialog.close();
+    languageSelect.onchange = () => { controls.setLanguage(languageSelect.value); recording.value=""; refresh(); };
+    play.onclick = () => { controls.choose(recording.value); dialog.close(); };
+    search.onclick = () => { document.getElementById("youtubeAudioSearch")?.click(); };
+    new MutationObserver(() => { if(dialog.open)refresh(); }).observe(document.getElementById("bibleAudioSources"),{childList:true});
+    let hold=0,held=false,start=null;
+    const cancel=()=>{clearTimeout(hold);hold=0;};
+    button.addEventListener("pointerdown",event=>{if(!event.isPrimary||event.button!==0)return;held=false;start={x:event.clientX,y:event.clientY};cancel();hold=setTimeout(()=>{held=true;open();},500);});
+    button.addEventListener("pointermove",event=>{if(start&&Math.hypot(event.clientX-start.x,event.clientY-start.y)>12){held=true;cancel();}});
+    button.addEventListener("pointerup",()=>{cancel();start=null;});
+    button.addEventListener("pointercancel",()=>{held=true;cancel();start=null;});
+    button.addEventListener("pointerleave",cancel);
+    button.addEventListener("click",event=>{if(held){held=false;event.preventDefault();return;}button.textContent=controls.toggle()?"Ⅱ":"▶";});
+    button.addEventListener("contextmenu",event=>{event.preventDefault();cancel();held=true;open();});
+    button.addEventListener("keydown",event=>{if(event.key==="ArrowDown"||(event.key==="Enter"&&event.shiftKey)){event.preventDefault();open();}});
+    window.addEventListener("message",event=>{const frame=document.getElementById("bibleAudioPlayerFrame");if(event.source===frame?.contentWindow&&event.origin==="https://delight0517.github.io"&&event.data?.token===frame?.dataset.playerToken&&event.data?.channel==="selah-youtube-player"&&event.data.type==="state")button.textContent=event.data.state===1?"Ⅱ":"▶";});
+  }
+
   const style = document.createElement("style");
   style.textContent = `
+    :root #readerAudioBottomPlay { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 1002; width: 52px; height: 52px; border-radius: 50%; padding: 0; font-size: 22px; touch-action: manipulation; user-select: none; }
+    :root #readerAudioChoices { width: min(420px, calc(100vw - 32px)); max-height: 80dvh; overflow: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--card); color: var(--ink); padding: 20px; }
+    :root #readerAudioChoices::backdrop { background: #0008; }
+    :root #readerAudioChoices select, :root #readerAudioChoices button, :root #readerAudioChoices a { display: block; width: 100%; margin: 10px 0; min-height: 44px; }
+    :root #readerAudioChoices select { color: var(--ink); background: var(--card); }
     :root .reader-audio-language-control select { width: auto; max-width: 160px; min-height: 44px; }
     :root #bibleAudioPlayer:not([hidden]) {
-      position: fixed; z-index: 1001; right: max(12px, env(safe-area-inset-right)); bottom: calc(12px + env(safe-area-inset-bottom));
+      position: fixed; z-index: 1001; right: max(12px, env(safe-area-inset-right)); bottom: calc(84px + env(safe-area-inset-bottom));
       box-sizing: border-box; width: min(384px, calc(100vw - 24px));
-      max-height: calc(100vh - 24px); overflow: auto;
+      max-height: calc(100vh - 96px); overflow: auto;
       padding: 12px; border: 1px solid var(--line); border-radius: 14px;
       background: var(--card); color: var(--ink); box-shadow: 0 8px 32px #10151038;
     }
@@ -86,7 +150,7 @@
       :root #bibleAudioPlayer:not([hidden]) { width: min(240px, calc(100vw - 24px)); padding: 10px; }
     }
     @supports (height: 100dvh) {
-      :root #bibleAudioPlayer:not([hidden]) { max-height: calc(100dvh - 24px - env(safe-area-inset-bottom)); }
+      :root #bibleAudioPlayer:not([hidden]) { max-height: calc(100dvh - 96px - env(safe-area-inset-bottom)); }
     }
   `;
   document.head.append(style);

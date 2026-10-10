@@ -1066,3 +1066,12 @@
 - Korean/Japanese public player metadata playableInEmbed=true and all28 description chapter timestamps read/validated; JS syntax and generated source parity pass. New audio playback, physical installation, Safari and other-book coverage remain unverified; no tests added/run in this request.
 - Existing public deployment/Safari approval remains pending. Installed Mac94 remains restored and usable; restricted-domain build95 is not retried without an eligible profile.
 - iOS97-three-languages-r2 archive succeeded with existing ASC API signing; strict codesign and exact packaged index/reader-audio byte comparisons passed. Archive is prepared, not installed or played on a physical phone.
+
+## 2026-10-10 bottom audio button and hold picker
+
+- User explicitly chose small visible YouTube video + bottom-center play button after being told that Premium does not permit a hidden external API player. No video/audio separation or hidden/background player implemented.
+- Source98/audio revision82: short-tap play/pause;500ms hold opens native dialog with language then currently playable edition/YouTube recording. Shift+Enter/ArrowDown/right-click provide alternatives. Pointer movement/cancel suppresses accidental playback. Selected catalog editions are persisted.
+- Small video is positioned above bottom control, with minimum200x200 iframe viewport maintained. Official YouTube sign-in/Premium account link added to picker.
+- Premium authentication not confirmed: account-book helper is absent, shared Aside foreground changed from task YouTube navigation to unrelated ASC authentication. Did not change another login session, submit credentials, infer account/membership, or close the active unidentified/auth tab. Continue account check when shared browser is available.
+- Existing public deployment/Safari approval remains pending. Source/bundle and signed package evidence are distinct from installed/runtime/Premium benefits. No new tests run.
+- iOS98-hold-picker-r3 archive succeeded; strict signature and exact index/reader-audio bundle readback passed. Package stays prepared, physical installation and hold/play runtime unverified.
