@@ -995,3 +995,10 @@
 - [x] PR #340이 merge commit `0ef3f8fe8b671285e4d7537c477ce3d4337ba2b3`로 병합되고 Pages 배포 run `37651451091` 성공. 공개 HTML에서 언어별 고정 역본, 응답에 없는 고정 역본을 다른 번역으로 대체하지 않는 조건, 단일 역본 검색을 확인했다.
 - [ ] 웹에서 사용자가 재생 버튼을 눌렀을 때 실제 YouTube 소리와 올바른 장 시작을 확인하고, 본문 cue 이동·오른쪽 아래 미니 플레이어·스와이프 종료도 확인한다. 실제 절 cue가 있는 범위만 따라가기로 표시한다.
 - [ ] 언어별 한 역본의 실제 본문 일치와 재생목록 coverage는 카탈로그 메타데이터만으로 완료 처리하지 않는다. 실재생과 본문 위치 검증 전까지 목표는 미완료다.
+
+## 2026-10-10 — RiseSync Scripture -> Selah reader
+- RiseSync sends `selah://read?selahBook=PRO&selahPassage=6&selahVerse=9` (reference ranges open the first verse).
+- Added native warm `appUrlOpen` and cold `getLaunchUrl` handling through the existing chapter/verse sharing route; local app origin and account/notes remain preserved. Launch replay avoids a page-reload loop.
+- Shared source build 88, generated Capacitor assets, required source and feature contract validators passed; signed generic iOS build passed. Signed build 88 installed and launched on iPhone with data-preserving devicectl update; packaged index.html exactly matches task source.
+- Public install page currently offers iPhone Safari home-screen installation; no App Store release URL is publicly available. Existing web passage-sharing behavior remains unchanged. No publication or store release performed.
+- No new tests added or run. Physical tap-to-verse journey not verified; source/build/install are separate evidence.
