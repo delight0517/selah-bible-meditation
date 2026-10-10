@@ -1,8 +1,8 @@
 {
   "appId": "selah",
-  "version": "1.0.18",
-  "build": 89,
+  "version": "1.0.22",
+  "build": 94,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Readable mobile Scripture controls and RiseSync passage links"
+  "description": "Cross-device Bible audio while reading with persistent visible playback controls"
 }

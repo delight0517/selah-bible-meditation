@@ -157,7 +157,7 @@ struct SelahWebView: NSViewRepresentable {
         // The reader explicitly requests playback after resolving the chapter audio.
         configuration.mediaTypesRequiringUserActionForPlayback = []
         // Use the modern Safari-compatible embed path in this WebKit reader.
-        configuration.applicationNameForUserAgent = "Version/26.0 Safari/605.1.15 Selah/1.0.21"
+        configuration.applicationNameForUserAgent = "Version/26.0 Safari/605.1.15 Selah/1.0.22"
         let view = WKWebView(frame: .zero, configuration: configuration)
         let active = NSApp.isActive ? "true" : "false"
         view.configuration.userContentController.addUserScript(WKUserScript(
