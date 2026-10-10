@@ -69,6 +69,10 @@ final class SelahReader {
     var canGoForward = false
     private(set) var zoom: CGFloat = 1
 
+    func navigateChapter(_ direction: Int) {
+        webView?.evaluateJavaScript("window.selahMacReaderNavigation?.turn(\(direction))")
+    }
+
     func focus() {
         webView?.evaluateJavaScript("document.querySelector('#readerFocusToggle')?.click()")
     }
@@ -111,16 +115,16 @@ struct ReaderWindow: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 12) {
-                Button { reader.webView?.goBack() } label: {
+                Button { reader.navigateChapter(-1) } label: {
                     Image(systemName: "chevron.left")
                 }
-                .disabled(!reader.canGoBack)
-                .help("Back")
-                Button { reader.webView?.goForward() } label: {
+                .disabled(reader.webView == nil)
+                .help("Previous chapter (←)")
+                Button { reader.navigateChapter(1) } label: {
                     Image(systemName: "chevron.right")
                 }
-                .disabled(!reader.canGoForward)
-                .help("Forward")
+                .disabled(reader.webView == nil)
+                .help("Next chapter (→)")
                 Divider().frame(height: 20)
                 Text("SELAH").font(.system(size: 12, weight: .semibold, design: .rounded)).tracking(2)
                 Spacer()
@@ -156,7 +160,13 @@ struct SelahWebView: NSViewRepresentable {
             injectionTime: .atDocumentStart, forMainFrameOnly: true
         ))
         view.navigationDelegate = context.coordinator
-        view.allowsBackForwardNavigationGestures = true
+        if let scriptURL = Bundle.main.url(forResource: "reader-navigation", withExtension: "js", subdirectory: "Resources"),
+           let script = try? String(contentsOf: scriptURL, encoding: .utf8) {
+            view.configuration.userContentController.addUserScript(WKUserScript(
+                source: script, injectionTime: .atDocumentEnd, forMainFrameOnly: true
+            ))
+        }
+        view.allowsBackForwardNavigationGestures = false
         view.load(URLRequest(url: reader.initialURL()))
         reader.webView = view
         return view

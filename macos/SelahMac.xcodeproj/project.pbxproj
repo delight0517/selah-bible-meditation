@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		1E4C20B23E5B2F69E086D70F /* SelahApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B8536C3A85CED91C6DA36 /* SelahApp.swift */; };
+		DA2E34CD112BD2E082D639E4 /* Resources in Resources */ = {isa = PBXBuildFile; fileRef = 4F41CFBD0162F3F317604804 /* Resources */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		248B8536C3A85CED91C6DA36 /* SelahApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelahApp.swift; sourceTree = "<group>"; };
+		4F41CFBD0162F3F317604804 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = SOURCE_ROOT; };
 		DDA5AA756A72FB7060A820EA /* Selah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Selah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -19,6 +21,7 @@
 		64141401B08E0754AE68571E = {
 			isa = PBXGroup;
 			children = (
+				4F41CFBD0162F3F317604804 /* Resources */,
 				D0D1CC9947738E6860EE8FD7 /* Sources */,
 				919FF4D7363D33E76D5670D1 /* Products */,
 			);
@@ -48,6 +51,7 @@
 			buildConfigurationList = 0C6F3DB3155DC6FB67ACEC34 /* Build configuration list for PBXNativeTarget "Selah" */;
 			buildPhases = (
 				053346424B1B0F8CF95CF047 /* Sources */,
+				260E9DB25E9ABFD2E474E430 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -89,6 +93,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		260E9DB25E9ABFD2E474E430 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA2E34CD112BD2E082D639E4 /* Resources in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		053346424B1B0F8CF95CF047 /* Sources */ = {
@@ -187,7 +202,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_KEY_CFBundleDisplayName = Selah;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -250,7 +265,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_KEY_CFBundleDisplayName = Selah;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;

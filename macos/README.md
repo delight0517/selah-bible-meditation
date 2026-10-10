@@ -13,3 +13,6 @@ The app loads the published Selah site so sign-in and BlueCloud continue to use 
 
 ## Foreground presence
 Native NSApplication active/resigned events and a 20-second heartbeat signal the shared reader. Web input/toolbar focus never replaces native app activity. The hosted reader publishes the per-surface cloud presence; matching website and Pomodoro receiver deployment is required.
+
+## Chapter navigation
+Toolbar arrows and unmodified left/right arrow keys use the existing chapter navigation, including book boundaries. Horizontal two-finger trackpad gestures over Scripture turn one chapter per gesture; vertical scrolling, pinch zoom, editable controls, selected text and dialogs retain their normal behavior. WebKit browser-history swipes are disabled in this native reader. The script is packaged and injected locally; no public website deployment is required.

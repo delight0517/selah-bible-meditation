@@ -1477,6 +1477,47 @@
           "evidence": "Current activity is sampled on every isolated presence heartbeat. Mac overlay entry guard updated separately; final deployment and app package verification follow."
         }
       }
+    },
+    {
+      "id": "SELAH-MAC-CHAPTER-INPUT",
+      "revision": 1,
+      "title": "Mac chapter arrows and trackpad navigation",
+      "acceptance": [
+        "Toolbar and arrow keys navigate existing previous/next chapter and book boundaries.",
+        "Horizontal trackpad gesture over Scripture turns once per gesture; inertia and vertical scroll do not skip extra chapters.",
+        "Editing, text selection, IME composition, modifiers and dialogs retain normal input behavior."
+      ],
+      "paths": [
+        "macos/"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "User requested Mac native keyboard/trackpad input; implementation is injected only by the Mac shell.",
+          "evidence": "Hosted web and existing iOS/Windows controls unchanged."
+        },
+        "windows": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "User requested Mac native keyboard/trackpad input; implementation is injected only by the Mac shell.",
+          "evidence": "Hosted web and existing iOS/Windows controls unchanged."
+        },
+        "macos": {
+          "owner": "Selah Mac chapter input",
+          "state": "implemented",
+          "appliedRevision": 1,
+          "source": "codex/selah-mac-chapter-input-20261010",
+          "build": "90",
+          "evidence": "Native WKWebView injects local reader-navigation.js; signed package/install evidence recorded in TODO."
+        },
+        "ios": {
+          "owner": "Platform contract",
+          "state": "not_applicable",
+          "reason": "User requested Mac native keyboard/trackpad input; implementation is injected only by the Mac shell.",
+          "evidence": "Hosted web and existing iOS/Windows controls unchanged."
+        }
+      }
     }
   ]
 }
