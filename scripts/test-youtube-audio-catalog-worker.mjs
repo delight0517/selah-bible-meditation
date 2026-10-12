@@ -5,6 +5,15 @@ import { audioLanguageList, editionList } from '../together-worker/src/youtube-s
 import { MAX_SCHEDULED_CATALOG_SUBREQUESTS_PER_RUN, MAX_SCHEDULED_COVERAGE_CANDIDATES, MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, SCHEDULED_CATALOG_CRONS, SCHEDULED_CATALOG_LOCALES_PER_RUN, YOUTUBE_QUOTA_LIMITS } from '../together-worker/src/youtube-quota.js';
 import { discoverAudioCatalogLocale } from '../together-worker/src/youtube-audio-catalog.js';
 
+// Fail closed: every provider interaction in this suite must be explicitly mocked.
+globalThis.fetch = async () => { throw new Error('Live network forbidden in catalog regression tests'); };
+const bookIds = 'GEN EXO LEV NUM DEU JOS JDG RUT 1SA 2SA 1KI 2KI 1CH 2CH EZR NEH EST JOB PSA PRO ECC SNG ISA JER LAM EZK DAN HOS JOL AMO OBA JON MIC NAM HAB ZEP HAG ZEC MAL MAT MRK LUK JHN ACT ROM 1CO 2CO GAL EPH PHP COL 1TH 2TH 1TI 2TI TIT PHM HEB JAS 1PE 2PE 1JN 2JN 3JN JUD REV'.split(' ');
+const chapterCounts = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
+let cueSecond = 0;
+const allChapterCues = bookIds.flatMap((bookId, index) => Array.from({ length: chapterCounts[index] }, (_, chapter) => ({ bookId, chapter: chapter + 1, verse: 1, seconds: ++cueSecond, videoId: 'abcdefghijk', playlistIndex: 0 })));
+assert.equal(allChapterCues.length, 1189);
+const coverageFixture = count => ({ status: count === 1189 ? 'COMPLETE_CHAPTER_COVERAGE' : 'PARTIAL_COVERAGE', itemCount: 1, coveredChapters: count, totalChapters: 1189, chapterSync: count > 0, explicitVerseCueCount: 0, videoIds: ['abcdefghijk'], verseCues: allChapterCues.slice(0, count) });
+
 const editions = editionList('en');
 const playlist = index => `PL${String(index).padStart(20, '0')}`;
 let searchCount = 0, coverageCount = 0, coverageReservations = 0;
@@ -34,7 +43,7 @@ const discovered = await discoverAudioCatalogLocale({
     assert.equal(body.editionId, editions[0].id);
     return body.playlistId === playlist(1)
       ? Response.json({ error: 'edition_mismatch' }, { status: 422 })
-      : Response.json({ status: 'COMPLETE_CHAPTER_COVERAGE', itemCount: 1189, coveredChapters: 1189, totalChapters: 1189, chapterSync: true, explicitVerseCueCount: 1, videoIds: ['abcdefghijk'], verseCues: [{ bookId: 'MAT', chapter: 1, verse: 1, seconds: 5, videoId: 'abcdefghijk', playlistIndex: 0 }] });
+      : Response.json(coverageFixture(1189));
   }
 });
 assert.equal(searchCount, 1);
@@ -81,7 +90,7 @@ for (const locale of ['en', 'ko']) {
         const { editionId, playlistId } = await request.json(), count = (scanCounts.get(editionId) || 0) + 1;
         scanCounts.set(editionId, count);
         finalCandidate.set(editionId, playlistId);
-        return Response.json({ status: 'PARTIAL_COVERAGE', itemCount: 1, coveredChapters: count, totalChapters: 1189, chapterSync: false, videoIds: [], verseCues: [] });
+        return Response.json(coverageFixture(count));
       }
     });
     assert.equal([...scanCounts.values()].reduce((sum, count) => sum + count, 0), MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN, `${locale} uses the full per-run scan budget`);
@@ -99,13 +108,13 @@ for (const locale of ['en', 'ko']) {
 }
 
 {
-  const seen = [], edition = editionList('en')[0], prior = { id: edition.id, name: edition.name, playlistId: playlist(900), title: 'Previously best playlist', channelTitle: 'Previous', url: `https://www.youtube.com/playlist?list=${playlist(900)}`, status: 'PARTIAL_COVERAGE', itemCount: 30, coveredChapters: 25, totalChapters: 1189, chapterSync: true, explicitVerseCueCount: 1, videoIds: [], verseCues: [] };
+  const seen = [], edition = editionList('en')[0], prior = { id: edition.id, name: edition.name, playlistId: playlist(900), title: 'Previously best playlist', channelTitle: 'Previous', url: `https://www.youtube.com/playlist?list=${playlist(900)}`, ...coverageFixture(25) };
   const offsets = Object.fromEntries(editionList('en').map(item => [item.id, 0]));
   offsets[edition.id] = 3;
   const catalog = await discoverAudioCatalogLocale({
     locale: 'en', env: {}, waitMs: 0, sleepImpl: async () => {}, candidateOffsets: offsets, previousEditions: [prior],
     searchImpl: async () => Response.json({ locale: 'en', editions: editionList('en').map(item => ({ ...item, items: Array.from({ length: 8 }, (_, index) => ({ mediaType: 'playlist', playlistId: playlist(1000 + index), title: `${item.name} candidate ${index + 1}` })) })) }),
-    coverageImpl: async request => { const body = await request.json(); if (body.editionId === edition.id) seen.push(body.playlistId); return Response.json({ status: 'PARTIAL_COVERAGE', itemCount: 12, coveredChapters: 12, totalChapters: 1189, chapterSync: false, explicitVerseCueCount: 0, videoIds: [], verseCues: [] }); }
+    coverageImpl: async request => { const body = await request.json(); if (body.editionId === edition.id) seen.push(body.playlistId); return Response.json(coverageFixture(12)); }
   });
   assert.deepEqual(seen, [playlist(1003), playlist(1004), playlist(1005)], 'per-edition offsets scan the next unvisited candidates within the larger run budget');
   assert.equal(catalog.candidateOffsets[edition.id], 6);
@@ -113,6 +122,82 @@ for (const locale of ['en', 'ko']) {
   assert.equal(catalog.editions[0].coveredChapters, prior.coveredChapters);
 }
 
+
+async function discoverFixture(result, previousEditions = [], chapterVideo = null) {
+  return discoverAudioCatalogLocale({
+    locale: 'en', env: {}, waitMs: 0, sleepImpl: async () => {}, previousEditions,
+    searchImpl: async () => Response.json({ locale: 'en', editions: editions.map((edition, index) => ({ ...edition, items: index ? [] : [
+      { mediaType: 'playlist', playlistId: playlist(900), title: 'Current result' },
+      ...(chapterVideo ? [chapterVideo] : [])
+    ] })) }),
+    coverageImpl: async () => Response.json(result)
+  });
+}
+{
+  const prior = { ...editions[0], playlistId: playlist(900), ...coverageFixture(1189) };
+  const newer = (await discoverFixture(coverageFixture(2), [prior])).editions[0];
+  assert.equal(newer.coveredChapters, 2, 'new validated evidence replaces stale higher counts for the same playlist');
+  assert.equal(newer.status, 'PARTIAL_COVERAGE');
+  const staleInvalid = { ...prior, verseCues: [{ ...allChapterCues[0], seconds: -1 }] };
+  const repaired = (await discoverFixture(coverageFixture(2), [staleInvalid])).editions[0];
+  assert.equal(repaired.coveredChapters, 2, 'legacy completion labels cannot outrank validated cues');
+  const differentStale = (await discoverFixture(coverageFixture(2), [{ ...staleInvalid, playlistId: playlist(901) }])).editions[0];
+  assert.equal(differentStale.playlistId, playlist(900), 'revalidation removes stale completion priority even for another playlist');
+  assert.equal(differentStale.coveredChapters, 2);
+  const indexed = (await discoverFixture({ ...coverageFixture(1), videoIds: ['bad', 'abcdefghijk'], verseCues: [{ ...allChapterCues[0], playlistIndex: 1 }] })).editions[0];
+  assert.deepEqual(indexed.videoIds, ['', 'abcdefghijk'], 'invalid video IDs must not shift valid playlist indexes');
+  assert.equal(indexed.verseCues[0].playlistIndex, 1);
+
+  for (const count of [0, 1, 1188, 1189]) {
+    const current = (await discoverFixture({ ...coverageFixture(count), status: 'COMPLETE_CHAPTER_COVERAGE', coveredChapters: 1189, totalChapters: count })).editions[0];
+    assert.equal(current.totalChapters, 1189, 'the denominator never becomes a partial catalog size');
+    assert.equal(current.coveredChapters, count);
+    assert.equal(current.status, count === 1189 ? 'COMPLETE_CHAPTER_COVERAGE' : 'PARTIAL_COVERAGE');
+  }
+  console.log('PASS stale coverage replacement and strict 1189-chapter completion threshold');
+}
+{
+  const base = { bookId: 'MAT', chapter: 1, verse: 1, seconds: 10, videoId: 'abcdefghijk', playlistIndex: 0 };
+  const valid = [{ ...base, seconds: 0 }, base, { ...base, seconds: 20 }, { ...base, chapter: 2, seconds: 30 }, { ...base, verse: 2, seconds: 40 }];
+  const invalid = [null, base, { ...base, seconds: -1 }, { ...base, seconds: '12' },
+    { ...base, seconds: NaN }, { ...base, seconds: Infinity }, { ...base, chapter: 29 }, { ...base, chapter: 1.5 },
+    { ...base, bookId: 'BAD' }, { ...base, verse: 0 }, { ...base, verse: 1.5 },
+    { ...base, playlistIndex: -1 }, { ...base, playlistIndex: 1 }, { ...base, playlistIndex: 0.5 },
+    { ...base, videoId: 'bad' }, { ...base, videoId: 'chaptervid1' }];
+  const chapterVideo = { mediaType: 'video', videoId: 'abcdefghijk', fullChapterMatch: true, cueKind: 'verse', verseCues: [...valid, ...invalid] };
+  const current = (await discoverFixture({ ...coverageFixture(1189), verseCues: [...valid, ...invalid] }, [], chapterVideo)).editions[0];
+  assert.deepEqual(current.verseCues, valid, 'reject malformed and duplicate cues without collapsing distinct valid starts, including zero');
+  assert.equal(current.coveredChapters, 2, 'multiple starts for one chapter count only once');
+  assert.equal(current.status, 'PARTIAL_COVERAGE');
+  assert.deepEqual(current.chapterVideo.verseCues.map(cue => cue.seconds), [0, 10, 20, 40]);
+  console.log('PASS cue validation, deduplication, multiple starts and chapter-video filtering');
+}
+
+{
+  const start = { bookId: 'GEN', chapter: 1, verse: 1, seconds: 0, videoId: 'abcdefghijk', playlistIndex: 0 };
+  const conflict = { ...start, chapter: 50 };
+  for (const cues of [[start, conflict], [conflict, start]]) {
+    const current = (await discoverFixture({ ...coverageFixture(1189), verseCues: cues })).editions[0];
+    assert.deepEqual(current.verseCues, [], 'GEN1 and GEN50 at the same video/zero both fail, regardless of order');
+    assert.equal(current.coveredChapters, 0);
+    assert.equal(current.chapterSync, false);
+  }
+  const unambiguous = (await discoverFixture({ ...coverageFixture(1), verseCues: [start] })).editions[0];
+  assert.deepEqual(unambiguous.verseCues, [start], 'an unambiguous zero-second chapter start is valid');
+  assert.equal(unambiguous.coveredChapters, 1);
+  const later = { ...start, chapter: 2, seconds: 20 };
+  const verseOnly = { ...start, chapter: 3, verse: 2, seconds: 30 };
+  const current = (await discoverFixture({ ...coverageFixture(1189), verseCues: [
+    { ...start, seconds: 10 }, { ...conflict, seconds: 10 }, later, verseOnly
+  ] })).editions[0];
+  assert.deepEqual(current.verseCues, [later, verseOnly], 'positive-time conflicts also reject every claimant; distinct times remain');
+  assert.equal(current.coveredChapters, 1, 'verse-only cues do not establish a chapter start');
+  const mat = { ...start, bookId: 'MAT' };
+  const chapterVideo = { mediaType: 'video', videoId: start.videoId, fullChapterMatch: true, cueKind: 'chapter', verseCues: [mat, { ...mat, chapter: 2 }] };
+  const fallback = (await discoverFixture(coverageFixture(0), [], chapterVideo)).editions[0];
+  assert.deepEqual(fallback.chapterVideo.verseCues, [], 'validate conflicts before narrowing a chapter-video fallback to MAT1');
+  console.log('PASS all-claimant timestamp conflicts and unambiguous zero-second chapter starts');
+}
 
 const storage = new Map();
 const room = new TogetherRoom({ storage: {

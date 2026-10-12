@@ -183,7 +183,11 @@ try {
   assert.equal(youtubeAudioVideoId('https://www.youtube.com/watch?v=abcdefghijk&list=PL1234567890'),'abcdefghijk','playlist playback follows the current video ID, not the playlist ID');
   assert.equal(youtubeAudioVideoId('https://youtu.be/abcdefghijk?t=5'),'abcdefghijk');
   assert.equal(youtubeAudioVideoId('https://www.youtube.com/playlist?list=PL1234567890'),'');
-  assert.equal((readerHtml.match(/youtubeAudioVideoId\(player\.getVideoUrl\(\)\)/g)||[]).length,2,'automatic verse following and manual cue marking use the current playlist video');
+  for (const name of ['syncBibleAudioVerse', 'markCurrentBibleAudioVerse']) {
+    const implementation = readerHtml.split('\n').find(line => line.startsWith(`function ${name}(){`));
+    assert.ok(implementation, `${name} remains available`);
+    assert.match(implementation, /youtubeAudioVideoId\(player\.getVideoUrl\(\)\)/, `${name} uses the current playlist video`);
+  }
   let koreanApiCalls=0,videoNumber=0;
   globalThis.fetch=async()=>{
     koreanApiCalls++;

@@ -5,6 +5,51 @@ import { MAX_SCHEDULED_COVERAGE_CANDIDATES_PER_RUN } from './youtube-quota.js';
 const REQUEST_GAP_MS = 8000;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+const TOTAL_CHAPTERS = 1189;
+const chapterCounts = [50,40,27,36,34,24,21,4,31,24,22,25,29,36,10,13,10,42,150,31,12,8,66,52,5,48,12,14,3,9,1,4,7,3,3,3,2,14,4,28,16,24,21,28,16,16,13,6,6,4,4,5,3,6,4,3,1,13,5,5,3,5,1,1,1,22];
+const chaptersByBook = new Map(Object.keys(audioBookNames.locales.en.books).map((book, index) => [book, chapterCounts[index]]));
+
+function validCues(cues, videoIds = null) {
+  const candidates = (Array.isArray(cues) ? cues : []).filter(cue => {
+    if (!cue || !/^[\w-]{11}$/.test(cue.videoId || '') ||
+        !Number.isInteger(cue.chapter) || cue.chapter < 1 || cue.chapter > (chaptersByBook.get(cue.bookId) || 0) ||
+        !Number.isInteger(cue.verse) || cue.verse < 1 ||
+        !Number.isFinite(cue.seconds) || cue.seconds < 0) return false;
+    if (videoIds && (!Number.isInteger(cue.playlistIndex) || cue.playlistIndex < 0 || videoIds[cue.playlistIndex] !== cue.videoId)) return false;
+    return true;
+  });
+  // Reject the entire ambiguous group, never just its later members.
+  const chaptersAtTime = new Map();
+  for (const cue of candidates) {
+    const key = `${cue.videoId}:${cue.seconds}`;
+    if (!chaptersAtTime.has(key)) chaptersAtTime.set(key, new Set());
+    chaptersAtTime.get(key).add(`${cue.bookId}:${cue.chapter}`);
+  }
+  const seen = new Set();
+  return candidates.filter(cue => {
+    const key = `${cue.videoId}:${cue.seconds}`;
+    if (chaptersAtTime.get(key).size > 1) return false;
+    const identity = `${key}:${cue.bookId}:${cue.chapter}:${cue.verse}`;
+    if (seen.has(identity)) return false;
+    seen.add(identity);
+    return true;
+  });
+}
+
+function validatedCoverage(coverage) {
+  if (!coverage) return null;
+  const videoIds = Array.isArray(coverage.videoIds) ? coverage.videoIds.slice(0, 1200) : [];
+  const verseCues = validCues(coverage.verseCues, videoIds).slice(0, 5000);
+  const coveredChapters = new Set(verseCues.filter(cue => cue.verse === 1).map(cue => `${cue.bookId}:${cue.chapter}`)).size;
+  return {
+    ...coverage, videoIds, verseCues, coveredChapters, totalChapters: TOTAL_CHAPTERS,
+    chapterSync: coveredChapters > 0,
+    explicitVerseCueCount: Math.max(0, Math.min(Number(coverage.explicitVerseCueCount) || 0, verseCues.length)),
+    status: coveredChapters === TOTAL_CHAPTERS ? 'COMPLETE_CHAPTER_COVERAGE' :
+      coverage.status === 'NO_PLAYLIST_CANDIDATE' || coverage.status === 'EDITION_MISMATCH' ? coverage.status : 'PARTIAL_COVERAGE'
+  };
+}
+
 function compactEdition(edition, candidate, coverage, chapterVideo) {
   return {
     id: edition.id,
@@ -16,16 +61,16 @@ function compactEdition(edition, candidate, coverage, chapterVideo) {
       channelTitle: chapterVideo.channelTitle,
       url: `https://www.youtube.com/watch?v=${chapterVideo.videoId}`,
       cueKind: chapterVideo.cueKind,
-      verseCues: (chapterVideo.verseCues || []).filter(cue => cue.videoId === chapterVideo.videoId && cue.bookId === 'MAT' && cue.chapter === 1).slice(0, 300)
+      verseCues: validCues(chapterVideo.verseCues).filter(cue => cue.videoId === chapterVideo.videoId && cue.bookId === 'MAT' && cue.chapter === 1).slice(0, 300)
     } } : {}),
     status: coverage?.status || 'NO_PLAYLIST_CANDIDATE',
     ...(coverage ? {
       itemCount: Number(coverage.itemCount) || 0,
       coveredChapters: Number(coverage.coveredChapters) || 0,
-      totalChapters: Number(coverage.totalChapters) || 1189,
+      totalChapters: TOTAL_CHAPTERS,
       chapterSync: !!coverage.chapterSync,
       explicitVerseCueCount: Number(coverage.explicitVerseCueCount) || 0,
-      videoIds: (coverage.videoIds || []).filter(id => /^[\w-]{11}$/.test(id)).slice(0, 1200),
+      videoIds: (coverage.videoIds || []).map(id => /^[\w-]{11}$/.test(id) ? id : '').slice(0, 1200),
       verseCues: (coverage.verseCues || [])
         .filter(cue => /^[\w-]{11}$/.test(cue.videoId || '') && Number.isInteger(cue.playlistIndex))
         .map(({ bookId, chapter, verse, seconds, videoId, playlistIndex }) => ({ bookId, chapter, verse, seconds, videoId, playlistIndex }))
@@ -93,7 +138,7 @@ export async function discoverAudioCatalogLocale({
       : [];
     const previous = previousById.get(edition.id);
     let selected = previous?.playlistId ? { playlistId: previous.playlistId, title: previous.title, channelTitle: previous.channelTitle, url: previous.url } : null;
-    let bestCoverage = previous && previous.status !== 'NO_PLAYLIST_CANDIDATE' ? previous : null;
+    let bestCoverage = previous && previous.status !== 'NO_PLAYLIST_CANDIDATE' ? validatedCoverage(previous) : null;
     let scannedCount = 0;
 
     for (const candidate of scanCandidates) {
@@ -114,11 +159,13 @@ export async function discoverAudioCatalogLocale({
       }
       if (response.status === 403 || response.status === 429) throw new Error(result?.error || 'youtube_quota_unavailable');
       if (!response.ok || !result) throw new Error(result?.error || `playlist_coverage_failed:${response.status}`);
-      if (!bestCoverage || coverageScore(result) > coverageScore(bestCoverage)) {
+      const currentCoverage = validatedCoverage(result);
+      // Revalidation supersedes old evidence for this playlist, even when counts fall.
+      if (!bestCoverage || selected?.playlistId === candidate.playlistId || coverageScore(currentCoverage) > coverageScore(bestCoverage)) {
         selected = candidate;
-        bestCoverage = result;
+        bestCoverage = currentCoverage;
       }
-      if (result.status === 'COMPLETE_CHAPTER_COVERAGE') break;
+      if (currentCoverage.status === 'COMPLETE_CHAPTER_COVERAGE') break;
     }
 
     nextCandidateOffsets[edition.id] = candidates.length ? (candidateOffset + scannedCount) % candidates.length : 0;
