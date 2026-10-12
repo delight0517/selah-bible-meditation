@@ -1,3 +1,13 @@
+## 2026-10-13 · ws_muyzt65mb5f9 BUILD QA catalog correction (revision 84)
+- [x] Fresh isolated `codex/selah-catalog-cue-validation-20261013` starts at `origin/main 37f4e60`; PR #352/#353 reader behavior and current revision83 requirements retained. Preserved dirty four-file checkout `2026-10-07/selah-reader-audio-selection` remains untouched.
+- [x] Exact four-file edit lease `d463db8f-d039-4979-ab3b-78dd61d4b790`, owner `build-qa-engineer-66ce2474`. Revalidate stored evidence; newer same-playlist coverage replaces stale higher counts. Different weaker playlists do not displace valid stronger coverage.
+- [x] Keep unambiguous zero-second starts and distinct times. Reject all same-video/time cues claiming different chapters, not a first winner; derive coverage from unique valid verse-1 chapter starts with matching playlist indexes. Complete means exactly 1,189 chapters.
+- [x] Additional exact-file lease `b94b923e-bb00-4c06-9d81-163845dfe45b` covers `scripts/test-youtube-search-worker.mjs`: current main has a third video-ID read for verse-tap seeking; replaced the stale global count-of-two assertion with per-function checks for following and marking. Same search-worker check rerun passed; reader implementation unchanged.
+- [x] Offline catalog mock regression passed: GEN1 + GEN50 at zero rejected in both orders, unique zero retained, positive-time conflicts rejected, malformed/duplicate cues filtered, 0/1/1188/1189 thresholds and existing Cron/quota tests preserved.
+- [x] `npm --prefix mobile run copy:web`, `node scripts/check-platform-source.mjs`, `node scripts/check-feature-parity.mjs`, `git diff --check` passed; 70 shared runtime files at1.0.27/build99, no generated diff. Native targets remain pending on revision84; Windows launcher package version unchanged.
+- [ ] Web/Worker deployment, native packaging, installation, audible playback and cue-follow are separate pending gates. No merge/deploy, browser, direct YouTube API/search/scan, spend or authentication recreation authorized for this run.
+- [ ] Existing offline snapshot `/Users/rogan/.codex/workflow/runtime/selah-catalog-check-20261013/summary.json`: all ten locales have zero complete editions; ko KSB has113 cues and35 ambiguous starts. Snapshot metadata is not a fresh runtime verification or completion claim.
+
 ## 2026-10-07 · Selah 웹 실시간 YouTube 성경 오디오 연결
 - [x] YouTube 정책 검토 후 공개 주간 집계형 카탈로그 대신, 현재 장에서 언어별 5개 이상 오디오 역본을 한 번에 검색해 역본별로 자동 분류하는 웹 우선 구조를 구현했다. 한국어 선택지는 여섯 개로 확대 중이다. API 키는 브라우저로 보내지 않고 Worker secret에서만 읽으며, Pacific 자정 기준 하루 70회 검색 한도로 다른 API 호출용 30회 여유를 둔다.
 - [x] 읽기 화면에서 본문 언어의 설정된 오디오 역본을 한 번에 검색·분류한다. 첫 검색에서 역본별 결과가 5개 미만이면 부족한 역본만 묶어 한 번 더 검색하며, 두 요청 모두 최대 50개 결과를 확인하고 역본별 상위 5개를 임시 표시한다.
