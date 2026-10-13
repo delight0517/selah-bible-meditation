@@ -790,7 +790,7 @@
     },
     {
       "id": "SELAH-PER-TRANSLATION-BIBLE-AUDIO-SETUP",
-      "revision": 83,
+      "revision": 84,
       "title": "자동 분류형 다국어 YouTube 성경 오디오 검색과 본문 따라가기",
       "acceptance": [
         "Build a YouTube search from the selected audio language, audio editions, canonical book, and chapter; save results under the selected text Bible edition while retaining the audio edition label.",
@@ -830,7 +830,9 @@
         "The web reader fetches the current locale catalog from the Worker endpoint first and uses the checked-in static catalog as a network-failure fallback. It rejects malformed or older-than-30-days snapshots.",
         "A refreshed catalog is metadata evidence, not proof that the audio content was listened to or semantically matched. One complete audio edition per supported language, plus observed web playback and Scripture following, remain the completion threshold.",
         "On-demand search results remain short-lived in browser memory and are not used as catalog evidence. Results use the standard YouTube player with native user-started controls.",
-        "Verse following uses only explicit timestamped verse references from a public video description. A clearly matching chapter title may provide only a chapter-start cue; otherwise no sync cue is claimed.",
+        "Verse following must not be limited to timestamps manually published in a video description: for a video with an available, authorized caption/transcript source, align timestamped caption segments to the selected Bible edition's verse text, then persist verse cues with provenance, confidence, and review state.",
+        "AI-aligned caption cues are suggestions until they pass deterministic range/monotonicity checks and human or independently reproducible review; unreviewed, ambiguous, or low-confidence segments never drive automatic verse following.",
+        "When captions/transcripts are unavailable, inaccessible, or not authorized for processing, mark the source as not verse-follow capable and do not present it as a useful Selah Scripture-follow source; do not bypass YouTube authorization or invent timestamps.",
         "Playlist verification retains explicit verse timestamps from matched chapters, not only the requested search passage, up to the existing 5,000-cue storage cap. Chapters without explicit verse markers keep their chapter-start cue; missing timestamps are never invented.",
         "A user may explicitly save a generated search result under the selected Bible text edition while retaining the audio edition label. This exposes the existing localized verse-timestamp control when a public video description lacks cues; no missing timestamp is invented.",
         "The selected Bible text edition remains independent from the audio edition. Current passage follows only the selected video’s verified cue points; any missing timing remains unsynchronized.",
@@ -934,22 +936,22 @@
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Local Aside runtime at127.0.0.1:8494: focused reader, standard YouTube video visible/audio-playing tab signal and Matthew1 verse1 follow. Temporary tab closed/server stopped. Public deployment and actual Safari verification await explicit release authorization and scoped browser exception. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
-          "appliedRevision": 83
+          "evidence": "Local Aside runtime at127.0.0.1:8494: focused reader, standard YouTube video visible/audio-playing tab signal and Matthew1 verse1 follow. Temporary tab closed/server stopped. Public deployment and actual Safari verification await explicit release authorization and scoped browser exception. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification. Revision 84 reassessment: this change updates the shared reader layout and does not change audio search or playback behavior; prior platform evidence remains the same.",
+          "appliedRevision": 84
         },
         "windows": {
           "owner": "Selah hosted reader",
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Existing launcher uses canonical hosted source; updated common web script prepared. User Windows access report expired/unknown, so no Windows probes/installation/runtime. Public deployment still pending. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
-          "appliedRevision": 83
+          "evidence": "Existing launcher uses canonical hosted source; updated common web script prepared. User Windows access report expired/unknown, so no Windows probes/installation/runtime. Public deployment still pending. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification. Revision 84 reassessment: this change updates the shared reader layout and does not change audio search or playback behavior; prior platform evidence remains the same.",
+          "appliedRevision": 84
         },
         "macos": {
           "owner": "Selah Mac audio readalong",
           "state": "implemented",
-          "evidence": "Mac1.0.22/94 Developer ID signed, notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, staple/strict codesign/Gatekeeper passed, installed resource bytes equal common script; prior93 rollback retained. Fresh installed runtime verification continues; publication independent. Fresh installed CUA focused-reading runtime: one player/status, unmuted/Pause controls, progress0:59->1:10, Matthew1 verse1 follow; playback stopped and original reader restored. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
-          "appliedRevision": 83,
+          "evidence": "Mac1.0.22/94 Developer ID signed, notarization Accepted64bc2442-26a8-4102-968b-69b6795e8e91, staple/strict codesign/Gatekeeper passed, installed resource bytes equal common script; prior93 rollback retained. Fresh installed runtime verification continues; publication independent. Fresh installed CUA focused-reading runtime: one player/status, unmuted/Pause controls, progress0:59->1:10, Matthew1 verse1 follow; playback stopped and original reader restored. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification. Revision 84 reassessment: this change updates the shared reader layout and does not change audio search or playback behavior; prior platform evidence remains the same.",
+          "appliedRevision": 84,
           "build": "1.0.22 / 94",
           "source": "codex/selah-all-devices-audio-20261010"
         },
@@ -958,8 +960,8 @@
           "state": "implemented",
           "source": "codex/selah-all-devices-audio-20261010",
           "build": "1.0.22 / 94",
-          "evidence": "Signed generic iOS build1.0.22/94 passed; strict codesign and packaged common-script byte match passed. Data/account/layout/deep-link source preserved. Physical iPhone14Pro disconnected; install and physical playback unverified. ios-evidence CLI is absent; exact build/device observations recorded in TODO. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification.",
-          "appliedRevision": 83
+          "evidence": "Signed generic iOS build1.0.22/94 passed; strict codesign and packaged common-script byte match passed. Data/account/layout/deep-link source preserved. Physical iPhone14Pro disconnected; install and physical playback unverified. ios-evidence CLI is absent; exact build/device observations recorded in TODO. Revision80: verse-tap seek/loadVideo and hosted-player commands added, syntax/bundle checks only. All verse timing coverage and tap audio runtime are unverified. Installed Mac rolled back to trusted94 after95 launch was denied for missing eligible Associated Domains provisioning profile; no further95 launch attempted. Revision81/source97: Korean and Japanese full-Matthew curated sources added using28 uploader chapter timestamps and embeddable metadata; English NLT retained. Focus-visible audio language selector and previous-language stop/resume implemented. Metadata/source/bundle checks only; no new playback or physical-device proof. Publication still pending. Revision82/source98: bottom-center short-tap play/pause and500ms hold accessible dialog with language and current-passage edition/recording choices. Small YouTube viewport remains visible above button. Official YouTube login link only; Premium session/benefits not verified because shared Aside foreground changed to another ASC operation. No hidden/background player added. Runtime/source98 installation remains pending. Revision83: source98 behavior unchanged; generated reader-audio source explicitly registered after push CI found uncovered path. User now explicitly authorized public deployment and scoped Safari verification. Revision 84 reassessment: this change updates the shared reader layout and does not change audio search or playback behavior; prior platform evidence remains the same.",
+          "appliedRevision": 84
         }
       }
     },
@@ -1630,6 +1632,74 @@
           "evidence": "Bundled shared source checked. Signed iOS build and install tracked in TODO; visual physical journey pending."
         }
       }
+    },
+    {
+      "id": "SELAH-FOCUSED-READER-NOTES-PANE",
+      "revision": 10,
+      "title": "계정 동기화, 집중 읽기·장/절 추적, 좌우 묵상 노트",
+      "acceptance": [
+        "데스크톱 집중 읽기에서 노트를 열면 화면이 좌우 같은 너비로 나뉘고 왼쪽에 성경 본문, 오른쪽에 편집 가능한 묵상 노트가 표시된다.",
+        "노트는 기존 자동 저장 및 텍스트 선택·복사·붙여넣기 입력 동작을 유지한다.",
+        "밝은 테마와 어두운 테마에서 본문, 노트, 필드의 글자와 배경 대비가 읽을 수 있다.",
+        "작은 화면에서는 노트 서랍으로 사용할 수 있고 기존 저장 데이터 구조와 플랫폼 동작을 유지한다.",
+        "로그인 사용자가 말씀 읽기에 진입할 때 계정의 가장 최근 책·장·절·스크롤 위치를 복원하고, 화면을 숨기기 전에 현재 위치를 저장한다.",
+        "앱 언어 선택은 로그인 계정에 동기화되며, 명시 언어 선택은 기기와 무관하게 유지되고 기기 언어 선택은 기기마다 자동 적용된다.",
+        "집중 읽기 화면에서 좌우 방향키로 이전·다음 장을 이동할 수 있고 입력 필드와 정해진 시간 묵상 키 동작은 유지된다.",
+        "읽는 동안 현재 절 위치가 사용자가 기대하는 방식(화면 현재 위치 표시 또는 동기화된 오디오 절 하이라이트)으로 추적되고, 미지원 오디오에서는 제한을 알 수 있다.",
+        "일반 성경 읽기 화면에도 노트 열기 버튼이 있고, 집중 읽기·시간 묵상과 같은 자동 저장 노트 입력란을 공유한다.",
+        "Google Drive 백업은 사용자가 별도로 연결하고 권한을 허용했을 때만 동작하며 기존 계정 동기화와 분리된다.",
+        "글쓰기 중 Ctrl/⌘ + 및 −는 포커스된 성경 본문 또는 묵상 노트의 글자 크기만 조절하며, 다른 입력과 브라우저 확대 단축키는 가로채지 않는다. 오른쪽 노트는 날짜와 종이 같은 편집 영역만 보이는 집중 글쓰기 화면이며 긴 기록은 PageUp/PageDown으로 넘길 수 있다.",
+        "노트가 닫힌 집중 읽기는 노트북 가로 폭을 활용하고 말씀 열 너비를 사용자가 조절할 수 있으며, 노트 분할 화면은 말씀과 노트 비율을 별도로 조절해 기기에 기억한다.",
+        "일지를 작성할 때 오늘 날짜를 상단에 표시하고, 과거 일지를 수정하면 그 일지의 날짜를 표시한다. Google Drive 연동 설정 전에도 로컬 자동 저장은 유지된다."
+      ],
+      "paths": [
+        "index.html",
+        "contracts/feature-parity.json",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "SHARED_APP_BUILD.json",
+        "mobile/www/SHARED_APP_BUILD.json",
+        "TODO.md",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "scripts/test-reader-startup.cjs",
+        "scripts/unified-data.js",
+        "scripts/test-unified-data.mjs"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah web maintainer",
+          "state": "implemented",
+          "appliedRevision": 10,
+          "source": "codex/selah-reader-notes-pane-20261013",
+          "build": "1.0.27 / build 103",
+          "evidence": "Local build includes dated journal heading and adjustable focus reader width; OAuth/Drive runtime is not configured."
+        },
+        "windows": {
+          "owner": "Windows platform contract",
+          "state": "pending",
+          "appliedRevision": null,
+          "source": "",
+          "build": "",
+          "evidence": "Shared source revision 6 adds the regular-reader notes entry point; platform bundle regeneration and runtime parity remain pending."
+        },
+        "macos": {
+          "owner": "Selah Mac task",
+          "state": "implemented",
+          "appliedRevision": 10,
+          "source": "codex/selah-reader-notes-pane-20261013",
+          "build": "Selah macOS 1.0.26 / build 98 hosted web source",
+          "evidence": "Native app loads the hosted shared reader, so the web source deploy delivers this revision to macOS; hosted runtime verification remains pending."
+        },
+        "ios": {
+          "owner": "Selah iOS platform contract",
+          "state": "implemented",
+          "appliedRevision": 10,
+          "source": "codex/selah-reader-notes-pane-20261013",
+          "build": "1.0.27 / build 103 generated shared bundle",
+          "evidence": "Shared source copied and parity-checked; physical iPhone UI verification remains open."
+        }
+      },
+      "workItem": "selah-notes-pane-20261013"
     }
   ]
 }

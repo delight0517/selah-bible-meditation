@@ -3,7 +3,7 @@
   'use strict';
   const VERSION = 1;
   const collections = ['reflections', 'cards', 'qtLibrary', 'bibleAudioLinks', 'bibleAudioDefaults', 'bibleChats', 'meditationFeedback', 'meditationPlaces', 'drafts', 'readerMarks', 'legacyReaderArchives', 'togetherStamps', 'togetherReads'];
-  const registers = ['selectedQt', 'gptContext', 'language', 'customPassage', 'customPassageActive', 'readerPrefs.desktop', 'readerPrefs.mobile', 'readerPrefs.highlightColor', 'appearance'];
+  const registers = ['selectedQt', 'gptContext', 'language', 'languageChoice', 'customPassage', 'customPassageActive', 'readerPrefs.desktop', 'readerPrefs.mobile', 'readerPrefs.highlightColor', 'appearance'];
   const privateFields = new Set(['owner', 'draft', '_rev', 'token', 'authToken', 'authorization', '__proto__', 'constructor', 'prototype']);
   const liveFields = ['computerReadingRequest', 'computerReadingResult', 'computerReadingSession', 'readingState', 'meditationSession', 'readingPresence'];
   const clone = value => value === undefined ? undefined : JSON.parse(JSON.stringify(value));

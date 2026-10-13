@@ -61,3 +61,12 @@ Old task checkouts may remain for recovery. Their presence does not make them
 current. Always use a fresh task checkout from the latest `origin/main`; do not
 try to synchronize all historical worktrees automatically, because some have
 uncommitted user changes.
+
+
+## Safe macOS builds
+
+- Use one reusable ignored derived-data directory at `work/selah-macos-derived`; do not create a new DerivedData path per edit or build.
+- Routine UI verification uses a Debug build. Do not create `.xcarchive` artifacts for ordinary source checks or UI work.
+- Before launching a built app, run `~/.codex/bin/workflow-control verify-mac <exact-app-path>` and `codesign --verify --deep --strict <exact-app-path>`. Stop if the gate fails; never launch an unsigned, rejected or quarantined build as a workaround.
+- Do not use `CODE_SIGNING_ALLOWED=NO` to run a local macOS app. Local builds need no notarization; use the existing valid local signing setup. Distribution archives are separate and require explicit release scope.
+- Reuse the existing build cache. Remove generated artifacts only after associated build/test processes have stopped and no verification is using them. Keep one newest authorized distribution archive at most.
