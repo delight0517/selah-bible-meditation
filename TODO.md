@@ -1,3 +1,39 @@
+## Selah reader notes pane · 2026-10-13
+- [x] 집중 읽기 노트를 날짜와 글쓰기 영역만 있는 종이 화면으로 정리했다. 성경 단독 폭과 성경·노트 비율을 사용자 설정으로 저장하고, 성경/노트별 Ctrl/⌘ +·− 및 PageUp/PageDown 이동을 연결했다.
+- [ ] 업데이트된 종이형 노트와 단축키를 최신 브라우저 화면에서 직접 확인한다. 현재 Aside 탭은 이전 캐시 페이지를 표시해 새 화면 확인이 남아 있다.
+
+- [x] Reuse one `work/selah-macos-derived` cache, separate UI Debug builds from distribution archives, and require `verify-mac` plus strict code-sign verification before launch; no `CODE_SIGNING_ALLOWED=NO` runtime path.
+
+- [ ] Selah 빌드가 반복해서 DerivedData·xcarchive를 누적하지 않는지 확인하고, 단일 재사용 캐시와 서명 게이트를 적용한다.
+
+- [x] Account-synced latest reading position is restored before opening focus reading; current verse and scroll position are saved when the app/page becomes hidden.
+- [x] Explicit app language choice follows the signed-in account across devices; choosing “device language” continues to resolve on each device.
+- [x] Focus reading supports left/right arrow keys for previous/next chapter; input fields and timed meditation retain their own key handling.
+- [ ] Verify on two signed-in devices that the latest position is restored after cloud sync.
+
+- [x] Shared focus reader: opening the notes control in the regular reader or focused reader shows Scripture on the left and autosaving reflection notes on the right at equal desktop widths; mobile drawer behavior and native text copy/paste are retained.
+- [x] Add notes buttons to regular Scripture reader, focus-reading toolbar, and timed meditation, all routed to the same autosaving notes drawer; desktop regular-reader mode splits Scripture and notes side by side.
+- [x] Recheck the regular-reader notes drawer in live desktop Aside: the reader exposes the button, notes open beside Scripture at equal widths, and dark mode recolors the pane and input. Clipboard paste/clear was verified in the live local page. Mobile viewport runtime remains unavailable in the current Aside automation surface; mobile safe-area sizing is source-asserted, not device-proven.
+- [ ] Add optional Google Drive note backup after configuring a Google OAuth web client, consent screen, and Drive API. Request incremental `drive.file` authorization only when the user connects Drive; create/update Selah-owned note files in the user’s Drive, keep access tokens out of app storage, and let the user disconnect/revoke. Existing BlueCloud login remains the account-sync path.
+- [ ] Verify the focus-reading toolbar notes button in the current app, plus regular reader notes UI in live desktop Aside (equal-width reader/notes, dark mode, paste). Public deployment remains pending the normal review/release authorization.
+- [x] Rebuilt native macOS Debug app in the single reused `work/selah-macos-derived` cache; local_dev launch gate and strict deep code-sign checks pass. Associated Domains entitlement is omitted from this local build because this checkout lacks its provisioning profile. Native runtime loads the hosted page, so it cannot expose un-deployed source changes; the native notes-pane journey remains pending a safe local WebKit route or deployment.
+- [ ] Reassess Windows and iOS parity for feature contract `SELAH-FOCUSED-READER-NOTES-PANE` revision 10.
+- [ ] Define a supported Sakye Girok (사계기록) integration contract before connecting note storage. No endpoint, URL scheme, or import format is defined in this repository.
+
+- [ ] 성경 본문을 읽을 때 현재 절 추적이 필요한 동작(스크롤 위치 표시 또는 오디오 타임코드 하이라이트)을 확정하고, 지원 조건과 함께 브라우저 및 대상 앱에서 검증한다.
+- [x] 코드 경로 조사: 일반 본문은 장 전체 표시, 오디오 자동 절 강조는 검증된 절 타임코드가 있는 소스에서만 작동함을 확인했다. 브라우저 UI 자동화 런타임이 없어 UI 검증은 미완료.
+- [ ] 사계기록(사계기록 일기 앱)의 공식 가져오기 형식, URL scheme, API 또는 공유 확장 규약을 확인한 뒤 통합 방식을 결정한다. 규약 확인 전 쓰기 연동은 보류한다.
+- [ ] 기존 서명 설정으로 최신 macOS 소스를 빌드·실행해 노트와 읽기 위치 동작을 확인한다. Windows 및 iOS 런타임 패리티도 각 플랫폼 담당 상태로 확인한다.
+- [ ] 두 기기에서 로그인한 계정의 최신 장·절·스크롤 위치와 명시 언어/기기 언어 선택이 실제로 동기화되는지 읽기 검증한다.
+- [ ] 집중 읽기 분할 노트의 브라우저/WebKit UI를 확인하고, 변경 사항을 리뷰 경로로 배포한다.
+## 2026-10-13 · CC 기반 YouTube 오디오 절 따라가기 필수화
+
+- [x] 사용자 정정: CC로 타임코드를 생성해 절 따라가기를 지원해야 한다. 절 동기화를 지원하지 않는 YouTube 오디오는 Selah 성경 듣기 출처로 의미가 없으므로 추천/선택에서 제외하는 요구를 기록했다.
+- [x] 저장소 조사: Worker에는 영상 설명/재생목록 메타데이터 시점 파서와 수동 큐 추가 기능이 있고, 자막 구간 수집·성경 절 텍스트 정렬·검수 상태는 아직 없다.
+- [x] 공식 YouTube Data API 문서 확인: captions.list 응답은 자막 본문을 포함하지 않고 list/download는 OAuth를 요구한다. 현재 공개 Worker API key에는 해당 자막 권한이 구성되어 있지 않다. 비공식 자막 endpoint 수집은 추가하지 않는다.
+- [ ] 제작자 제공 CC 파일/사용 허가된 전사 입력 → 타임드 CC/성경 역본 정렬 → AI 후보 → 검증·검수 → verified verse cues의 파이프라인을 구현하고 회귀 테스트한다.
+- [ ] verse-follow 미지원 영상을 기본 오디오 추천에서 제외하고, 실제 절 경계 playback/highlight를 검증한다. 현재 YouTube API 쿼터 상한은 늘리지 않는다.
+
 ## 2026-10-07 · Selah 웹 실시간 YouTube 성경 오디오 연결
 - [x] YouTube 정책 검토 후 공개 주간 집계형 카탈로그 대신, 현재 장에서 언어별 5개 이상 오디오 역본을 한 번에 검색해 역본별로 자동 분류하는 웹 우선 구조를 구현했다. 한국어 선택지는 여섯 개로 확대 중이다. API 키는 브라우저로 보내지 않고 Worker secret에서만 읽으며, Pacific 자정 기준 하루 70회 검색 한도로 다른 API 호출용 30회 여유를 둔다.
 - [x] 읽기 화면에서 본문 언어의 설정된 오디오 역본을 한 번에 검색·분류한다. 첫 검색에서 역본별 결과가 5개 미만이면 부족한 역본만 묶어 한 번 더 검색하며, 두 요청 모두 최대 50개 결과를 확인하고 역본별 상위 5개를 임시 표시한다.
@@ -836,7 +872,12 @@
 - [x] Record source parity revision 18 and prepare shared iOS/web source as build 65.
 - [ ] Verify in a browser that this action saves only the selected-translation copy, exposes cue controls, and that confirmed cues drive verse following during playback.
 - [ ] Build/install build 65 and verify the same flow on iPhone. Build 64 playback remains unverified; existing iPhone Mirroring action is still required.
-- [ ] Selah YouTube 성경 듣기: 확인된 NLT 마태복음 28개 챕터 시점으로 장·1절 동기화(build 66) 구현. 배포 readback과 실기기에서 실제 음성 재생·본문 따라가기 검증은 별도 완료 필요; 절별 세부 동기화는 사용자가 저장한 시점만 사용.
+- [ ] **필수 차단 조건: 절별 자동 따라가기를 지원하지 않는 YouTube 오디오는 Selah의 성경 듣기 출처로 취급하지 않는다.** 장 시작만 확인된 영상은 절 따라가기 요구를 충족하지 않는다.
+- [ ] CC 타임코드 파이프라인: 허용된/소유된 자막·전사 입력을 확보해 timestamp caption segments를 선택한 성경 역본의 절 텍스트에 정렬하고, videoId·역본·책/장/절·초·caption span·provenance·confidence·review state와 함께 큐로 저장한다. 공개 설명란의 명시적 시점은 보조 원천으로 유지한다.
+- [ ] AI는 CC 문장→절 경계 후보를 만들고, 절 순서·장 범위·시간 단조 증가·커버리지·신뢰도 검사를 통과하고 독립 표본 검수를 마친 큐만 자동 따라가기에 사용한다. 누락/불확실 절을 균등 배분이나 분당 글자 수로 때워 타임코드를 날조하지 않는다.
+- [ ] 자막이 없거나 접근/처리 권한이 없는 영상은 절 따라가기 미지원으로 표시하고 추천/기본 성경 오디오에서 제외한다. 비공식 YouTube 자막 endpoint나 스크래핑을 사용하지 않는다.
+- [ ] 공식 YouTube captions.list는 자막 본문을 주지 않으며 list/download는 OAuth를 요구한다. 현재 Worker는 공개 API key만 사용하므로 제작자 제공 파일 또는 사용 허가된 transcript 입력 경로를 먼저 마련한다.
+- [ ] 절 경계별 브라우저 재생 테스트와 CC-절 정렬 누락/오정렬 검증을 완료한다. 2026-10-06 기록의 NLT/한국어 28개 chapter starts는 장 시작 증거이며 절 따라가기 완료 증거가 아니다.
 
 
 ## 2026-10-06 · YouTube 다국어 성경 낭독 자동 카탈로그

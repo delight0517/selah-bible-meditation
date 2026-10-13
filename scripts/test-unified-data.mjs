@@ -61,6 +61,17 @@ test('unknown account extension fields survive while local-only fields are exclu
   const combined = data.merge({...base(),nativeExtension:{macField:1}},{...remote,nativeExtension:{winField:2}});
   assert.deepEqual(combined.nativeExtension,{macField:1,winField:2});
 });
+test('explicit app language choice follows the account across devices while auto remains device-specific',()=>{
+  const start={...base(),languageChoice:'ko'};
+  const english=edit(start,'iOS',100,s=>{s.languageChoice='en';s.language='en';});
+  const otherDevice=edit(start,'Windows',110,s=>{s.readerPrefs.mobile.size=28;});
+  const merged=data.merge(english,otherDevice);
+  assert.equal(merged.languageChoice,'en');assert.equal(merged.language,'en');
+  same(merged,data.merge(otherDevice,english));
+  assert.ok(data.registers.includes('languageChoice'));
+  const auto=edit(merged,'Mac',120,s=>{s.languageChoice='auto';s.language='';});
+  assert.equal(data.merge(auto,english).languageChoice,'auto');
+});
 test('Bible language stays separate from UI language and legacy equal-time choices converge',()=>{
   const a={...base(),language:'ko',bibleContentLanguage:{code:'ko',updatedAt:100}}, b={...base(),language:'en',bibleContentLanguage:{code:'en',updatedAt:100}};
   assert.equal(data.merge(a,b).bibleContentLanguage.code,'en');same(data.merge(a,b),data.merge(b,a));
