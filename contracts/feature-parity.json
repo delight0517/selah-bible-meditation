@@ -40,16 +40,16 @@
           "state": "implemented",
           "appliedRevision": 5,
           "source": "codex/selah-meditation-entry-20261020",
-          "build": "Source patch; GitHub Pages deployment pending.",
-          "evidence": "Static source includes an early reader-entry recovery handler; the bundled default edition no longer waits for IndexedDB, all storage operations are bounded, and fetched chapters render without waiting for cache writes. Focused blocked-storage regression tests pass. Live Pages still serves the pre-fix source; no deployment is claimed."
+          "build": "GitHub Pages deployment 39363260745 succeeded; public index and fallback asset return HTTP 200.",
+          "evidence": "PR #356 merged as 681cd5fe4dffbbadcb70883f6cd0ac99374a9194. GitHub Pages deployment run 39363260745 succeeded. Public index includes reader-start-fallback.js and the asset returns HTTP 200. Blocked-storage VM regressions pass; direct Safari click-through remains unverified in this session."
         },
         "windows": {
           "owner": "Platform contract",
           "state": "implemented",
           "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent windows app implementation is unchanged.",
-          "evidence": "The Windows shell uses the canonical hosted reader, so it receives this web reader recovery when Pages deploys. Source parity and startup regressions pass; hosted deployment remains pending.",
+          "evidence": "Windows shell uses the canonical hosted reader. PR #356 merged as 681cd5fe4dffbbadcb70883f6cd0ac99374a9194 and Pages deployment run 39363260745 succeeded; public index and fallback asset return HTTP 200. Runtime click-through remains unverified.",
           "appliedRevision": 5,
-          "build": "Source patch; GitHub Pages deployment pending.",
+          "build": "Hosted source deployed by GitHub Pages run 39363260745.",
           "source": "canonical hosted index.html used by web and Windows shell"
         },
         "macos": {
