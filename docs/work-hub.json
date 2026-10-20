@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-20T03:59:11.146Z",
+  "updatedAt": "2026-10-20T04:00:21.628Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -550,9 +550,10 @@
         "scripts/test-reader-startup.cjs"
       ],
       "evidence": [
-        "Root cause confirmed against public Pages in Aside: startup throws at Object.assign(uiText.es) because es, pt-BR, fil are absent in the initial locale map. Added those locale tables and a regression that executes the real initial locale declaration and asserts every direct extension target exists. node scripts/test-reader-startup.cjs passes. Cross-platform source check detects stale mobile/www/index.html; its path is still owned by selah-live-together-20261003 and a Mac handoff is pending."
+        "Root cause confirmed against public Pages in Aside: startup throws at Object.assign(uiText.es) because es, pt-BR, fil are absent in the initial locale map. Added those locale tables and a regression that executes the real initial locale declaration and asserts every direct extension target exists. node scripts/test-reader-startup.cjs passes. Cross-platform source check detects stale mobile/www/index.html; its path is still owned by selah-live-together-20261003 and a Mac handoff is pending.",
+        "Fix committed and pushed on codex/selah-reader-startup-fix-20261020 at 11776a65896015aeaf70dccc7f4a1fa4e3e3cabc. Focused reader startup suite passes. Public Pages remains unchanged. Release blocked until exact file handoff for mobile/www, contract, and TODO; source parity check fails for stale generated mobile/www/index.html."
       ],
-      "nextAction": "After handoff, sync mobile/www from current web source, update feature evidence/TODO, run full parity gates, then open/merge fix PR and verify live Pages reader.",
+      "nextAction": "Wait for Mac ownership handoff from selah-live-together-20261003, then sync generated bundle, reassess contract revision and TODO, run all release checks, open/merge PR, and verify live reading.",
       "feedback": [],
       "handoffs": []
     }
