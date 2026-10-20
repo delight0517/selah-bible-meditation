@@ -398,17 +398,16 @@
         "home.html",
         "assets/together-reading.js",
         "SHARED_APP_BUILD.json",
-        "contracts/feature-parity.json",
-        "mobile/www/",
         "TODO.md"
       ],
       "evidence": [
         "Live server two-participant tests and Node mock tests pass; web UI validation pending",
         "Client DOM integration PASS; live backend two-participant PASS; browser renderer/CDP timed out on two QA tabs and screenshot, actual UI E2E unverified; Mac request selah-live-together-20261004 queued on hub e5a5f0b9bc",
         "Revision3 / build32 adds localized home promotion for reading simultaneously with a friend; invitation title copy updated.",
-        "PR #181 merged d5692245c17f8993a9359d13597015b3c3cffb7d; Pages public SHARED_APP_BUILD 1.0.10/32 and Korean home promo readback verified. Client integration and Worker tests pass; browser UI and Mac/iOS device evidence pending."
+        "PR #181 merged d5692245c17f8993a9359d13597015b3c3cffb7d; Pages public SHARED_APP_BUILD 1.0.10/32 and Korean home promo readback verified. Client integration and Worker tests pass; browser UI and Mac/iOS device evidence pending.",
+        "2026-10-20: At the user's direction, contracts/feature-parity.json and mobile/www/ are released to selah-reader-startup-fix-20261020. Together-reading browser and Mac/iOS acceptance remain pending; home.html, assets/together-reading.js, SHARED_APP_BUILD.json, and TODO.md remain with this task. This records owner authorization, not a Windows response or device acceptance."
       ],
-      "nextAction": "Browser and Mac/iOS device acceptance remain pending; docs/work-hub.json is released for independent tasks; source feature paths remain owned for follow-up fixes.",
+      "nextAction": "Browser and Mac/iOS device acceptance remain pending. Follow-up work remains limited to home.html, assets/together-reading.js, SHARED_APP_BUILD.json, and TODO.md; parity contract and generated mobile bundle ownership moved to the reader startup task by user instruction.",
       "feedback": [
         {
           "from": "windows",
@@ -535,21 +534,21 @@
       "branch": "codex/selah-reader-startup-repair-20261020",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a14478-6699-7282-b977-a2ef88f27921",
-      "baseCommit": "226383db7ccb0aafc52b1c105fbae5a68ea58cc4",
+      "baseCommit": "7b8a39ccda60f5c21d24a5300fe661a2d264d89b",
       "files": [
         "index.html",
         "scripts/test-reader-startup.cjs",
         "contracts/feature-parity.json",
-        "mobile/www/index.html",
-        "mobile/www/SHARED_SOURCE_MANIFEST.json",
-        "docs/work-hub.json"
+        "mobile/www/"
       ],
       "evidence": [
+        "2026-10-20: User directed ownership transfer of contracts/feature-parity.json and mobile/www/ from selah-live-together-20261003. The transfer merged to main in PR #360 at 7b8a39cc; together-reading retains its other files and pending browser/device acceptance.",
         "Aside reproduced the public failure and read the console: Object.assign(uiText['es']) throws because the locale map is absent; subsequent audio and reading startup calls then hit uninitialized $/db/token bindings.",
         "Initialized all direct-extension locales and added a VM regression that evaluates the actual startup localization block; node scripts/test-reader-startup.cjs passes all cases.",
-        "Generated mobile/www from canonical source. check-feature-parity, check-platform-source, mobile check:shared, YouTube player and catalog client checks pass. Public deployment and physical iPhone runtime remain pending."
+        "Generated mobile/www from canonical source. check-feature-parity, check-platform-source, mobile check:shared, YouTube player and catalog client checks pass. Public deployment and physical iPhone runtime remain pending.",
+        "PR #359 validation previously failed because old main still showed duplicate ownership. It is now based on the ownership-transfer commit; re-run checks before merge."
       ],
-      "nextAction": "Open the source PR, wait for checks, merge and verify Pages, then force-refresh Aside and prove book/chapter selection plus visible Scripture. Rebuild/install and verify iPhone only when a fresh usable device session is available.",
+      "nextAction": "Re-run source and CI checks on the refreshed PR. Public deployment, browser click-through, and physical iPhone runtime are separate proof steps and remain pending.",
       "feedback": [],
       "handoffs": []
     }
