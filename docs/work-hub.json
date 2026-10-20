@@ -5,7 +5,7 @@
     "selah-apple-feature-parity-20261003",
     "selah-windows-feature-runtime-20261003"
   ],
-  "updatedAt": "2026-10-20T03:47:04.924Z",
+  "updatedAt": "2026-10-20T03:59:11.146Z",
   "scopeCatalog": [
     {
       "id": "selah.analytics.gsc-baseline",
@@ -416,7 +416,16 @@
           "text": "US state count case bug uses a separate index.html claim; current build32 code is preserved. Generated bundle, build33 metadata and new parity entry will be reconciled against latest main during release."
         }
       ],
-      "handoffs": []
+      "handoffs": [
+        {
+          "id": "selah-live-together-20261003-handoff-1",
+          "from": "windows",
+          "to": "mac",
+          "status": "requested",
+          "requestedAt": "2026-10-20T03:51:44.685Z",
+          "request": "Transfer the exact files contracts/feature-parity.json, mobile/www/, and TODO.md to the Mac owner for Selah reader startup recovery. The live-together feature PR #181 is merged, but your record says these source paths remain owned for follow-up. User-authorized reader crash fix is active; current web fix is in index.html and its startup regression passes. Please release these paths or report a genuinely active branch/PR before I sync and update parity."
+        }
+      ]
     },
     {
       "id": "selah-us-state-counts-20261004",
@@ -540,8 +549,10 @@
         "index.html",
         "scripts/test-reader-startup.cjs"
       ],
-      "evidence": [],
-      "nextAction": "Update this record before handoff or completion.",
+      "evidence": [
+        "Root cause confirmed against public Pages in Aside: startup throws at Object.assign(uiText.es) because es, pt-BR, fil are absent in the initial locale map. Added those locale tables and a regression that executes the real initial locale declaration and asserts every direct extension target exists. node scripts/test-reader-startup.cjs passes. Cross-platform source check detects stale mobile/www/index.html; its path is still owned by selah-live-together-20261003 and a Mac handoff is pending."
+      ],
+      "nextAction": "After handoff, sync mobile/www from current web source, update feature evidence/TODO, run full parity gates, then open/merge fix PR and verify live Pages reader.",
       "feedback": [],
       "handoffs": []
     }
