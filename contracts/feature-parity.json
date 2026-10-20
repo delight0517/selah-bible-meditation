@@ -9,8 +9,8 @@
   "features": [
     {
       "id": "SELAH-SAFARI-FOCUSED-READER-VIEWPORT",
-      "revision": 5,
-      "title": "말씀 읽기 진입과 성경 저장소 멈춤 재발 방지",
+      "revision": 6,
+      "title": "말씀 읽기 진입·초기화 예외·성경 저장소 멈춤 재발 방지",
       "acceptance": [
         "집중 읽기 화면이 Safari의 동적 뷰포트와 안전 영역 안에 맞춰진다.",
         "책·장 선택과 상단 도구가 서로 겹치지 않는다.",
@@ -18,7 +18,8 @@
         "저장된 책·장·구절 위치와 스크롤 오프셋은 성경 본문이 로드된 뒤 읽기 화면에 적용되며, 페이지를 새로 열어도 이전에 읽던 자리에서 이어갈 수 있다.",
         "홈의 말씀 읽기 버튼은 앱 초기화 중 IndexedDB가 응답하지 않아도 집중 읽기 화면을 열고, 기본 본문은 번들에서 불러온다.",
         "IndexedDB 읽기·쓰기 대기는 제한 시간 안에 종료되며, 저장 실패가 본문 표시를 막지 않고 네트워크로 가져온 말씀은 화면에 표시된다.",
-        "앱의 주 초기화 이벤트 연결이 실패해도 말씀 읽기 진입은 작동하며, 본문을 가져오지 못하면 빈 화면 대신 안내를 표시한다."
+        "앱의 주 초기화 이벤트 연결이 실패해도 말씀 읽기 진입은 작동하며, 본문을 가져오지 못하면 빈 화면 대신 안내를 표시한다.",
+        "시작 시 직접 확장하는 모든 번역 언어 사전은 먼저 초기화되어야 하며, 한 언어의 누락이 앱 초기화와 말씀 읽기·듣기를 중단시키지 않는다."
       ],
       "paths": [
         "index.html",
@@ -38,17 +39,17 @@
         "web": {
           "owner": "Selah iPhone Safari reader task",
           "state": "implemented",
-          "appliedRevision": 5,
-          "source": "codex/selah-meditation-entry-20261020",
-          "build": "GitHub Pages deployment 39363260745 succeeded; public index and fallback asset return HTTP 200.",
-          "evidence": "PR #356 merged as 681cd5fe4dffbbadcb70883f6cd0ac99374a9194. GitHub Pages deployment run 39363260745 succeeded. Public index includes reader-start-fallback.js and the asset returns HTTP 200. Blocked-storage VM regressions pass; direct Safari click-through remains unverified in this session."
+          "appliedRevision": 6,
+          "source": "codex/selah-reader-startup-repair-20261020",
+          "build": "Source fix and localization-startup regression implemented; public Pages deployment pending.",
+          "evidence": "Aside reproduced the public failure: uiText['es'] was undefined at startup line 247, followed by audio/setup and reader-state ReferenceErrors. This branch initializes all directly extended locales and adds a regression that evaluates the real startup locale extensions. Public deployment and browser recheck are pending."
         },
         "windows": {
           "owner": "Platform contract",
           "state": "implemented",
           "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent windows app implementation is unchanged.",
           "evidence": "Windows shell uses the canonical hosted reader. PR #356 merged as 681cd5fe4dffbbadcb70883f6cd0ac99374a9194 and Pages deployment run 39363260745 succeeded; public index and fallback asset return HTTP 200. Runtime click-through remains unverified.",
-          "appliedRevision": 5,
+          "appliedRevision": 6,
           "build": "Hosted source deployed by GitHub Pages run 39363260745.",
           "source": "canonical hosted index.html used by web and Windows shell"
         },
@@ -57,12 +58,12 @@
           "state": "not_applicable",
           "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent macos app implementation is unchanged.",
           "evidence": "No macos application source was changed in this scoped web/iOS reader recovery.",
-          "appliedRevision": 5
+          "appliedRevision": 6
         },
         "ios": {
           "owner": "Platform contract",
           "state": "implemented",
-          "appliedRevision": 5,
+          "appliedRevision": 6,
           "source": "shared Selah reader and generated mobile/www bundle",
           "build": "Generated source pending native packaging and device install.",
           "evidence": "Shared reader source is copied to mobile/www and checked for parity. This source update does not establish a new iPhone install or runtime result."

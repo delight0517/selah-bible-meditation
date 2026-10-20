@@ -532,16 +532,24 @@
       "scopes": [
         "selah.reader.startup-recovery"
       ],
-      "branch": "codex/selah-reader-startup-fix-20261020",
+      "branch": "codex/selah-reader-startup-repair-20261020",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a14478-6699-7282-b977-a2ef88f27921",
-      "baseCommit": "00e25fc",
+      "baseCommit": "226383db7ccb0aafc52b1c105fbae5a68ea58cc4",
       "files": [
         "index.html",
-        "scripts/test-reader-startup.cjs"
+        "scripts/test-reader-startup.cjs",
+        "contracts/feature-parity.json",
+        "mobile/www/index.html",
+        "mobile/www/SHARED_SOURCE_MANIFEST.json",
+        "docs/work-hub.json"
       ],
-      "evidence": [],
-      "nextAction": "Update this record before handoff or completion.",
+      "evidence": [
+        "Aside reproduced the public failure and read the console: Object.assign(uiText['es']) throws because the locale map is absent; subsequent audio and reading startup calls then hit uninitialized $/db/token bindings.",
+        "Initialized all direct-extension locales and added a VM regression that evaluates the actual startup localization block; node scripts/test-reader-startup.cjs passes all cases.",
+        "Generated mobile/www from canonical source. check-feature-parity, check-platform-source, mobile check:shared, YouTube player and catalog client checks pass. Public deployment and physical iPhone runtime remain pending."
+      ],
+      "nextAction": "Open the source PR, wait for checks, merge and verify Pages, then force-refresh Aside and prove book/chapter selection plus visible Scripture. Rebuild/install and verify iPhone only when a fresh usable device session is available.",
       "feedback": [],
       "handoffs": []
     }
