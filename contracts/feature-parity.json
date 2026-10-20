@@ -9,13 +9,16 @@
   "features": [
     {
       "id": "SELAH-SAFARI-FOCUSED-READER-VIEWPORT",
-      "revision": 4,
-      "title": "읽던 말씀 위치 복원과 iPhone Safari 집중 읽기",
+      "revision": 5,
+      "title": "말씀 읽기 진입과 성경 저장소 멈춤 재발 방지",
       "acceptance": [
         "집중 읽기 화면이 Safari의 동적 뷰포트와 안전 영역 안에 맞춰진다.",
         "책·장 선택과 상단 도구가 서로 겹치지 않는다.",
         "장 이동 버튼이 말씀을 가리지 않고, 마지막 구절까지 스크롤해 읽을 수 있다.",
-        "저장된 책·장·구절 위치와 스크롤 오프셋은 성경 본문이 로드된 뒤 읽기 화면에 적용되며, 페이지를 새로 열어도 이전에 읽던 자리에서 이어갈 수 있다."
+        "저장된 책·장·구절 위치와 스크롤 오프셋은 성경 본문이 로드된 뒤 읽기 화면에 적용되며, 페이지를 새로 열어도 이전에 읽던 자리에서 이어갈 수 있다.",
+        "홈의 말씀 읽기 버튼은 앱 초기화 중 IndexedDB가 응답하지 않아도 집중 읽기 화면을 열고, 기본 본문은 번들에서 불러온다.",
+        "IndexedDB 읽기·쓰기 대기는 제한 시간 안에 종료되며, 저장 실패가 본문 표시를 막지 않고 네트워크로 가져온 말씀은 화면에 표시된다.",
+        "앱의 주 초기화 이벤트 연결이 실패해도 말씀 읽기 진입은 작동하며, 본문을 가져오지 못하면 빈 화면 대신 안내를 표시한다."
       ],
       "paths": [
         "index.html",
@@ -27,38 +30,42 @@
         "mobile/www/SHARED_APP_BUILD.json",
         "mobile/ios/App/App.xcodeproj/project.pbxproj",
         "scripts/test-reader-startup.cjs",
-        "TODO.md"
+        "TODO.md",
+        "assets/reader-start-fallback.js",
+        "mobile/www/assets/reader-start-fallback.js"
       ],
       "platforms": {
         "web": {
           "owner": "Selah iPhone Safari reader task",
           "state": "implemented",
-          "appliedRevision": 4,
-          "source": "codex/selah-local-reading-position-restore-20261005",
-          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded",
-          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified."
+          "appliedRevision": 5,
+          "source": "codex/selah-meditation-entry-20261020",
+          "build": "Source patch; GitHub Pages deployment pending.",
+          "evidence": "Static source includes an early reader-entry recovery handler; the bundled default edition no longer waits for IndexedDB, all storage operations are bounded, and fetched chapters render without waiting for cache writes. Focused blocked-storage regression tests pass. Live Pages still serves the pre-fix source; no deployment is claimed."
         },
         "windows": {
           "owner": "Platform contract",
-          "state": "not_applicable",
-          "reason": "This change corrects the iPhone Safari web viewport; Windows layout and shell are unchanged.",
-          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified.",
-          "appliedRevision": 4,
-          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded"
+          "state": "implemented",
+          "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent windows app implementation is unchanged.",
+          "evidence": "The Windows shell uses the canonical hosted reader, so it receives this web reader recovery when Pages deploys. Source parity and startup regressions pass; hosted deployment remains pending.",
+          "appliedRevision": 5,
+          "build": "Source patch; GitHub Pages deployment pending.",
+          "source": "canonical hosted index.html used by web and Windows shell"
         },
         "macos": {
           "owner": "Platform contract",
           "state": "not_applicable",
-          "reason": "This change corrects the iPhone Safari web viewport; macOS layout and native app are unchanged.",
-          "evidence": "Scoped to the narrow-screen web stylesheet. Reassessed for shared reader build 37 audio setup; prior platform runtime evidence/status retained. Reassessed alongside Selah Bible audio favorites/default source UI build 38; prior platform-specific evidence/status retained."
+          "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent macos app implementation is unchanged.",
+          "evidence": "No macos application source was changed in this scoped web/iOS reader recovery.",
+          "appliedRevision": 5
         },
         "ios": {
           "owner": "Platform contract",
           "state": "implemented",
-          "appliedRevision": 4,
+          "appliedRevision": 5,
           "source": "shared Selah reader and generated mobile/www bundle",
-          "build": "1.0.11 / build 40; Pages deployment 37254637422 succeeded",
-          "evidence": "PR #241 merged as 7b733ee92ce2cedd0648e4443c5519468046948c. GitHub Pages deployment run 37254637422 succeeded; public index and SHARED_APP_BUILD.json returned HTTP 200 and confirmed build 40 with post-load position restoration. Installed iPhone native runtime remains unverified."
+          "build": "Generated source pending native packaging and device install.",
+          "evidence": "Shared reader source is copied to mobile/www and checked for parity. This source update does not establish a new iPhone install or runtime result."
         }
       }
     },

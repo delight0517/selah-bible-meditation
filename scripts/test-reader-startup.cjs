@@ -1,5 +1,8 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const html=fs.readFileSync('index.html','utf8');
+assert.match(html,/id="startFocusReading"[\s\S]{0,260}reader-start-fallback\.js/,'reader recovery loads before the main app script');
+assert.match(html,/function withBibleStorageTimeout\(task,ms=1200\)/,'IndexedDB waits have a bounded timeout');
+assert.match(html,/void storeBibleChapter\(translationId,book\.id,index\+1,chapter\)\.catch/,'Bible rendering does not wait for a cache write');
 assert.match(html,/id="openReaderNotebook"[^>]*aria-controls="meditationNotebook"/,'regular Bible reader exposes the shared notes panel');
 assert.match(html,/id="openFocusNotebook"[^>]*aria-controls="meditationNotebook"/i,'focus-reading toolbar exposes the shared notes drawer');
 assert.match(html,/notebookOpeners=\[\$\("openMeditationNotebook"\),\$\("openReaderNotebook"\),\$\("openFocusNotebook"\)\]/,'regular reader, focus reader and timed meditation share the same notes editor');
@@ -28,11 +31,11 @@ assert.match(html,/meditation-notebook-drawer\{[^}]*background:var\(--card\)/,'n
 assert.match(html,/@media\(max-width:760px\)\{\.meditation-notebook-drawer\{left:8px;right:8px;top:max\(8px,env\(safe-area-inset-top\)\);bottom:max\(8px,env\(safe-area-inset-bottom\)\);width:auto/ ,'mobile notes use a near-full-screen safe-area drawer');
 function extract(start,end){return html.slice(html.indexOf(start),html.indexOf(end,html.indexOf(start)))}
 async function startup(){
- const calls=[],context={window:{},console,localStorage:{getItem:()=>null},db:{bibleBook:'GAL',bibleChapter:5,passage:4,readingState:{book:'GAL',chapter:5,verseAnchor:12,scrollRatio:.4}},defaultBibles:{ko:{id:'kor_old',file:'matthew-krv.json'}},bibleLoadSerial:0,activeBibleData:null,activeBibleBooks:[],loadedBibleLanguage:'',bibleContentLanguage:()=> 'ko',biblePreference:x=>x,storedBible:async()=>({id:'kor_old'}),storedBibleChapter:async()=>({verses:[{verse:1,text:'cached'}]}),touchBible:async()=>{},selectBibleBook:async(id,ch)=>calls.push([id,ch]),applyReadingPosition:()=>calls.push('restore-position'),renderBibleLibrary:()=>{},autoDownloadBible:()=>{},fetch:()=>{throw Error('Startup waited for network')}};
+ const calls=[],context={window:{},console,localStorage:{getItem:()=>null},db:{bibleBook:'GAL',bibleChapter:5,passage:4,readingState:{book:'GAL',chapter:5,verseAnchor:12,scrollRatio:.4}},defaultBibles:{ko:{id:'kor_old',file:'matthew-krv.json',label:'KRV',rightsId:'ko-krv'}},bibleLoadSerial:0,activeBibleData:null,activeBibleBooks:[],loadedBibleLanguage:'',bibleContentLanguage:()=> 'ko',biblePreference:x=>x,bibleLanguageCode:()=> 'ko',withBibleStorageTimeout:task=>task,storedBible:async()=>null,bibleBookMemory:{delete(){}},storeBible:async()=>{},storeBibleChapter:async()=>{},touchBible:async()=>{},selectBibleBook:async(id,ch)=>calls.push([id,ch]),applyReadingPosition:()=>calls.push('restore-position'),renderBibleLibrary:()=>{},autoDownloadBible:()=>{},fetch:async()=>({ok:true,json:async()=>({chapters:[{verses:[{verse:1,text:'bundled'}]}]})})};
  vm.createContext(context);vm.runInContext(fs.readFileSync('assets/bible-book-catalogs.js','utf8'),context);vm.runInContext(extract('async function loadBibleForLanguage(','function chapterFromApi('),context);await context.loadBibleForLanguage('ko');assert.deepEqual(calls,[['GAL',5],'restore-position']);assert.equal(context.db.bibleBook,'GAL');assert.equal(context.activeBibleBooks.length,66);console.log('PASS saved book, chapter and scroll restoration after chapter load');
 }
 async function selection(){
- let releaseFirst;const writes=[];const translation={id:'kor_old',bookChapters:{}};const context={db:{bibleBook:'GAL',bibleChapter:5},activeBibleData:translation,activeBibleBooks:[{id:'GEN',name:'Genesis',numberOfChapters:50},{id:'EXO',name:'Exodus',numberOfChapters:40}],activeBibleBookId:'GAL',bookSelectionSerial:0,passages:[],storedBibleBook:async(id,book)=>book==='GEN'?new Promise(resolve=>releaseFirst=resolve):[],trackSelahFeature:()=>{},renderPassage:()=>writes.push(context.db.bibleBook),saveReadingPosition:()=>{},persist:()=>{},scheduleSync:()=>{},ensureCurrentBibleChapter:async()=>{}};vm.createContext(context);vm.runInContext(extract('async function selectBibleBook(','async function ensureCurrentBibleChapter'),context);const first=context.selectBibleBook('GEN',9);assert.equal(context.db.bibleBook,'GAL');await context.selectBibleBook('EXO',4);releaseFirst([]);await first;assert.equal(context.db.bibleBook,'EXO');assert.equal(context.db.bibleChapter,4);assert.deepEqual(writes,['EXO']);console.log('PASS stale asynchronous book selection cannot overwrite newer selection');
+ let releaseFirst;const writes=[];const translation={id:'kor_old',bookChapters:{}};const context={db:{bibleBook:'GAL',bibleChapter:5},activeBibleData:translation,activeBibleBooks:[{id:'GEN',name:'Genesis',numberOfChapters:50},{id:'EXO',name:'Exodus',numberOfChapters:40}],activeBibleBookId:'GAL',bookSelectionSerial:0,passages:[],withBibleStorageTimeout:task=>task,storedBibleBook:async(id,book)=>book==='GEN'?new Promise(resolve=>releaseFirst=resolve):[],trackSelahFeature:()=>{},renderPassage:()=>writes.push(context.db.bibleBook),saveReadingPosition:()=>{},persist:()=>{},scheduleSync:()=>{},ensureCurrentBibleChapter:async()=>{}};vm.createContext(context);vm.runInContext(extract('async function selectBibleBook(','async function ensureCurrentBibleChapter'),context);const first=context.selectBibleBook('GEN',9);assert.equal(context.db.bibleBook,'GAL');await context.selectBibleBook('EXO',4);releaseFirst([]);await first;assert.equal(context.db.bibleBook,'EXO');assert.equal(context.db.bibleChapter,4);assert.deepEqual(writes,['EXO']);console.log('PASS stale asynchronous book selection cannot overwrite newer selection');
 }
 async function render(){
  const elements=new Map();let verseWrites=0;function el(id){if(!elements.has(id)){const e={hidden:false,disabled:false,firstChild:{textContent:''},textContent:'',scrollTop:90,style:{},options:[],setAttribute(){},querySelector(){return {textContent:''}},querySelectorAll(){return []}};Object.defineProperty(e,'innerHTML',{get(){return e._html||''},set(v){e._html=v;if(['verseText','meditationVerse'].includes(id))verseWrites++;e.scrollTop=0}});elements.set(id,e)}return elements.get(id)};
@@ -61,6 +64,46 @@ async function focusedFontShortcuts(){
  active={closest:()=>null};context.document.activeElement=active;e=event('+');assert.equal(context.handleFocusedFontShortcut(e),false);assert.equal(e.defaultPrevented,false);
  console.log('PASS command/control plus-minus changes only the focused note or Scripture text');
 }
-async function runReaderRegression(){await startup();await selection();await render();await savedPosition();await focusChapterKeys();await focusedFontShortcuts()}
+async function blockedStorageDoesNotBlockBundledReader(){
+ const calls=[],never=new Promise(()=>{}),context={
+  window:{SelahBibleBookCatalogs:{kor_old:[{id:'MAT',name:'Matthew',numberOfChapters:28}]}},
+  localStorage:{getItem:()=>null},defaultBibles:{ko:{file:'matthew-krv.json',label:'KRV',id:'kor_old',rightsId:'ko-krv'}},
+  biblePreference:()=> 'selah.bible.translation.ko',bibleLoadSerial:0,withBibleStorageTimeout:task=>task,storedBible:()=>never,bibleBookMemory:{delete(){}},
+  fetch:async()=>({ok:true,json:async()=>({chapters:[{chapter:1,verses:[{verse:1,text:'bundled verse'}]}]})}),
+  storeBible:()=>never,storeBibleChapter:()=>never,db:{bibleBook:'MAT',bibleChapter:1,passage:0},
+  bibleLanguageCode:()=> 'ko',touchBible:()=>Promise.resolve(),selectBibleBook:async(...args)=>calls.push(args),
+  applyReadingPosition(){},renderBibleLibrary(){},autoDownloadBible(){},
+ };
+ vm.createContext(context);vm.runInContext(extract('async function loadBibleForLanguage(language=bibleContentLanguage()){','function chapterFromApi('),context);
+ await Promise.race([context.loadBibleForLanguage('ko'),new Promise((_,reject)=>setTimeout(()=>reject(Error('reader waited for IndexedDB')),80))]);
+ assert.equal(context.activeBibleData.bookChapters.MAT[0].verses[0].text,'bundled verse');assert.deepEqual(calls,[['MAT',1,false]]);
+ console.log('PASS bundled Scripture loads when IndexedDB reads and writes never resolve');
+}
+async function chapterRendersBeforeCacheWrite(){
+ let rendered=false;const passage={chapter:1},nodes={verseText:{textContent:''},meditationVerse:{textContent:''}},context={
+  passages:[passage],chapterLoadSerial:0,activeBibleData:{id:'custom',bookChapters:{}},activeBibleBooks:[{id:'MAT',name:'Matthew'}],activeBibleBookId:'MAT',
+  currentPassageIndex:()=>0,bibleDefaultIds:()=>new Set(),touchBible:()=>new Promise(()=>{}),storedBibleChapter:async()=>null,
+  fetch:async()=>{return {ok:true,json:async()=>({})}},chapterFromApi:()=>({ref:'Matthew 1',chapter:1,verses:[{verse:1,text:'network verse'}]}),
+  storeBibleChapter:()=>new Promise(()=>{}),bibleBookMemory:{delete(){}},$:id=>nodes[id],t:key=>key,renderPassage(){rendered=true}
+ };
+ vm.createContext(context);vm.runInContext(extract('async function ensureCurrentBibleChapter(){','\nfunction bibleLanguageCode'),context);
+ await Promise.race([context.ensureCurrentBibleChapter(),new Promise((_,reject)=>setTimeout(()=>reject(Error('chapter waited for cache write')),80))]);
+ assert.equal(context.passages[0].verses[0].text,'network verse');assert.equal(rendered,true);
+ console.log('PASS network Scripture renders even when cache writes and usage metadata never resolve');
+}
+async function storageTimeoutRejects(){
+ const context={setTimeout,clearTimeout};vm.createContext(context);vm.runInContext(extract('function withBibleStorageTimeout(task,ms=1200){','async function storedBibles'),context);
+ await assert.rejects(context.withBibleStorageTimeout(new Promise(()=>{}),5),/timed out/);
+ console.log('PASS a blocked IndexedDB operation fails within its timeout');
+}
+async function readerEntryFallback(){
+ let handler,focus=false,loaded=false;const body={classList:{add(name){if(name==='mobile-reading-focus')focus=true}}},scripture={querySelector:()=>loaded?{}:null,textContent:''};
+ const button={dataset:{},addEventListener:(name,fn,options)=>{assert.equal(name,'click');assert.equal(options.capture,true);handler=fn}};
+ const context={document:{body,getElementById:id=>id==='startFocusReading'?button:scripture},window:{setReaderFocus:()=>{focus=true},loadBibleForLanguage:async()=>{loaded=true}},setTimeout:fn=>{fn();return 1},Promise};
+ vm.createContext(context);vm.runInContext(fs.readFileSync('assets/reader-start-fallback.js','utf8'),context);handler();await Promise.resolve();await Promise.resolve();
+ assert.equal(focus,true);assert.equal(loaded,true);assert.equal(button.dataset.readerStartFallback,'true');
+ console.log('PASS Scripture entry opens immediately and retries loading if app startup missed its handler');
+}
+async function runReaderRegression(){await startup();await selection();await render();await savedPosition();await focusChapterKeys();await focusedFontShortcuts();await storageTimeoutRejects();await blockedStorageDoesNotBlockBundledReader();await chapterRendersBeforeCacheWrite();await readerEntryFallback()}
 module.exports=runReaderRegression;
 if(require.main===module)runReaderRegression().catch(err=>{console.error(err);process.exit(1)});
