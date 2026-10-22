@@ -30,6 +30,16 @@ assert.match(html,/id="reflectionPagePrevious"[\s\S]*?id="reflectionPageNext"/,'
 assert.match(html,/meditation-notebook-drawer\{[^}]*background:var\(--card\)/,'notes drawer uses semantic theme tokens for dark mode');
 assert.match(html,/@media\(max-width:760px\)\{\.meditation-notebook-drawer\{left:8px;right:8px;top:max\(8px,env\(safe-area-inset-top\)\);bottom:max\(8px,env\(safe-area-inset-bottom\)\);width:auto/ ,'mobile notes use a near-full-screen safe-area drawer');
 function extract(start,end){return html.slice(html.indexOf(start),html.indexOf(end,html.indexOf(start)))}
+function startupLocalization(){
+ const start=html.indexOf('const uiText={'),end=html.indexOf('\n};',start);
+ assert.notEqual(start,-1,'main script declares its localization table');assert.notEqual(end,-1,'localization table closes');
+ const context={};vm.createContext(context);vm.runInContext(`${html.slice(start,end+3)}\nglobalThis.__initializedUiText=uiText;`,context);
+ const appStart=html.indexOf('let db='),startup=html.slice(end+3,appStart),targets=new Set();
+ for(const match of startup.matchAll(/Object\.assign\(uiText\.([A-Za-z0-9-]+)\s*,|Object\.assign\(uiText\[['"]([^'"]+)['"]\]\s*,/g))targets.add(match[1]||match[2]);
+ assert.ok(targets.size>0,'startup has translation extensions');
+ for(const locale of targets)assert.ok(context.__initializedUiText[locale],`startup initializes ${locale} before translation extensions`);
+ console.log(`PASS all ${targets.size} direct translation extensions initialize before app startup`);
+}
 async function startup(){
  const calls=[],context={window:{},console,localStorage:{getItem:()=>null},db:{bibleBook:'GAL',bibleChapter:5,passage:4,readingState:{book:'GAL',chapter:5,verseAnchor:12,scrollRatio:.4}},defaultBibles:{ko:{id:'kor_old',file:'matthew-krv.json',label:'KRV',rightsId:'ko-krv'}},bibleLoadSerial:0,activeBibleData:null,activeBibleBooks:[],loadedBibleLanguage:'',bibleContentLanguage:()=> 'ko',biblePreference:x=>x,bibleLanguageCode:()=> 'ko',withBibleStorageTimeout:task=>task,storedBible:async()=>null,bibleBookMemory:{delete(){}},storeBible:async()=>{},storeBibleChapter:async()=>{},touchBible:async()=>{},selectBibleBook:async(id,ch)=>calls.push([id,ch]),applyReadingPosition:()=>calls.push('restore-position'),renderBibleLibrary:()=>{},autoDownloadBible:()=>{},fetch:async()=>({ok:true,json:async()=>({chapters:[{verses:[{verse:1,text:'bundled'}]}]})})};
  vm.createContext(context);vm.runInContext(fs.readFileSync('assets/bible-book-catalogs.js','utf8'),context);vm.runInContext(extract('async function loadBibleForLanguage(','function chapterFromApi('),context);await context.loadBibleForLanguage('ko');assert.deepEqual(calls,[['GAL',5],'restore-position']);assert.equal(context.db.bibleBook,'GAL');assert.equal(context.activeBibleBooks.length,66);console.log('PASS saved book, chapter and scroll restoration after chapter load');
@@ -104,6 +114,6 @@ async function readerEntryFallback(){
  assert.equal(focus,true);assert.equal(loaded,true);assert.equal(button.dataset.readerStartFallback,'true');
  console.log('PASS Scripture entry opens immediately and retries loading if app startup missed its handler');
 }
-async function runReaderRegression(){await startup();await selection();await render();await savedPosition();await focusChapterKeys();await focusedFontShortcuts();await storageTimeoutRejects();await blockedStorageDoesNotBlockBundledReader();await chapterRendersBeforeCacheWrite();await readerEntryFallback()}
+async function runReaderRegression(){startupLocalization();await startup();await selection();await render();await savedPosition();await focusChapterKeys();await focusedFontShortcuts();await storageTimeoutRejects();await blockedStorageDoesNotBlockBundledReader();await chapterRendersBeforeCacheWrite();await readerEntryFallback()}
 module.exports=runReaderRegression;
 if(require.main===module)runReaderRegression().catch(err=>{console.error(err);process.exit(1)});

@@ -534,7 +534,7 @@
       "branch": "codex/selah-reader-startup-repair-20261020",
       "repo": "https://github.com/delight0517/selah-bible-meditation",
       "threadId": "01a14478-6699-7282-b977-a2ef88f27921",
-      "baseCommit": "226383db7ccb0aafc52b1c105fbae5a68ea58cc4",
+      "baseCommit": "7b8a39ccda60f5c21d24a5300fe661a2d264d89b",
       "files": [
         "index.html",
         "scripts/test-reader-startup.cjs",
@@ -542,10 +542,13 @@
         "mobile/www/"
       ],
       "evidence": [
-        "2026-10-20: User directed ownership transfer of contracts/feature-parity.json and mobile/www/ from selah-live-together-20261003. The together-reading task now retains its separate UI/build/TODO files and pending browser/device acceptance.",
-        "PR #359 contains the reader locale-startup fix and generated mobile bundle. Its validation failed because the two transferred paths were still listed under the together-reading task; revalidate after this ownership-only change. Public deployment, browser recheck, and physical iPhone runtime remain pending."
+        "2026-10-20: User directed ownership transfer of contracts/feature-parity.json and mobile/www/ from selah-live-together-20261003. The transfer merged to main in PR #360 at 7b8a39cc; together-reading retains its other files and pending browser/device acceptance.",
+        "Aside reproduced the public failure and read the console: Object.assign(uiText['es']) throws because the locale map is absent; subsequent audio and reading startup calls then hit uninitialized $/db/token bindings.",
+        "Initialized all direct-extension locales and added a VM regression that evaluates the actual startup localization block; node scripts/test-reader-startup.cjs passes all cases.",
+        "Generated mobile/www from canonical source. check-feature-parity, check-platform-source, mobile check:shared, YouTube player and catalog client checks pass. Public deployment and physical iPhone runtime remain pending.",
+        "PR #359 validation previously failed because old main still showed duplicate ownership. It is now based on the ownership-transfer commit; re-run checks before merge."
       ],
-      "nextAction": "After this ownership-transfer PR merges, refresh PR #359 from updated main, rerun claim/parity/platform checks, then continue the requested reader recovery. Keep deployment and physical-device evidence separate.",
+      "nextAction": "Re-run source and CI checks on the refreshed PR. Public deployment, browser click-through, and physical iPhone runtime are separate proof steps and remain pending.",
       "feedback": [],
       "handoffs": []
     }
