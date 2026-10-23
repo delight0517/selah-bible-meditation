@@ -1714,7 +1714,7 @@
     },
     {
       "id": "SELAH-CAMERA-HAND-GESTURES",
-      "revision": 5,
+      "revision": 6,
       "title": "말씀 읽기 카메라 손동작 제어",
       "acceptance": [
         "손동작 메뉴를 열고 사용자가 시작을 누르기 전에는 카메라가 시작되지 않으며, 영상 미리보기는 보이지 않는다.",
@@ -1732,6 +1732,8 @@
         "assets/selah-camera-gesture-worker.js",
         "assets/selah-gesture-classifier.js",
         "assets/selah-camera-gestures.css",
+        "assets/together-reading.css",
+        "styles/reader-controls.css",
         "privacy.html",
         "mobile/www/",
         "mobile/ios/App/App/Info.plist",
@@ -1770,7 +1772,7 @@
         "ios": {
           "owner": "Selah iPhone Capacitor app",
           "state": "implemented",
-          "appliedRevision": 5,
+          "appliedRevision": 6,
           "source": "codex/selah-camera-gesture-ship-20261023",
           "build": "1.0.36 / build 118",
           "evidence": "Signed Release build 1.0.36+118 passed codesign verification and Delete Fix installed-version readback. Reader text, camera permission, and live hand gesture still need a fresh visible iPhone journey; Mirroring is paused."
