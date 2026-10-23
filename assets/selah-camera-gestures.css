@@ -1,0 +1,17 @@
+.reader-gesture-menu{position:relative;display:inline-flex;align-items:center}
+.reader-gesture-menu>summary{display:inline-flex;align-items:center;justify-content:center;list-style:none;min-height:38px;padding:6px 10px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--accent-text);font-weight:650;cursor:pointer;white-space:nowrap}
+.reader-gesture-menu>summary::-webkit-details-marker{display:none}
+.reader-gesture-menu[open]{flex:1 0 100%;min-width:0}
+.reader-gesture-panel{position:static;width:min(100%,420px);max-height:min(40dvh,320px);overflow:auto;box-sizing:border-box;margin-top:8px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);box-shadow:0 10px 32px #17221824}
+.reader-gesture-panel p{margin:0 0 10px;font-size:var(--type-caption);line-height:1.5;color:var(--muted)}
+#selahGestureToggle{min-height:40px;padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--accent-text);font-weight:650;cursor:pointer}
+#selahGestureToggle.is-active{background:var(--green);border-color:var(--green);color:var(--on-accent)}
+#selahGestureStatus{display:block;min-height:1.5em;margin-top:8px;font-size:var(--type-caption);color:var(--muted)}
+.selah-gesture-camera-source{position:fixed!important;width:1px!important;height:1px!important;left:-10000px!important;top:-10000px!important;opacity:0!important;pointer-events:none!important}
+#selahBrightnessOverlay{position:fixed;inset:0;z-index:800;pointer-events:none;background:transparent}
+#selahGestureConsent{width:min(420px,calc(100vw - 32px));border:1px solid var(--line);border-radius:18px;padding:22px;background:var(--card);color:var(--ink);box-shadow:0 12px 42px #17221838}
+#selahGestureConsent::backdrop{background:#17221888}
+#selahGestureConsent h2{margin:0 0 10px;font-size:var(--type-lead)}
+#selahGestureConsent p{margin:0 0 14px;color:var(--muted);font-size:var(--type-small)}
+#selahGestureConsent menu{display:flex;justify-content:flex-end;gap:8px;margin:0;padding:0}
+@media(max-width:760px){.reader-gesture-menu[open]{grid-column:1/-1;width:100%}.reader-gesture-menu>summary{min-height:36px;padding:6px 8px;font-size:var(--type-caption)}.reader-gesture-panel{width:100%;max-height:min(35dvh,260px)}}
