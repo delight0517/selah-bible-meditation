@@ -41,17 +41,17 @@
           "owner": "Selah iPhone Safari reader task",
           "state": "implemented",
           "appliedRevision": 7,
-          "source": "codex/selah-reader-startup-repair-20261020",
-          "build": "Early fallback owns homeAction=read; regression test covers bootstrap failure. PR and Pages deployment pending.",
-          "evidence": "Source change and regression test verify the exact homeAction=read&lang=ko route dispatches through the fallback without opening the book picker; live deployment pending."
+          "source": "main@6e72d7da925acdfd976be36971e3fced24c17390 (PR #361)",
+          "build": "PR #361 merged as 6e72d7da925acdfd976be36971e3fced24c17390; Pages run 39892621927 succeeded; public index and fallback match origin/main. Browser visual read remains pending.",
+          "evidence": "Exact public homeAction=read URL and cache-busted fallback both return HTTP 200 and SHA-256 match origin/main; startup and exact-route regression tests pass. Live UI screenshot not obtained."
         },
         "windows": {
           "owner": "Platform contract",
           "state": "implemented",
           "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent windows app implementation is unchanged.",
-          "evidence": "Windows shell uses the canonical hosted reader; web route update will apply after Pages deployment. Runtime recheck pending.",
+          "evidence": "Public index and cache-busted fallback match origin/main after PR #361; Windows-specific visual runtime not separately checked.",
           "appliedRevision": 7,
-          "build": "Hosted route fix pending PR merge and Pages deployment.",
+          "build": "Hosted route fix deployed by Pages run 39892621927; the Windows shell uses this hosted reader.",
           "source": "canonical hosted index.html used by web and Windows shell"
         },
         "macos": {
@@ -66,8 +66,8 @@
           "state": "implemented",
           "appliedRevision": 7,
           "source": "shared Selah reader and generated mobile/www bundle",
-          "build": "Generated shared bundle pending; native repackaging and device runtime are separate.",
-          "evidence": "Shared reader fix will be copied to mobile/www; no new iOS build/install is included in this web-link repair."
+          "build": "Shared bundle current in mobile/www; native repackaging and device runtime are separate.",
+          "evidence": "Shared reader fix copied to mobile/www and platform source parity passed. No new native package, install or physical-device UI verification was performed."
         }
       }
     },
