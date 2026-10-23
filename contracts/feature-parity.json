@@ -9,7 +9,7 @@
   "features": [
     {
       "id": "SELAH-SAFARI-FOCUSED-READER-VIEWPORT",
-      "revision": 6,
+      "revision": 7,
       "title": "말씀 읽기 진입·초기화 예외·성경 저장소 멈춤 재발 방지",
       "acceptance": [
         "집중 읽기 화면이 Safari의 동적 뷰포트와 안전 영역 안에 맞춰진다.",
@@ -19,7 +19,8 @@
         "홈의 말씀 읽기 버튼은 앱 초기화 중 IndexedDB가 응답하지 않아도 집중 읽기 화면을 열고, 기본 본문은 번들에서 불러온다.",
         "IndexedDB 읽기·쓰기 대기는 제한 시간 안에 종료되며, 저장 실패가 본문 표시를 막지 않고 네트워크로 가져온 말씀은 화면에 표시된다.",
         "앱의 주 초기화 이벤트 연결이 실패해도 말씀 읽기 진입은 작동하며, 본문을 가져오지 못하면 빈 화면 대신 안내를 표시한다.",
-        "시작 시 직접 확장하는 모든 번역 언어 사전은 먼저 초기화되어야 하며, 한 언어의 누락이 앱 초기화와 말씀 읽기·듣기를 중단시키지 않는다."
+        "시작 시 직접 확장하는 모든 번역 언어 사전은 먼저 초기화되어야 하며, 한 언어의 누락이 앱 초기화와 말씀 읽기·듣기를 중단시키지 않는다.",
+        "homeAction=read URL은 메인 초기화의 성공 여부와 무관하게 집중 읽기를 열고, 책 선택 입력에 자동 포커스를 주지 않는다."
       ],
       "paths": [
         "index.html",
@@ -39,18 +40,18 @@
         "web": {
           "owner": "Selah iPhone Safari reader task",
           "state": "implemented",
-          "appliedRevision": 6,
+          "appliedRevision": 7,
           "source": "codex/selah-reader-startup-repair-20261020",
-          "build": "Source fix and localization-startup regression implemented; public Pages deployment pending.",
-          "evidence": "Aside reproduced the public failure: uiText['es'] was undefined at startup line 247, followed by audio/setup and reader-state ReferenceErrors. This branch initializes all directly extended locales and adds a regression that evaluates the real startup locale extensions. Public deployment and browser recheck are pending."
+          "build": "Early fallback owns homeAction=read; regression test covers bootstrap failure. PR and Pages deployment pending.",
+          "evidence": "Source change and regression test verify the exact homeAction=read&lang=ko route dispatches through the fallback without opening the book picker; live deployment pending."
         },
         "windows": {
           "owner": "Platform contract",
           "state": "implemented",
           "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent windows app implementation is unchanged.",
-          "evidence": "Windows shell uses the canonical hosted reader. PR #356 merged as 681cd5fe4dffbbadcb70883f6cd0ac99374a9194 and Pages deployment run 39363260745 succeeded; public index and fallback asset return HTTP 200. Runtime click-through remains unverified.",
-          "appliedRevision": 6,
-          "build": "Hosted source deployed by GitHub Pages run 39363260745.",
+          "evidence": "Windows shell uses the canonical hosted reader; web route update will apply after Pages deployment. Runtime recheck pending.",
+          "appliedRevision": 7,
+          "build": "Hosted route fix pending PR merge and Pages deployment.",
           "source": "canonical hosted index.html used by web and Windows shell"
         },
         "macos": {
@@ -58,15 +59,15 @@
           "state": "not_applicable",
           "reason": "This revision fixes the shared hosted web reader and its Capacitor iOS bundle. The independent macos app implementation is unchanged.",
           "evidence": "No macos application source was changed in this scoped web/iOS reader recovery.",
-          "appliedRevision": 6
+          "appliedRevision": 7
         },
         "ios": {
           "owner": "Platform contract",
           "state": "implemented",
-          "appliedRevision": 6,
+          "appliedRevision": 7,
           "source": "shared Selah reader and generated mobile/www bundle",
-          "build": "Generated source pending native packaging and device install.",
-          "evidence": "Shared reader source is copied to mobile/www and checked for parity. This source update does not establish a new iPhone install or runtime result."
+          "build": "Generated shared bundle pending; native repackaging and device runtime are separate.",
+          "evidence": "Shared reader fix will be copied to mobile/www; no new iOS build/install is included in this web-link repair."
         }
       }
     },
