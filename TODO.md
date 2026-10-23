@@ -1129,3 +1129,8 @@
 - [x] 회귀 검사: 멈춘 저장소 읽기·쓰기, 번들 본문 우선 로드, 집중 읽기 복구를 `node scripts/test-reader-startup.cjs`에서 확인했다.
 - [x] PR #356이 `681cd5f`로 병합되고 GitHub Pages 배포 run `39363260745`가 성공했다. 공개 index와 `assets/reader-start-fallback.js`가 모두 HTTP 200이며 새 코드 표식을 읽었다.
 - [ ] 공개 Safari에서 실제 버튼을 누르는 UI 확인과 iOS 네이티브 재빌드·설치·iPhone 실기기 화면 확인은 별도다. 이 세션에는 제어 가능한 Aside 브라우저 화면이 없어 클릭 여정은 검증하지 못했다.
+
+## 2026-10-23 · Selah `homeAction=read` 독서 링크 복구
+- [x] 링크 자동 진입을 메인 초기화 스크립트 끝에서 분리해 초기 fallback이 담당하게 하고, 책 선택 메뉴에 강제로 포커스하지 않도록 수정했다.
+- [x] 정확한 `homeAction=read&lang=ko` 경로에서 메인 부트스트랩 없이도 본문 로더를 시작하는 회귀 검사를 추가했다.
+- [ ] 최신 GitHub Pages 배포 및 공개 페이지 시각 확인. iPhone 네이티브 재빌드·설치는 이번 웹 링크 수정 범위 밖이다.

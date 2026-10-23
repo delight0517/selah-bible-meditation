@@ -1,6 +1,9 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
 const html=fs.readFileSync('index.html','utf8');
 assert.match(html,/id="startFocusReading"[\s\S]{0,260}reader-start-fallback\.js/,'reader recovery loads before the main app script');
+assert.match(html,/reader-start-fallback\.js\?v=read-link-20261023/,'reader deep-link fallback bypasses the cached broken script');
+assert.match(html,/const homeAction=new URLSearchParams\(location\.search\)\.get\("homeAction"\);if\(homeAction==="meditate"/,'Bible deep links are started by the early fallback, outside main initialization');
+assert.doesNotMatch(html,/homeAction==="read"[\s\S]{0,100}passageBookSelect[^\n]*\.focus\(\)/,'Bible deep link does not force focus to the book picker');
 assert.match(html,/function withBibleStorageTimeout\(task,ms=1200\)/,'IndexedDB waits have a bounded timeout');
 assert.match(html,/void storeBibleChapter\(translationId,book\.id,index\+1,chapter\)\.catch/,'Bible rendering does not wait for a cache write');
 assert.match(html,/id="openReaderNotebook"[^>]*aria-controls="meditationNotebook"/,'regular Bible reader exposes the shared notes panel');
@@ -109,11 +112,18 @@ async function storageTimeoutRejects(){
 async function readerEntryFallback(){
  let handler,focus=false,loaded=false;const body={classList:{add(name){if(name==='mobile-reading-focus')focus=true}}},scripture={querySelector:()=>loaded?{}:null,textContent:''};
  const button={dataset:{},addEventListener:(name,fn,options)=>{assert.equal(name,'click');assert.equal(options.capture,true);handler=fn}};
- const context={document:{body,getElementById:id=>id==='startFocusReading'?button:scripture},window:{setReaderFocus:()=>{focus=true},loadBibleForLanguage:async()=>{loaded=true}},setTimeout:fn=>{fn();return 1},Promise};
+ const context={location:{search:''},URLSearchParams,document:{body,getElementById:id=>id==='startFocusReading'?button:scripture},window:{setReaderFocus:()=>{focus=true},loadBibleForLanguage:async()=>{loaded=true}},setTimeout:fn=>{fn();return 1},Promise};
  vm.createContext(context);vm.runInContext(fs.readFileSync('assets/reader-start-fallback.js','utf8'),context);handler();await Promise.resolve();await Promise.resolve();
  assert.equal(focus,true);assert.equal(loaded,true);assert.equal(button.dataset.readerStartFallback,'true');
  console.log('PASS Scripture entry opens immediately and retries loading if app startup missed its handler');
 }
-async function runReaderRegression(){startupLocalization();await startup();await selection();await render();await savedPosition();await focusChapterKeys();await focusedFontShortcuts();await storageTimeoutRejects();await blockedStorageDoesNotBlockBundledReader();await chapterRendersBeforeCacheWrite();await readerEntryFallback()}
+async function readerDeepLinkStartsWithoutMainBootstrap(){
+ let handler,loaded=false;const scheduled=[],body={classList:{add(){}}},scripture={querySelector:()=>loaded?{}:null,textContent:''};
+ const button={dataset:{},addEventListener:(name,fn,options)=>{assert.equal(name,'click');assert.equal(options.capture,true);handler=fn},click(){handler()}};
+ const context={location:{search:'?homeAction=read&lang=ko'},URLSearchParams,document:{body,getElementById:id=>id==='startFocusReading'?button:scripture},window:{loadBibleForLanguage:async()=>{loaded=true}},setTimeout:fn=>{scheduled.push(fn);return scheduled.length},Promise};
+ vm.createContext(context);vm.runInContext(fs.readFileSync('assets/reader-start-fallback.js','utf8'),context);assert.equal(scheduled.length,1);scheduled.shift()();assert.equal(scheduled.length,1);scheduled.shift()();await Promise.resolve();await Promise.resolve();assert.equal(loaded,true);
+ console.log('PASS homeAction=read starts Scripture from the early fallback without main app routing');
+}
+async function runReaderRegression(){startupLocalization();await startup();await selection();await render();await savedPosition();await focusChapterKeys();await focusedFontShortcuts();await storageTimeoutRejects();await blockedStorageDoesNotBlockBundledReader();await chapterRendersBeforeCacheWrite();await readerEntryFallback();await readerDeepLinkStartsWithoutMainBootstrap()}
 module.exports=runReaderRegression;
 if(require.main===module)runReaderRegression().catch(err=>{console.error(err);process.exit(1)});

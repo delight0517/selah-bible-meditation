@@ -4,6 +4,7 @@
   const button = document.getElementById("startFocusReading");
   if (!button || button.dataset.readerStartFallback === "true") return;
   button.dataset.readerStartFallback = "true";
+  const startFromLink = new URLSearchParams(location.search).get("homeAction") === "read";
   button.addEventListener("click", () => {
     setTimeout(() => {
       const body = document.body;
@@ -31,4 +32,5 @@
       });
     }, 0);
   }, { capture: true });
+  if (startFromLink) setTimeout(() => button.click(), 0);
 })();
