@@ -175,6 +175,7 @@ struct SelahWebView: NSViewRepresentable {
         // Use the modern Safari-compatible embed path in this WebKit reader.
         configuration.applicationNameForUserAgent = "Version/26.0 Safari/605.1.15 Selah/1.0.22"
         let view = WKWebView(frame: .zero, configuration: configuration)
+        view.uiDelegate = context.coordinator
         let active = NSApp.isActive ? "true" : "false"
         view.configuration.userContentController.addUserScript(WKUserScript(
             source: "window.selahMacAppPresence = { active: \(active) };",
@@ -207,12 +208,71 @@ struct SelahWebView: NSViewRepresentable {
 
     func makeCoordinator() -> Coordinator { Coordinator(reader: reader) }
 
-    final class Coordinator: NSObject, WKNavigationDelegate {
+    final class Coordinator: NSObject, WKNavigationDelegate, WKUIDelegate {
         let reader: SelahReader
         init(reader: SelahReader) { self.reader = reader }
         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
             reader.refreshNavigation()
             reader.publishAppActivity()
+        }
+
+        func webView(_ webView: WKWebView,
+                     requestMediaCapturePermissionFor origin: WKSecurityOrigin,
+                     initiatedByFrame frame: WKFrameInfo,
+                     type: WKMediaCaptureType,
+                     decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+            guard origin.protocol == "https",
+                  origin.host == "delight0517.github.io",
+                  frame.isMainFrame,
+                  type == .camera else {
+                decisionHandler(.deny)
+                return
+            }
+            decisionHandler(.prompt)
+        }
+
+        func webView(_ webView: WKWebView,
+                     runJavaScriptAlertPanelWithMessage message: String,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping () -> Void) {
+            let alert = NSAlert()
+            alert.messageText = "Selah"
+            alert.informativeText = message
+            alert.addButton(withTitle: "확인")
+            guard let window = webView.window else { completionHandler(); return }
+            alert.beginSheetModal(for: window) { _ in completionHandler() }
+        }
+
+        func webView(_ webView: WKWebView,
+                     runJavaScriptConfirmPanelWithMessage message: String,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping (Bool) -> Void) {
+            let alert = NSAlert()
+            alert.messageText = "Selah"
+            alert.informativeText = message
+            alert.addButton(withTitle: "확인")
+            alert.addButton(withTitle: "취소")
+            guard let window = webView.window else { completionHandler(false); return }
+            alert.beginSheetModal(for: window) { response in completionHandler(response == .alertFirstButtonReturn) }
+        }
+
+        func webView(_ webView: WKWebView,
+                     runJavaScriptTextInputPanelWithPrompt prompt: String,
+                     defaultText: String?,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping (String?) -> Void) {
+            let alert = NSAlert()
+            alert.messageText = "Selah"
+            alert.informativeText = prompt
+            alert.addButton(withTitle: "확인")
+            alert.addButton(withTitle: "취소")
+            let input = NSTextField(string: defaultText ?? "")
+            input.frame = NSRect(x: 0, y: 0, width: 280, height: 24)
+            alert.accessoryView = input
+            guard let window = webView.window else { completionHandler(nil); return }
+            alert.beginSheetModal(for: window) { response in
+                completionHandler(response == .alertFirstButtonReturn ? input.stringValue : nil)
+            }
         }
     }
 }

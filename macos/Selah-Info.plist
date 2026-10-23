@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.26</string>
+	<string>1.0.28</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -28,6 +28,8 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>98</string>
+	<string>104</string>
+	<key>NSCameraUsageDescription</key>
+	<string>손동작 제어를 켰을 때만 카메라를 사용해 손 움직임을 기기 안에서 인식합니다.</string>
 </dict>
 </plist>

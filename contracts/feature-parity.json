@@ -1600,16 +1600,18 @@
     },
     {
       "id": "SELAH-MOBILE-READER-CONTROL-LAYOUT",
-      "revision": 1,
+      "revision": 2,
       "title": "Readable mobile Scripture toolbar",
       "acceptance": [
         "Book and chapter fit in one row; font and icon controls occupy a full second row without shrinking font text.",
         "Reader secondary text follows its actual background foreground; controls use matching light surfaces and dark text.",
+        "On phone-sized screens, gesture help, notebook and width controls each receive a readable full-width row; gesture help remains in document flow and never overlays Scripture.",
         "Reading position, account, notes and existing RiseSync passage links remain intact."
       ],
       "paths": [
         "index.html",
         "styles/reader-controls.css",
+        "scripts/test-camera-gesture-controls.mjs",
         "mobile/www/",
         "mobile/ios/App/App.xcodeproj/project.pbxproj"
       ],
@@ -1617,10 +1619,10 @@
         "web": {
           "owner": "Selah mobile reader fix",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "codex/selah-mobile-reader-fix-20261010",
-          "build": "89",
-          "evidence": "Bundled shared source checked. Signed iOS build and install tracked in TODO; visual physical journey pending."
+          "appliedRevision": 2,
+          "source": "codex/selah-camera-iphone-20261022",
+          "build": "1.0.35 / build 117",
+          "evidence": "Mobile toolbar regression asserts full-width secondary rows and static gesture help; generated iPhone bundle source parity checked. Browser runtime not tested in this task."
         },
         "windows": {
           "owner": "windows platform maintainer",
@@ -1635,10 +1637,10 @@
         "ios": {
           "owner": "Selah mobile reader fix",
           "state": "implemented",
-          "appliedRevision": 1,
-          "source": "codex/selah-mobile-reader-fix-20261010",
-          "build": "89",
-          "evidence": "Bundled shared source checked. Signed iOS build and install tracked in TODO; visual physical journey pending."
+          "appliedRevision": 2,
+          "source": "codex/selah-camera-iphone-20261022",
+          "build": "1.0.35 / build 117",
+          "evidence": "Reader startup and bundled Scripture loading regressions pass; signed Release build 1.0.35+117 verifies. Fresh Simulator screenshot shows the Selah home screen and readable full-width gesture/notebook controls. Scripture chapter is not visually opened. Delete Fix install was attempted and safely stopped because installed app info could not be read; physical iPhone UI remains unverified."
         }
       }
     },
@@ -1709,6 +1711,74 @@
         }
       },
       "workItem": "selah-notes-pane-20261013"
+    },
+    {
+      "id": "SELAH-CAMERA-HAND-GESTURES",
+      "revision": 6,
+      "title": "말씀 읽기 카메라 손동작 제어",
+      "acceptance": [
+        "손동작 메뉴를 열고 사용자가 시작을 누르기 전에는 카메라가 시작되지 않으며, 영상 미리보기는 보이지 않는다.",
+        "iPhone은 사용자가 켠 뒤 후면 카메라 권한을 요청하고 Apple Vision으로 손 한 개의 관절만 기기 안에서 분석하며 영상 미리보기·저장·전송을 하지 않는다. 웹·Mac의 MediaPipe 사용·성능 통계 Google 전송은 시작 전에 안내한다.",
+        "손을 화면에서 오른쪽에서 왼쪽으로 움직이면 다음 장으로 이동하고 반대 이동이면 이전 장으로 이동한다.",
+        "손을 아래에서 위로 움직이면 본문을 위로 넘기고, 위에서 아래로 움직이면 아래로 넘긴다.",
+        "주먹을 편 손으로 펴면 iPhone에서는 시스템 화면 밝기가 올라가고, 편 손을 주먹으로 쥐면 내려간다. Mac과 웹에서는 Selah 읽기 화면 밝기를 조절한다.",
+        "처리는 손 한 개, 256×192 이하 프레임, 초당 최대 약 7회로 제한하고 워커에서 실행하며, 카메라 제어를 끄거나 앱을 숨기면 카메라와 인식 작업이 중지된다.",
+        "iPhone과 Mac은 카메라 권한을 요청하고 Mac은 Selah의 허용된 HTTPS origin에서 온 카메라 요청만 시스템에 전달한다.",
+        "손동작 안내를 열어도 안내 패널은 읽기 화면 흐름 안에 표시되고 화면 밖으로 잘리거나 성경 본문을 덮지 않으며, 세로·가로 화면 모두에서 본문을 계속 읽을 수 있다."
+      ],
+      "paths": [
+        "index.html",
+        "assets/selah-camera-gestures.js",
+        "assets/selah-camera-gesture-worker.js",
+        "assets/selah-gesture-classifier.js",
+        "assets/selah-camera-gestures.css",
+        "assets/together-reading.css",
+        "styles/reader-controls.css",
+        "privacy.html",
+        "mobile/www/",
+        "mobile/ios/App/App/Info.plist",
+        "macos/Sources/SelahApp.swift",
+        "macos/Selah-Info.plist",
+        "contracts/feature-parity.json",
+        "SHARED_APP_BUILD.json",
+        "TODO.md",
+        "mobile/ios/App/App/SceneDelegate.swift"
+      ],
+      "platforms": {
+        "web": {
+          "owner": "Selah shared reader",
+          "state": "implementing",
+          "appliedRevision": null,
+          "source": "codex/selah-camera-gesture-control-20261020",
+          "build": "1.0.28 / shared reader build 104",
+          "evidence": "Shared source and synthetic classifier checks pass. Public deployment and browser camera runtime are pending."
+        },
+        "windows": {
+          "owner": "Selah Windows hosted-reader owner",
+          "state": "implementing",
+          "appliedRevision": null,
+          "source": "codex/selah-camera-gesture-control-20261020",
+          "build": "1.0.28 / shared reader build 104",
+          "evidence": "Shared reader source is present; Windows hosted deployment and camera permission runtime are pending."
+        },
+        "macos": {
+          "owner": "Selah macOS native host",
+          "state": "implementing",
+          "appliedRevision": null,
+          "source": "codex/selah-camera-gesture-control-20261020",
+          "build": "1.0.28 / build 104",
+          "evidence": "WKWebView camera request remains restricted to the Selah HTTPS main frame. macOS system brightness has no supported public setter for this host, so gestures adjust the reader overlay; signed build/runtime remain pending."
+        },
+        "ios": {
+          "owner": "Selah iPhone Capacitor app",
+          "state": "implemented",
+          "appliedRevision": 6,
+          "source": "codex/selah-camera-gesture-ship-20261023",
+          "build": "1.0.36 / build 118",
+          "evidence": "Signed Release build 1.0.36+118 passed codesign verification and Delete Fix installed-version readback. Reader text, camera permission, and live hand gesture still need a fresh visible iPhone journey; Mirroring is paused."
+        }
+      },
+      "workItem": "selah-camera-gesture-controls-20261020"
     }
   ]
 }

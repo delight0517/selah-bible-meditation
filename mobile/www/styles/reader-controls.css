@@ -70,6 +70,17 @@ body:not(.mobile-reading-focus) .verse-card .bible-library > summary span {
   body .verse-card .reader-display-controls .reader-audio-focus-play:not([hidden]) {
     grid-column: 1 / -1; min-height: 44px;
   }
+  /* Keep secondary controls out of the 44px icon columns so labels stay readable. */
+  body .verse-card .reader-display-controls :is(.reader-gesture-menu, .reader-notebook-toggle, .reader-width-settings) {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  body .verse-card .reader-display-controls .reader-notebook-toggle {
+    min-height: 44px;
+    white-space: nowrap;
+  }
   body .verse-card .passage-picker .reader-zoom-controls {
     grid-column: 1 / -1; grid-row: 3; width: 100%;
     justify-content: flex-start; margin: 0; gap: 8px;
