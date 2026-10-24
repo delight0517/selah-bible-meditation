@@ -85,6 +85,7 @@ assert.match(runtime, /track\.stop\(\)/);
 assert.match(runtime, /window\.Capacitor\?\.Plugins\?\.SelahBrightness/);
 assert.match(runtime, /nativeBrightness\.setBrightness/);
 assert.match(worker, /numHands: 1/);
+assert.match(worker, /baseOptions: \{ modelAssetPath: message\.modelUrl, delegate: 'CPU' \}/);
 assert.match(worker, /worker|self\.postMessage/);
 assert.match(privacy, /On iPhone, the rear camera and Apple Vision analyze one hand’s joints on-device without showing a preview/);
 assert.match(privacy, /MediaPipe, which sends performance and usage metrics to Google/);

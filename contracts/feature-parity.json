@@ -1714,7 +1714,7 @@
     },
     {
       "id": "SELAH-CAMERA-HAND-GESTURES",
-      "revision": 8,
+      "revision": 9,
       "title": "말씀 읽기 카메라 손동작 제어",
       "acceptance": [
         "손동작 메뉴를 열고 사용자가 시작을 누르기 전에는 카메라가 시작되지 않으며, 영상 미리보기는 보이지 않는다.",
@@ -1762,32 +1762,32 @@
           "state": "implementing",
           "appliedRevision": null,
           "source": "codex/selah-animated-page-turn-20261023",
-          "build": "1.0.38 / build 120 source candidate; deploy and browser runtime pending",
-          "evidence": "Eight labeled user video replays and source tests pass; web gesture controls and local-only cross-browser extension package are built from the shared classifier. Hosted deployment and live browser camera/page-turn QA remain pending."
+          "build": "1.0.38 / build 120 source candidate; web deploy and browser camera retest pending",
+          "evidence": "Fixed MediaPipe CPU fallback to reuse the worker-provided modelUrl; local regression and shared asset checks pass. Public deployment and camera runtime recheck pending."
         },
         "windows": {
           "owner": "Selah Windows hosted-reader owner",
           "state": "implementing",
           "appliedRevision": null,
           "source": "codex/selah-animated-page-turn-20261023",
-          "build": "1.0.38 / build 120 shared-reader source candidate; app build and runtime pending",
-          "evidence": "Windows hosted reader uses the shared gesture controls; eight labeled video replays and source tests pass. Windows runtime QA remains pending."
+          "build": "1.0.38 / build 120 shared source; Windows runtime pending",
+          "evidence": "Shared worker asset synchronized for CPU fallback; source parity and shared bundle checks pass. Windows camera runtime remains untested."
         },
         "macos": {
           "owner": "Selah macOS native host",
           "state": "implementing",
           "appliedRevision": null,
           "source": "codex/selah-animated-page-turn-20261023",
-          "build": "1.0.38 / build 120 shared-reader source candidate; app build and runtime pending",
-          "evidence": "macOS hosted reader uses the shared gesture controls; eight labeled video replays and source tests pass. Mac runtime QA remains pending."
+          "build": "1.0.28 / build 104 local signed Mac app; camera runtime pending",
+          "evidence": "Mac host camera usage string and HTTPS-origin permission delegate included; local signed bundle verified and app consolidation done. UI camera runtime remains unverified."
         },
         "ios": {
           "owner": "Selah iPhone Capacitor app",
           "state": "implementing",
           "appliedRevision": null,
           "source": "codex/selah-animated-page-turn-20261023",
-          "build": "1.0.38 / build 120 iOS Simulator Debug candidate; physical iPhone pending",
-          "evidence": "Prior 1.0.37+119 simulator build/install succeeded; this revision also updates the packaged MediaPipe worker asset handoff. Rebuild and interactive camera/page-turn verification remain pending."
+          "build": "1.0.38 / build 123 installed on physical iPhone 14 Pro; UI/camera runtime pending",
+          "evidence": "Synchronized worker asset, rebuilt and read back physical install 1.0.38+123. iPhone Mirroring remains paused, so launch and camera interaction are unverified."
         }
       },
       "workItem": "selah-camera-gesture-controls-20261020"
