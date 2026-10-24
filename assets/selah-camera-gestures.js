@@ -34,6 +34,7 @@ function applyBrightness() {
 }
 applyBrightness();
 
+let captureGeneration = 0;
 let active = false, stream = null, video = null, worker = null, frameTimer = 0, inFlight = false;
 let replayURL = null, decisionCount = 0, resetCount = 0;
 let nativeCamera = null, nativeCameraListener = null, nativeCameraErrorListener = null;
@@ -51,6 +52,7 @@ function trackingStatus() {
 function showFeedback(text) { lastFeedbackText = text; if (active) trackingStatus(); }
 function consumeCameraFrame(landmarks, timestamp) {
   if (!active) return;
+  if (!readerVisible()) { stop('읽기 화면을 벗어나 카메라를 껐어요.'); return; }
   const previousPhase = classifier.phase;
   for (const action of classifier.consume(landmarks, timestamp)) { decisionCount += 1; feedback(action); }
   if (classifier.phase === 'rearmed' && previousPhase !== 'rearmed') resetCount += 1;
@@ -93,6 +95,7 @@ async function adjustBrightness(action) {
 }
 
 function stop(message = '카메라 꺼짐') {
+  captureGeneration += 1;
   active = false;
   clearTimeout(frameTimer); frameTimer = 0; inFlight = false;
   worker?.terminate(); worker = null;
@@ -114,54 +117,65 @@ async function start(file = null) {
     setStatus('이 브라우저에서는 카메라 손동작을 사용할 수 없어요.'); return;
   }
   active = true;
+  const generation = ++captureGeneration;
+  const isCurrent = () => active && generation === captureGeneration;
   lastFeedbackText = ''; decisionCount = 0; resetCount = 0;
   setStatus(file ? '영상 인식 준비 중…' : '카메라 권한을 기다리는 중…', true);
   try {
     if (nativeIOS && !file) {
       nativeCamera ??= window.Capacitor.registerPlugin('SelahHandCamera');
-      nativeCameraListener = await nativeCamera.addListener('landmarks', event => {
-        consumeCameraFrame(event.landmarks, event.timestamp);
+      const listener = await nativeCamera.addListener('landmarks', event => {
+        if (isCurrent()) consumeCameraFrame(event.landmarks, event.timestamp);
       });
-      nativeCameraErrorListener = await nativeCamera.addListener('cameraError', event => {
+      if (!isCurrent()) { listener.remove(); return; }
+      nativeCameraListener = listener;
+      const errorListener = await nativeCamera.addListener('cameraError', event => {
+        if (!isCurrent()) return;
         setStatus(`손동작을 읽지 못했어요: ${event.message || '다시 시도해 주세요.'}`, true);
       });
+      if (!isCurrent()) { errorListener.remove(); return; }
+      nativeCameraErrorListener = errorListener;
       setStatus('후면 카메라로 손 한 개를 찾는 중…', true);
       await nativeCamera.start();
-      if (!active) { await nativeCamera.stop(); return; }
+      if (!isCurrent()) return;
       setStatus('카메라 켜짐 · 화면에는 영상 없이 손 한 개만 기기에서 인식해요.', true);
       return;
     }
     if (!file) {
+      let acquired;
       try {
-        stream = await navigator.mediaDevices.getUserMedia({
+        acquired = await navigator.mediaDevices.getUserMedia({
           audio: false,
           video: { facingMode: 'user', width: { ideal: 320 }, height: { ideal: 240 }, frameRate: { ideal: 8 } }
         });
       } catch (error) {
+        if (!isCurrent()) return;
         if (error?.name !== 'OverconstrainedError' && !/invalid constraint/i.test(error?.message || '')) throw error;
-        stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+        acquired = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
       }
+      if (!isCurrent()) { acquired.getTracks().forEach(track => track.stop()); return; }
+      stream = acquired;
     }
-    if (!active) { stream.getTracks().forEach(track => track.stop()); stream = null; return; }
     video = document.createElement('video');
     video.autoplay = true; video.muted = true; video.playsInline = true;
     video.setAttribute('aria-hidden', 'true'); video.className = 'selah-gesture-camera-source';
     if (file) {
       replayURL = URL.createObjectURL(file); video.src = replayURL;
-      video.addEventListener('ended', () => stop(`영상 테스트 완료 · 판정 ${decisionCount}회 · 자동 재설정 ${resetCount}회${lastFeedbackText ? ` · 마지막 판정: ${lastFeedbackText}` : ''}`), { once: true });
+      video.addEventListener('ended', () => isCurrent() && stop(`영상 테스트 완료 · 판정 ${decisionCount}회 · 자동 재설정 ${resetCount}회${lastFeedbackText ? ` · 마지막 판정: ${lastFeedbackText}` : ''}`), { once: true });
     } else video.srcObject = stream;
     document.body.append(video);
     await video.play();
+    if (!isCurrent()) return;
     if (file) { video.pause(); video.currentTime = 0; }
-    if (!active) { stop(); return; }
     worker = new Worker(new URL('./selah-camera-gesture-worker.js', import.meta.url));
     worker.onmessage = event => {
+      if (!isCurrent()) return;
       const message = event.data || {};
       if (message.type === 'ready') {
         setStatus('인식 준비 완료 · 손을 화면에 보여 주세요.', true);
         if (replayURL) {
           video.currentTime = 0;
-          void video.play().then(scheduleFrame).catch(() => stop('영상을 재생하지 못했어요.'));
+          void video.play().then(() => { if (isCurrent()) scheduleFrame(); }).catch(() => { if (isCurrent()) stop('영상을 재생하지 못했어요.'); });
         } else scheduleFrame();
       } else if (message.type === 'landmarks') {
         inFlight = false;
@@ -170,7 +184,7 @@ async function start(file = null) {
         stop(`손동작 인식 오류: ${message.message}`);
       }
     };
-    worker.onerror = () => stop('손동작 모델을 불러오지 못했어요. 네트워크를 확인해 주세요.');
+    worker.onerror = () => { if (isCurrent()) stop('손동작 모델을 불러오지 못했어요. 네트워크를 확인해 주세요.'); };
     worker.postMessage({
       type: 'load',
       sdkUrl: 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.1.1/vision_bundle.mjs',
@@ -178,6 +192,7 @@ async function start(file = null) {
       modelUrl: 'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'
     });
   } catch (error) {
+    if (!isCurrent()) return;
     stop(error?.name === 'NotAllowedError' ? '카메라 접근이 거부됐어요. 기기 설정에서 권한을 허용해 주세요.' : `카메라를 시작하지 못했어요: ${error?.message || '다시 시도해 주세요.'}`);
   }
 }
@@ -185,16 +200,18 @@ async function start(file = null) {
 function scheduleFrame() {
   clearTimeout(frameTimer);
   if (!active || !worker || !video || document.visibilityState !== 'visible') return;
+  const generation = captureGeneration;
   frameTimer = setTimeout(async () => {
+    if (generation !== captureGeneration) return;
     if (!readerVisible()) { stop('읽기 화면을 벗어나 카메라를 껐어요.'); return; }
     if (!active || inFlight || video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) { scheduleFrame(); return; }
     inFlight = true;
     try {
       const bitmap = await createImageBitmap(video, { resizeWidth: 256, resizeHeight: 192 });
-      if (!active || !worker) { bitmap.close(); inFlight = false; return; }
+      if (!active || generation !== captureGeneration || !worker) { bitmap.close(); return; }
       worker.postMessage({ type: 'frame', bitmap, timestamp: performance.now() }, [bitmap]);
-    } catch { inFlight = false; }
-    scheduleFrame();
+    } catch { if (generation === captureGeneration) inFlight = false; }
+    if (generation === captureGeneration) scheduleFrame();
   }, 150);
 }
 
@@ -223,3 +240,5 @@ document.getElementById('selahGestureReplay')?.addEventListener('change', event 
   void start(file);
   event.target.value = '';
 });
+
+window.addEventListener('selah-mac-camera-stop', () => { if (active) stop('Selah 창을 벗어나 카메라를 껐어요.'); });

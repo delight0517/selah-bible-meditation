@@ -52,6 +52,19 @@ final class SelahReader {
         ) { [weak self] _ in
             MainActor.assumeIsolated { self?.publishAppActivity() }
         })
+        for name in [NSApplication.didHideNotification, NSApplication.willTerminateNotification] {
+            activityObservers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.stopCameraCapture(reason: "app-hidden-or-closed") }
+            })
+        }
+        for name in [NSWindow.didMiniaturizeNotification, NSWindow.willCloseNotification] {
+            activityObservers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] notification in
+                MainActor.assumeIsolated {
+                    guard let self, let window = notification.object as? NSWindow, self.webView?.window === window else { return }
+                    self.stopCameraCapture(reason: "window-hidden-or-closed")
+                }
+            })
+        }
         let timer = Timer(timeInterval: 20, repeats: true) { [weak self] _ in
             MainActor.assumeIsolated {
                 if NSApp.isActive { self?.publishAppActivity() }
@@ -62,11 +75,21 @@ final class SelahReader {
     }
 
     func publishAppActivity() {
+        if !NSApp.isActive { stopCameraCapture(reason: "app-inactive") }
         let active = NSApp.isActive ? "true" : "false"
         webView?.evaluateJavaScript("""
         window.selahMacAppPresence = { active: \(active) };
         window.dispatchEvent(new Event('selah-mac-app-activity'));
         """)
+    }
+
+    func stopCameraCapture(reason: String) {
+        guard let view = webView else { return }
+        let previous = view.cameraCaptureState.rawValue
+        view.setCameraCaptureState(.none) { [weak view] in
+            NSLog("SelahCameraShutdown reason=%@ previous=%ld state=%ld", reason, previous, view?.cameraCaptureState.rawValue ?? -1)
+        }
+        view.evaluateJavaScript("window.dispatchEvent(new Event('selah-mac-camera-stop'))")
     }
 
     var canGoBack = false
@@ -245,11 +268,12 @@ struct SelahWebView: NSViewRepresentable {
                 decisionHandler(.deny)
                 return
             }
+            guard NSApp.isActive, webView.window?.isVisible == true, webView.window?.isMiniaturized == false else { decisionHandler(.deny); return }
             switch AVCaptureDevice.authorizationStatus(for: .video) {
             case .authorized: decisionHandler(.grant)
             case .notDetermined:
                 AVCaptureDevice.requestAccess(for: .video) { granted in
-                    DispatchQueue.main.async { decisionHandler(granted ? .grant : .deny) }
+                    DispatchQueue.main.async { decisionHandler(granted && NSApp.isActive && webView.window?.isVisible == true && webView.window?.isMiniaturized == false ? .grant : .deny) }
                 }
             default: decisionHandler(.deny)
             }

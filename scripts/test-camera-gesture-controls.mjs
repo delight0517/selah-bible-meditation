@@ -114,8 +114,11 @@ const macSource = await readFile(resolve(root, 'macos/Sources/SelahApp.swift'), 
 assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
 assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
 
-assert.match(html, /selah-camera-gestures\.js\?v=126/, 'installed WKWebView refreshes the camera runtime after a hosted update');
+assert.match(html, /selah-camera-gestures\.js\?v=127/, 'installed WKWebView refreshes the camera runtime after a hosted update');
 
 assert.match(macSource, /AVCaptureDevice.authorizationStatus\(for: \.video\)/);
 assert.match(macSource, /AVCaptureDevice.requestAccess\(for: \.video\)/);
-assert.match(macSource, /decisionHandler\(granted \? \.grant : \.deny\)/);
+assert.match(macSource, /decisionHandler\(granted && NSApp\.isActive .*\? \.grant : \.deny\)/);
+
+assert.match(macSource, /setCameraCaptureState\(\.none\)/);
+assert.match(macSource, /NSWindow.didMiniaturizeNotification/);
