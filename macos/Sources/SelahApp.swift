@@ -217,6 +217,22 @@ struct SelahWebView: NSViewRepresentable {
         }
 
         func webView(_ webView: WKWebView,
+                     runOpenPanelWith parameters: WKOpenPanelParameters,
+                     initiatedByFrame frame: WKFrameInfo,
+                     completionHandler: @escaping ([URL]?) -> Void) {
+            guard frame.isMainFrame,
+                  frame.securityOrigin.protocol == "https",
+                  frame.securityOrigin.host == "delight0517.github.io",
+                  let window = webView.window else { completionHandler(nil); return }
+            let panel = NSOpenPanel()
+            panel.canChooseDirectories = parameters.allowsDirectories
+            panel.allowsMultipleSelection = parameters.allowsMultipleSelection
+            panel.beginSheetModal(for: window) { response in
+                completionHandler(response == .OK ? panel.urls : nil)
+            }
+        }
+
+        func webView(_ webView: WKWebView,
                      requestMediaCapturePermissionFor origin: WKSecurityOrigin,
                      initiatedByFrame frame: WKFrameInfo,
                      type: WKMediaCaptureType,

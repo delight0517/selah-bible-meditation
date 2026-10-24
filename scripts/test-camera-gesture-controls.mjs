@@ -109,3 +109,7 @@ assert.match(html, /SelahPageTransition\.run/);
 assert.match(html, /preloadAdjacentBibleChapters\(\)/);
 assert.match(runtime, /action === 'scrollUp' \? -1 : 1/, 'hand swipe direction matches reader scroll direction');
 console.log('PASS Selah camera gesture classification, user controls, local processing disclosure, and bounded capture settings');
+
+const macSource = await readFile(resolve(root, 'macos/Sources/SelahApp.swift'), 'utf8');
+assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
+assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
