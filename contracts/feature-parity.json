@@ -1746,6 +1746,7 @@
         "SHARED_APP_BUILD.json",
         "TODO.md",
         "mobile/ios/App/App/SceneDelegate.swift",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
         "assets/selah-page-transition.js",
         "assets/selah-page-transition.css",
         "browser-extensions/",
