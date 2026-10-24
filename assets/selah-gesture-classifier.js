@@ -20,9 +20,26 @@ export class GestureClassifier {
     this.stablePose = '';
     this.lastActionAt = -Infinity;
     this.motionSinceAnchor = false;
+    this.waitingForReset = false;
+    this.absentSince = null;
+    this.resetRemainingMs = 0;
+    this.phase = 'searching';
   }
   consume(landmarks, now) {
-    if (!landmarks || landmarks.length < 21) { this.anchor = null; this.motionFrames = []; this.poseCandidate = ''; this.poseFrames = 0; this.stablePose = ''; return []; }
+    if (!Number.isFinite(now)) return [];
+    if (!landmarks || landmarks.length < 21) {
+      this.anchor = null; this.motionFrames = []; this.poseCandidate = ''; this.poseFrames = 0; this.stablePose = ''; this.motionSinceAnchor = false;
+      if (this.waitingForReset) {
+        this.absentSince ??= now;
+        this.resetRemainingMs = Math.max(0, 500 - (now - this.absentSince));
+        this.phase = 'resetting';
+        if (this.resetRemainingMs === 0) { this.reset(); this.phase = 'rearmed'; }
+      }
+      return [];
+    }
+    this.absentSince = null;
+    if (this.waitingForReset) { this.phase = 'waiting-for-hide'; this.resetRemainingMs = 500; return []; }
+    this.phase = 'tracking';
     const center = landmarks[9];
     const tips = [8, 12, 16, 20];
     const point = {
@@ -68,6 +85,12 @@ export class GestureClassifier {
       if (actions.length) this.lastActionAt = now;
     }
     if (elapsed > 1300 && !actions.length) { this.anchor = { ...palm, at: now }; this.motionSinceAnchor = false; }
+    if (actions.length) {
+      this.waitingForReset = true;
+      this.phase = 'waiting-for-hide';
+      this.resetRemainingMs = 500;
+      this.motionFrames = [];
+    }
     return actions;
   }
 }

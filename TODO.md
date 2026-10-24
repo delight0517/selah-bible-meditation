@@ -1159,3 +1159,9 @@
 - 웹과 브라우저 확장 호출부를 classic worker로 바꾸고 두 경로의 회귀 검사를 추가했다. `SELAH-CAMERA-HAND-GESTURES` revision 11.
 - [ ] 공유 번들 검사, 브라우저 확장 패키지 테스트, PR·Pages 배포 후 Aside의 실제 사이트에서 카메라가 `켜짐` 상태까지 시작되는지 확인한다. 현재 오류 재현 상태에서는 카메라가 꺼져 있다.
 - [ ] iPhone 카메라 화면은 미러링 `Connection Paused`로 검증하지 못했다. build 1.0.38+124 설치 확인과 실기기 UI·카메라 확인은 분리한다.
+
+## 2026-10-24 Camera automatic reset
+
+- Shared camera classifier/runtime: one action per visible hand, 500ms continuous no-hand reset, then next action; status retains last result and shows reset count. Web worker and native iOS event-path regressions pass, including the actual recorded scroll left.MOV twice with a 500ms reset between actions. Broader eight-video replay remains 6/8: scroll right first produces next, and scroll down produces no action; direction accuracy is not declared complete.
+- Mac shell: missing camera sandbox entitlement corrected; signed replacement and installed camera/replay proof pending.
+- iPhone: generated bundle updated; physical installation/runtime still pending.

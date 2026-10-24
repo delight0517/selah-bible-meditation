@@ -45,7 +45,9 @@ let poseActions = [];
 for (const t of [0, 150, 300]) poseActions.push(...poseChanges.consume(hand(0.5, 0.5, 'fist'), t));
 for (const t of [500, 650, 800]) poseActions.push(...poseChanges.consume(hand(0.5, 0.5, 'open'), t));
 assert.ok(poseActions.includes('brighter'));
-for (const t of [1000, 1150, 1300]) poseActions.push(...poseChanges.consume(hand(0.5, 0.5, 'fist'), t));
+for (const t of [850, 1050, 1350]) poseChanges.consume(null, t);
+for (const t of [1400, 1550, 1700]) poseChanges.consume(hand(0.5, 0.5, 'open'), t);
+for (const t of [1900, 2050, 2200]) poseActions.push(...poseChanges.consume(hand(0.5, 0.5, 'fist'), t));
 assert.ok(poseActions.includes('darker'));
 
 if (process.env.SELAH_VISION_POSES) {
