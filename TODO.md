@@ -1140,3 +1140,15 @@
 - 현재 iPhone `com.delight0517.selah` 1.0.35+117은 설치되어 있으나, 실기기에서 말씀 읽기 화면의 본문이 비어 있고 손동작 시작 버튼이 상태를 바꾸지 않는 것을 확인했다. 성공으로 처리하지 않는다.
 - 최신 main의 독서 시작 복구와 손동작 UI/네이티브 변경으로 1.0.36+118 Release를 빌드하고 Delete Fix를 통해 설치했으며 설치 버전을 다시 읽어 확인했다.
 - 소스 회귀 검사와 서명 빌드는 통과했다. 읽기 화면·카메라 권한·실제 손동작 검증은 미러링이 `Paused`라 남아 있다. 공개 웹 배포와 Pages readback도 남아 있다.
+
+
+## 2026-10-23 · 손끝 방향 페이지 넘김과 인접 장 미리 읽기
+- 사용자가 제공한 8개 MOV를 Apple Vision의 iPhone 관절 순서로 재생하고, 손끝-손바닥 상대 이동을 분류기에 연결했다. `up.MOV`, `scroll up.MOV`, `scrollup.MOV`, `scroll down.MOV`, `scroll left.MOV`, `scroll right.MOV`, `darker.MOV`, `brighter.MOV` 모두 라벨에 맞게 분류됐다. 좌우 축은 다음 장/이전 장, 상하는 본문 스크롤이며 빠른 반전 복귀를 무시한다.
+- iOS Vision x좌표를 공용 분류기가 한 번만 좌우 반전하도록 고쳤다. 페이지 전환 모듈은 방향 애니메이션, `prefers-reduced-motion`, 구형 WebView용 애니메이션 대체 경로를 제공한다. 선택된 번역본의 인접 장을 기존 IndexedDB 캐시에 미리 적재한다.
+- `SELAH-CAMERA-HAND-GESTURES` revision 7, 공유 빌드 1.0.37+119. Xcode 27.1 iOS Simulator Debug 빌드를 성공시켜 전용 Selah Store QA에 설치·실행하고 홈 화면을 캡처했다. 실제 페이지 조작은 Simulator GUI 서명 검증이 launchAllowed=false라 확인하지 못했고, 실물 iPhone 카메라 동작과 공개 웹 배포/PR은 남아 있다.
+
+## 2026-10-24 · 손 제스처 독서 확장 공개 준비
+- `SELAH-CAMERA-HAND-GESTURES` revision 8에서 8개 사용자 제공 영상의 Apple Vision 관절 재생 판정과 분류기 회귀 검사를 유지하고, 좌우 페이지 전환 애니메이션 및 앞뒤 장 사전 적재를 공유 웹/iOS 번들에 반영했다.
+- `browser-extensions/`에 Chrome·Firefox용 MV3 오픈소스 확장을 추가했다. 선택한 탭만 연결하고 카메라는 사용자가 직접 켜며, MediaPipe SDK/WASM/손 모델을 패키지해 영상·관절을 로컬에서만 처리한다. 접근 가능한 다음/이전 버튼이 없는 사이트와 브라우저 보호 페이지의 한계를 안내한다.
+- 소스 빌드 1.0.38+120, 확장 패키지 빌드 및 테스트, 공유 번들/플랫폼/feature parity 검사, 페이지 전환·카메라 테스트 통과. iOS Simulator Debug 앱도 1.0.38+120으로 설치·실행했고 홈 화면 캡처를 확인했다.
+- [ ] GitHub PR/CI 및 병합 후 Pages 배포 readback, Chrome·Firefox 실제 확장 UI/카메라/페이지 제어, iPhone 실기기 카메라/판정은 별도 검증 필요. 스토어 서명·등록·배포는 하지 않았다.

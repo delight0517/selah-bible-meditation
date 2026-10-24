@@ -1,0 +1,9 @@
+::view-transition-group(selah-page) { animation-duration: 380ms; }
+html[data-selah-page-direction="next"]::view-transition-old(selah-page) { animation: selah-page-exit-left 380ms ease-in both; }
+html[data-selah-page-direction="next"]::view-transition-new(selah-page) { animation: selah-page-enter-right 380ms ease-out both; }
+html[data-selah-page-direction="previous"]::view-transition-old(selah-page) { animation: selah-page-exit-right 380ms ease-in both; }
+html[data-selah-page-direction="previous"]::view-transition-new(selah-page) { animation: selah-page-enter-left 380ms ease-out both; }
+@keyframes selah-page-exit-left { to { opacity: 0; transform: translateX(-12%); } }
+@keyframes selah-page-enter-right { from { opacity: 0; transform: translateX(12%); } }
+@keyframes selah-page-exit-right { to { opacity: 0; transform: translateX(12%); } }
+@keyframes selah-page-enter-left { from { opacity: 0; transform: translateX(-12%); } }

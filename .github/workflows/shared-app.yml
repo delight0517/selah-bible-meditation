@@ -13,6 +13,9 @@ jobs:
       - run: node --test scripts/test-unified-data.mjs
       - run: node --test scripts/test-legacy-migration.mjs
       - run: node scripts/check-platform-source.mjs
+      - run: npm ci --prefix browser-extensions
+      - run: npm --prefix browser-extensions run build
+      - run: npm --prefix browser-extensions test
       - run: node scripts/test-shared-bundle.mjs
       - run: node scripts/test-reader-startup.cjs
       - run: node scripts/check-feature-parity.mjs
