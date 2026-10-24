@@ -100,7 +100,8 @@ assert.match(sceneDelegate, /AVCaptureDevice\.requestAccess\(for: \.video\)/);
 assert.match(sceneDelegate, /VNDetectHumanHandPoseRequest\(\)/);
 assert.match(sceneDelegate, /result\.append\(\["x": point\.location\.x, "y": 1 - point\.location\.y\]\)/, 'iOS x coordinates are mirrored once by the shared classifier');
 assert.match(sceneDelegate, /request\.maximumHandCount = 1/);
-assert.match(sceneDelegate, /builtInWideAngleCamera, for: \.video, position: \.back/);
+assert.match(sceneDelegate, /builtInWideAngleCamera, for: \.video, position: position/);
+assert.match(sceneDelegate, /call\.getString\("position"\) == "back" \? \.back : \.front/);
 assert.match(readerCss, /reader-settings-collapsed \.passage-picker:has\(\.reader-gesture-menu\)\{display:flex!important\}/, 'camera control remains visible in collapsed focus reading');
 assert.match(readerCss, /:not\(\.reader-gesture-menu\)\{display:none!important\}/, 'collapsed focus reading hides other settings while retaining camera control');
 assert.match(controlCss, /\.reader-display-controls :is\(\.reader-gesture-menu, \.reader-notebook-toggle, \.reader-width-settings\)\s*\{\s*grid-column: 1 \/ -1;/, 'secondary reader controls span the mobile toolbar instead of wrapping into icon columns');
@@ -114,9 +115,10 @@ const macSource = await readFile(resolve(root, 'macos/Sources/SelahApp.swift'), 
 assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
 assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
 
-assert.match(html, /selah-camera-gestures\.js\?v=127/, 'installed WKWebView refreshes the camera runtime after a hosted update');
+assert.match(html, /selah-camera-gestures\.js\?v=129/, 'installed WKWebView refreshes the camera runtime after a hosted update');
 
 assert.match(html, /selahGestureFacing/);
+assert.match(html, /id=\"mobile-meditation-reader-space\"[\s\S]*?\.meditation-verse\{flex:1 1 auto;min-height:32vh;max-height:none;overflow:auto\}/, 'mobile focused Scripture grows into available height and remains scrollable');
 assert.match(runtime, /facingSelect.value === 'environment' \? 'back' : 'front'/);
 assert.match(runtime, /facingMode: facingSelect.value/);
 assert.match(macSource, /AVCaptureDevice.authorizationStatus\(for: \.video\)/);
