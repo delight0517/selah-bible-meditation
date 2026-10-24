@@ -114,7 +114,7 @@ const macSource = await readFile(resolve(root, 'macos/Sources/SelahApp.swift'), 
 assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
 assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
 
-assert.match(html, /selah-camera-gestures\.js\?v=127/, 'installed WKWebView refreshes the camera runtime after a hosted update');
+assert.match(html, /selah-camera-gestures\.js\?v=129/, 'installed WKWebView refreshes the camera runtime after a hosted update');
 
 assert.match(html, /selahGestureFacing/);
 assert.match(html, /id=\"mobile-meditation-reader-space\"[\s\S]*?\.meditation-verse\{flex:1 1 auto;min-height:32vh;max-height:none;overflow:auto\}/, 'mobile focused Scripture grows into available height and remains scrollable');
