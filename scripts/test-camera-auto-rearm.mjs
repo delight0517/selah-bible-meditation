@@ -21,20 +21,22 @@ function swipe(start, end, at) {
     return {landmarks:p,timestamp:t};
   });
 }
-async function exercise(native, replayFrames = null) {
+async function exercise(native, replayFrames = null, cameraError = null) {
   const nodes=new Map(), listeners={}, cameras={}, timers=[];
   const node=id => { if(!nodes.has(id)) nodes.set(id,{textContent:'',hidden:false,clientHeight:400,getClientRects:()=>[{}],classList:{toggle(){}},setAttribute(){},addEventListener(name,fn){listeners[id+':'+name]=fn;},style:{},scrollBy(){},close(){}});return nodes.get(id);};
-  let worker, cameraStarts=0, tracksStopped=0;
+  let worker, cameraStarts=0, tracksStopped=0, cameraAttempts=0;
   const navigation=[];
   const document={visibilityState:'visible',body:{append(){}},getElementById:node,querySelector:()=>node('reader'),addEventListener(){},createElement(tag){return {...node('created-'+tag),pause(){},remove(){},play:async()=>{},readyState:2};}};
   const plugin={addListener:async(name,fn)=>{cameras[name]=fn;return {remove(){}};},start:async()=>{cameraStarts++;},stop:async()=>{}};
   const window={navigateBibleChapter:n=>navigation.push(n),addEventListener(){},Capacitor:native?{isNativePlatform:()=>true,getPlatform:()=> 'ios',registerPlugin:()=>plugin}:undefined};
-  const context={GestureClassifier,document,window,localStorage:{getItem:()=> '1',setItem(){}},navigator:native?{}:{mediaDevices:{getUserMedia:async()=>({getTracks:()=>[{stop(){tracksStopped++;}}]})}},Worker:native?undefined:class {constructor(){worker=this;}postMessage(){}terminate(){}},createImageBitmap:native?undefined:async()=>({close(){}}),HTMLMediaElement:{HAVE_CURRENT_DATA:2},URL:{createObjectURL:()=> 'blob:local-video',revokeObjectURL(){}},setTimeout:fn=>{timers.push(fn);return timers.length;},clearTimeout(){},performance:{now:()=>5000},console};
+  const context={GestureClassifier,document,window,localStorage:{getItem:()=> '1',setItem(){}},navigator:native?{}:{mediaDevices:{getUserMedia:async()=>{cameraAttempts++;if(cameraError && cameraAttempts===1) throw Object.assign(new Error(cameraError==='constraints'?'Invalid constraint':'Denied'),{name:cameraError==='constraints'?'OverconstrainedError':'NotAllowedError'});return {getTracks:()=>[{stop(){tracksStopped++;}}]};}}},Worker:native?undefined:class {constructor(){worker=this;}postMessage(){}terminate(){}},createImageBitmap:native?undefined:async()=>({close(){}}),HTMLMediaElement:{HAVE_CURRENT_DATA:2},URL:{createObjectURL:()=> 'blob:local-video',revokeObjectURL(){}},setTimeout:fn=>{timers.push(fn);return timers.length;},clearTimeout(){},performance:{now:()=>5000},console};
   vm.createContext(context);
   vm.runInContext(runtime.replaceAll('import.meta.url', JSON.stringify('https://example.test/assets/selah-camera-gestures.js')),context);
   // Native iOS must work without browser camera/Worker/ImageBitmap APIs.
   if (!native) context.URL=URL;
   await context.start();
+  if(cameraError==='permission'){assert.equal(cameraAttempts,1);assert.match(node('selahGestureStatus').textContent,/거부/);return;}
+  if(cameraError==='constraints') assert.equal(cameraAttempts,2);
   const send=frame => native?cameras.landmarks(frame):worker.onmessage({data:{type:'landmarks',...frame}});
   if(native) assert.equal(cameraStarts,1); else {worker.onmessage({data:{type:'ready'}});assert.ok(timers.length);}
   const replay = start => replayFrames.map((f,i)=>({landmarks:f.landmarks?.map(p=>({x:1-p.x,y:p.y})),timestamp:start+i*140}));
@@ -68,3 +70,7 @@ if (process.env.SELAH_VISION_POSES) {
   await exercise(false, clip.frames); await exercise(true, clip.frames);
   console.log('PASS recorded scroll left.MOV → 500ms automatic reset → same recorded swipe again, through web + native camera event paths');
 }
+
+await exercise(false, null, 'constraints');
+await exercise(false, null, 'permission');
+console.log('PASS unsupported device constraints fall back once; camera permission denial is not retried');

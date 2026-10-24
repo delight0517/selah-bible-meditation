@@ -22,7 +22,7 @@ targets:
       path: Selah-Info.plist
       properties:
         CFBundleShortVersionString: "1.0.29"
-        CFBundleVersion: "105"
+        CFBundleVersion: "106"
         CFBundleURLTypes:
           - CFBundleURLName: Selah Reading
             CFBundleURLSchemes:
@@ -37,6 +37,7 @@ targets:
         com.apple.security.app-sandbox: true
         com.apple.security.network.client: true
         com.apple.security.device.camera: true
+        com.apple.security.files.user-selected.read-only: true
         com.apple.developer.associated-domains:
           - applinks:delight0517.github.io
     settings:

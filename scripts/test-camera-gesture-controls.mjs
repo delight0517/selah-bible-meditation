@@ -80,7 +80,7 @@ assert.match(html, /웹·Mac의 손동작 인식에 사용하는 MediaPipe는 �
 assert.match(runtime, /getUserMedia/);
 assert.match(runtime, /registerPlugin\('SelahHandCamera'\)/);
 assert.match(runtime, /addListener\('landmarks'/);
-assert.match(runtime, /frameRate: \{ ideal: 8, max: 10 \}/);
+assert.match(runtime, /frameRate: \{ ideal: 8 \}/);
 assert.match(runtime, /resizeWidth: 256, resizeHeight: 192/);
 assert.match(runtime, /new Worker\(new URL\('\.\/selah-camera-gesture-worker\.js', import\.meta\.url\)\)/, 'MediaPipe WASM loader needs a classic worker so importScripts exposes ModuleFactory globally');
 assert.match(runtime, /document\.visibilityState !== 'visible'/);
@@ -109,3 +109,9 @@ assert.match(html, /SelahPageTransition\.run/);
 assert.match(html, /preloadAdjacentBibleChapters\(\)/);
 assert.match(runtime, /action === 'scrollUp' \? -1 : 1/, 'hand swipe direction matches reader scroll direction');
 console.log('PASS Selah camera gesture classification, user controls, local processing disclosure, and bounded capture settings');
+
+const macSource = await readFile(resolve(root, 'macos/Sources/SelahApp.swift'), 'utf8');
+assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
+assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
+
+assert.match(html, /selah-camera-gestures\.js\?v=126/, 'installed WKWebView refreshes the camera runtime after a hosted update');
