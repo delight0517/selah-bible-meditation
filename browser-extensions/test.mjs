@@ -16,6 +16,8 @@ for (const name of ['chrome', 'firefox']) {
   for (const file of ['camera.html', 'camera.js', 'content.js', 'background.js', 'selah-gesture-classifier.js', 'selah-camera-gesture-worker.js', 'vendor/vision_bundle.mjs', 'vendor/hand_landmarker.task', 'THIRD_PARTY_LICENSE-MEDIAPIPE.txt', 'THIRD_PARTY_NOTICES.md']) await stat(join(dir, file));
   assert.equal((await readdir(join(dir, 'vendor/wasm'))).some(file => file.endsWith('.wasm')), true);
   const worker = await readFile(join(dir, 'selah-camera-gesture-worker.js'), 'utf8');
+  const camera = await readFile(join(dir, 'camera.js'), 'utf8');
+  assert.match(camera, /new Worker\(new URL\('\.\/selah-camera-gesture-worker\.js', import\.meta\.url\)\)/, `${name} must use a classic MediaPipe worker`);
   assert.doesNotMatch(worker, /https?:\/\//, 'built extension worker must not load remote code or model files');
 }
 

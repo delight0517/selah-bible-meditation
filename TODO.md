@@ -1153,3 +1153,9 @@
 - 소스 빌드 1.0.38+120, 확장 패키지 빌드 및 테스트, 공유 번들/플랫폼/feature parity 검사, 페이지 전환·카메라 테스트 통과. iOS Simulator Debug 앱도 1.0.38+120으로 설치·실행했고 홈 화면 캡처를 확인했다.
 - [x] PR #364 (`7812cd5`) 병합, PR 검사 및 main CI 통과. GitHub Pages run `40056412307` 성공; 소개 페이지, raw 확장 안내와 package manifest가 HTTP 200으로 공개 readback됐다.
 - [ ] Chrome·Firefox 실제 확장 UI/카메라/페이지 제어와 iPhone 실기기 카메라/판정은 별도 검증 필요. 현재 공개 설치는 소스에서 빌드해 unpacked/임시 확장으로 여는 방법이며, 브라우저 스토어 서명·등록은 하지 않았다.
+
+## 2026-10-24 · MediaPipe 워커 ModuleFactory 초기화 수정
+- 웹 카메라가 `ModuleFactory not set`로 실패하는 원인을 확인했다. MediaPipe Tasks Vision 1.1.1의 WASM loader는 `importScripts()`로 factory를 워커 전역에 설치하는데, 앱과 확장 모두 모듈 워커로 띄워 이 전역 초기화가 유실됐다.
+- 웹과 브라우저 확장 호출부를 classic worker로 바꾸고 두 경로의 회귀 검사를 추가했다. `SELAH-CAMERA-HAND-GESTURES` revision 11.
+- [ ] 공유 번들 검사, 브라우저 확장 패키지 테스트, PR·Pages 배포 후 Aside의 실제 사이트에서 카메라가 `켜짐` 상태까지 시작되는지 확인한다. 현재 오류 재현 상태에서는 카메라가 꺼져 있다.
+- [ ] iPhone 카메라 화면은 미러링 `Connection Paused`로 검증하지 못했다. build 1.0.38+124 설치 확인과 실기기 UI·카메라 확인은 분리한다.
