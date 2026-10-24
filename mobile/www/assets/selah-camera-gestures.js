@@ -131,10 +131,17 @@ async function start(file = null) {
       setStatus('카메라 켜짐 · 화면에는 영상 없이 손 한 개만 기기에서 인식해요.', true);
       return;
     }
-    if (!file) stream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
-      video: { facingMode: 'user', width: { ideal: 320 }, height: { ideal: 240 }, frameRate: { ideal: 8, max: 10 } }
-    });
+    if (!file) {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          audio: false,
+          video: { facingMode: 'user', width: { ideal: 320 }, height: { ideal: 240 }, frameRate: { ideal: 8 } }
+        });
+      } catch (error) {
+        if (error?.name !== 'OverconstrainedError' && !/invalid constraint/i.test(error?.message || '')) throw error;
+        stream = await navigator.mediaDevices.getUserMedia({ audio: false, video: true });
+      }
+    }
     if (!active) { stream.getTracks().forEach(track => track.stop()); stream = null; return; }
     video = document.createElement('video');
     video.autoplay = true; video.muted = true; video.playsInline = true;
