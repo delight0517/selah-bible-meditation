@@ -80,6 +80,7 @@ assert.match(runtime, /registerPlugin\('SelahHandCamera'\)/);
 assert.match(runtime, /addListener\('landmarks'/);
 assert.match(runtime, /frameRate: \{ ideal: 8, max: 10 \}/);
 assert.match(runtime, /resizeWidth: 256, resizeHeight: 192/);
+assert.match(runtime, /new Worker\(new URL\('\.\/selah-camera-gesture-worker\.js', import\.meta\.url\)\)/, 'MediaPipe WASM loader needs a classic worker so importScripts exposes ModuleFactory globally');
 assert.match(runtime, /document\.visibilityState !== 'visible'/);
 assert.match(runtime, /track\.stop\(\)/);
 assert.match(runtime, /window\.Capacitor\?\.Plugins\?\.SelahBrightness/);

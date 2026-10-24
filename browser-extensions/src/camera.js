@@ -80,7 +80,7 @@ async function start() {
     await video.play();
     const { GestureClassifier } = await import('./selah-gesture-classifier.js');
     classifier = new GestureClassifier();
-    worker = new Worker(new URL('./selah-camera-gesture-worker.js', import.meta.url), { type: 'module' });
+    worker = new Worker(new URL('./selah-camera-gesture-worker.js', import.meta.url));
     worker.onmessage = async event => {
       const message = event.data || {};
       if (message.type === 'ready') { status.textContent = '카메라 켜짐 · 손을 보여 주세요.'; scheduleFrame(); }

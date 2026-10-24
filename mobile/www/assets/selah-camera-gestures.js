@@ -124,7 +124,7 @@ async function start() {
     video.srcObject = stream; document.body.append(video);
     await video.play();
     if (!active) { stop(); return; }
-    worker = new Worker(new URL('./selah-camera-gesture-worker.js', import.meta.url), { type: 'module' });
+    worker = new Worker(new URL('./selah-camera-gesture-worker.js', import.meta.url));
     worker.onmessage = event => {
       const message = event.data || {};
       if (message.type === 'ready') {
