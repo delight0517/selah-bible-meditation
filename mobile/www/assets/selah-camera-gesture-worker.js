@@ -8,14 +8,13 @@ self.onmessage = async event => {
       const { FilesetResolver, HandLandmarker } = await import(message.sdkUrl);
       const vision = await FilesetResolver.forVisionTasks(message.wasmUrl);
       const options = {
-        baseOptions: { modelAssetPath: message.modelUrl, delegate: 'GPU' },
+        baseOptions: { modelAssetPath: message.modelUrl, delegate: 'CPU' },
         runningMode: 'VIDEO', numHands: 1,
         minHandDetectionConfidence: 0.62,
         minHandPresenceConfidence: 0.62,
         minTrackingConfidence: 0.62
       };
-      try { landmarker = await HandLandmarker.createFromOptions(vision, options); }
-      catch { landmarker = await HandLandmarker.createFromOptions(vision, { ...options, baseOptions: { modelAssetPath: message.modelUrl, delegate: 'CPU' } }); }
+      landmarker = await HandLandmarker.createFromOptions(vision, options);
       self.postMessage({ type: 'ready' });
     } catch (error) {
       self.postMessage({ type: 'error', message: error?.message || '손동작 인식 모델을 불러오지 못했어요.' });
