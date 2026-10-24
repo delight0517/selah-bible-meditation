@@ -1165,3 +1165,5 @@
 - Shared camera classifier/runtime: one action per visible hand, 500ms continuous no-hand reset, then next action; status retains last result and shows reset count. Web worker and native iOS event-path regressions pass, including the actual recorded scroll left.MOV twice with a 500ms reset between actions. Broader eight-video replay remains 6/8: scroll right first produces next, and scroll down produces no action; direction accuracy is not declared complete.
 - Mac shell: missing camera sandbox entitlement corrected; signed replacement and installed camera/replay proof pending.
 - iPhone: generated bundle updated; physical installation/runtime still pending.
+
+- Camera auto-off 2026-10-24: fix late capture grants and native WebKit shutdown; build108 install/runtime verification in progress.
