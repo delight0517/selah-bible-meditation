@@ -1765,7 +1765,7 @@
         "scripts/test-camera-auto-rearm.mjs",
         "scripts/test-camera-lifecycle.mjs",
         "mobile/ios/App/App/SceneDelegate.swift",
-        "scripts/check-feature-parity.mjs"
+        "scripts/test-feature-parity.mjs"
       ],
       "platforms": {
         "web": {
