@@ -118,7 +118,8 @@ async function start(file = null) {
   setStatus(file ? '영상 인식 준비 중…' : '카메라 권한을 기다리는 중…', true);
   try {
     if (nativeIOS && !file) {
-      nativeCamera ??= window.Capacitor.registerPlugin('SelahHandCamera');
+      nativeCamera ??= window.Capacitor?.Plugins?.SelahHandCamera;
+      if (!nativeCamera) throw new Error('iOS 카메라 연결을 불러오지 못했어요. 앱을 업데이트한 뒤 다시 시도해 주세요.');
       nativeCameraListener = await nativeCamera.addListener('landmarks', event => {
         consumeCameraFrame(event.landmarks, event.timestamp);
       });

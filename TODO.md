@@ -1165,3 +1165,11 @@
 - Shared camera classifier/runtime: one action per visible hand, 500ms continuous no-hand reset, then next action; status retains last result and shows reset count. Web worker and native iOS event-path regressions pass, including the actual recorded scroll left.MOV twice with a 500ms reset between actions. Broader eight-video replay remains 6/8: scroll right first produces next, and scroll down produces no action; direction accuracy is not declared complete.
 - Mac shell: missing camera sandbox entitlement corrected; signed replacement and installed camera/replay proof pending.
 - iPhone: generated bundle updated; physical installation/runtime still pending.
+
+
+## 2026-10-24 iPhone Scripture layout and native camera bridge
+- User screenshot: control/gesture panel overlap and `window.Capacitor.registerPlugin is not a function`.
+- Current-main task: `codex/selah-ios-reader-camera-20261024`, started at `1e64843`; older dirty camera checkouts preserved. Earlier iPhone bridge repair was found uncommitted in another checkout and was not present on main; this does not prove a destructive overwrite.
+- Implemented: use the WKWebView native plugin proxy; cover no-registerPlugin and missing-plugin shapes in executable camera regression. Focused phone reader uses bounded, scrolling toolbar and flexible Scripture area rather than old fixed grid rows; CSS precedence and zoom-button contrast fixed. Runtime and stylesheet query versions advance with build127.
+- Checks: camera controls, native/web auto-rearm and missing-plugin cases, reader startup, generated source parity and feature ledger pass. Responsive source inspected in Aside at390px with settings expanded/collapsed. Signed iPhone Release1.0.39+127 builds and verifies.
+- Pending: PR integration, deployed web readback, physical installed-version comparison/install and real camera. Simulator UI test target exists but actual app stalls in native dyld before web startup; do not call the UI test passed. iPhone currently unavailable; preserve candidate and prior artifacts.

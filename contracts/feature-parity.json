@@ -1600,29 +1600,33 @@
     },
     {
       "id": "SELAH-MOBILE-READER-CONTROL-LAYOUT",
-      "revision": 2,
+      "revision": 3,
       "title": "Readable mobile Scripture toolbar",
       "acceptance": [
         "Book and chapter fit in one row; font and icon controls occupy a full second row without shrinking font text.",
         "Reader secondary text follows its actual background foreground; controls use matching light surfaces and dark text.",
         "On phone-sized screens, gesture help, notebook and width controls each receive a readable full-width row; gesture help remains in document flow and never overlays Scripture.",
-        "Reading position, account, notes and existing RiseSync passage links remain intact."
+        "Reading position, account, notes and existing RiseSync passage links remain intact.",
+        "iOS의 window.Capacitor.registerPlugin 없는 실제 브리지 형태에서 카메라가 시작되고, 집중 읽기 설정 패널은 좁은 화면에서 본문 위로 겹치지 않는다."
       ],
       "paths": [
         "index.html",
         "styles/reader-controls.css",
         "scripts/test-camera-gesture-controls.mjs",
         "mobile/www/",
-        "mobile/ios/App/App.xcodeproj/project.pbxproj"
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "scripts/test-camera-auto-rearm.mjs",
+        "mobile/ios/ReaderUITests/ReaderUITests.swift",
+        "mobile/ios/App/App.xcodeproj/xcshareddata/xcschemes/ReaderUITests.xcscheme"
       ],
       "platforms": {
         "web": {
           "owner": "Selah mobile reader fix",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-camera-iphone-20261022",
-          "build": "1.0.35 / build 117",
-          "evidence": "Mobile toolbar regression asserts full-width secondary rows and static gesture help; generated iPhone bundle source parity checked. Browser runtime not tested in this task."
+          "appliedRevision": 3,
+          "source": "codex/selah-ios-reader-camera-20261024",
+          "build": "1.0.39+127",
+          "evidence": "Native-shaped bridge, missing-plugin and auto-rearm regressions pass. Actual source in 390px Aside iframe inspected expanded/collapsed; fixed CSS precedence and fixed-row grid. Signed iPhone Release build127 passes. XCUITest blocked before web startup in simulator dyld; physical camera/display and deployment unverified."
         },
         "windows": {
           "owner": "windows platform maintainer",
@@ -1637,10 +1641,10 @@
         "ios": {
           "owner": "Selah mobile reader fix",
           "state": "implemented",
-          "appliedRevision": 2,
-          "source": "codex/selah-camera-iphone-20261022",
-          "build": "1.0.35 / build 117",
-          "evidence": "Reader startup and bundled Scripture loading regressions pass; signed Release build 1.0.35+117 verifies. Fresh Simulator screenshot shows the Selah home screen and readable full-width gesture/notebook controls. Scripture chapter is not visually opened. Delete Fix install was attempted and safely stopped because installed app info could not be read; physical iPhone UI remains unverified."
+          "appliedRevision": 3,
+          "source": "codex/selah-ios-reader-camera-20261024",
+          "build": "1.0.39+127",
+          "evidence": "Native-shaped bridge, missing-plugin and auto-rearm regressions pass. Actual source in 390px Aside iframe inspected expanded/collapsed; fixed CSS precedence and fixed-row grid. Signed iPhone Release build127 passes. XCUITest blocked before web startup in simulator dyld; physical camera/display and deployment unverified."
         }
       }
     },
@@ -1714,7 +1718,7 @@
     },
     {
       "id": "SELAH-CAMERA-HAND-GESTURES",
-      "revision": 16,
+      "revision": 17,
       "title": "말씀 읽기 카메라 손동작 제어",
       "acceptance": [
         "손동작 메뉴를 열고 사용자가 시작을 누르기 전에는 카메라가 시작되지 않으며, 영상 미리보기는 보이지 않는다.",
@@ -1732,7 +1736,8 @@
         "Capture requests use a preferred frame rate instead of an unsupported mandatory maximum. Unsupported constraints retry once using device defaults; camera permission denial is not retried. Analysis remains limited to one frame per 150ms.",
         "Mac supports the site file-input chooser through a user-selected read-only sandbox grant so local replay can exercise the same worker and automatic reset without a live hand.",
         "The hosted camera module URL is versioned so an installed reader does not combine updated controls with stale cached gesture code.",
-        "Mac requests the macOS camera permission through AVFoundation and grants WebKit camera use only after OS authorization, for the allowed main-frame HTTPS origin. Denial stays denied."
+        "Mac requests the macOS camera permission through AVFoundation and grants WebKit camera use only after OS authorization, for the allowed main-frame HTTPS origin. Denial stays denied.",
+        "iOS의 window.Capacitor.registerPlugin 없는 실제 브리지 형태에서 카메라가 시작되고, 집중 읽기 설정 패널은 좁은 화면에서 본문 위로 겹치지 않는다."
       ],
       "paths": [
         "index.html",
@@ -1760,20 +1765,22 @@
         "scripts/test-selah-page-turn.mjs",
         "scripts/test-camera-gesture-controls.mjs",
         "scripts/test-reader-startup.cjs",
-        "scripts/test-camera-auto-rearm.mjs"
+        "scripts/test-camera-auto-rearm.mjs",
+        "mobile/ios/ReaderUITests/ReaderUITests.swift",
+        "mobile/ios/App/App.xcodeproj/xcshareddata/xcschemes/ReaderUITests.xcscheme"
       ],
       "platforms": {
         "web": {
           "owner": "Selah shared reader",
-          "state": "implementing",
-          "appliedRevision": null,
-          "source": "codex/selah-camera-auto-rearm-20261024",
-          "build": "1.0.38 / build 120 source candidate; web deploy and camera retest pending",
-          "evidence": "Automatic rearm implemented in shared classifier/runtime; native iOS and web event-path regressions pass. Installed camera runtime proof pending."
+          "state": "implemented",
+          "appliedRevision": 17,
+          "source": "codex/selah-ios-reader-camera-20261024",
+          "build": "1.0.39+127",
+          "evidence": "Native-shaped bridge, missing-plugin and auto-rearm regressions pass. Actual source in 390px Aside iframe inspected expanded/collapsed; fixed CSS precedence and fixed-row grid. Signed iPhone Release build127 passes. XCUITest blocked before web startup in simulator dyld; physical camera/display and deployment unverified."
         },
         "windows": {
           "owner": "Selah Windows hosted-reader owner",
-          "state": "implementing",
+          "state": "pending",
           "appliedRevision": null,
           "source": "codex/selah-camera-auto-rearm-20261024",
           "build": "1.0.38 / build 120 shared source; Windows runtime pending",
@@ -1781,7 +1788,7 @@
         },
         "macos": {
           "owner": "Selah macOS native host",
-          "state": "implementing",
+          "state": "pending",
           "appliedRevision": null,
           "source": "codex/selah-camera-auto-rearm-20261024",
           "build": "1.0.29 build107 camera authorization candidate",
@@ -1789,11 +1796,11 @@
         },
         "ios": {
           "owner": "Selah iPhone Capacitor app",
-          "state": "implementing",
-          "appliedRevision": null,
-          "source": "codex/selah-camera-auto-rearm-20261024",
-          "build": "1.0.38 / build 124 installed on physical iPhone 14 Pro; camera UI pending",
-          "evidence": "Automatic rearm implemented in shared classifier/runtime; native iOS and web event-path regressions pass. Installed camera runtime proof pending."
+          "state": "implemented",
+          "appliedRevision": 17,
+          "source": "codex/selah-ios-reader-camera-20261024",
+          "build": "1.0.39+127",
+          "evidence": "Native-shaped bridge, missing-plugin and auto-rearm regressions pass. Actual source in 390px Aside iframe inspected expanded/collapsed; fixed CSS precedence and fixed-row grid. Signed iPhone Release build127 passes. XCUITest blocked before web startup in simulator dyld; physical camera/display and deployment unverified."
         }
       },
       "workItem": "selah-camera-gesture-controls-20261020"

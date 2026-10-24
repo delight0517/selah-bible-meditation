@@ -28,13 +28,19 @@ async function exercise(native, replayFrames = null, cameraError = null) {
   const navigation=[];
   const document={visibilityState:'visible',body:{append(){}},getElementById:node,querySelector:()=>node('reader'),addEventListener(){},createElement(tag){return {...node('created-'+tag),pause(){},remove(){},play:async()=>{},readyState:2};}};
   const plugin={addListener:async(name,fn)=>{cameras[name]=fn;return {remove(){}};},start:async()=>{cameraStarts++;},stop:async()=>{}};
-  const window={navigateBibleChapter:n=>navigation.push(n),addEventListener(){},Capacitor:native?{isNativePlatform:()=>true,getPlatform:()=> 'ios',registerPlugin:()=>plugin}:undefined};
+  const window={navigateBibleChapter:n=>navigation.push(n),addEventListener(){},Capacitor:native?{isNativePlatform:()=>true,getPlatform:()=> 'ios',Plugins:cameraError==='missing-plugin'?{}:{SelahHandCamera:plugin}}:undefined};
   const context={GestureClassifier,document,window,localStorage:{getItem:()=> '1',setItem(){}},navigator:native?{}:{mediaDevices:{getUserMedia:async()=>{cameraAttempts++;if(cameraError && cameraAttempts===1) throw Object.assign(new Error(cameraError==='constraints'?'Invalid constraint':'Denied'),{name:cameraError==='constraints'?'OverconstrainedError':'NotAllowedError'});return {getTracks:()=>[{stop(){tracksStopped++;}}]};}}},Worker:native?undefined:class {constructor(){worker=this;}postMessage(){}terminate(){}},createImageBitmap:native?undefined:async()=>({close(){}}),HTMLMediaElement:{HAVE_CURRENT_DATA:2},URL:{createObjectURL:()=> 'blob:local-video',revokeObjectURL(){}},setTimeout:fn=>{timers.push(fn);return timers.length;},clearTimeout(){},performance:{now:()=>5000},console};
   vm.createContext(context);
   vm.runInContext(runtime.replaceAll('import.meta.url', JSON.stringify('https://example.test/assets/selah-camera-gestures.js')),context);
   // Native iOS must work without browser camera/Worker/ImageBitmap APIs.
   if (!native) context.URL=URL;
   await context.start();
+  if(cameraError==='missing-plugin') {
+    assert.equal(cameraStarts,0);
+    assert.match(node('selahGestureStatus').textContent,/앱을 업데이트/);
+    assert.doesNotMatch(node('selahGestureStatus').textContent,/registerPlugin/);
+    return;
+  }
   if(cameraError==='permission'){assert.equal(cameraAttempts,1);assert.match(node('selahGestureStatus').textContent,/거부/);return;}
   if(cameraError==='constraints') assert.equal(cameraAttempts,2);
   const send=frame => native?cameras.landmarks(frame):worker.onmessage({data:{type:'landmarks',...frame}});
@@ -74,3 +80,6 @@ if (process.env.SELAH_VISION_POSES) {
 await exercise(false, null, 'constraints');
 await exercise(false, null, 'permission');
 console.log('PASS unsupported device constraints fall back once; camera permission denial is not retried');
+
+await exercise(true, null, "missing-plugin");
+console.log("PASS native WKWebView Plugins bridge without registerPlugin; missing native plugin stays recoverable");
