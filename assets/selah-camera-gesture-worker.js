@@ -1,5 +1,3 @@
-const SDK_URL = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.1.1/vision_bundle.mjs';
-const MODEL_URL = 'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task';
 let landmarker;
 let lastTimestamp = 0;
 
@@ -7,10 +5,10 @@ self.onmessage = async event => {
   const message = event.data || {};
   if (message.type === 'load') {
     try {
-      const { FilesetResolver, HandLandmarker } = await import(SDK_URL);
-      const vision = await FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.1.1/wasm');
+      const { FilesetResolver, HandLandmarker } = await import(message.sdkUrl);
+      const vision = await FilesetResolver.forVisionTasks(message.wasmUrl);
       const options = {
-        baseOptions: { modelAssetPath: MODEL_URL, delegate: 'GPU' },
+        baseOptions: { modelAssetPath: message.modelUrl, delegate: 'GPU' },
         runningMode: 'VIDEO', numHands: 1,
         minHandDetectionConfidence: 0.62,
         minHandPresenceConfidence: 0.62,

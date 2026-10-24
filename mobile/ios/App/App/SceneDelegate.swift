@@ -121,7 +121,7 @@ final class SelahHandCameraPlugin: CAPPlugin, CAPBridgedPlugin, AVCaptureVideoDa
             let recognized = try hand.recognizedPoints(.all)
             let points = joints.reduce(into: [[String: Double]]()) { result, joint in
                 guard let point = recognized[joint], point.confidence >= 0.12 else { return }
-                result.append(["x": 1 - point.location.x, "y": 1 - point.location.y])
+                result.append(["x": point.location.x, "y": 1 - point.location.y])
             }
             notifyListeners("landmarks", data: ["landmarks": (points.count == 21 ? points as Any : NSNull()), "timestamp": now * 1000])
         } catch {

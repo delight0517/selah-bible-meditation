@@ -1,8 +1,8 @@
 {
   "appId": "selah",
-  "version": "1.0.36",
-  "build": 118,
+  "version": "1.0.38",
+  "build": 120,
   "dataContractVersion": 1,
   "canonicalUrl": "https://delight0517.github.io/selah-bible-meditation/",
-  "description": "Scripture reader and optional camera hand gestures; on-device processing for iPhone"
+  "description": "Scripture reader and open-source web gesture navigation with directional animated page turns and adjacent chapter preloading; on-device processing for iPhone"
 }

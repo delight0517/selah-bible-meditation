@@ -15,6 +15,10 @@ Selah 자체 앱 코드와 자체 문서는 [MIT 라이선스](LICENSE)로 공�
 
 Windows 런처 ZIP은 [`windows/Build-Selah-Release.ps1`](windows/Build-Selah-Release.ps1)로 생성하며 성경 데이터·사용자 기록·인증 정보는 포함하지 않습니다. ZIP을 풀고 `Launch-Selah.cmd`로 실행하거나 `Create-Selah-Desktop-Shortcut.vbs`로 바로가기를 설치할 수 있습니다. [공개 릴리스 목록](https://github.com/delight0517/selah-bible-meditation/releases)에서 실제로 게시된 다운로드를 확인하세요. Microsoft Store 패키지와 심사는 별도로 진행하며, 등록 완료 전에는 Store에서 다운로드할 수 있다고 안내하지 않습니다.
 
+## 오픈소스 손동작 브라우저 확장
+
+[Selah Gesture Navigation](browser-extensions/README.md)은 웹 성경과 글을 손 스와이프로 읽기 위한 별도 Chrome·Firefox 데스크톱 확장입니다. Selah iPhone·Mac 앱과 구분되는 선택형 도구이며, 활성 탭만 제어하고 카메라 영상은 로컬에서 분석합니다. 설치·권한·제한·MediaPipe 라이선스는 [확장 안내](browser-extensions/README.md)와 [웹 소개 페이지](browser-gesture-navigation.html)를 확인하세요. 저장소 빌드는 확장 폴더에서 `npm ci && npm run build`로 생성합니다. 서명된 브라우저 스토어 배포를 마치기 전에는 스토어 설치 가능하다고 표시하지 않습니다.
+
 ## 사용해 보기
 
 말씀을 한 장씩 읽고 묵상 기록을 이어가는 Selah입니다. 한국어 앱은 로그인 없이 시작할 수 있고, 계정 동기화는 선택 사항입니다.

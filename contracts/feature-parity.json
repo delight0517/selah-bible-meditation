@@ -1714,17 +1714,20 @@
     },
     {
       "id": "SELAH-CAMERA-HAND-GESTURES",
-      "revision": 6,
+      "revision": 8,
       "title": "말씀 읽기 카메라 손동작 제어",
       "acceptance": [
         "손동작 메뉴를 열고 사용자가 시작을 누르기 전에는 카메라가 시작되지 않으며, 영상 미리보기는 보이지 않는다.",
-        "iPhone은 사용자가 켠 뒤 후면 카메라 권한을 요청하고 Apple Vision으로 손 한 개의 관절만 기기 안에서 분석하며 영상 미리보기·저장·전송을 하지 않는다. 웹·Mac의 MediaPipe 사용·성능 통계 Google 전송은 시작 전에 안내한다.",
-        "손을 화면에서 오른쪽에서 왼쪽으로 움직이면 다음 장으로 이동하고 반대 이동이면 이전 장으로 이동한다.",
-        "손을 아래에서 위로 움직이면 본문을 위로 넘기고, 위에서 아래로 움직이면 아래로 넘긴다.",
+        "iPhone은 사용자가 켠 뒤 후면 카메라 권한을 요청하고 Apple Vision으로 손 한 개의 관절만 기기 안에서 분석하며 영상 미리보기·저장·전송을 하지 않는다. Selah 웹·Mac의 MediaPipe 사용·성능 통계 Google 전송은 시작 전에 안내한다.",
+        "열린 손의 손끝 묶음이 손바닥 중심에 대해 빠르게 이동한 방향으로 왼쪽은 다음 장, 오른쪽은 이전 장으로 판정하고 느린 복귀와 주먹↔펴짐은 페이지 이동에서 제외한다.",
+        "열린 손끝이 손바닥에 대해 위/아래로 빠르게 이동하면 같은 손 방향으로 본문을 스크롤하며 느린 동작은 판정하지 않는다.",
         "주먹을 편 손으로 펴면 iPhone에서는 시스템 화면 밝기가 올라가고, 편 손을 주먹으로 쥐면 내려간다. Mac과 웹에서는 Selah 읽기 화면 밝기를 조절한다.",
+        "페이지 이동 전후에 방향에 맞는 전환 애니메이션을 표시하고 선택된 번역본의 앞뒤 인접 장을 기존 IndexedDB 캐시에 미리 적재하며 운영체제의 동작 줄이기 설정을 존중한다.",
         "처리는 손 한 개, 256×192 이하 프레임, 초당 최대 약 7회로 제한하고 워커에서 실행하며, 카메라 제어를 끄거나 앱을 숨기면 카메라와 인식 작업이 중지된다.",
         "iPhone과 Mac은 카메라 권한을 요청하고 Mac은 Selah의 허용된 HTTPS origin에서 온 카메라 요청만 시스템에 전달한다.",
-        "손동작 안내를 열어도 안내 패널은 읽기 화면 흐름 안에 표시되고 화면 밖으로 잘리거나 성경 본문을 덮지 않으며, 세로·가로 화면 모두에서 본문을 계속 읽을 수 있다."
+        "손동작 안내를 열어도 안내 패널은 읽기 화면 흐름 안에 표시되고 화면 밖으로 잘리거나 성경 본문을 덮지 않으며, 세로·가로 화면 모두에서 본문을 계속 읽을 수 있다.",
+        "오픈소스 데스크톱 브라우저 확장은 툴바 클릭으로 허용된 현재 탭에만 연결되고 카메라는 확장 창에서 사용자가 켠 뒤에만 시작한다. 카메라 영상·관절·분석 통계를 저장하거나 전송하지 않으며, 모델·WASM·JavaScript를 로컬 패키지에서 읽어 빌드 후 런타임 네트워크 요청을 하지 않는다.",
+        "확장은 열려 있는 탭의 접근 가능한 다음/이전 페이지 컨트롤을 찾아 실행하고 위/아래 본문 스크롤을 부드럽게 처리한다. 지원되지 않는 브라우저 내부/보호 페이지 또는 의미 있는 다음/이전 컨트롤이 없는 사이트에서는 제한을 사용자에게 표시한다."
       ],
       "paths": [
         "index.html",
@@ -1742,40 +1745,49 @@
         "contracts/feature-parity.json",
         "SHARED_APP_BUILD.json",
         "TODO.md",
-        "mobile/ios/App/App/SceneDelegate.swift"
+        "mobile/ios/App/App/SceneDelegate.swift",
+        "mobile/ios/App/App.xcodeproj/project.pbxproj",
+        "assets/selah-page-transition.js",
+        "assets/selah-page-transition.css",
+        "browser-extensions/",
+        "browser-gesture-navigation.html",
+        "README.md",
+        "scripts/test-selah-page-turn.mjs",
+        "scripts/test-camera-gesture-controls.mjs",
+        "scripts/test-reader-startup.cjs"
       ],
       "platforms": {
         "web": {
           "owner": "Selah shared reader",
           "state": "implementing",
           "appliedRevision": null,
-          "source": "codex/selah-camera-gesture-control-20261020",
-          "build": "1.0.28 / shared reader build 104",
-          "evidence": "Shared source and synthetic classifier checks pass. Public deployment and browser camera runtime are pending."
+          "source": "codex/selah-animated-page-turn-20261023",
+          "build": "1.0.38 / build 120 source candidate; deploy and browser runtime pending",
+          "evidence": "Eight labeled user video replays and source tests pass; web gesture controls and local-only cross-browser extension package are built from the shared classifier. Hosted deployment and live browser camera/page-turn QA remain pending."
         },
         "windows": {
           "owner": "Selah Windows hosted-reader owner",
           "state": "implementing",
           "appliedRevision": null,
-          "source": "codex/selah-camera-gesture-control-20261020",
-          "build": "1.0.28 / shared reader build 104",
-          "evidence": "Shared reader source is present; Windows hosted deployment and camera permission runtime are pending."
+          "source": "codex/selah-animated-page-turn-20261023",
+          "build": "1.0.38 / build 120 shared-reader source candidate; app build and runtime pending",
+          "evidence": "Windows hosted reader uses the shared gesture controls; eight labeled video replays and source tests pass. Windows runtime QA remains pending."
         },
         "macos": {
           "owner": "Selah macOS native host",
           "state": "implementing",
           "appliedRevision": null,
-          "source": "codex/selah-camera-gesture-control-20261020",
-          "build": "1.0.28 / build 104",
-          "evidence": "WKWebView camera request remains restricted to the Selah HTTPS main frame. macOS system brightness has no supported public setter for this host, so gestures adjust the reader overlay; signed build/runtime remain pending."
+          "source": "codex/selah-animated-page-turn-20261023",
+          "build": "1.0.38 / build 120 shared-reader source candidate; app build and runtime pending",
+          "evidence": "macOS hosted reader uses the shared gesture controls; eight labeled video replays and source tests pass. Mac runtime QA remains pending."
         },
         "ios": {
           "owner": "Selah iPhone Capacitor app",
-          "state": "implemented",
-          "appliedRevision": 6,
-          "source": "codex/selah-camera-gesture-ship-20261023",
-          "build": "1.0.36 / build 118",
-          "evidence": "Signed Release build 1.0.36+118 passed codesign verification and Delete Fix installed-version readback. Reader text, camera permission, and live hand gesture still need a fresh visible iPhone journey; Mirroring is paused."
+          "state": "implementing",
+          "appliedRevision": null,
+          "source": "codex/selah-animated-page-turn-20261023",
+          "build": "1.0.38 / build 120 iOS Simulator Debug candidate; physical iPhone pending",
+          "evidence": "Prior 1.0.37+119 simulator build/install succeeded; this revision also updates the packaged MediaPipe worker asset handoff. Rebuild and interactive camera/page-turn verification remain pending."
         }
       },
       "workItem": "selah-camera-gesture-controls-20261020"

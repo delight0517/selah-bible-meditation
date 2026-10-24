@@ -14,6 +14,7 @@ export class GestureClassifier {
   constructor() { this.reset(); }
   reset() {
     this.anchor = null;
+    this.motionFrames = [];
     this.poseCandidate = '';
     this.poseFrames = 0;
     this.stablePose = '';
@@ -21,30 +22,52 @@ export class GestureClassifier {
     this.motionSinceAnchor = false;
   }
   consume(landmarks, now) {
-    if (!landmarks || landmarks.length < 21) { this.anchor = null; this.poseCandidate = ''; this.poseFrames = 0; return []; }
+    if (!landmarks || landmarks.length < 21) { this.anchor = null; this.motionFrames = []; this.poseCandidate = ''; this.poseFrames = 0; this.stablePose = ''; return []; }
     const center = landmarks[9];
-    const point = { x: MIRRORED ? 1 - center.x : center.x, y: center.y };
+    const tips = [8, 12, 16, 20];
+    const point = {
+      x: MIRRORED ? 1 - (tips.reduce((sum, index) => sum + landmarks[index].x, 0) / tips.length - center.x) : tips.reduce((sum, index) => sum + landmarks[index].x, 0) / tips.length - center.x,
+      y: tips.reduce((sum, index) => sum + landmarks[index].y, 0) / tips.length - center.y
+    };
+    const palm = { x: MIRRORED ? 1 - center.x : center.x, y: center.y };
     const rawPose = handPose(landmarks);
     if (rawPose === this.poseCandidate) this.poseFrames += 1;
     else { this.poseCandidate = rawPose; this.poseFrames = 1; }
     const previousPose = this.stablePose;
-    if (this.poseFrames >= 3 && rawPose !== 'unknown') this.stablePose = rawPose;
+    if (!this.stablePose && rawPose !== 'unknown') this.stablePose = rawPose;
+    else if (this.poseFrames >= 3 && rawPose !== 'unknown') this.stablePose = rawPose;
     const actions = [];
-    if (!this.anchor) this.anchor = { ...point, at: now };
-    const dx = point.x - this.anchor.x, dy = point.y - this.anchor.y;
+    if (previousPose === 'fist' && this.stablePose === 'open') this.motionFrames = [];
+    if (!this.anchor) this.anchor = { ...palm, at: now };
+    const dx = palm.x - this.anchor.x, dy = palm.y - this.anchor.y;
     if (Math.hypot(dx, dy) >= 0.095) this.motionSinceAnchor = true;
     const elapsed = now - this.anchor.at;
-    if (now - this.lastActionAt >= 850 && elapsed >= 170 && elapsed <= 1300 && this.stablePose === 'open') {
-      if (Math.abs(dx) >= 0.18 && Math.abs(dx) > Math.abs(dy) * 1.35) actions.push(dx < 0 ? 'next' : 'previous');
-      else if (Math.abs(dy) >= 0.18 && Math.abs(dy) > Math.abs(dx) * 1.35) actions.push(dy < 0 ? 'scrollUp' : 'scrollDown');
-      if (actions.length) { this.lastActionAt = now; this.anchor = { ...point, at: now }; this.motionSinceAnchor = false; }
+    this.motionFrames.push({ point, palm, pose: rawPose, at: now });
+    if (this.motionFrames.length > 5) this.motionFrames.shift();
+    if (now - this.lastActionAt >= 850 && rawPose === 'open' && this.stablePose === 'open' && previousPose !== 'fist') {
+      for (const sample of this.motionFrames.slice(0, -1).slice(-4)) {
+        const duration = now - sample.at;
+        if (sample.pose !== 'open' || duration < 300 || duration > 650) continue;
+        const moveX = point.x - sample.point.x, moveY = point.y - sample.point.y;
+        const distance = Math.hypot(moveX, moveY);
+        if (distance < 0.12 || distance / (duration / 1000) < 0.45) continue;
+        const previous = this.motionFrames.at(-2);
+        if (previous && (now - previous.at) <= 220) {
+          const lastX = point.x - previous.point.x, lastY = point.y - previous.point.y;
+          if ((Math.abs(moveX) > Math.abs(moveY) * 1.5 ? moveX * lastX : moveY * lastY) < -0.012) continue;
+        }
+        if (Math.abs(moveX) > Math.abs(moveY) * 1.5) actions.push(moveX < 0 ? 'next' : 'previous');
+        else if (Math.abs(moveY) > 0.12) actions.push(moveY < 0 ? 'scrollUp' : 'scrollDown');
+        if (actions.length) break;
+      }
+      if (actions.length) { this.lastActionAt = now; this.anchor = { ...palm, at: now }; this.motionSinceAnchor = false; this.motionFrames = [{ point, palm, pose: rawPose, at: now }]; }
     }
     if (!actions.length && now - this.lastActionAt >= 450 && !this.motionSinceAnchor && this.stablePose !== previousPose) {
       if (previousPose === 'fist' && this.stablePose === 'open') actions.push('brighter');
       if (previousPose === 'open' && this.stablePose === 'fist') actions.push('darker');
       if (actions.length) this.lastActionAt = now;
     }
-    if (elapsed > 1300 && !actions.length) { this.anchor = { ...point, at: now }; this.motionSinceAnchor = false; }
+    if (elapsed > 1300 && !actions.length) { this.anchor = { ...palm, at: now }; this.motionSinceAnchor = false; }
     return actions;
   }
 }

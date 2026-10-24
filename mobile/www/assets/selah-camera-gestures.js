@@ -48,7 +48,7 @@ function feedback(action) {
     setStatus(action === 'next' ? '다음 장으로 이동했어요.' : '이전 장으로 이동했어요.', true);
   } else if (action === 'scrollUp' || action === 'scrollDown') {
     const reader = readerVisible();
-    reader?.scrollBy({ top: (action === 'scrollUp' ? 1 : -1) * Math.max(120, reader.clientHeight * 0.65), behavior: 'smooth' });
+    reader?.scrollBy({ top: (action === 'scrollUp' ? -1 : 1) * Math.max(120, reader.clientHeight * 0.65), behavior: 'smooth' });
     setStatus(action === 'scrollUp' ? '본문을 위로 넘겼어요.' : '본문을 아래로 넘겼어요.', true);
   } else if (action === 'brighter' || action === 'darker') {
     void adjustBrightness(action);
@@ -138,7 +138,12 @@ async function start() {
       }
     };
     worker.onerror = () => stop('손동작 모델을 불러오지 못했어요. 네트워크를 확인해 주세요.');
-    worker.postMessage({ type: 'load' });
+    worker.postMessage({
+      type: 'load',
+      sdkUrl: 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.1.1/vision_bundle.mjs',
+      wasmUrl: 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.1.1/wasm',
+      modelUrl: 'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'
+    });
   } catch (error) {
     stop(error?.name === 'NotAllowedError' ? '카메라 접근이 거부됐어요. 기기 설정에서 권한을 허용해 주세요.' : `카메라를 시작하지 못했어요: ${error?.message || '다시 시도해 주세요.'}`);
   }
