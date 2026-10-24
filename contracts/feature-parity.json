@@ -1714,7 +1714,7 @@
     },
     {
       "id": "SELAH-CAMERA-HAND-GESTURES",
-      "revision": 15,
+      "revision": 16,
       "title": "말씀 읽기 카메라 손동작 제어",
       "acceptance": [
         "손동작 메뉴를 열고 사용자가 시작을 누르기 전에는 카메라가 시작되지 않으며, 영상 미리보기는 보이지 않는다.",
@@ -1731,7 +1731,8 @@
         "Every accepted action waits for 500ms of continuous no-hand frames, automatically clears pose and motion state, then accepts a second action without restarting the camera; the last action and reset progress remain visible. Native iOS does not require browser camera APIs. Local video replay uses the same web worker and classifier.",
         "Capture requests use a preferred frame rate instead of an unsupported mandatory maximum. Unsupported constraints retry once using device defaults; camera permission denial is not retried. Analysis remains limited to one frame per 150ms.",
         "Mac supports the site file-input chooser through a user-selected read-only sandbox grant so local replay can exercise the same worker and automatic reset without a live hand.",
-        "The hosted camera module URL is versioned so an installed reader does not combine updated controls with stale cached gesture code."
+        "The hosted camera module URL is versioned so an installed reader does not combine updated controls with stale cached gesture code.",
+        "Mac requests the macOS camera permission through AVFoundation and grants WebKit camera use only after OS authorization, for the allowed main-frame HTTPS origin. Denial stays denied."
       ],
       "paths": [
         "index.html",
@@ -1783,7 +1784,7 @@
           "state": "implementing",
           "appliedRevision": null,
           "source": "codex/selah-camera-auto-rearm-20261024",
-          "build": "1.0.29 build106 signed local candidate",
+          "build": "1.0.29 build107 camera authorization candidate",
           "evidence": "Automatic rearm implemented in shared classifier/runtime; native iOS and web event-path regressions pass. Installed camera runtime proof pending."
         },
         "ios": {

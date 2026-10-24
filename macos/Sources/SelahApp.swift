@@ -1,5 +1,6 @@
 import SwiftUI
 import WebKit
+import AVFoundation
 
 @main
 struct SelahApp: App {
@@ -244,7 +245,14 @@ struct SelahWebView: NSViewRepresentable {
                 decisionHandler(.deny)
                 return
             }
-            decisionHandler(.prompt)
+            switch AVCaptureDevice.authorizationStatus(for: .video) {
+            case .authorized: decisionHandler(.grant)
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    DispatchQueue.main.async { decisionHandler(granted ? .grant : .deny) }
+                }
+            default: decisionHandler(.deny)
+            }
         }
 
         func webView(_ webView: WKWebView,

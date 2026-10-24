@@ -115,3 +115,7 @@ assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
 assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
 
 assert.match(html, /selah-camera-gestures\.js\?v=126/, 'installed WKWebView refreshes the camera runtime after a hosted update');
+
+assert.match(macSource, /AVCaptureDevice.authorizationStatus\(for: \.video\)/);
+assert.match(macSource, /AVCaptureDevice.requestAccess\(for: \.video\)/);
+assert.match(macSource, /decisionHandler\(granted \? \.grant : \.deny\)/);
