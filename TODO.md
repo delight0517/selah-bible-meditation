@@ -1151,4 +1151,5 @@
 - `SELAH-CAMERA-HAND-GESTURES` revision 8에서 8개 사용자 제공 영상의 Apple Vision 관절 재생 판정과 분류기 회귀 검사를 유지하고, 좌우 페이지 전환 애니메이션 및 앞뒤 장 사전 적재를 공유 웹/iOS 번들에 반영했다.
 - `browser-extensions/`에 Chrome·Firefox용 MV3 오픈소스 확장을 추가했다. 선택한 탭만 연결하고 카메라는 사용자가 직접 켜며, MediaPipe SDK/WASM/손 모델을 패키지해 영상·관절을 로컬에서만 처리한다. 접근 가능한 다음/이전 버튼이 없는 사이트와 브라우저 보호 페이지의 한계를 안내한다.
 - 소스 빌드 1.0.38+120, 확장 패키지 빌드 및 테스트, 공유 번들/플랫폼/feature parity 검사, 페이지 전환·카메라 테스트 통과. iOS Simulator Debug 앱도 1.0.38+120으로 설치·실행했고 홈 화면 캡처를 확인했다.
-- [ ] GitHub PR/CI 및 병합 후 Pages 배포 readback, Chrome·Firefox 실제 확장 UI/카메라/페이지 제어, iPhone 실기기 카메라/판정은 별도 검증 필요. 스토어 서명·등록·배포는 하지 않았다.
+- [x] PR #364 (`7812cd5`) 병합, PR 검사 및 main CI 통과. GitHub Pages run `40056412307` 성공; 소개 페이지, raw 확장 안내와 package manifest가 HTTP 200으로 공개 readback됐다.
+- [ ] Chrome·Firefox 실제 확장 UI/카메라/페이지 제어와 iPhone 실기기 카메라/판정은 별도 검증 필요. 현재 공개 설치는 소스에서 빌드해 unpacked/임시 확장으로 여는 방법이며, 브라우저 스토어 서명·등록은 하지 않았다.
