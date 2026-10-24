@@ -1,5 +1,6 @@
 import { GestureClassifier } from './selah-gesture-classifier.js?v=12';
 const STORAGE_KEY = 'selah.cameraGesture.brightness.v1';
+const FACING_KEY = 'selah.cameraGesture.facing.v1';
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 function readerVisible() {
@@ -22,6 +23,12 @@ const brightnessOverlay = document.createElement('div');
 brightnessOverlay.id = 'selahBrightnessOverlay';
 brightnessOverlay.setAttribute('aria-hidden', 'true');
 document.body.append(brightnessOverlay);
+const facingSelect = document.getElementById('selahGestureFacing');
+facingSelect.value = localStorage.getItem(FACING_KEY) === 'environment' ? 'environment' : 'user';
+facingSelect.addEventListener('change', () => {
+  localStorage.setItem(FACING_KEY, facingSelect.value);
+  if (active) { stop('카메라를 변경했어요. 다시 시작해 주세요.'); void start(); }
+});
 let brightness = clamp(Number(localStorage.getItem(STORAGE_KEY)) || 1, 0.7, 1.3);
 let forceOverlayBrightness = false;
 function applyBrightness() {
@@ -135,8 +142,9 @@ async function start(file = null) {
       });
       if (!isCurrent()) { errorListener.remove(); return; }
       nativeCameraErrorListener = errorListener;
-      setStatus('후면 카메라로 손 한 개를 찾는 중…', true);
-      await nativeCamera.start();
+      const position = facingSelect.value === 'environment' ? 'back' : 'front';
+      setStatus(`${position === 'front' ? '전면' : '후면'} 카메라로 손 한 개를 찾는 중…`, true);
+      await nativeCamera.start({ position });
       if (!isCurrent()) return;
       setStatus('카메라 켜짐 · 화면에는 영상 없이 손 한 개만 기기에서 인식해요.', true);
       return;
@@ -146,7 +154,7 @@ async function start(file = null) {
       try {
         acquired = await navigator.mediaDevices.getUserMedia({
           audio: false,
-          video: { facingMode: 'user', width: { ideal: 320 }, height: { ideal: 240 }, frameRate: { ideal: 8 } }
+          video: { facingMode: facingSelect.value, width: { ideal: 320 }, height: { ideal: 240 }, frameRate: { ideal: 8 } }
         });
       } catch (error) {
         if (!isCurrent()) return;

@@ -48,6 +48,7 @@ final class SelahHandCameraPlugin: CAPPlugin, CAPBridgedPlugin, AVCaptureVideoDa
     private var lastFrameAt = 0.0
 
     @objc func start(_ call: CAPPluginCall) {
+        let position: AVCaptureDevice.Position = call.getString("position") == "back" ? .back : .front
         let startCapture: () -> Void = { [weak self] in
             guard let self else { call.reject("카메라를 시작할 수 없습니다."); return }
             self.captureQueue.async {
@@ -56,8 +57,8 @@ final class SelahHandCameraPlugin: CAPPlugin, CAPBridgedPlugin, AVCaptureVideoDa
                     let session = AVCaptureSession()
                     session.beginConfiguration()
                     session.sessionPreset = .vga640x480
-                    guard let camera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
-                        throw NSError(domain: "SelahHandCamera", code: 1, userInfo: [NSLocalizedDescriptionKey: "후면 카메라를 찾을 수 없습니다."])
+                    guard let camera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: position) else {
+                        throw NSError(domain: "SelahHandCamera", code: 1, userInfo: [NSLocalizedDescriptionKey: "선택한 카메라를 찾을 수 없습니다."])
                     }
                     let input = try AVCaptureDeviceInput(device: camera)
                     guard session.canAddInput(input) else { throw NSError(domain: "SelahHandCamera", code: 2, userInfo: [NSLocalizedDescriptionKey: "카메라 입력을 연결할 수 없습니다."]) }
