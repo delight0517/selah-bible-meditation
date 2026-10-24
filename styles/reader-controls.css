@@ -88,9 +88,34 @@ body:not(.mobile-reading-focus) .verse-card .bible-library > summary span {
   body .verse-card .reader-zoom-controls button {
     min-height: 44px; background: #fffefa; color: #20251f;
   }
-  body.mobile-reading-focus .verse-card .reader-display-controls select#readerFont {
-    flex: initial;
+  :root body.mobile-reading-focus .verse-card .passage-picker {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto;
   }
+  :root body.mobile-reading-focus .verse-card .passage-picker > select { grid-row: 1; min-width: 0; }
+  :root body.mobile-reading-focus .verse-card .passage-picker #passageBookSelect { grid-column: 1; }
+  :root body.mobile-reading-focus .verse-card .passage-picker #passageSelect { grid-column: 2; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 44px 44px;
+    grid-template-rows: auto auto auto auto;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+  }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls select#readerFont { grid-column: 1; grid-row: 1; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls .reader-theme-toggle { grid-column: 2; grid-row: 1; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls .reader-fullscreen-toggle { grid-column: 3; grid-row: 1; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls .reader-gesture-menu { grid-column: 1 / -1; grid-row: 2; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls .reader-notebook-toggle { grid-column: 1 / -1; grid-row: 3; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls .reader-width-settings { grid-column: 1 / -1; grid-row: 4; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls :is(.reader-gesture-menu, .reader-notebook-toggle, .reader-width-settings) { width: 100%; min-width: 0; box-sizing: border-box; }
+  :root body.mobile-reading-focus .verse-card .reader-gesture-menu[open] { display: block; }
+  :root body.mobile-reading-focus .verse-card .reader-gesture-panel { position: static; width: 100%; max-height: 28dvh; }
+  :root body.mobile-reading-focus .verse-card .reader-audio-focus-play:not([hidden]) { display: inline-flex; }
+  :root body.mobile-reading-focus .verse-card .reader-display-controls select#readerFont { flex: initial; }
 }
 
 /* Override older semantic rules only where the actual control surface is fixed. */
@@ -105,5 +130,55 @@ body:not(.mobile-reading-focus) .verse-card .bible-library > summary span {
     color: #20251f !important;
     border-color: #8c978e !important;
     color-scheme: light;
+  }
+}
+
+/* Expanded settings stay in their row rather than covering the Bible text. */
+@media (max-width: 760px) {
+  :root body.mobile-reading-focus .verse-card .reader-width-settings,
+  :root body.mobile-reading-focus .verse-card .reader-width-settings[open] {
+    position: static; inset: auto; box-sizing: border-box;
+  }
+  :root body.mobile-reading-focus .verse-card .reader-gesture-panel {
+    max-width: 100%; overflow-wrap: anywhere; white-space: normal;
+  }
+  :root body.mobile-reading-focus .verse-card .reader-zoom-controls {
+    position: static; inset: auto; flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 760px) {
+  /* The toolbar grows when settings open; fixed grid rows let it overlap the passage. */
+  :root body.mobile-reading-focus .verse-card > div {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  :root body.mobile-reading-focus .verse-card > div > .passage-picker {
+    flex: 0 0 auto;
+    max-height: 48dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    align-items: start;
+  }
+  :root body.mobile-reading-focus .verse-card > div > :is(#passageBook, .bible-edition-display, .reference) {
+    flex: 0 0 auto;
+  }
+  :root body.mobile-reading-focus .verse-card > div > .verse {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+}
+@media (max-width: 760px) {
+  :root body.mobile-reading-focus .verse-card .reader-zoom-controls :is(#readerZoomOut, #readerZoomIn) {
+    color: #20251f !important;
+  }
+}
+@media (max-width: 760px) {
+  :root body.mobile-reading-focus .verse-card {
+    box-sizing: border-box;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom));
   }
 }

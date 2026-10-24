@@ -78,7 +78,8 @@ assert.match(html, /selahGestureToggle/);
 assert.match(html, /iPhone 앱은 후면 카메라와 Apple Vision으로 손 한 개만 기기 안에서 분석/);
 assert.match(html, /웹·Mac의 손동작 인식에 사용하는 MediaPipe는 성능·사용 통계를 Google로 보냅니다/);
 assert.match(runtime, /getUserMedia/);
-assert.match(runtime, /registerPlugin\('SelahHandCamera'\)/);
+assert.match(runtime, /window\.Capacitor\?\.Plugins\?\.SelahHandCamera/);
+assert.doesNotMatch(runtime, /window\.Capacitor\.registerPlugin/);
 assert.match(runtime, /addListener\('landmarks'/);
 assert.match(runtime, /frameRate: \{ ideal: 8 \}/);
 assert.match(runtime, /resizeWidth: 256, resizeHeight: 192/);
@@ -114,8 +115,12 @@ const macSource = await readFile(resolve(root, 'macos/Sources/SelahApp.swift'), 
 assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
 assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
 
-assert.match(html, /selah-camera-gestures\.js\?v=126/, 'installed WKWebView refreshes the camera runtime after a hosted update');
+assert.match(html, /selah-camera-gestures\.js\?v=127/, 'installed WKWebView refreshes the camera runtime after a hosted update');
 
 assert.match(macSource, /AVCaptureDevice.authorizationStatus\(for: \.video\)/);
 assert.match(macSource, /AVCaptureDevice.requestAccess\(for: \.video\)/);
 assert.match(macSource, /decisionHandler\(granted \? \.grant : \.deny\)/);
+
+assert.match(html, /reader-controls\.css\?v=127/, "installed and hosted readers must refresh the repaired control stylesheet");
+
+assert.match(controlCss, /:root body\.mobile-reading-focus \.verse-card > div \{[\s\S]*?display: flex/, 'focused reader must override the older inline fixed-row grid');
