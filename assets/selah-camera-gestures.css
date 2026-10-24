@@ -15,3 +15,6 @@
 #selahGestureConsent p{margin:0 0 14px;color:var(--muted);font-size:var(--type-small)}
 #selahGestureConsent menu{display:flex;justify-content:flex-end;gap:8px;margin:0;padding:0}
 @media(max-width:760px){.reader-gesture-menu[open]{grid-column:1/-1;width:100%}.reader-gesture-menu>summary{min-height:36px;padding:6px 8px;font-size:var(--type-caption)}.reader-gesture-panel{width:100%;max-height:min(35dvh,260px)}}
+
+.selah-gesture-replay{display:block;margin-top:10px;font-size:var(--type-caption)}
+.selah-gesture-replay input{display:block;max-width:100%;margin-top:4px}
