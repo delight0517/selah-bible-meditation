@@ -28,7 +28,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>106</string>
+	<string>107</string>
 	<key>NSCameraUsageDescription</key>
 	<string>손동작 제어를 켰을 때만 카메라를 사용해 손 움직임을 기기 안에서 인식합니다.</string>
 </dict>
