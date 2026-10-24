@@ -113,3 +113,5 @@ console.log('PASS Selah camera gesture classification, user controls, local proc
 const macSource = await readFile(resolve(root, 'macos/Sources/SelahApp.swift'), 'utf8');
 assert.match(macSource, /runOpenPanelWith parameters: WKOpenPanelParameters/);
 assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultipleSelection/);
+
+assert.match(html, /selah-camera-gestures\.js\?v=126/, 'installed WKWebView refreshes the camera runtime after a hosted update');
