@@ -1714,11 +1714,11 @@
     },
     {
       "id": "SELAH-CAMERA-HAND-GESTURES",
-      "revision": 17,
+      "revision": 18,
       "title": "말씀 읽기 카메라 손동작 제어",
       "acceptance": [
         "손동작 메뉴를 열고 사용자가 시작을 누르기 전에는 카메라가 시작되지 않으며, 영상 미리보기는 보이지 않는다.",
-        "iPhone은 사용자가 켠 뒤 후면 카메라 권한을 요청하고 Apple Vision으로 손 한 개의 관절만 기기 안에서 분석하며 영상 미리보기·저장·전송을 하지 않는다. Selah 웹·Mac의 MediaPipe 사용·성능 통계 Google 전송은 시작 전에 안내한다.",
+        "iPhone uses the front camera by default and lets the user select the rear camera before or during capture; Apple Vision analyzes one hand’s joints on-device without preview, saving, or transmission. Selah web/Mac MediaPipe and usage-statistics disclosures appear before start.",
         "열린 손의 손끝 묶음이 손바닥 중심에 대해 빠르게 이동한 방향으로 왼쪽은 다음 장, 오른쪽은 이전 장으로 판정하고 느린 복귀와 주먹↔펴짐은 페이지 이동에서 제외한다.",
         "열린 손끝이 손바닥에 대해 위/아래로 빠르게 이동하면 같은 손 방향으로 본문을 스크롤하며 느린 동작은 판정하지 않는다.",
         "주먹을 편 손으로 펴면 iPhone에서는 시스템 화면 밝기가 올라가고, 편 손을 주먹으로 쥐면 내려간다. Mac과 웹에서는 Selah 읽기 화면 밝기를 조절한다.",
@@ -1733,7 +1733,8 @@
         "Mac supports the site file-input chooser through a user-selected read-only sandbox grant so local replay can exercise the same worker and automatic reset without a live hand.",
         "The hosted camera module URL is versioned so an installed reader does not combine updated controls with stale cached gesture code.",
         "Mac requests the macOS camera permission through AVFoundation and grants WebKit camera use only after OS authorization, for the allowed main-frame HTTPS origin. Denial stays denied.",
-        "Late camera grants and stale callbacks cannot restart a stopped session or stop a newer one. Mac directly ends WebKit capture on inactivity, hide, minimize and window close."
+        "Late camera grants and stale callbacks cannot restart a stopped session or stop a newer one. Mac directly ends WebKit capture on inactivity, hide, minimize and window close.",
+        "On phone-sized viewports, focused Scripture text expands into unused vertical space between compact controls and in-flow chapter navigation; safe areas remain respected and the screen can still scroll when content exceeds the viewport."
       ],
       "paths": [
         "index.html",
@@ -1762,7 +1763,8 @@
         "scripts/test-camera-gesture-controls.mjs",
         "scripts/test-reader-startup.cjs",
         "scripts/test-camera-auto-rearm.mjs",
-        "scripts/test-camera-lifecycle.mjs"
+        "scripts/test-camera-lifecycle.mjs",
+        "mobile/ios/App/App/SceneDelegate.swift"
       ],
       "platforms": {
         "web": {
@@ -1794,8 +1796,8 @@
           "state": "implementing",
           "appliedRevision": null,
           "source": "codex/selah-camera-auto-rearm-20261024",
-          "build": "1.0.38 / build 124 installed on physical iPhone 14 Pro; camera UI pending",
-          "evidence": "Automatic rearm implemented in shared classifier/runtime; native iOS and web event-path regressions pass. Installed camera runtime proof pending."
+          "build": "1.0.38 / build129 candidate",
+          "evidence": "Native camera position is user-selectable with front default; phone-focused reading pane uses available viewport height. Physical-device install and visual readback pending."
         }
       },
       "workItem": "selah-camera-gesture-controls-20261020"

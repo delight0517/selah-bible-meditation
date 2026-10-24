@@ -18,3 +18,5 @@
 
 .selah-gesture-replay{display:block;margin-top:10px;font-size:var(--type-caption)}
 .selah-gesture-replay input{display:block;max-width:100%;margin-top:4px}
+
+.reader-gesture-panel .selah-gesture-facing-label{display:block;margin:8px 0 4px}.reader-gesture-panel #selahGestureFacing{width:100%;min-height:42px;margin:0 0 8px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)}

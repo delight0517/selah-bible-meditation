@@ -75,7 +75,7 @@ const [html, runtime, worker, privacy, sceneDelegate, readerCss, controlCss, ges
   readFile(resolve(root, 'assets/selah-camera-gestures.css'), 'utf8')
 ]);
 assert.match(html, /selahGestureToggle/);
-assert.match(html, /iPhone 앱은 후면 카메라와 Apple Vision으로 손 한 개만 기기 안에서 분석/);
+assert.match(html, /iPhone 앱은 전면 카메라를 기본으로 사용하고, 원하면 후면 카메라를 선택할 수 있습니다. 선택한 카메라 영상은 Apple Vision으로 손 한 개만 기기 안에서 분석/);
 assert.match(html, /웹·Mac의 손동작 인식에 사용하는 MediaPipe는 성능·사용 통계를 Google로 보냅니다/);
 assert.match(runtime, /getUserMedia/);
 assert.match(runtime, /registerPlugin\('SelahHandCamera'\)/);
@@ -91,7 +91,7 @@ assert.match(worker, /numHands: 1/);
 assert.match(worker, /baseOptions: \{ modelAssetPath: message\.modelUrl, delegate: 'CPU' \}/);
 assert.equal((worker.match(/HandLandmarker\.createFromOptions/g) || []).length, 1, 'worker initializes MediaPipe once so failed GPU setup cannot consume the module factory before fallback');
 assert.match(worker, /worker|self\.postMessage/);
-assert.match(privacy, /On iPhone, the rear camera and Apple Vision analyze one hand’s joints on-device without showing a preview/);
+assert.match(privacy, /On iPhone, the front camera is selected by default and the rear camera is optional; Apple Vision analyzes one hand’s joints on-device without showing a preview/);
 assert.match(privacy, /MediaPipe, which sends performance and usage metrics to Google/);
 assert.match(privacy, /On iPhone, hand gestures change system screen brightness/);
 assert.match(sceneDelegate, /bridge\?\.registerPluginInstance\(SelahBrightnessPlugin\(\)\)/);
@@ -116,6 +116,9 @@ assert.match(macSource, /panel.allowsMultipleSelection = parameters.allowsMultip
 
 assert.match(html, /selah-camera-gestures\.js\?v=127/, 'installed WKWebView refreshes the camera runtime after a hosted update');
 
+assert.match(html, /selahGestureFacing/);
+assert.match(runtime, /facingSelect.value === 'environment' \? 'back' : 'front'/);
+assert.match(runtime, /facingMode: facingSelect.value/);
 assert.match(macSource, /AVCaptureDevice.authorizationStatus\(for: \.video\)/);
 assert.match(macSource, /AVCaptureDevice.requestAccess\(for: \.video\)/);
 assert.match(macSource, /decisionHandler\(granted && NSApp\.isActive .*\? \.grant : \.deny\)/);
