@@ -15,7 +15,7 @@ self.onmessage = async event => {
         minTrackingConfidence: 0.62
       };
       try { landmarker = await HandLandmarker.createFromOptions(vision, options); }
-      catch { landmarker = await HandLandmarker.createFromOptions(vision, { ...options, baseOptions: { modelAssetPath: MODEL_URL, delegate: 'CPU' } }); }
+      catch { landmarker = await HandLandmarker.createFromOptions(vision, { ...options, baseOptions: { modelAssetPath: message.modelUrl, delegate: 'CPU' } }); }
       self.postMessage({ type: 'ready' });
     } catch (error) {
       self.postMessage({ type: 'error', message: error?.message || '손동작 인식 모델을 불러오지 못했어요.' });
