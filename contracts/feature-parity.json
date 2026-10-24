@@ -1786,8 +1786,8 @@
           "state": "implementing",
           "appliedRevision": null,
           "source": "codex/selah-animated-page-turn-20261023",
-          "build": "1.0.38 / build 123 installed; rebuild/install after worker sync pending",
-          "evidence": "Physical install 1.0.38+123 confirmed. CPU one-pass worker change requires a new packaged build; camera UI remains unverified because Mirroring is paused."
+          "build": "1.0.38 / build 124 installed on physical iPhone 14 Pro; camera UI pending",
+          "evidence": "Synchronized CPU one-pass worker, rebuilt 1.0.38+124, installed and read back on physical iPhone. iPhone Mirroring remains paused, so launch/camera UI is unverified."
         }
       },
       "workItem": "selah-camera-gesture-controls-20261020"
